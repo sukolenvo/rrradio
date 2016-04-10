@@ -1,0 +1,61 @@
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+    <ImageView
+            android:id="@+id/player_icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/player_control"
+            android:scaleType="fitXY"
+            android:src="@drawable/default_player_background"/>
+
+    <RelativeLayout
+            android:id="@id/player_control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/player_control">
+
+        <TextView
+                android:id="@+id/executor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/player_control_padding_left"
+                android:paddingTop="@dimen/player_control_padding_top"
+                android:paddingRight="@dimen/player_control_padding_right"
+                android:lines="1"
+                android:textColor="@android:color/white"
+                android:textSize="28sp"/>
+
+        <TextView
+                android:id="@+id/song_name"
+                android:layout_below="@id/executor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/player_control_padding_left"
+                android:paddingTop="@dimen/player_control_padding_title_top"
+                android:paddingRight="@dimen/player_control_padding_right"
+                android:paddingBottom="@dimen/player_control_padding_bottom"
+                android:lines="1"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"/>
+
+    </RelativeLayout>
+    <ImageView
+            android:id="@+id/play_button"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="25dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/play"/>
+
+</RelativeLayout>

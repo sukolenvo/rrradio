@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RadioRecord</string>
+    <string name="quality_title">Выберите Качество</string>
+    <string-array name="qualities">
+        <item>Низкое (32 kbs)</item>
+        <item>Среднее (128 kbs)</item>
+        <item>Высокое (320 kbs)</item>
+    </string-array>
+    <string name="dont_ask_again">Запомнить выбор</string>
+    <string name="error_connect">Ошибка подключения к серверу. Проверьте ваше интеренет-подключение и попробуйте еще
+        раз.</string>
+    <string name="message_connecting">Подключение к серверу</string>
+    <string name="connecting">Подключение...</string>
+</resources>

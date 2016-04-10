@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="station_icon_width">83dp</dimen>
+    <dimen name="station_icon_height">58dp</dimen>
+    <dimen name="main_padding">16dp</dimen>
+    <dimen name="half_padding">8dp</dimen>
+    <dimen name="one_and_half_padding">24dp</dimen>
+    <integer name="stations_columns">3</integer>
+    <dimen name="selector_icon_size">25dp</dimen>
+    <dimen name="player_control_padding_top">32dp</dimen>
+    <dimen name="player_control_padding_left">40dp</dimen>
+    <dimen name="player_control_padding_right">24dp</dimen>
+    <dimen name="player_control_padding_title_top">12dp</dimen>
+    <dimen name="player_control_padding_bottom">32dp</dimen>
+</resources>

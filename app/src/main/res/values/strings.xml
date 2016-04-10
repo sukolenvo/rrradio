@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">RadioRecord</string>
+    <string name="quality_title">Select Quality</string>
+    <string-array name="qualities">
+        <item>Low quality</item>
+        <item>Medium quality</item>
+        <item>High quality</item>
+    </string-array>
+    <string name="dont_ask_again">Dont ask again</string>
+    <string name="error_connect">Failed to connect to audio server. Please check your connection and try again.</string>
+    <string name="connecting">Connecting...</string>
+    <string name="message_connecting">Connecting to server...</string>
+</resources>
