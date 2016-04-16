@@ -35,7 +35,7 @@ public enum Station
     private final int icon;
     private final String code;
 
-    private Station(final String name, final int icon, final String code)
+    Station(final String name, final int icon, final String code)
     {
         this.name = name;
         this.icon = icon;

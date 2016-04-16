@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app;
+package com.dakare.radiorecord.app.quality;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.dakare.radiorecord.app.R;
 import lombok.Getter;
 
 public class QualityAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener

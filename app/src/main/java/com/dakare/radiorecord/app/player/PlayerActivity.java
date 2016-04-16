@@ -13,8 +13,8 @@ import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.message.*;
 import com.dakare.radiorecord.app.player.service.PlayerServiceClient;
 import com.dakare.radiorecord.app.player.service.PlayerServiceHelper;
-
-import java.util.Objects;
+import com.dakare.radiorecord.app.quality.Quality;
+import com.dakare.radiorecord.app.quality.QualityDialog;
 
 public class PlayerActivity extends Activity implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler
 {
@@ -50,11 +50,11 @@ public class PlayerActivity extends Activity implements PlayerServiceHelper.Serv
                     QualityDialog.getQuality(PlayerActivity.this, new QualityDialog.QualityHandler()
                     {
                         @Override
-                        public void onQualitySelected(String quality)
+                        public void onQualitySelected(Quality quality)
                         {
                             Intent serviceIntent = new Intent(PlayerActivity.this, PlayerService.class);
                             serviceIntent.putExtra(PlayerService.STATION_KEY, station.name());
-                            serviceIntent.putExtra(PlayerService.QUALITY_KEY, quality);
+                            serviceIntent.putExtra(PlayerService.QUALITY_KEY, quality.name());
                             startService(serviceIntent);
                         }
                     });

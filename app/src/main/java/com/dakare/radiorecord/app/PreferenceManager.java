@@ -2,12 +2,13 @@ package com.dakare.radiorecord.app;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import com.dakare.radiorecord.app.quality.Quality;
 
 public class PreferenceManager
 {
     private static final String NAME ="radio_record";
 
-    private static final String QUALITY_KEY = "quality_string";
+    private static final String QUALITY_KEY = "quality";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -26,15 +27,16 @@ public class PreferenceManager
         return INSTANCE;
     }
 
-    public void setDefaultQuality(String quality)
+    public void setDefaultQuality(Quality quality)
     {
         sharedPreferences.edit()
-                .putString(QUALITY_KEY, quality)
+                .putString(QUALITY_KEY, quality.name())
                 .apply();
     }
 
-    public String getDefaultQuality()
+    public Quality getDefaultQuality()
     {
-        return sharedPreferences.getString(QUALITY_KEY, "320");
+        String qualityName = sharedPreferences.getString(QUALITY_KEY, null);
+        return qualityName == null ? null : Quality.valueOf(qualityName);
     }
 }

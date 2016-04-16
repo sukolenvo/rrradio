@@ -8,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.service.PlayerService;
+import com.dakare.radiorecord.app.quality.Quality;
+import com.dakare.radiorecord.app.quality.QualityDialog;
 
 public class MainActivity extends Activity implements AdapterView.OnItemClickListener, QualityDialog.QualityHandler
 {
@@ -31,11 +33,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemClickLis
     }
 
     @Override
-    public void onQualitySelected(final String quality)
+    public void onQualitySelected(final Quality quality)
     {
         Intent serviceIntent = new Intent(this, PlayerService.class);
         serviceIntent.putExtra(PlayerService.STATION_KEY, station.name());
-        serviceIntent.putExtra(PlayerService.QUALITY_KEY, quality);
+        serviceIntent.putExtra(PlayerService.QUALITY_KEY, quality.name());
         startService(serviceIntent);
         startActivity(new Intent(this, PlayerActivity.class));
     }

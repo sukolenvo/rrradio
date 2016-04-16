@@ -8,8 +8,8 @@
         <item>Высокое (320 kbs)</item>
     </string-array>
     <string name="dont_ask_again">Запомнить выбор</string>
-    <string name="error_connect">Ошибка подключения к серверу. Проверьте ваше интеренет-подключение и попробуйте еще
-        раз.</string>
+    <string name="error_connect">Ошибка подключения к серверу. Проверьте ваше интернет подключение и попробуйте еще раз.</string>
+    <string name="error_stream_not_found">Не удалось получить поток. Попробуйте сменить качество или попробовать позже.</string>
     <string name="message_connecting">Подключение к серверу</string>
     <string name="connecting">Подключение...</string>
 </resources>

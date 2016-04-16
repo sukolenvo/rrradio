@@ -25,14 +25,23 @@ android {
         applicationId "com.dakare.radiorecord.app"
         minSdkVersion 11
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
+
+        ndk {
+            abiFilters "armeabi-v7a", "x86", "armeabi", "mips"
+        }
+    }
+
+    sourceSets.main {
+        jniLibs.srcDir 'src/jniLibs'
     }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_6
         targetCompatibility JavaVersion.VERSION_1_6
     }
+
     signingConfigs {
         release {
             storeFile file('../dakare.keystore')

@@ -8,6 +8,7 @@
     </string-array>
     <string name="dont_ask_again">Dont ask again</string>
     <string name="error_connect">Failed to connect to audio server. Please check your connection and try again.</string>
+    <string name="error_stream_not_found">Failed to obtain audio stream. Please select another quality or try later.</string>
     <string name="connecting">Connecting...</string>
     <string name="message_connecting">Connecting to server...</string>
 </resources>

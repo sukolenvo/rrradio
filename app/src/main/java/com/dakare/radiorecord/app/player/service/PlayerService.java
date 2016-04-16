@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.Messenger;
 import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.quality.Quality;
 
 public class PlayerService extends Service {
 
@@ -27,7 +28,7 @@ public class PlayerService extends Service {
 			final int startId) {
         if (intent != null && intent.hasExtra(STATION_KEY))
         {
-            player.play(Station.valueOf(intent.getStringExtra(STATION_KEY)), intent.getStringExtra(QUALITY_KEY));
+            player.play(Station.valueOf(intent.getStringExtra(STATION_KEY)), Quality.valueOf(intent.getStringExtra(QUALITY_KEY)));
         }
 		return START_STICKY;
 	}

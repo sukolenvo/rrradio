@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app;
+package com.dakare.radiorecord.app.quality;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -6,10 +6,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Checkable;
 import android.widget.ListView;
+import com.dakare.radiorecord.app.PreferenceManager;
+import com.dakare.radiorecord.app.R;
 
 public class QualityDialog extends Dialog
 {
-    private static final String[] qualities = new String[] {"aac", "128", "320"};
     private QualityAdapter adapter;
 
     public QualityDialog(final Context context, final QualityHandler handler)
@@ -34,7 +35,7 @@ public class QualityDialog extends Dialog
             @Override
             public void onClick(View v)
             {
-                String quality = qualities[adapter.getSelectedPosition()];
+                Quality quality = Quality.values()[adapter.getSelectedPosition()];
                 if (((Checkable) findViewById(R.id.checkbox_container)).isChecked())
                 {
                     PreferenceManager.getInstance(context).setDefaultQuality(quality);
@@ -47,7 +48,7 @@ public class QualityDialog extends Dialog
 
     public static void getQuality(Context context, QualityHandler handler)
     {
-        String defaultQuality = PreferenceManager.getInstance(context).getDefaultQuality();
+        Quality defaultQuality = PreferenceManager.getInstance(context).getDefaultQuality();
         if (defaultQuality == null)
         {
             new QualityDialog(context, handler).show();
@@ -59,6 +60,6 @@ public class QualityDialog extends Dialog
 
     public interface QualityHandler
     {
-        void onQualitySelected(String quality);
+        void onQualitySelected(Quality quality);
     }
 }
