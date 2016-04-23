@@ -39,7 +39,7 @@ public class ServiceClientsList
 		synchronized (lock) {
 			for (int i = serviceClients.size() - 1; i >= 0; i--) {
 				try {
-					serviceClients.get(i).send(message);
+					serviceClients.get(i).send(Message.obtain(message));
 				} catch (RemoteException e) {
 					serviceClients.remove(i);
 				}

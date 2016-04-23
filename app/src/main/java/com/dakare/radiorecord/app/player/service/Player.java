@@ -1,27 +1,19 @@
 package com.dakare.radiorecord.app.player.service;
 
-import android.app.Notification;
-import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.media.AudioTrack;
-import android.media.MediaPlayer;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
-import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.spoledge.aacdecoder.MultiPlayer;
 import com.spoledge.aacdecoder.PlayerCallback;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.io.IOException;
 
 public class Player implements PlayerCallback
 {
@@ -31,6 +23,7 @@ public class Player implements PlayerCallback
     private final Context context;
     @Getter
     private Station station;
+    private Quality quality;
     @Setter
     private PlayerServiceMessageHandler playerServiceMessageHandler;
     private final MultiPlayer player = new MultiPlayer(this);
@@ -44,25 +37,27 @@ public class Player implements PlayerCallback
     public void play(final Station station, final Quality quality)
     {
         Toast.makeText(context, R.string.connecting, Toast.LENGTH_LONG).show();
-        Notification notification = new Notification.Builder(context)
-                .setSmallIcon(station.getIcon())
-                .setContentTitle(station.getName())
-                .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(context, PlayerActivity.class), 0))
-                .setOngoing(true).getNotification();
-        ((Service) context).startForeground(1, notification);
         synchronized (Player.class)
         {
+            this.quality = quality;
             this.station = station;
+            startPlayback(station, quality);
+        }
+        playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(station, station != null));
+    }
+
+    private void startPlayback(final Station station, final Quality quality)
+    {
+        if (station != null && quality != null)
+        {
             player.stop();
             player.playAsync(PREFIX + station.getCode() + "_" + quality.getSuffix(), quality.getBitrate());
         }
-        playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(station, station != null));
     }
 
     public void stop()
     {
         context.stopService(new Intent(context, PlayerService.class));
-        ((Service) context).stopForeground(true);
         synchronized (Player.class)
         {
             station = null;
@@ -86,7 +81,17 @@ public class Player implements PlayerCallback
     public void playerStopped(int i)
     {
         Log.i("Player", "Stopped");
-        stop();
+        if (station != null && quality != null)
+        {
+            uiHandler.postDelayed(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    startPlayback(station, quality);
+                }
+            }, 5000);
+        }
     }
 
     @Override
@@ -97,7 +102,7 @@ public class Player implements PlayerCallback
             @Override
             public void run()
             {
-                if (throwable.getMessage().contains("404"))
+                if (throwable.getMessage() != null && throwable.getMessage().contains("404"))
                 {
                     Toast.makeText(context, R.string.error_stream_not_found, Toast.LENGTH_LONG).show();
                 } else
@@ -106,6 +111,14 @@ public class Player implements PlayerCallback
                 }
             }
         });
+        uiHandler.postDelayed(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                startPlayback(station, quality);
+            }
+        }, 5000);
     }
 
     @Override

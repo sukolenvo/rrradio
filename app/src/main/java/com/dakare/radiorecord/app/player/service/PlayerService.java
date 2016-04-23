@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.Messenger;
 import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.player.listener.IncomeCallListener;
+import com.dakare.radiorecord.app.player.listener.NotificationListener;
 import com.dakare.radiorecord.app.quality.Quality;
 
 public class PlayerService extends Service {
@@ -21,6 +23,8 @@ public class PlayerService extends Service {
         player = new Player(this);
         messageHandler = new PlayerServiceMessageHandler(player);
 		messenger = new Messenger(messageHandler);
+		messageHandler.addPlayerStateListener(new NotificationListener(this));
+        messageHandler.addPlayerStateListener(new IncomeCallListener(this, player));
 	}
 
 	@Override
