@@ -56,7 +56,7 @@ android {
         }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard-rules.pro'
             signingConfig signingConfigs.release
             lintOptions {
                 abortOnError false
@@ -71,5 +71,8 @@ dependencies {
     compile 'org.springframework.android:spring-android-core:1.0.1.RELEASE'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile ('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.8.7@aar') {
+        transitive=true
+    }
     provided "org.projectlombok:lombok:1.12.6"
 }

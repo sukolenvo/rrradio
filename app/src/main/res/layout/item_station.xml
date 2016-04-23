@@ -1,27 +1,30 @@
-<LinearLayout
+<FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:padding="@dimen/main_padding"
-        android:orientation="vertical"
-        android:background="@drawable/station_item_background">
+        android:id="@+id/station_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <ImageView
-            android:id="@+id/station_icon"
-            android:layout_width="@dimen/station_icon_width"
-            android:layout_height="@dimen/station_icon_height"
-            android:layout_gravity="center_horizontal"
-            android:background="@android:color/transparent"
-            android:scaleType="fitXY"/>
+        <LinearLayout android:layout_width="wrap_content"
+                      android:layout_height="match_parent"
+                      android:orientation="vertical"
+                      android:padding="@dimen/main_padding">
+                <ImageView
+                        android:id="@+id/station_icon"
+                        android:layout_width="@dimen/station_icon_width"
+                        android:layout_height="@dimen/station_icon_height"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitXY"/>
 
-    <TextView
-            android:id="@+id/station_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@android:color/transparent"
-            android:lines="2"
-            android:textColor="#666666"
-            android:gravity="center"/>
+                <TextView
+                        android:id="@+id/station_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@android:color/transparent"
+                        android:lines="2"
+                        android:textColor="#666666"
+                        android:gravity="center"/>
+        </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

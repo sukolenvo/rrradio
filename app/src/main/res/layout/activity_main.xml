@@ -4,14 +4,10 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
-    <GridView
-            android:id="@+id/station_grid"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:stretchMode="columnWidth"
-            android:numColumns="@integer/stations_columns"
-            android:scrollbars="none"
-            android:listSelector="@android:color/transparent"
-            android:cacheColorHint="@android:color/transparent"/>
+        <android.support.v7.widget.RecyclerView
+                android:id="@+id/station_grid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
 
 </RelativeLayout>

@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="station_color">#22000000</color>
+    <color name="bg_item_normal_state">#fff0f0f0</color>
+    <color name="bg_item_dragging_state">#ffddddff</color>
+    <color name="bg_item_dragging_active_state">#ffddddff</color>
+
 </resources>
