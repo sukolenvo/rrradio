@@ -22,7 +22,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".player.PlayerActivity"
-                  android:theme="@style/Main"/>
+                  android:theme="@style/Main" />
+        <activity android:name=".settings.SettingsActivity"
+                  android:theme="@style/Main" />
         <service android:name=".player.service.PlayerService" />
     </application>
 

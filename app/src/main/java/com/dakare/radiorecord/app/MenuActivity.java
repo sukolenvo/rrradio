@@ -8,13 +8,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import com.dakare.radiorecord.app.settings.SettingsActivity;
 
 public class MenuActivity extends AppCompatActivity
 {
     private ActionBarDrawerToggle mDrawerToggle;
+    private DrawerLayout drawer;
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState)
@@ -22,14 +24,16 @@ public class MenuActivity extends AppCompatActivity
         super.onPostCreate(savedInstanceState);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawer, myToolbar, R.string.app_name, R.string.app_name);
         drawer.addDrawerListener(mDrawerToggle);
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
+    public boolean onOptionsItemSelected(final MenuItem item)
+    {
+        if (mDrawerToggle.onOptionsItemSelected(item))
+        {
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -37,7 +41,8 @@ public class MenuActivity extends AppCompatActivity
 
     public void showSettings(final View view)
     {
-        Toast.makeText(this, "Settings", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(this, SettingsActivity.class));
+        closeMenu();
     }
 
     public void sendFeedback(final View view)
@@ -52,5 +57,23 @@ public class MenuActivity extends AppCompatActivity
             intent.setData(Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName()));
             startActivity(intent);
         }
+    }
+
+
+    @Override
+    public void onBackPressed()
+    {
+        if (drawer.isDrawerOpen(Gravity.LEFT))
+        {
+            closeMenu();
+        } else
+        {
+            super.onBackPressed();
+        }
+    }
+
+    private void closeMenu()
+    {
+        drawer.closeDrawer(Gravity.LEFT);
     }
 }

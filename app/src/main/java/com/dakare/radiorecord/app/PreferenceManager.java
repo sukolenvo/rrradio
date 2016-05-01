@@ -2,6 +2,7 @@ package com.dakare.radiorecord.app;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
 import com.dakare.radiorecord.app.quality.Quality;
 
 import java.util.*;
@@ -12,6 +13,9 @@ public class PreferenceManager
 
     private static final String QUALITY_KEY = "quality";
     private static final String STATIONS_KEY = "stations";
+    private static final String MUSIC_METADATA_KEY = "music_metadata";
+    private static final String MUSIC_IMAGE_KEY = "music_image";
+    private static final String CALL_SETTINGS_KEY = "call_settings";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -32,9 +36,17 @@ public class PreferenceManager
 
     public void setDefaultQuality(Quality quality)
     {
-        sharedPreferences.edit()
-                .putString(QUALITY_KEY, quality.name())
-                .apply();
+        if (quality == null)
+        {
+            sharedPreferences.edit()
+                    .remove(QUALITY_KEY)
+                    .commit();
+        } else
+        {
+            sharedPreferences.edit()
+                    .putString(QUALITY_KEY, quality.name())
+                    .apply();
+        }
     }
 
     public Quality getDefaultQuality()
@@ -69,5 +81,41 @@ public class PreferenceManager
             stations.add(Station.valueOf(name));
         }
         return stations;
+    }
+
+    public boolean isMusicMetadataEnabled()
+    {
+        return sharedPreferences.getBoolean(MUSIC_METADATA_KEY, true);
+    }
+
+    public void setMusicMedatada(final boolean enabled)
+    {
+        sharedPreferences.edit()
+                .putBoolean(MUSIC_METADATA_KEY, enabled)
+                .apply();
+    }
+
+    public boolean isMusicImageEnabled()
+    {
+        return sharedPreferences.getBoolean(MUSIC_IMAGE_KEY, true);
+    }
+
+    public void setMusicImage(final boolean enabled)
+    {
+        sharedPreferences.edit()
+                .putBoolean(MUSIC_IMAGE_KEY, enabled)
+                .apply();
+    }
+
+    public boolean isOnCallEnabled()
+    {
+        return sharedPreferences.getBoolean(CALL_SETTINGS_KEY, Build.VERSION.SDK_INT < Build.VERSION_CODES.M);
+    }
+
+    public void setOnCall(final boolean enabled)
+    {
+        sharedPreferences.edit()
+                .putBoolean(CALL_SETTINGS_KEY, enabled)
+                .apply();
     }
 }

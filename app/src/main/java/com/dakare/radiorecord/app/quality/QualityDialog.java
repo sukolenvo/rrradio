@@ -19,7 +19,7 @@ public class QualityDialog extends Dialog
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_quality);
         ListView listView = (ListView) findViewById(R.id.quality_list);
-        adapter = new QualityAdapter(context);
+        adapter = new QualityAdapter(context, false);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(adapter);
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener()

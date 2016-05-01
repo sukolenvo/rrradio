@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">RadioRecord</string>
-    <string name="quality_title">Select Quality</string>
+    <string name="quality_title">Select Default Quality</string>
     <string-array name="qualities">
         <item>Low quality</item>
         <item>Medium quality</item>
@@ -13,4 +13,12 @@
     <string name="message_connecting">Connecting to server...</string>
     <string name="settings_text">Settings</string>
     <string name="feedback_text">Send feedback</string>
+    <string name="no_default_quality">Always ask</string>
+    <string name="setting_quality_text">Playback quality</string>
+    <string name="music_metadata_text">Music metadata</string>
+    <string name="image_metadata_text">Album images</string>
+    <string name="on_call_text">Stop playback on call</string>
+    <string name="music_metadata_secondary">Load current music information (Artist, song name)</string>
+    <string name="image_metadata_secondary">Load and display album image (if available)</string>
+    <string name="on_call_secondary">Automatically interrupt playback on income call</string>
 </resources>

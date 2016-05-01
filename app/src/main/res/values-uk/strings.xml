@@ -14,4 +14,12 @@
     <string name="connecting">Подключение...</string>
     <string name="settings_text">Настройки</string>
     <string name="feedback_text">Оставить отзыв</string>
+    <string name="no_default_quality">Всегда спрашивать</string>
+    <string name="setting_quality_text">Качество воспроизведения</string>
+    <string name="image_metadata_secondary">Загрузка изображений для текущего трека</string>
+    <string name="image_metadata_text">Логотипы музыки</string>
+    <string name="music_metadata_secondary">Загрузка названия и автора проигрываемой музыки</string>
+    <string name="music_metadata_text">Метаданные музыки</string>
+    <string name="on_call_secondary">Автоматическое прерывание воспроизведения при входящем звонке</string>
+    <string name="on_call_text">Остановка воспроизведения</string>
 </resources>

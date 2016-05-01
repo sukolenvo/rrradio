@@ -12,6 +12,7 @@ public enum Quality
     private final String suffix;
     private final int bitrate;
 
+    //TODO: add quality name ref
     Quality(final String suffix, final int bitrate)
     {
         this.suffix = suffix;

@@ -1,9 +1,11 @@
 package com.dakare.radiorecord.app.player;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -30,7 +32,7 @@ public class UpdateTask extends AsyncTask<Void, UpdateResponse, Void>
     private final ImageLoader imageLoader;
     private UpdateResponse response = new UpdateResponse();
     private final DisplayImageOptions options;
-
+    private final Context context;
 
     public UpdateTask(TextView executor, TextView song, ImageView icon, Station station)
     {
@@ -38,6 +40,7 @@ public class UpdateTask extends AsyncTask<Void, UpdateResponse, Void>
         this.song = song;
         this.icon = icon;
         this.station = station;
+        this.context = icon.getContext();
         GsonHttpMessageConverter gsonHttpMessageConverter = new GsonHttpMessageConverter();
         gsonHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json", GsonHttpMessageConverter.DEFAULT_CHARSET),
                 new MediaType("text", "plain", GsonHttpMessageConverter.DEFAULT_CHARSET)));
@@ -65,6 +68,10 @@ public class UpdateTask extends AsyncTask<Void, UpdateResponse, Void>
     {
         while(!isCancelled())
         {
+            if (!PreferenceManager.getInstance(context).isMusicMetadataEnabled())
+            {
+                continue;
+            }
             try
             {
                 ResponseEntity<UpdateResponse> response = template.getForEntity(URL, UpdateResponse.class, station.getCode());
@@ -98,7 +105,8 @@ public class UpdateTask extends AsyncTask<Void, UpdateResponse, Void>
         {
             if (values.length == 1 && values[0] != null)
             {
-                if (values[0].getImage600() != null && !values[0].getImage600().equals(response.getImage600()))
+                if (values[0].getImage600() != null && !values[0].getImage600().equals(response.getImage600())
+                        && PreferenceManager.getInstance(context).isMusicImageEnabled())
                 {
                     imageLoader.displayImage(values[0].getImage600(), icon, options);
                 }

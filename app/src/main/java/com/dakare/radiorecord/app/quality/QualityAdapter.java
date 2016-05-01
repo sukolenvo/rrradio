@@ -10,19 +10,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
 import lombok.Getter;
+import lombok.Setter;
 
 public class QualityAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener
 {
     private final Context context;
     private final LayoutInflater inflater;
     @Getter
+    @Setter
     private int selectedPosition;
 
-    public QualityAdapter(final Context context)
+    public QualityAdapter(final Context context, boolean withNoQuality)
     {
         super(context, 0);
         this.context = context;
         this.inflater = LayoutInflater.from(context);
+        if (withNoQuality)
+        {
+            add(context.getString(R.string.no_default_quality));
+        }
         for (String q : context.getResources().getStringArray(R.array.qualities))
         {
             add(q);
