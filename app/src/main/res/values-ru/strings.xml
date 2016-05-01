@@ -12,4 +12,6 @@
     <string name="error_stream_not_found">Не удалось получить поток. Попробуйте сменить качество или попробовать позже.</string>
     <string name="message_connecting">Подключение к серверу</string>
     <string name="connecting">Подключение...</string>
+    <string name="settings_text">Настройки</string>
+    <string name="feedback_text">Оставить отзыв</string>
 </resources>

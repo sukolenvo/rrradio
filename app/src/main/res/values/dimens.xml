@@ -12,4 +12,8 @@
     <dimen name="player_control_padding_right">24dp</dimen>
     <dimen name="player_control_padding_title_top">12dp</dimen>
     <dimen name="player_control_padding_bottom">32dp</dimen>
+    <dimen name="menu_icon_size">24dp</dimen>
+    <dimen name="menu_text_size">16sp</dimen>
+    <dimen name="menu_width">300dp</dimen>
+    <dimen name="menu_label_height">170dp</dimen>
 </resources>

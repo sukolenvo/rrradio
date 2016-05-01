@@ -1,22 +1,16 @@
 package com.dakare.radiorecord.app;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.NinePatchDrawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.quality.QualityDialog;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
 
-public class MainActivity extends Activity implements StationAdapter.StationClickListener, QualityDialog.QualityHandler
+public class MainActivity extends MenuActivity implements StationAdapter.StationClickListener, QualityDialog.QualityHandler
 {
     private Station station;
     private RecyclerViewDragDropManager mRecyclerViewDragDropManager;
@@ -29,10 +23,6 @@ public class MainActivity extends Activity implements StationAdapter.StationClic
         RecyclerView stationsView = (RecyclerView) findViewById(R.id.station_grid);
         stationsView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.stations_columns)));
         mRecyclerViewDragDropManager = new RecyclerViewDragDropManager();
-        //TODO: check shadow
-//        mRecyclerViewDragDropManager.setDraggingItemShadowDrawable(
-//                (NinePatchDrawable) ContextCompat.getDrawable(this, R.drawable.material_shadow_z3));
-        // Start dragging after long press
         mRecyclerViewDragDropManager.setInitiateOnLongPress(true);
         mRecyclerViewDragDropManager.setInitiateOnMove(false);
         mRecyclerViewDragDropManager.setLongPressTimeout(750);

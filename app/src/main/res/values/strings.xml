@@ -11,4 +11,6 @@
     <string name="error_stream_not_found">Failed to obtain audio stream. Please select another quality or try later.</string>
     <string name="connecting">Connecting...</string>
     <string name="message_connecting">Connecting to server...</string>
+    <string name="settings_text">Settings</string>
+    <string name="feedback_text">Send feedback</string>
 </resources>
