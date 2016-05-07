@@ -26,7 +26,7 @@ public class Player implements PlayerCallback
     private Quality quality;
     @Setter
     private PlayerServiceMessageHandler playerServiceMessageHandler;
-    private final MultiPlayer player = new MultiPlayer(this);
+    private final MultiPlayer player = new MultiPlayer(this, 3000, 1000);
     private final Handler uiHandler = new Handler();
 
     public Player(final Context context)
@@ -39,9 +39,17 @@ public class Player implements PlayerCallback
         Toast.makeText(context, R.string.connecting, Toast.LENGTH_LONG).show();
         synchronized (Player.class)
         {
-            this.quality = quality;
-            this.station = station;
-            startPlayback(station, quality);
+            if (this.station == null)
+            {
+                startPlayback(station, quality);
+                this.quality = quality;
+                this.station = station;
+            } else
+            {
+                this.quality = quality;
+                this.station = station;
+                player.stop();
+            }
         }
         playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(station, station != null));
     }
@@ -50,7 +58,6 @@ public class Player implements PlayerCallback
     {
         if (station != null && quality != null)
         {
-            player.stop();
             player.playAsync(PREFIX + station.getCode() + "_" + quality.getSuffix(), quality.getBitrate());
         }
     }
@@ -108,17 +115,17 @@ public class Player implements PlayerCallback
                 } else
                 {
                     Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show();
+                    uiHandler.postDelayed(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            startPlayback(station, quality);
+                        }
+                    }, 5000);
                 }
             }
         });
-        uiHandler.postDelayed(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                startPlayback(station, quality);
-            }
-        }, 5000);
     }
 
     @Override
