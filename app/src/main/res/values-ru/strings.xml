@@ -22,4 +22,6 @@
     <string name="music_metadata_text">Метаданные музыки</string>
     <string name="on_call_secondary">Автоматическое прерывание воспроизведения при входящем звонке</string>
     <string name="on_call_text">Остановка воспроизведения</string>
+    <string name="menu_main_text">Список станций</string>
+    <string name="menu_player_text">Плеер</string>
 </resources>

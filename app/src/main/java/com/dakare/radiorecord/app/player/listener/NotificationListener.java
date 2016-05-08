@@ -22,10 +22,12 @@ public class NotificationListener extends AbstractPlayerStateListener
     {
         if (message.isPlaying())
         {
+            Intent intent = new Intent(service, PlayerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             Notification notification = new Notification.Builder(service)
                     .setSmallIcon(message.getStation().getIcon())
                     .setContentTitle(message.getStation().getName())
-                    .setContentIntent(PendingIntent.getActivity(service, 0, new Intent(service, PlayerActivity.class), 0))
+                    .setContentIntent(PendingIntent.getActivity(service, 0, intent, 0))
                     .setOngoing(true).getNotification();
             service.startForeground(1, notification);
         } else

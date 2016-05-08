@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.dakare.radiorecord.app.PlayerBackgroundImage;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
@@ -24,20 +25,18 @@ import java.util.Arrays;
 public class UpdateTask extends AsyncTask<Void, UpdateResponse, Void>
 {
     private final String URL = "https://www.radiorecord.ru/xml/{station}_online_v8.txt";
-    private final TextView executor;
-    private final TextView song;
-    private final ImageView icon;
+    private final PlayerBackgroundImage icon;
     private final Station station;
     private final RestTemplate template = new RestTemplate();
     private final ImageLoader imageLoader;
     private UpdateResponse response = new UpdateResponse();
     private final DisplayImageOptions options;
     private final Context context;
+    private final MetadataHandler metadataHandler;
 
-    public UpdateTask(TextView executor, TextView song, ImageView icon, Station station)
+    public UpdateTask(final PlayerBackgroundImage icon, final Station station, final MetadataHandler metadataHandler)
     {
-        this.executor = executor;
-        this.song = song;
+        this.metadataHandler = metadataHandler;
         this.icon = icon;
         this.station = station;
         this.context = icon.getContext();
@@ -68,23 +67,22 @@ public class UpdateTask extends AsyncTask<Void, UpdateResponse, Void>
     {
         while(!isCancelled())
         {
-            if (!PreferenceManager.getInstance(context).isMusicMetadataEnabled())
+            if (PreferenceManager.getInstance(context).isMusicMetadataEnabled())
             {
-                continue;
-            }
-            try
-            {
-                ResponseEntity<UpdateResponse> response = template.getForEntity(URL, UpdateResponse.class, station.getCode());
-                if (response.getStatusCode() == HttpStatus.OK)
+                try
                 {
-                    publishProgress(response.getBody());
-                } else
+                    ResponseEntity<UpdateResponse> response = template.getForEntity(URL, UpdateResponse.class, station.getCode());
+                    if (response.getStatusCode() == HttpStatus.OK)
+                    {
+                        publishProgress(response.getBody());
+                    } else
+                    {
+                        Log.w("UpdateTask", "Received bad response " + response.getStatusCode());
+                    }
+                } catch (Exception e)
                 {
-                    Log.w("UpdateTask", "Received bad response " + response.getStatusCode());
+                    Log.e("Update Task", "Failed to load update", e);
                 }
-            } catch (Exception e)
-            {
-                Log.e("Update Task", "Failed to load update", e);
             }
             try
             {
@@ -110,14 +108,9 @@ public class UpdateTask extends AsyncTask<Void, UpdateResponse, Void>
                 {
                     imageLoader.displayImage(values[0].getImage600(), icon, options);
                 }
-                if (!getArtistString(values[0]).equals(getArtistString(response)))
+                if (!getArtistString(values[0]).equals(getArtistString(response)) || !getSongString(values[0]).equals(getSongString(response)))
                 {
-                    executor.setText(getArtistString(values[0]));
-                }
-
-                if (!getSongString(values[0]).equals(getSongString(response)))
-                {
-                    song.setText(getSongString(values[0]));
+                    metadataHandler.onMetadataChanged(getArtistString(values[0]), getSongString(values[0]));
                 }
                 response = values[0];
             } else

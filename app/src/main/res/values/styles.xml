@@ -9,6 +9,13 @@
         <item name="colorPrimary">@color/toolbar_color</item>
         <item name="colorPrimaryDark">@color/toolbar_color</item>
         <item name="colorAccent">@color/toolbar_color</item>
+        <item name="toolbarColor">@color/toolbar_color</item>
+        <item name="toolbarElevation">4dp</item>
+    </style>
+
+    <style name="Player" parent="Main">
+        <item name="toolbarColor">#10ffffff</item>
+        <item name="toolbarElevation">0dp</item>
     </style>
 
     <style name="DialogButton">

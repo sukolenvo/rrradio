@@ -11,22 +11,37 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.settings.SettingsActivity;
 
 public class MenuActivity extends AppCompatActivity
 {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout drawer;
+    private Toolbar myToolbar;
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState)
+    protected void initToolbar()
     {
-        super.onPostCreate(savedInstanceState);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawer, myToolbar, R.string.app_name, R.string.app_name);
         drawer.addDrawerListener(mDrawerToggle);
+    }
+
+    protected void hideMainMenuButton()
+    {
+        findViewById(R.id.menu_main_container).setVisibility(View.GONE);
+    }
+
+    protected void hidePlayerMenuButton()
+    {
+        findViewById(R.id.menu_player_container).setVisibility(View.GONE);
+    }
+
+    protected void setTitle(final String title)
+    {
+        myToolbar.setTitle(title);
     }
 
     @Override
@@ -59,6 +74,21 @@ public class MenuActivity extends AppCompatActivity
         }
     }
 
+    public void mainActivity(final View view)
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        closeMenu();
+    }
+
+    public void playerActivity(final View view)
+    {
+        Intent intent = new Intent(this, PlayerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        closeMenu();
+    }
 
     @Override
     public void onBackPressed()

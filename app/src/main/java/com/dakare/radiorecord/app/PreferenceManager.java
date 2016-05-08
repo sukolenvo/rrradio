@@ -16,6 +16,7 @@ public class PreferenceManager
     private static final String MUSIC_METADATA_KEY = "music_metadata";
     private static final String MUSIC_IMAGE_KEY = "music_image";
     private static final String CALL_SETTINGS_KEY = "call_settings";
+    private static final String LAST_STATION = "last_station";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -116,6 +117,18 @@ public class PreferenceManager
     {
         sharedPreferences.edit()
                 .putBoolean(CALL_SETTINGS_KEY, enabled)
+                .apply();
+    }
+
+    public Station getLastStation()
+    {
+        return Station.valueOf(sharedPreferences.getString(LAST_STATION, Station.RADIO_RECORD.name()));
+    }
+
+    public void setLastStation(final Station station)
+    {
+        sharedPreferences.edit()
+                .putString(LAST_STATION, station.name())
                 .apply();
     }
 }

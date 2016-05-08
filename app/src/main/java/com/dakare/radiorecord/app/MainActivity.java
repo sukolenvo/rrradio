@@ -12,7 +12,6 @@ import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropM
 
 public class MainActivity extends MenuActivity implements StationAdapter.StationClickListener, QualityDialog.QualityHandler
 {
-    private Station station;
     private RecyclerViewDragDropManager mRecyclerViewDragDropManager;
 
     @Override
@@ -20,6 +19,7 @@ public class MainActivity extends MenuActivity implements StationAdapter.Station
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initToolbar();
         RecyclerView stationsView = (RecyclerView) findViewById(R.id.station_grid);
         stationsView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.stations_columns)));
         mRecyclerViewDragDropManager = new RecyclerViewDragDropManager();
@@ -28,12 +28,13 @@ public class MainActivity extends MenuActivity implements StationAdapter.Station
         mRecyclerViewDragDropManager.setLongPressTimeout(750);
         stationsView.setAdapter(mRecyclerViewDragDropManager.createWrappedAdapter(new StationAdapter(this, this)));
         mRecyclerViewDragDropManager.attachRecyclerView(stationsView);
+        hideMainMenuButton();
     }
 
     @Override
     public void onClick(final Station station)
     {
-        this.station = station;
+        PreferenceManager.getInstance(this).setLastStation(station);
         QualityDialog.getQuality(this, this);
     }
 
@@ -41,10 +42,12 @@ public class MainActivity extends MenuActivity implements StationAdapter.Station
     public void onQualitySelected(final Quality quality)
     {
         Intent serviceIntent = new Intent(this, PlayerService.class);
-        serviceIntent.putExtra(PlayerService.STATION_KEY, station.name());
+        serviceIntent.putExtra(PlayerService.STATION_KEY, PreferenceManager.getInstance(this).getLastStation().name());
         serviceIntent.putExtra(PlayerService.QUALITY_KEY, quality.name());
         startService(serviceIntent);
-        startActivity(new Intent(this, PlayerActivity.class));
+        Intent intent = new Intent(this, PlayerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

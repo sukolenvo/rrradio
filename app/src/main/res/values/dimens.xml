@@ -8,10 +8,10 @@
     <integer name="stations_columns">3</integer>
     <dimen name="selector_icon_size">25dp</dimen>
     <dimen name="player_control_padding_top">32dp</dimen>
-    <dimen name="player_control_padding_left">40dp</dimen>
-    <dimen name="player_control_padding_right">24dp</dimen>
+    <dimen name="player_control_padding_left">@dimen/main_padding</dimen>
+    <dimen name="player_control_padding_right">@dimen/main_padding</dimen>
     <dimen name="player_control_padding_title_top">12dp</dimen>
-    <dimen name="player_control_padding_bottom">32dp</dimen>
+    <dimen name="player_control_padding_bottom">@dimen/main_padding</dimen>
     <dimen name="menu_icon_size">24dp</dimen>
     <dimen name="menu_text_size">16sp</dimen>
     <dimen name="menu_width">300dp</dimen>
