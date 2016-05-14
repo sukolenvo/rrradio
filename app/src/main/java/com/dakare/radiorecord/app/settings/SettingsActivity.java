@@ -66,21 +66,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             text.setText(R.string.no_default_quality);
         } else
         {
-            String[] qualities = getResources().getStringArray(R.array.qualities);
-            switch (quality)
-            {
-                case LOW:
-                    text.setText(qualities[0]);
-                    break;
-                case MEDIUM:
-                    text.setText(qualities[1]);
-                    break;
-                case HIGH:
-                    text.setText(qualities[2]);
-                    break;
-                default:
-                    throw new AssertionError("This should never happen");
-            }
+            text.setText(quality.getNameRes());
         }
     }
 

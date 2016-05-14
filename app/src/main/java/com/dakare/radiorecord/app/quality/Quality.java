@@ -1,21 +1,23 @@
 package com.dakare.radiorecord.app.quality;
 
+import com.dakare.radiorecord.app.R;
 import lombok.Getter;
 
 @Getter
 public enum Quality
 {
-    LOW("aac", 32),
-    MEDIUM("128", 128),
-    HIGH("320", 320);
+    LOW("aac", 64, R.string.quality_low),
+    MEDIUM("128", 128, R.string.quality_medium),
+    HIGH("320", 320, R.string.quality_high);
 
     private final String suffix;
     private final int bitrate;
+    private final int nameRes;
 
-    //TODO: add quality name ref
-    Quality(final String suffix, final int bitrate)
+    Quality(final String suffix, final int bitrate, final int name)
     {
         this.suffix = suffix;
         this.bitrate = bitrate;
+        this.nameRes = name;
     }
 }

@@ -29,9 +29,9 @@ public class QualityAdapter extends ArrayAdapter<String> implements AdapterView.
         {
             add(context.getString(R.string.no_default_quality));
         }
-        for (String q : context.getResources().getStringArray(R.array.qualities))
+        for (Quality quality : Quality.values())
         {
-            add(q);
+            add(context.getString(quality.getNameRes()));
         }
         notifyDataSetChanged();
     }

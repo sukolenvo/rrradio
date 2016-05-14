@@ -1,11 +1,9 @@
 <resources>
     <string name="app_name">RadioRecord</string>
     <string name="quality_title">Select Default Quality</string>
-    <string-array name="qualities">
-        <item>Low quality</item>
-        <item>Medium quality</item>
-        <item>High quality</item>
-    </string-array>
+    <string name="quality_low">Low quality</string>
+    <string name="quality_medium">Medium quality</string>
+    <string name="quality_high">High quality</string>
     <string name="dont_ask_again">Dont ask again</string>
     <string name="error_connect">Failed to connect to audio server. Please check your connection and try again.</string>
     <string name="error_stream_not_found">Failed to obtain audio stream. Please select another quality or try later.</string>
