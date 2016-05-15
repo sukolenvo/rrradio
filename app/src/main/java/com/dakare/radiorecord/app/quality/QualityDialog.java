@@ -48,7 +48,7 @@ public class QualityDialog extends Dialog
 
     public static void getQuality(Context context, QualityHandler handler)
     {
-        Quality defaultQuality = PreferenceManager.getInstance(context).getDefaultQuality();
+        Quality defaultQuality = PreferenceManager.getInstance(context).getDefaultQuality(null);
         if (defaultQuality == null)
         {
             new QualityDialog(context, handler).show();

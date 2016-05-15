@@ -10,7 +10,8 @@ public enum PlayerMessageType
     UNREGISTER_SERVICE_CLIENT(1001),
     UPDATE_STATE(1002),
     STOP_PLAYBACK(1004),
-    PLAYBACK_STATE(1003);
+    PLAYBACK_STATE(1003),
+    METADATA_UPDATE(1007);
 
     @Getter
     private final int messageId;

@@ -2,28 +2,60 @@ package com.dakare.radiorecord.app.player.service.message;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.os.Parcelable;
 import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.player.UpdateResponse;
+import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter
 public class PlaybackStatePlayerMessage extends PlayerMessage
 {
-    private static final String STATION_KEY = "station";
+    private static final String PLAYLIST_KEY = "playlist";
+    private static final String POSITION_KEY = "position";
     private static final String PLAYING_KEY = "playing";
-    @Getter
-    private final Station station;
-    @Getter
+    private static final String ICON_KEY = "icon";
+    private static final String ARTIST_KEY = "artist";
+    private static final String SONG_KEY = "song";
+
+    private final String icon;
+    private final String artist;
+    private final String song;
+    private final ArrayList<PlaylistItem> items;
+    private final int position;
     private final boolean playing;
 
-    public PlaybackStatePlayerMessage(Station station, final boolean playing)
+    public PlaybackStatePlayerMessage(final ArrayList<PlaylistItem> items, final int position, final boolean playing,
+                                      final UpdateResponse updateResponse)
     {
         super(PlayerMessageType.PLAYBACK_STATE);
-        this.station = station;
+        this.items = items;
+        this.position = position;
         this.playing = playing;
+        this.icon = updateResponse.getImage600();
+        this.artist = updateResponse.getArtist();
+        this.song = updateResponse.getTitle();
     }
 
-    public static PlaybackStatePlayerMessage fromMessage(Bundle args)
+    @SuppressWarnings("unchecked")
+    public PlaybackStatePlayerMessage(final Bundle data)
     {
-        return new PlaybackStatePlayerMessage(args.getString(STATION_KEY) == null ? null : Station.valueOf(args.getString(STATION_KEY)), args.getBoolean(PLAYING_KEY));
+        super(PlayerMessageType.PLAYBACK_STATE);
+        this.icon = data.getString(ICON_KEY);
+        this.artist = data.getString(ARTIST_KEY);
+        this.song = data.getString(SONG_KEY);
+        this.items = (ArrayList) data.getParcelableArrayList(PLAYLIST_KEY);
+        this.position = data.getInt(POSITION_KEY);
+        this.playing = data.getBoolean(PLAYING_KEY);
+    }
+
+
+    public static PlaybackStatePlayerMessage fromMessage(final Bundle args)
+    {
+        return new PlaybackStatePlayerMessage(args);
     }
 
     @Override
@@ -31,8 +63,12 @@ public class PlaybackStatePlayerMessage extends PlayerMessage
     {
         Message message = super.toMessage();
         Bundle args = new Bundle();
-        args.putString(STATION_KEY, station == null ? null : station.name());
+        args.putParcelableArrayList(PLAYLIST_KEY, items);
+        args.putInt(POSITION_KEY, position);
         args.putBoolean(PLAYING_KEY, playing);
+        args.putString(ICON_KEY, icon);
+        args.putString(ARTIST_KEY, artist);
+        args.putString(SONG_KEY, song);
         message.setData(args);
         return message;
     }

@@ -22,7 +22,7 @@ public class SettingsQualityDialog extends Dialog
         setContentView(R.layout.dialog_settings_quality);
         ListView listView = (ListView) findViewById(R.id.quality_list);
         adapter = new QualityAdapter(context, true);
-        Quality selected = PreferenceManager.getInstance(context).getDefaultQuality();
+        Quality selected = PreferenceManager.getInstance(context).getDefaultQuality(null);
         if (selected != null)
         {
             switch (selected)

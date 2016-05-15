@@ -5,10 +5,14 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.dakare.radiorecord.app.player.PlayerActivity;
+import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.quality.QualityDialog;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends MenuActivity implements StationAdapter.StationClickListener, QualityDialog.QualityHandler
 {
@@ -42,8 +46,14 @@ public class MainActivity extends MenuActivity implements StationAdapter.Station
     public void onQualitySelected(final Quality quality)
     {
         Intent serviceIntent = new Intent(this, PlayerService.class);
-        serviceIntent.putExtra(PlayerService.STATION_KEY, PreferenceManager.getInstance(this).getLastStation().name());
-        serviceIntent.putExtra(PlayerService.QUALITY_KEY, quality.name());
+        List<Station> stations = PreferenceManager.getInstance(this).getStations();
+        ArrayList<PlaylistItem> items = new ArrayList<PlaylistItem>(stations.size());
+        for (Station station : stations)
+        {
+            items.add(new PlaylistItem(station, quality));
+        }
+        serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
+        serviceIntent.putExtra(PlayerService.POSITION_KEY, stations.indexOf(PreferenceManager.getInstance(this).getLastStation()));
         startService(serviceIntent);
         Intent intent = new Intent(this, PlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

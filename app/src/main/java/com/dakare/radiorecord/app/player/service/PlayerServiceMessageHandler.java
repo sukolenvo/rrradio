@@ -39,13 +39,10 @@ public class PlayerServiceMessageHandler extends Handler {
                     clients.unregisterClient(msg.replyTo);
                     break;
                 case UPDATE_STATE:
-                    boolean playing = player.getStation() != null;
-                    Station station = player.getStation();
-                    handleServiceResponse(new PlaybackStatePlayerMessage(station, playing));
+                    player.updateState();
                     break;
                 case STOP_PLAYBACK:
                     player.stop();
-                    handleServiceResponse(new PlaybackStatePlayerMessage(null, false));
                     break;
                 default:
                     Log.w("PlayerMessageHandler", "Unrecognised message type " + msg.what);

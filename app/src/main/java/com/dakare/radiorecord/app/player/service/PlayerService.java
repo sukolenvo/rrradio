@@ -4,15 +4,16 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.Messenger;
-import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.player.listener.IncomeCallListener;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
-import com.dakare.radiorecord.app.quality.Quality;
+
+import java.util.ArrayList;
 
 public class PlayerService extends Service {
 
-    public static final String STATION_KEY = "station";
-    public static final String QUALITY_KEY = "quality";
+    public static final String PLAYLIST_KEY = "playlist";
+	public static final String POSITION_KEY = "position";
+
 	private PlayerServiceMessageHandler messageHandler;
 	private Messenger messenger;
     private Player player;
@@ -27,12 +28,13 @@ public class PlayerService extends Service {
         messageHandler.addPlayerStateListener(new IncomeCallListener(this, player));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int onStartCommand(final Intent intent, final int flags,
 			final int startId) {
-        if (intent != null && intent.hasExtra(STATION_KEY))
+        if (intent != null && intent.hasExtra(PLAYLIST_KEY))
         {
-            player.play(Station.valueOf(intent.getStringExtra(STATION_KEY)), Quality.valueOf(intent.getStringExtra(QUALITY_KEY)));
+            player.play((ArrayList)intent.getParcelableArrayListExtra(PLAYLIST_KEY), intent.getIntExtra(POSITION_KEY, 0));
         }
 		return START_STICKY;
 	}

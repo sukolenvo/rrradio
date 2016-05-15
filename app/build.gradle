@@ -27,14 +27,6 @@ android {
         targetSdkVersion 23
         versionCode 7
         versionName "1.4"
-
-        ndk {
-            abiFilters "armeabi-v7a", "x86", "armeabi", "mips"
-        }
-    }
-
-    sourceSets.main {
-        jniLibs.srcDir 'src/jniLibs'
     }
 
     compileOptions {

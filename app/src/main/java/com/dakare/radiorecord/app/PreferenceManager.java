@@ -41,7 +41,7 @@ public class PreferenceManager
         {
             sharedPreferences.edit()
                     .remove(QUALITY_KEY)
-                    .commit();
+                    .apply();
         } else
         {
             sharedPreferences.edit()
@@ -50,10 +50,10 @@ public class PreferenceManager
         }
     }
 
-    public Quality getDefaultQuality()
+    public Quality getDefaultQuality(final Quality defaultValue)
     {
         String qualityName = sharedPreferences.getString(QUALITY_KEY, null);
-        return qualityName == null ? null : Quality.valueOf(qualityName);
+        return qualityName == null ? defaultValue : Quality.valueOf(qualityName);
     }
 
     public void setStations(List<Station> stations)

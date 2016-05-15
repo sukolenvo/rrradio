@@ -60,7 +60,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private void updateQualitySecondary()
     {
         TextView text = (TextView) findViewById(R.id.quality_secondary);
-        Quality quality = preferenceManager.getDefaultQuality();
+        Quality quality = preferenceManager.getDefaultQuality(null);
         if (quality == null)
         {
             text.setText(R.string.no_default_quality);

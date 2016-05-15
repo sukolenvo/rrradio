@@ -6,41 +6,57 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.dakare.radiorecord.app.*;
+import com.dakare.radiorecord.app.MenuActivity;
+import com.dakare.radiorecord.app.PlayerBackgroundImage;
+import com.dakare.radiorecord.app.PreferenceManager;
+import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerServiceClient;
 import com.dakare.radiorecord.app.player.service.PlayerServiceHelper;
 import com.dakare.radiorecord.app.player.service.message.*;
-import com.dakare.radiorecord.app.quality.Quality;
-import com.dakare.radiorecord.app.quality.QualityDialog;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler, MetadataHandler
+public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler
 {
+    private static final String METADATA_ICON_KEY = "player_metadata_icon";
+    private static final String METADATA_ARTIST_KEY = "player_metadata_artist";
+    private static final String METADATA_SONG_KEY = "player_metadata_song";
 
     private final PlayerServiceHelper playerServiceHelper = new PlayerServiceHelper();
-    private Station station;
     private TextView executor;
     private TextView song;
     private PlayerBackgroundImage icon;
     private boolean playing;
+    private ArrayList<PlaylistItem> items;
+    private int position;
     private View playButton;
-    private UpdateTask updateTask;
-    private List<Station> stations;
+    private String metadataIcon;
+    private String metadataArtist;
+    private String metadataSong;
+    private DisplayImageOptions options = new DisplayImageOptions.Builder()
+            .showImageForEmptyUri(R.drawable.default_player_background)
+            .showImageOnFail(R.drawable.default_player_background).build();
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
+    protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
         initToolbar();
+        if (savedInstanceState != null)
+        {
+            metadataIcon = savedInstanceState.getString(METADATA_ICON_KEY);
+            metadataArtist = savedInstanceState.getString(METADATA_ARTIST_KEY);
+            metadataSong = savedInstanceState.getString(METADATA_SONG_KEY);
+        }
         playButton = findViewById(R.id.play_button);
         executor = (TextView) findViewById(R.id.executor);
         song = (TextView) findViewById(R.id.song_name);
         icon = (PlayerBackgroundImage) findViewById(R.id.player_icon);
-        stations = PreferenceManager.getInstance(this).getStations();
-        station = PreferenceManager.getInstance(this).getLastStation();
         setupOnclickListeners();
         updateViews();
         hidePlayerMenuButton();
@@ -53,15 +69,15 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             @Override
             public void onClick(View v)
             {
-                if (playing)
+                if (items != null && playerServiceHelper.getServiceClient().isMessagingSessionStarted())
                 {
-                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                    if (playing)
                     {
                         playerServiceHelper.getServiceClient().execute(new StopPlayerMessage());
+                    } else
+                    {
+                        startPlayback();
                     }
-                } else
-                {
-                    startPlayback();
                 }
             }
         });
@@ -70,9 +86,11 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             @Override
             public void onClick(final View v)
             {
-                station = stations.get((stations.indexOf(station) + 1) % stations.size());
-                updateViews();
-                startPlayback();
+                if (items != null && playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                {
+                    position = (position + 1) % items.size();
+                    startPlayback();
+                }
             }
         });
         findViewById(R.id.prev_button).setOnClickListener(new View.OnClickListener()
@@ -80,58 +98,51 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             @Override
             public void onClick(final View v)
             {
-                station = stations.get((stations.indexOf(station) - 1 + stations.size()) % stations.size());
-                updateViews();
-                startPlayback();
+                if (items != null && playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                {
+                    position = (position - 1 + items.size()) % items.size();
+                    startPlayback();
+                }
             }
         });
     }
 
     private void startPlayback()
     {
-        PreferenceManager.getInstance(this).setLastStation(station);
-        QualityDialog.getQuality(PlayerActivity.this, new QualityDialog.QualityHandler()
-        {
-            @Override
-            public void onQualitySelected(Quality quality)
-            {
-                Intent serviceIntent = new Intent(PlayerActivity.this, PlayerService.class);
-                serviceIntent.putExtra(PlayerService.STATION_KEY, station.name());
-                serviceIntent.putExtra(PlayerService.QUALITY_KEY, quality.name());
-                startService(serviceIntent);
-            }
-        });
+        Intent serviceIntent = new Intent(this, PlayerService.class);
+        serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
+        serviceIntent.putExtra(PlayerService.POSITION_KEY, position);
+        startService(serviceIntent);
     }
 
     private void updateViews()
     {
         ((ImageView) playButton).setImageResource(playing ? R.drawable.ic_stop_white_24dp : R.drawable.ic_play_arrow_white_24dp);
-        executor.setText("");
-        song.setText("");
-        if (playing)
+        PlaylistItem item = items == null ? null : items.get(position);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
         {
-            updateTaskRecreate();
-        } else if (updateTask != null)
-        {
-            updateTask.cancel(true);
-        }
-        if (station == null)
-        {
-            setTitle(R.string.app_name);
+            executor.setText(metadataArtist == null ? (item == null ? "" : item.getTitle()) : metadataArtist);
+            song.setText(metadataSong == null ? (item == null ? "" : item.getSubtitle()) : metadataSong);
         } else
         {
-            setTitle(station.getName());
+            if (metadataArtist == null)
+            {
+                setTitle(item == null ? getString(R.string.app_name) : item.getTitle());
+            } else if (metadataSong == null)
+            {
+                setTitle(metadataArtist);
+            } else
+            {
+                setTitle(metadataArtist + " - " + metadataSong);
+            }
         }
-    }
-
-    private void updateTaskRecreate()
-    {
-        if (updateTask != null)
+        if (PreferenceManager.getInstance(this).isMusicImageEnabled())
         {
-            updateTask.cancel(true);
+            ImageLoader.getInstance().displayImage(metadataIcon, icon, options);
+        } else
+        {
+            icon.setImageResource(R.drawable.default_player_background);
         }
-        updateTask = new UpdateTask(icon, station, this);
-        updateTask.execute();
     }
 
     @Override
@@ -140,7 +151,6 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         super.onResume();
         playerServiceHelper.getServiceClient().setPlayerMessageHandler(this);
         playerServiceHelper.bindService(this, this);
-        updateTaskRecreate();
     }
 
     @Override
@@ -149,10 +159,6 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         super.onPause();
         playerServiceHelper.getServiceClient().setPlayerMessageHandler(null);
         playerServiceHelper.unbindService(this);
-        if (updateTask != null)
-        {
-            updateTask.cancel(true);
-        }
     }
 
     @Override
@@ -164,36 +170,31 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     @Override
     public void onServiceDisconnected()
     {
+        //Nothing to do for now
     }
 
     @Override
-    public void onMessage(PlayerMessage playerMessage)
+    public void onMessage(final PlayerMessage playerMessage)
     {
         if (playerMessage.getMessageType() == PlayerMessageType.PLAYBACK_STATE)
         {
             PlaybackStatePlayerMessage playbackState = (PlaybackStatePlayerMessage) playerMessage;
-            if (this.station != playbackState.getStation() || this.playing != playbackState.isPlaying())
-            {
-                this.playing = playbackState.isPlaying();
-                if (playbackState.getStation() != null)
-                {
-                    this.station = playbackState.getStation();
-                }
-                updateViews();
-            }
+            this.items = playbackState.getItems();
+            this.position = playbackState.getPosition();
+            this.playing = playbackState.isPlaying();
+            metadataIcon = playbackState.getIcon();
+            metadataArtist = playbackState.getArtist();
+            metadataSong = playbackState.getSong();
+            updateViews();
         }
     }
 
     @Override
-    public void onMetadataChanged(final String artist, final String song)
+    protected void onSaveInstanceState(final Bundle outState)
     {
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
-            executor.setText(artist);
-            this.song.setText(song);
-        } else
-        {
-            setTitle(artist + " - " + song);
-        }
+        super.onSaveInstanceState(outState);
+        outState.putString(METADATA_ICON_KEY, metadataIcon);
+        outState.putString(METADATA_ARTIST_KEY, metadataArtist);
+        outState.putString(METADATA_SONG_KEY, metadataSong);
     }
 }

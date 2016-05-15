@@ -2,12 +2,11 @@
 <resources>
     <string name="app_name">RadioRecord</string>
     <string name="quality_title">Выберите Качество</string>
-    <string name="quality_low">Низкое (32 kbs)</string>
+    <string name="quality_low">Низкое (64 kbs)</string>
     <string name="quality_medium">Среднее (128 kbs)</string>
     <string name="quality_high">Высокое (320 kbs)</string>
     <string name="dont_ask_again">Запомнить выбор</string>
     <string name="error_connect">Ошибка подключения к серверу. Проверьте ваше интернет подключение и попробуйте еще раз.</string>
-    <string name="error_stream_not_found">Не удалось получить поток. Попробуйте сменить качество или попробовать позже.</string>
     <string name="message_connecting">Подключение к серверу</string>
     <string name="connecting">Подключение...</string>
     <string name="settings_text">Настройки</string>
