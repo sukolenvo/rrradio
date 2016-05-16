@@ -75,6 +75,22 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
         }
     }
 
+    public void next()
+    {
+        position = (position + 1) % playlist.size();
+        startPlayback();
+        metadataLoader.start(playlist.get(position).getStation());
+        updateState();
+    }
+
+    public void previous()
+    {
+        position = (position - 1 + playlist.size()) % playlist.size();
+        startPlayback();
+        metadataLoader.start(playlist.get(position).getStation());
+        updateState();
+    }
+
     public void stop()
     {
         context.stopService(new Intent(context, PlayerService.class));

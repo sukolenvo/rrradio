@@ -35,7 +35,16 @@ public class PlayerService extends Service {
         if (intent != null && intent.hasExtra(PLAYLIST_KEY))
         {
             player.play((ArrayList)intent.getParcelableArrayListExtra(PLAYLIST_KEY), intent.getIntExtra(POSITION_KEY, 0));
-        }
+        } else if (NotificationListener.ACTION_NEXT.equals(intent.getAction()))
+		{
+			player.next();
+		} else if (NotificationListener.ACTION_PREVIOUS.equals(intent.getAction()))
+		{
+			player.previous();
+		} else if (NotificationListener.ACTION_STOP.equals(intent.getAction()))
+		{
+			player.stop();
+		}
 		return START_STICKY;
 	}
 
