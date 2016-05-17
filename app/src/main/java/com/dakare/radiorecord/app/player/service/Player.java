@@ -30,6 +30,7 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
     private final MediaPlayer mediaPlayer;
     private final Handler uiHandler = new Handler();
     private final MetadataLoader metadataLoader;
+    private PlayerState state = PlayerState.STOP;
 
     public Player(final Context context)
     {
@@ -56,7 +57,7 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
 
     public void updateState()
     {
-        playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(playlist, position, mediaPlayer.isPlaying(), metadataLoader.getResponse()));
+        playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(playlist, position, state, metadataLoader.getResponse()));
     }
 
     private void startPlayback()
@@ -68,6 +69,7 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
             {
                 mediaPlayer.setDataSource(playlist.get(position).getUrl());
                 mediaPlayer.prepareAsync();
+                state = PlayerState.PLAY;
             } catch (IOException e)
             {
                 Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show();
@@ -97,12 +99,28 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
         mediaPlayer.stop();
         mediaPlayer.reset();
         metadataLoader.stop();
+        state = PlayerState.STOP;
         updateState();
     }
 
-    public boolean isPlaying()
+    public void pause()
     {
-        return mediaPlayer.isPlaying();
+        if (state != PlayerState.STOP)
+        {
+            state = PlayerState.PAUSE;
+            mediaPlayer.pause();
+            updateState();
+        }
+    }
+
+    public void resume()
+    {
+        if (state != PlayerState.STOP)
+        {
+            state = PlayerState.PLAY;
+            mediaPlayer.start();
+            updateState();
+        }
     }
 
     @Override

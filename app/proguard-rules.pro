@@ -52,4 +52,6 @@
 -keep class com.dakare.radiorecord.app.player.UpdateResponse {
     public *;
 }
+
 -dontwarn org.springframework.**
+-dontwarn android.support.v4.**

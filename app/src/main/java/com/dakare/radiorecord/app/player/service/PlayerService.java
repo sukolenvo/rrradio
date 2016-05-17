@@ -30,8 +30,7 @@ public class PlayerService extends Service {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public int onStartCommand(final Intent intent, final int flags,
-			final int startId) {
+	public int onStartCommand(final Intent intent, final int flags, final int startId) {
         if (intent != null && intent.hasExtra(PLAYLIST_KEY))
         {
             player.play((ArrayList)intent.getParcelableArrayListExtra(PLAYLIST_KEY), intent.getIntExtra(POSITION_KEY, 0));
@@ -44,6 +43,12 @@ public class PlayerService extends Service {
 		} else if (NotificationListener.ACTION_STOP.equals(intent.getAction()))
 		{
 			player.stop();
+		} else if (NotificationListener.ACTION_PAUSE.equals(intent.getAction()))
+		{
+			player.pause();
+		} else if (NotificationListener.ACTION_RESUME.equals(intent.getAction()))
+		{
+			player.resume();
 		}
 		return START_STICKY;
 	}

@@ -10,10 +10,12 @@ import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.PlayerBackgroundImage;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.player.listener.NotificationListener;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerServiceClient;
 import com.dakare.radiorecord.app.player.service.PlayerServiceHelper;
+import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.*;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -30,10 +32,11 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     private TextView executor;
     private TextView song;
     private PlayerBackgroundImage icon;
-    private boolean playing;
+    private PlayerState state;
     private ArrayList<PlaylistItem> items;
     private int position;
     private View playButton;
+    private View pauseButton;
     private String metadataIcon;
     private String metadataArtist;
     private String metadataSong;
@@ -54,6 +57,7 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             metadataSong = savedInstanceState.getString(METADATA_SONG_KEY);
         }
         playButton = findViewById(R.id.play_button);
+        pauseButton = findViewById(R.id.pause_button);
         executor = (TextView) findViewById(R.id.executor);
         song = (TextView) findViewById(R.id.song_name);
         icon = (PlayerBackgroundImage) findViewById(R.id.player_icon);
@@ -71,13 +75,31 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             {
                 if (items != null && playerServiceHelper.getServiceClient().isMessagingSessionStarted())
                 {
-                    if (playing)
+                    if (state == PlayerState.PAUSE)
                     {
-                        playerServiceHelper.getServiceClient().execute(new StopPlayerMessage());
+                        Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+                        intent.setAction(NotificationListener.ACTION_RESUME);
+                        startService(intent);
                     } else
                     {
-                        startPlayback();
+                        Intent serviceIntent = new Intent(PlayerActivity.this, PlayerService.class);
+                        serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
+                        serviceIntent.putExtra(PlayerService.POSITION_KEY, position);
+                        startService(serviceIntent);
                     }
+                }
+            }
+        });
+        pauseButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                {
+                    Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+                    intent.setAction(NotificationListener.ACTION_PAUSE);
+                    startService(intent);
                 }
             }
         });
@@ -86,10 +108,11 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             @Override
             public void onClick(final View v)
             {
-                if (items != null && playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
                 {
-                    position = (position + 1) % items.size();
-                    startPlayback();
+                    Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+                    intent.setAction(NotificationListener.ACTION_NEXT);
+                    startService(intent);
                 }
             }
         });
@@ -98,26 +121,18 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             @Override
             public void onClick(final View v)
             {
-                if (items != null && playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
                 {
-                    position = (position - 1 + items.size()) % items.size();
-                    startPlayback();
+                    Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+                    intent.setAction(NotificationListener.ACTION_PREVIOUS);
+                    startService(intent);
                 }
             }
         });
     }
 
-    private void startPlayback()
-    {
-        Intent serviceIntent = new Intent(this, PlayerService.class);
-        serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
-        serviceIntent.putExtra(PlayerService.POSITION_KEY, position);
-        startService(serviceIntent);
-    }
-
     private void updateViews()
     {
-        ((ImageView) playButton).setImageResource(playing ? R.drawable.ic_stop_white_24dp : R.drawable.ic_play_arrow_white_24dp);
         PlaylistItem item = items == null ? null : items.get(position);
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
         {
@@ -142,6 +157,15 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         } else
         {
             icon.setImageResource(R.drawable.default_player_background);
+        }
+        if (state == PlayerState.PLAY)
+        {
+            playButton.setVisibility(View.GONE);
+            pauseButton.setVisibility(View.VISIBLE);
+        } else
+        {
+            playButton.setVisibility(View.VISIBLE);
+            pauseButton.setVisibility(View.GONE);
         }
     }
 
@@ -181,7 +205,7 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             PlaybackStatePlayerMessage playbackState = (PlaybackStatePlayerMessage) playerMessage;
             this.items = playbackState.getItems();
             this.position = playbackState.getPosition();
-            this.playing = playbackState.isPlaying();
+            this.state = playbackState.getState();
             metadataIcon = playbackState.getIcon();
             metadataArtist = playbackState.getArtist();
             metadataSong = playbackState.getSong();
@@ -196,5 +220,17 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         outState.putString(METADATA_ICON_KEY, metadataIcon);
         outState.putString(METADATA_ARTIST_KEY, metadataArtist);
         outState.putString(METADATA_SONG_KEY, metadataSong);
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        if (state == PlayerState.PAUSE)
+        {
+            Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+            intent.setAction(NotificationListener.ACTION_STOP);
+            startService(intent);
+        }
+        super.onBackPressed();
     }
 }

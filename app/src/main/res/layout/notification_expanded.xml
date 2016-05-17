@@ -82,7 +82,7 @@
                         android:padding="5.0dip"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_stop_black_24dp" />
+                        android:src="@drawable/ic_pause_black_24dp" />
             </RelativeLayout>
 
             <ImageButton

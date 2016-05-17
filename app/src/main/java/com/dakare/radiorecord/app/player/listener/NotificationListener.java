@@ -15,6 +15,7 @@ import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
+import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -27,6 +28,8 @@ public class NotificationListener extends AbstractPlayerStateListener implements
     public static final String ACTION_STOP = "stop";
     public static final String ACTION_PREVIOUS = "precious";
     public static final String ACTION_NEXT = "next";
+    public static final String ACTION_PAUSE = "pause";
+    public static final String ACTION_RESUME = "resume";
 
     private final Service service;
     private String lastUrl;
@@ -54,10 +57,18 @@ public class NotificationListener extends AbstractPlayerStateListener implements
         Intent stopIntent = new Intent(service, PlayerService.class);
         stopIntent.setAction(ACTION_STOP);
         PendingIntent stopPending = PendingIntent.getService(service, 0, stopIntent, 0);
-        collapsed.setOnClickPendingIntent(R.id.button_media_pause, stopPending);
         collapsed.setOnClickPendingIntent(R.id.button_media_close, stopPending);
-        expanded.setOnClickPendingIntent(R.id.button_media_pause, stopPending);
         expanded.setOnClickPendingIntent(R.id.button_media_close, stopPending);
+        Intent pauseIntent = new Intent(service, PlayerService.class);
+        pauseIntent.setAction(ACTION_PAUSE);
+        PendingIntent pausePending = PendingIntent.getService(service, 0, pauseIntent, 0);
+        collapsed.setOnClickPendingIntent(R.id.button_media_pause, pausePending);
+        expanded.setOnClickPendingIntent(R.id.button_media_pause, pausePending);
+        Intent resumeIntent = new Intent(service, PlayerService.class);
+        resumeIntent.setAction(ACTION_RESUME);
+        PendingIntent resumePending = PendingIntent.getService(service, 0, resumeIntent, 0);
+        collapsed.setOnClickPendingIntent(R.id.button_media_play, resumePending);
+        expanded.setOnClickPendingIntent(R.id.button_media_play, resumePending);
         Intent nextIntent = new Intent(service, PlayerService.class);
         nextIntent.setAction(ACTION_NEXT);
         PendingIntent nextPending = PendingIntent.getService(service, 0, nextIntent, 0);
@@ -73,7 +84,11 @@ public class NotificationListener extends AbstractPlayerStateListener implements
     @Override
     protected void onPlaybackChange(final PlaybackStatePlayerMessage message)
     {
-        if (message.isPlaying())
+        if (message.getState() == PlayerState.STOP)
+        {
+            lastUrl = null;
+            service.stopForeground(true);
+        } else
         {
             PlaylistItem playlistItem = message.getItems().get(message.getPosition());
             collapsed.setTextViewText(R.id.text_media_title, message.getSong() == null ? playlistItem.getStation().getName() : message.getSong());
@@ -88,11 +103,20 @@ public class NotificationListener extends AbstractPlayerStateListener implements
                 lastUrl = message.getIcon();
                 ImageLoader.getInstance().loadImage(message.getIcon(), new ImageSize(128, 128), this);
             }
+            if (message.getState() == PlayerState.PLAY)
+            {
+                collapsed.setViewVisibility(R.id.button_media_play, View.GONE);
+                collapsed.setViewVisibility(R.id.button_media_pause, View.VISIBLE);
+                expanded.setViewVisibility(R.id.button_media_play, View.GONE);
+                expanded.setViewVisibility(R.id.button_media_pause, View.VISIBLE);
+            } else
+            {
+                collapsed.setViewVisibility(R.id.button_media_play, View.VISIBLE);
+                collapsed.setViewVisibility(R.id.button_media_pause, View.GONE);
+                expanded.setViewVisibility(R.id.button_media_play, View.VISIBLE);
+                expanded.setViewVisibility(R.id.button_media_pause, View.GONE);
+            }
             service.startForeground(1, notification);
-        } else
-        {
-            lastUrl = null;
-            service.stopForeground(true);
         }
     }
 

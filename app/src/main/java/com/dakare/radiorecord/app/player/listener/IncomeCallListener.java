@@ -5,6 +5,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.player.service.Player;
+import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 
 public class IncomeCallListener extends AbstractPlayerStateListener
@@ -41,7 +42,7 @@ public class IncomeCallListener extends AbstractPlayerStateListener
     @Override
     protected void onPlaybackChange(final PlaybackStatePlayerMessage message)
     {
-        if (message.isPlaying())
+        if (message.getState() == PlayerState.PLAY)
         {
             manager.listen(callback, PhoneStateListener.LISTEN_CALL_STATE);
         } else

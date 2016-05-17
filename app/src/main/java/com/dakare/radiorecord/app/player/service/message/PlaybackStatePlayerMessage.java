@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.player.UpdateResponse;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
+import com.dakare.radiorecord.app.player.service.PlayerState;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -26,15 +27,15 @@ public class PlaybackStatePlayerMessage extends PlayerMessage
     private final String song;
     private final ArrayList<PlaylistItem> items;
     private final int position;
-    private final boolean playing;
+    private final PlayerState state;
 
-    public PlaybackStatePlayerMessage(final ArrayList<PlaylistItem> items, final int position, final boolean playing,
+    public PlaybackStatePlayerMessage(final ArrayList<PlaylistItem> items, final int position, final PlayerState state,
                                       final UpdateResponse updateResponse)
     {
         super(PlayerMessageType.PLAYBACK_STATE);
         this.items = items;
         this.position = position;
-        this.playing = playing;
+        this.state = state;
         this.icon = updateResponse.getImage600();
         this.artist = updateResponse.getArtist();
         this.song = updateResponse.getTitle();
@@ -49,7 +50,7 @@ public class PlaybackStatePlayerMessage extends PlayerMessage
         this.song = data.getString(SONG_KEY);
         this.items = (ArrayList) data.getParcelableArrayList(PLAYLIST_KEY);
         this.position = data.getInt(POSITION_KEY);
-        this.playing = data.getBoolean(PLAYING_KEY);
+        this.state = PlayerState.valueOf(data.getString(PLAYING_KEY));
     }
 
 
@@ -65,7 +66,7 @@ public class PlaybackStatePlayerMessage extends PlayerMessage
         Bundle args = new Bundle();
         args.putParcelableArrayList(PLAYLIST_KEY, items);
         args.putInt(POSITION_KEY, position);
-        args.putBoolean(PLAYING_KEY, playing);
+        args.putString(PLAYING_KEY, state.name());
         args.putString(ICON_KEY, icon);
         args.putString(ARTIST_KEY, artist);
         args.putString(SONG_KEY, song);

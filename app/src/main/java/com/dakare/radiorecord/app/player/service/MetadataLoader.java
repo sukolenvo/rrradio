@@ -33,6 +33,7 @@ public class MetadataLoader implements Runnable
 
     public MetadataLoader(final MetadataChangeCallback callback, final Context context)
     {
+        //TODO: fix image blink
         this.callback = callback;
         this.context = context;
         GsonHttpMessageConverter gsonHttpMessageConverter = new GsonHttpMessageConverter();
@@ -57,6 +58,7 @@ public class MetadataLoader implements Runnable
 
     public void start(final Station station)
     {
+        response = new UpdateResponse();
         this.station = station;
         if (playing.compareAndSet(false, true))
         {
