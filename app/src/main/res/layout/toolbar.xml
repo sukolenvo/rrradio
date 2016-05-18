@@ -10,4 +10,5 @@
         elevation="?attr/toolbarElevation"
         android:navigationIcon="@drawable/ic_menu_white_24dp"
         app:navigationIcon="@drawable/ic_menu_white_24dp"
+        app:titleTextAppearance="@style/ToolbarTitle"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>

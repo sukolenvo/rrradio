@@ -35,10 +35,10 @@ public class PlaylistItem implements Parcelable
     public PlaylistItem(final Station station, final Quality quality)
     {
         this.title = station.getName();
-        this.subtitle = null;
         this.duration = NO_DURATION;
         this.station = station;
         this.url = station.getStreamUrl(quality);
+        this.subtitle = quality.getBitrate() + "kb";
     }
 
     public boolean hasDuration()

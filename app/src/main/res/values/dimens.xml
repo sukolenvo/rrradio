@@ -16,4 +16,5 @@
     <dimen name="menu_text_size">16sp</dimen>
     <dimen name="menu_width">300dp</dimen>
     <dimen name="menu_label_height">170dp</dimen>
+    <dimen name="playlist_position">60dp</dimen>
 </resources>

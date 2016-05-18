@@ -1,10 +1,12 @@
 package com.dakare.radiorecord.app.player.listener;
 
 import android.content.Context;
+import android.content.Intent;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.player.service.Player;
+import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 
@@ -24,19 +26,19 @@ public class IncomeCallListener extends AbstractPlayerStateListener
             lastState = state;
             if (state == TelephonyManager.CALL_STATE_RINGING && PreferenceManager.getInstance(context).isOnCallEnabled())
             {
-                player.stop();
+                Intent pauseIntent = new Intent(context, PlayerService.class);
+                pauseIntent.setAction(NotificationListener.ACTION_PAUSE);
+                context.startService(pauseIntent);
             }
         }
     };
-    private final Player player;
     private final TelephonyManager manager;
     private final Context context;
 
-    public IncomeCallListener(final Context context, final Player player)
+    public IncomeCallListener(final Context context)
     {
         this.context = context;
         manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        this.player = player;
     }
 
     @Override

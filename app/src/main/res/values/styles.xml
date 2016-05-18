@@ -11,11 +11,13 @@
         <item name="colorAccent">@color/toolbar_color</item>
         <item name="toolbarColor">@color/toolbar_color</item>
         <item name="toolbarElevation">4dp</item>
+        <item name="toolbarTitleSize">@dimen/abc_text_size_title_material_toolbar</item>
     </style>
 
     <style name="Player" parent="Main">
-        <item name="toolbarColor">#10ffffff</item>
+        <item name="toolbarColor">@color/player_toolbar</item>
         <item name="toolbarElevation">0dp</item>
+        <item name="toolbarTitleSize">14sp</item>
     </style>
 
     <style name="DialogButton">
@@ -47,5 +49,15 @@
         <item name="android:paddingRight">36dp</item>
     </style>
 
+    <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">?attr/toolbarTitleSize</item>
+    </style>
+
+    <style name="NoResuts">
+        <item name="android:text">@string/no_results</item>
+        <item name="android:textColor">#aaaaaa</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:gravity">center</item>
+    </style>
 
 </resources>

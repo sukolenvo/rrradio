@@ -1,11 +1,10 @@
 package com.dakare.radiorecord.app.player;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.PlayerBackgroundImage;
 import com.dakare.radiorecord.app.PreferenceManager;
@@ -29,8 +28,6 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     private static final String METADATA_SONG_KEY = "player_metadata_song";
 
     private final PlayerServiceHelper playerServiceHelper = new PlayerServiceHelper();
-    private TextView executor;
-    private TextView song;
     private PlayerBackgroundImage icon;
     private PlayerState state;
     private ArrayList<PlaylistItem> items;
@@ -40,6 +37,7 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     private String metadataIcon;
     private String metadataArtist;
     private String metadataSong;
+    private PlaylistAdapter adapter;
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.default_player_background)
             .showImageOnFail(R.drawable.default_player_background).build();
@@ -58,15 +56,28 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         }
         playButton = findViewById(R.id.play_button);
         pauseButton = findViewById(R.id.pause_button);
-        executor = (TextView) findViewById(R.id.executor);
-        song = (TextView) findViewById(R.id.song_name);
         icon = (PlayerBackgroundImage) findViewById(R.id.player_icon);
-        setupOnclickListeners();
+        ListView playlistView = (ListView) findViewById(R.id.playlist);
+        adapter = new PlaylistAdapter(this);
+        playlistView.setAdapter(adapter);
+        playlistView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id)
+            {
+                Intent serviceIntent = new Intent(PlayerActivity.this, PlayerService.class);
+                serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
+                serviceIntent.putExtra(PlayerService.POSITION_KEY, position);
+                startService(serviceIntent);
+            }
+        });
+        playlistView.setEmptyView(findViewById(R.id.no_results));
+        setupOnClickListeners();
         updateViews();
         hidePlayerMenuButton();
     }
 
-    private void setupOnclickListeners()
+    private void setupOnClickListeners()
     {
         playButton.setOnClickListener(new View.OnClickListener()
         {
@@ -133,24 +144,7 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
 
     private void updateViews()
     {
-        PlaylistItem item = items == null ? null : items.get(position);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-        {
-            executor.setText(metadataArtist == null ? (item == null ? "" : item.getTitle()) : metadataArtist);
-            song.setText(metadataSong == null ? (item == null ? "" : item.getSubtitle()) : metadataSong);
-        } else
-        {
-            if (metadataArtist == null)
-            {
-                setTitle(item == null ? getString(R.string.app_name) : item.getTitle());
-            } else if (metadataSong == null)
-            {
-                setTitle(metadataArtist);
-            } else
-            {
-                setTitle(metadataArtist + " - " + metadataSong);
-            }
-        }
+        setTitle(buildTitle());
         if (PreferenceManager.getInstance(this).isMusicImageEnabled())
         {
             ImageLoader.getInstance().displayImage(metadataIcon, icon, options);
@@ -167,6 +161,23 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             playButton.setVisibility(View.VISIBLE);
             pauseButton.setVisibility(View.GONE);
         }
+    }
+
+    private String buildTitle()
+    {
+        PlaylistItem item = items == null ? null : items.get(position);
+        String song;
+        if (metadataArtist == null)
+        {
+            song = item == null ? getString(R.string.app_name) : (item.getTitle() + " - " + item.getSubtitle());
+        } else if (metadataSong == null)
+        {
+            song = metadataArtist;
+        } else
+        {
+            song = metadataArtist + " - " + metadataSong;
+        }
+        return song;
     }
 
     @Override
@@ -210,6 +221,16 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             metadataArtist = playbackState.getArtist();
             metadataSong = playbackState.getSong();
             updateViews();
+            adapter.clear();
+            if (items != null)
+            {
+                for (PlaylistItem item : items)
+                {
+                    adapter.add(item);
+                }
+            }
+            adapter.setPosition(position);
+            adapter.notifyDataSetChanged();
         }
     }
 

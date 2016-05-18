@@ -3,5 +3,6 @@
     <declare-styleable name="Toolbar">
         <attr name="toolbarColor" format="reference|color"></attr>
         <attr name="toolbarElevation" format="reference|dimension"></attr>
+        <attr name="toolbarTitleSize" format="reference|dimension"></attr>
     </declare-styleable>
 </resources>

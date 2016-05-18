@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">RadioRecord</string>
     <string name="quality_title">Выберите Качество</string>
-    <string name="quality_low">Низкое (64 kbs)</string>
+    <string name="quality_low">Низкое (32 kbs)</string>
     <string name="quality_medium">Среднее (128 kbs)</string>
     <string name="quality_high">Высокое (320 kbs)</string>
     <string name="dont_ask_again">Запомнить выбор</string>
@@ -21,4 +21,5 @@
     <string name="on_call_text">Остановка воспроизведения</string>
     <string name="menu_main_text">Список станций</string>
     <string name="menu_player_text">Плеер</string>
+    <string name="no_results">Плейлист пуст</string>
 </resources>

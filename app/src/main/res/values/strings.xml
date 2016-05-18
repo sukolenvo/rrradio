@@ -20,4 +20,5 @@
     <string name="music_metadata_secondary">Load current music information (Artist, song name)</string>
     <string name="image_metadata_secondary">Load and display album image (if available)</string>
     <string name="on_call_secondary">Automatically interrupt playback on income call</string>
+    <string name="no_results">Playlist is empty</string>
 </resources>

@@ -25,30 +25,34 @@ public class PlayerService extends Service {
         messageHandler = new PlayerServiceMessageHandler(player);
 		messenger = new Messenger(messageHandler);
 		messageHandler.addPlayerStateListener(new NotificationListener(this));
-        messageHandler.addPlayerStateListener(new IncomeCallListener(this, player));
+        messageHandler.addPlayerStateListener(new IncomeCallListener(this));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public int onStartCommand(final Intent intent, final int flags, final int startId) {
-        if (intent != null && intent.hasExtra(PLAYLIST_KEY))
-        {
-            player.play((ArrayList)intent.getParcelableArrayListExtra(PLAYLIST_KEY), intent.getIntExtra(POSITION_KEY, 0));
-        } else if (NotificationListener.ACTION_NEXT.equals(intent.getAction()))
+	public int onStartCommand(final Intent intent, final int flags, final int startId)
+    {
+		if (intent != null)
 		{
-			player.next();
-		} else if (NotificationListener.ACTION_PREVIOUS.equals(intent.getAction()))
-		{
-			player.previous();
-		} else if (NotificationListener.ACTION_STOP.equals(intent.getAction()))
-		{
-			player.stop();
-		} else if (NotificationListener.ACTION_PAUSE.equals(intent.getAction()))
-		{
-			player.pause();
-		} else if (NotificationListener.ACTION_RESUME.equals(intent.getAction()))
-		{
-			player.resume();
+			if (intent.hasExtra(PLAYLIST_KEY))
+			{
+				player.play((ArrayList) intent.getParcelableArrayListExtra(PLAYLIST_KEY), intent.getIntExtra(POSITION_KEY, 0));
+			} else if (NotificationListener.ACTION_NEXT.equals(intent.getAction()))
+			{
+				player.next();
+			} else if (NotificationListener.ACTION_PREVIOUS.equals(intent.getAction()))
+			{
+				player.previous();
+			} else if (NotificationListener.ACTION_STOP.equals(intent.getAction()))
+			{
+				player.stop();
+			} else if (NotificationListener.ACTION_PAUSE.equals(intent.getAction()))
+			{
+				player.pause();
+			} else if (NotificationListener.ACTION_RESUME.equals(intent.getAction()))
+			{
+				player.resume();
+			}
 		}
 		return START_STICKY;
 	}

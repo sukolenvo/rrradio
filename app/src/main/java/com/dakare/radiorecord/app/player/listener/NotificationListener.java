@@ -91,8 +91,8 @@ public class NotificationListener extends AbstractPlayerStateListener implements
         } else
         {
             PlaylistItem playlistItem = message.getItems().get(message.getPosition());
-            collapsed.setTextViewText(R.id.text_media_title, message.getSong() == null ? playlistItem.getStation().getName() : message.getSong());
-            expanded.setTextViewText(R.id.text_media_title, message.getSong() == null ? playlistItem.getStation().getName() : (message.getArtist() + "-" + message.getSong()));
+            collapsed.setTextViewText(R.id.text_media_title, message.getSong() == null ? buildTitle(playlistItem.getTitle(), playlistItem.getSubtitle()) : message.getSong());
+            expanded.setTextViewText(R.id.text_media_title, message.getSong() == null ? buildTitle(playlistItem.getTitle(), playlistItem.getSubtitle()) : buildTitle(message.getArtist(), message.getSong()));
             if (message.getIcon() == null || !PreferenceManager.getInstance(service).isMusicImageEnabled())
             {
                 lastUrl = null;
@@ -118,6 +118,15 @@ public class NotificationListener extends AbstractPlayerStateListener implements
             }
             service.startForeground(1, notification);
         }
+    }
+
+    private String buildTitle(final String main, final String second)
+    {
+        if (second == null)
+        {
+            return main;
+        }
+        return main + "-" + second;
     }
 
     @Override

@@ -79,17 +79,23 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
 
     public void next()
     {
-        position = (position + 1) % playlist.size();
-        startPlayback();
-        metadataLoader.start(playlist.get(position).getStation());
+        if (playlist != null)
+        {
+            position = (position + 1) % playlist.size();
+            startPlayback();
+            metadataLoader.start(playlist.get(position).getStation());
+        }
         updateState();
     }
 
     public void previous()
     {
-        position = (position - 1 + playlist.size()) % playlist.size();
-        startPlayback();
-        metadataLoader.start(playlist.get(position).getStation());
+        if (playlist != null)
+        {
+            position = (position - 1 + playlist.size()) % playlist.size();
+            startPlayback();
+            metadataLoader.start(playlist.get(position).getStation());
+        }
         updateState();
     }
 
@@ -105,12 +111,12 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
 
     public void pause()
     {
-        if (state != PlayerState.STOP)
+        if (state == PlayerState.PLAY)
         {
             state = PlayerState.PAUSE;
             mediaPlayer.pause();
-            updateState();
         }
+        updateState();
     }
 
     public void resume()
@@ -119,8 +125,8 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
         {
             state = PlayerState.PLAY;
             mediaPlayer.start();
-            updateState();
         }
+        updateState();
     }
 
     @Override
