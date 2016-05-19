@@ -15,7 +15,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent" android:layout_height="match_parent">
 
-            <RelativeLayout android:layout_width="300dp" android:layout_height="match_parent">
+            <RelativeLayout android:layout_width="0dp" android:layout_weight="1" android:layout_height="match_parent">
                 <com.dakare.radiorecord.app.PlayerBackgroundImage
                         android:id="@+id/player_icon"
                         android:layout_width="match_parent"
@@ -61,9 +61,8 @@
             </RelativeLayout>
 
             <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="300dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
                     android:orientation="vertical">
                 <ListView
                         android:id="@+id/playlist"

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.PlayerBackgroundImage;
 import com.dakare.radiorecord.app.PreferenceManager;
@@ -84,19 +85,25 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             @Override
             public void onClick(View v)
             {
-                if (items != null && playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                if (items == null)
                 {
-                    if (state == PlayerState.PAUSE)
+                    Toast.makeText(PlayerActivity.this, R.string.no_results, Toast.LENGTH_LONG).show();
+                } else
+                {
+                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
                     {
-                        Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
-                        intent.setAction(NotificationListener.ACTION_RESUME);
-                        startService(intent);
-                    } else
-                    {
-                        Intent serviceIntent = new Intent(PlayerActivity.this, PlayerService.class);
-                        serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
-                        serviceIntent.putExtra(PlayerService.POSITION_KEY, position);
-                        startService(serviceIntent);
+                        if (state == PlayerState.PAUSE)
+                        {
+                            Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+                            intent.setAction(NotificationListener.ACTION_RESUME);
+                            startService(intent);
+                        } else
+                        {
+                            Intent serviceIntent = new Intent(PlayerActivity.this, PlayerService.class);
+                            serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
+                            serviceIntent.putExtra(PlayerService.POSITION_KEY, position);
+                            startService(serviceIntent);
+                        }
                     }
                 }
             }
@@ -106,11 +113,17 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             @Override
             public void onClick(View v)
             {
-                if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                if (items == null)
                 {
-                    Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
-                    intent.setAction(NotificationListener.ACTION_PAUSE);
-                    startService(intent);
+                    Toast.makeText(PlayerActivity.this, R.string.no_results, Toast.LENGTH_LONG).show();
+                } else
+                {
+                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                    {
+                        Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+                        intent.setAction(NotificationListener.ACTION_PAUSE);
+                        startService(intent);
+                    }
                 }
             }
         });
@@ -119,11 +132,17 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             @Override
             public void onClick(final View v)
             {
-                if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                if (items == null)
                 {
-                    Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
-                    intent.setAction(NotificationListener.ACTION_NEXT);
-                    startService(intent);
+                    Toast.makeText(PlayerActivity.this, R.string.no_results, Toast.LENGTH_LONG).show();
+                } else
+                {
+                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                    {
+                        Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+                        intent.setAction(NotificationListener.ACTION_NEXT);
+                        startService(intent);
+                    }
                 }
             }
         });
@@ -132,11 +151,17 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             @Override
             public void onClick(final View v)
             {
-                if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                if (items == null)
                 {
-                    Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
-                    intent.setAction(NotificationListener.ACTION_PREVIOUS);
-                    startService(intent);
+                    Toast.makeText(PlayerActivity.this, R.string.no_results, Toast.LENGTH_LONG).show();
+                } else
+                {
+                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
+                    {
+                        Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+                        intent.setAction(NotificationListener.ACTION_PREVIOUS);
+                        startService(intent);
+                    }
                 }
             }
         });
