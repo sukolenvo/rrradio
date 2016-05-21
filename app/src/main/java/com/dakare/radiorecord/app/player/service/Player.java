@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.PowerManager;
+import android.util.Log;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
@@ -51,7 +52,13 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
         this.playlist = playlist;
         this.position = position;
         startPlayback();
-        metadataLoader.start(playlist.get(position).getStation());
+        if (playlist.get(position).isLive())
+        {
+            metadataLoader.start(playlist.get(position).getStation());
+        } else
+        {
+            metadataLoader.stop();
+        }
         updateState();
     }
 
@@ -83,7 +90,13 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
         {
             position = (position + 1) % playlist.size();
             startPlayback();
-            metadataLoader.start(playlist.get(position).getStation());
+            if (playlist.get(position).isLive())
+            {
+                metadataLoader.start(playlist.get(position).getStation());
+            } else
+            {
+                metadataLoader.stop();
+            }
         }
         updateState();
     }
@@ -94,7 +107,13 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
         {
             position = (position - 1 + playlist.size()) % playlist.size();
             startPlayback();
-            metadataLoader.start(playlist.get(position).getStation());
+            if (playlist.get(position).isLive())
+            {
+                metadataLoader.start(playlist.get(position).getStation());
+            } else
+            {
+                metadataLoader.stop();
+            }
         }
         updateState();
     }

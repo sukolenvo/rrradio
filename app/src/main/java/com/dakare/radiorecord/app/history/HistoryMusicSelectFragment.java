@@ -33,7 +33,7 @@ public class HistoryMusicSelectFragment extends AbstractHistoryLoadFragment<Hist
         station = Station.valueOf(getArguments().getString(STATION_KEY));
         date = getArguments().getString(DATE_KEY);
         super.onCreate(savedInstanceState);
-        adapter = new HistoryMusicSelectAdapter(getContext(), getMediator());
+        adapter = new HistoryMusicSelectAdapter(getContext(), getMediator(), station);
     }
 
     @Override

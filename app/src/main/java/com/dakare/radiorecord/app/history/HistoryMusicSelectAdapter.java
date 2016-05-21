@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.Station;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +17,17 @@ public class HistoryMusicSelectAdapter extends AbstractHistoryLoadAdapter<Histor
     private final LayoutInflater inflater;
     private List<HistoryMusicItem> items = new ArrayList<HistoryMusicItem>();
     private final HistoryFragmentMediator historyFragmentMediator;
+    private final Station station;
 
-    public HistoryMusicSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator)
+    public HistoryMusicSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator, final Station station)
     {
+        this.station = station;
         this.historyFragmentMediator = historyFragmentMediator;
         this.inflater = LayoutInflater.from(context);
         setHasStableIds(true);
     }
 
+    @Override
     public void setItems(final List<HistoryMusicItem> items)
     {
         if (this.items != items || !this.items.containsAll(items))
@@ -50,9 +54,9 @@ public class HistoryMusicSelectAdapter extends AbstractHistoryLoadAdapter<Histor
         holder.container.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
+            public void onClick(final View v)
             {
-
+                historyFragmentMediator.onMusicSelected(items, position, station);
             }
         });
     }

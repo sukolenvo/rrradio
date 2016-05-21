@@ -17,7 +17,7 @@
     <ImageView
             android:id="@+id/playlist_icon"
             android:layout_width="@dimen/playlist_position"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/playlist_position_icon_height"
             android:padding="@dimen/main_padding"
             android:layout_gravity="center_vertical"
             android:scaleType="centerInside"

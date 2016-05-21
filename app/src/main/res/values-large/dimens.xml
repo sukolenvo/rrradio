@@ -3,4 +3,6 @@
     <dimen name="main_padding">24dp</dimen>
     <dimen name="half_padding">12dp</dimen>
     <dimen name="one_and_half_padding">32dp</dimen>
+    <dimen name="playlist_position">72dp</dimen>
+    <dimen name="playlist_position_icon_height">62dp</dimen>
 </resources>

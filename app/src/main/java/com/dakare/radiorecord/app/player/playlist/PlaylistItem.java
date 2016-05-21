@@ -3,31 +3,34 @@ package com.dakare.radiorecord.app.player.playlist;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.history.HistoryMusicItem;
 import com.dakare.radiorecord.app.quality.Quality;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
+@EqualsAndHashCode
 public class PlaylistItem implements Parcelable
 {
-    private static final long NO_DURATION = -1L;
-
     private final String title;
     private final String subtitle;
-    private final long duration;
     private final String url;
     private final Station station;
+    private final boolean live;
 
     public PlaylistItem(final Parcel parcel)
     {
         title = parcel.readString();
-        if (parcel.readByte() == 0)
-        {
-            subtitle = null;
-        } else
+        boolean[] booleans = new boolean[2];
+        parcel.readBooleanArray(booleans);
+        live = booleans[1];
+        if (booleans[0])
         {
             subtitle = parcel.readString();
+        } else
+        {
+            subtitle = null;
         }
-        duration = parcel.readLong();
         station = Station.valueOf(parcel.readString());
         url = parcel.readString();
     }
@@ -35,15 +38,19 @@ public class PlaylistItem implements Parcelable
     public PlaylistItem(final Station station, final Quality quality)
     {
         this.title = station.getName();
-        this.duration = NO_DURATION;
         this.station = station;
         this.url = station.getStreamUrl(quality);
         this.subtitle = quality.getBitrate() + "kb";
+        this.live = true;
     }
 
-    public boolean hasDuration()
+    public PlaylistItem(final Station station, final HistoryMusicItem historyMusicItem)
     {
-        return duration != NO_DURATION;
+        this.title = historyMusicItem.getArtist();
+        this.station = station;
+        this.url = historyMusicItem.getUrl();
+        this.subtitle = historyMusicItem.getSong();
+        this.live = false;
     }
 
     @Override
@@ -56,12 +63,11 @@ public class PlaylistItem implements Parcelable
     public void writeToParcel(final Parcel dest, final int flags)
     {
         dest.writeString(title);
-        dest.writeByte((byte) (subtitle == null ? 0 : 1));
+        dest.writeBooleanArray(new boolean[] {subtitle != null, live});
         if (subtitle != null)
         {
             dest.writeString(subtitle);
         }
-        dest.writeLong(duration);
         dest.writeString(station.name());
         dest.writeString(url);
     }

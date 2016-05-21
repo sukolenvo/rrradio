@@ -2,6 +2,7 @@ package com.dakare.radiorecord.app.player;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -42,6 +43,7 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.default_player_background)
             .showImageOnFail(R.drawable.default_player_background).build();
+    private ListView playlistView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -58,7 +60,7 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         playButton = findViewById(R.id.play_button);
         pauseButton = findViewById(R.id.pause_button);
         icon = (PlayerBackgroundImage) findViewById(R.id.player_icon);
-        ListView playlistView = (ListView) findViewById(R.id.playlist);
+        playlistView = (ListView) findViewById(R.id.playlist);
         adapter = new PlaylistAdapter(this);
         playlistView.setAdapter(adapter);
         playlistView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -238,6 +240,17 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         if (playerMessage.getMessageType() == PlayerMessageType.PLAYBACK_STATE)
         {
             PlaybackStatePlayerMessage playbackState = (PlaybackStatePlayerMessage) playerMessage;
+            if (items == null || !items.equals(playbackState.getItems()))
+            {
+                adapter.clear();
+                if (playbackState.getItems() != null)
+                {
+                    for (PlaylistItem item : playbackState.getItems())
+                    {
+                        adapter.add(item);
+                    }
+                }
+            }
             this.items = playbackState.getItems();
             this.position = playbackState.getPosition();
             this.state = playbackState.getState();
@@ -245,14 +258,6 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             metadataArtist = playbackState.getArtist();
             metadataSong = playbackState.getSong();
             updateViews();
-            adapter.clear();
-            if (items != null)
-            {
-                for (PlaylistItem item : items)
-                {
-                    adapter.add(item);
-                }
-            }
             adapter.setPosition(position);
             adapter.notifyDataSetChanged();
         }

@@ -18,4 +18,5 @@
     <dimen name="menu_label_height">170dp</dimen>
     <dimen name="playlist_position">60dp</dimen>
     <dimen name="breadcrumb_text">16sp</dimen>
+    <dimen name="playlist_position_icon_height">50dp</dimen>
 </resources>

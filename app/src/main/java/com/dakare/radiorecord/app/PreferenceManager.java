@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import com.dakare.radiorecord.app.quality.Quality;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class PreferenceManager
 {

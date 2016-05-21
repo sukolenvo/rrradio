@@ -70,6 +70,7 @@ public class MetadataLoader implements Runnable
     public void stop()
     {
         playing.set(false);
+        response = new UpdateResponse();
         if (thread != null)
         {
             thread.interrupt();
@@ -86,7 +87,7 @@ public class MetadataLoader implements Runnable
                 UpdateResponse updateResponse = null;
                 try
                 {
-                    ResponseEntity<UpdateResponse> response = template.getForEntity(URL, UpdateResponse.class, station.getCode());
+                    ResponseEntity<UpdateResponse> response = template.getForEntity(URL, UpdateResponse.class, station.getCodeAsParam());
                     if (response.getStatusCode() == HttpStatus.OK)
                     {
                         updateResponse = response.getBody();
@@ -118,7 +119,6 @@ public class MetadataLoader implements Runnable
     {
         if (playing.get())
         {
-
             if (!response.equals(this.response))
             {
                 this.response = response;

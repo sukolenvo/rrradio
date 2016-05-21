@@ -1,6 +1,10 @@
 package com.dakare.radiorecord.app.player;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,15 +42,19 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem>
         positionView.setText(position + 1 + "");
         TextView titleView = (TextView) view.findViewById(R.id.playlist_title);
         PlaylistItem item = getItem(position);
-        titleView.setText(item.getTitle() + " - " + item.getSubtitle());
         if (this.position == position)
         {
+            titleView.setText(item.getTitle() + " - " + item.getSubtitle());
             titleView.setTextColor(view.getResources().getColor(R.color.playlist_active));
             view.findViewById(R.id.playlist_icon).setVisibility(View.VISIBLE);
             positionView.setVisibility(View.GONE);
         } else
         {
-            titleView.setTextColor(view.getResources().getColor(R.color.playlist_default));
+            Spannable spannable = new SpannableString(item.getTitle() + " - " + item.getSubtitle());
+            spannable.setSpan(new ForegroundColorSpan(Color.rgb(0x2b, 0x58, 0x7a)), 0, item.getTitle().length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new ForegroundColorSpan(Color.BLACK), item.getTitle().length(), item.getTitle().length() + 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new ForegroundColorSpan(view.getResources().getColor(R.color.playlist_default)), item.getTitle().length() + 3, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            titleView.setText(spannable);
             view.findViewById(R.id.playlist_icon).setVisibility(View.GONE);
             positionView.setVisibility(View.VISIBLE);
         }
