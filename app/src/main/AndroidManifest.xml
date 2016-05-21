@@ -26,6 +26,8 @@
                   android:theme="@style/Player" />
         <activity android:name=".settings.SettingsActivity"
                   android:theme="@style/Main" />
+        <activity android:name=".history.HistoryActivity"
+                  android:theme="@style/Main" />
         <service android:name=".player.service.PlayerService" />
     </application>
 

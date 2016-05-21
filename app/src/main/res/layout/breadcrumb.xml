@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <TextView
+            android:id="@+id/breadcrumb_level_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ToolbarBreadcrumb"
+            android:text="@string/menu_history_text"/>
+
+    <LinearLayout
+            android:id="@+id/breadcrumb_level_2_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_navigate_next_white_24dp"/>
+
+        <TextView
+                android:id="@+id/breadcrumb_level_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ToolbarBreadcrumb"/>
+    </LinearLayout>
+
+    <LinearLayout
+            android:id="@+id/breadcrumb_level_3_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="horizontal">
+
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_navigate_next_white_24dp"/>
+
+        <TextView
+                android:id="@+id/breadcrumb_level_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ToolbarBreadcrumb"/>
+    </LinearLayout>
+
+</LinearLayout>

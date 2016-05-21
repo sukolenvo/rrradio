@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="stations_columns">4</integer>
+    <dimen name="breadcrumb_text">14sp</dimen>
 </resources>

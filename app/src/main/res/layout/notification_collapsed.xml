@@ -31,7 +31,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 style="@android:style/TextAppearance.StatusBar.EventContent.Title"
-                android:text="@android:color/black" />
+                android:textColor="@android:color/black" />
 
         <LinearLayout
                 android:orientation="horizontal"

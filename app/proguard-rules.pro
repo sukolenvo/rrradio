@@ -55,3 +55,14 @@
 
 -dontwarn org.springframework.**
 -dontwarn android.support.v4.**
+-dontwarn android.support.v7.**
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
+-keeppackagenames org.jsoup.nodes
+
+-keep public class * extends android.app.Fragment {
+    <init>(...);
+}
+-keep public class * extends android.support.v4.app.Fragment {
+    <init>(...);
+}

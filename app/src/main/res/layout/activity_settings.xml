@@ -68,7 +68,7 @@
 
                 <CheckBox
                         android:id="@+id/music_metadata_checkbox"
-                        android:background="@android:color/transparent"
+                        android:background="@drawable/transparent"
                         android:focusable="false"
                         android:clickable="false"
                         android:focusableInTouchMode="false"
@@ -92,20 +92,23 @@
                         android:layout_width="match_parent" android:layout_height="wrap_content"
                         style="@style/SettingsPrimary"
                         android:text="@string/image_metadata_text"/>
+
                 <TextView
                         android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:layout_below="@+id/metadata_image_main"
                         style="@style/SettingsSecondary"
                         android:text="@string/image_metadata_secondary"/>
+
                 <CheckBox
                         android:id="@+id/music_image_checkbox"
-                        android:background="@android:color/transparent"
+                        android:background="@drawable/transparent"
                         android:focusable="false"
                         android:clickable="false"
                         android:focusableInTouchMode="false"
                         android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:layout_alignParentRight="true"
-                          android:layout_centerVertical="true"/>
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
             </RelativeLayout>
 
             <View android:layout_width="match_parent" android:layout_height="1px"
@@ -123,21 +126,24 @@
                         android:layout_width="match_parent" android:layout_height="wrap_content"
                           style="@style/SettingsPrimary"
                           android:text="@string/on_call_text"/>
+
                 <TextView
                         android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:layout_below="@+id/call_main"
                         style="@style/SettingsSecondary"
                         android:text="@string/on_call_secondary"/>
+
                 <CheckBox
                         android:id="@+id/call_settings_checkbox"
                         android:layout_width="wrap_content"
-                          android:background="@android:color/transparent"
+                        android:background="@drawable/transparent"
                         android:focusable="false"
                         android:clickable="false"
                         android:focusableInTouchMode="false"
-                          android:layout_height="wrap_content"
-                          android:layout_alignParentRight="true"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"/>
+
             </RelativeLayout>
 
             <View android:layout_width="match_parent" android:layout_height="1px"

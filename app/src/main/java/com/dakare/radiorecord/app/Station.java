@@ -61,4 +61,9 @@ public enum Station
                 throw new UnsupportedOperationException("This quality is not supported");
         }
     }
+
+    public String getCodeAsParam()
+    {
+        return code.substring(1);
+    }
 }

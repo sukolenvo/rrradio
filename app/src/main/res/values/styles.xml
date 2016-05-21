@@ -12,6 +12,7 @@
         <item name="toolbarColor">@color/toolbar_color</item>
         <item name="toolbarElevation">4dp</item>
         <item name="toolbarTitleSize">@dimen/abc_text_size_title_material_toolbar</item>
+        <item name="android:selectableItemBackground">@drawable/selectable_background</item>
     </style>
 
     <style name="Player" parent="Main">
@@ -27,7 +28,7 @@
         <item name="android:layout_marginBottom">@dimen/half_padding</item>
         <item name="android:minWidth">72dp</item>
         <item name="android:textColor">@color/toolbar_color</item>
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@drawable/transparent</item>
         <item name="android:textAllCaps" tools:ignore="NewApi">true</item>
         <item name="android:textSize">14sp</item>
         <item name="android:padding">@dimen/half_padding</item>
@@ -58,6 +59,31 @@
         <item name="android:textColor">#aaaaaa</item>
         <item name="android:textSize">24sp</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="ToolbarBreadcrumb">
+        <item name="android:textSize">@dimen/breadcrumb_text</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="NoContentImageView">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:background">@drawable/transparent</item>
+        <item name="android:visibility">visible</item>
+        <item name="android:scaleType">fitXY</item>
+        <item name="android:src">@drawable/ic_warning_black_48dp</item>
+    </style>
+
+    <style name="NoContentTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textColor">@color/material_grey_600</item>
     </style>
 
 </resources>

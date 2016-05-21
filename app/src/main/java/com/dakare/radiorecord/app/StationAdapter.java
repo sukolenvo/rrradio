@@ -19,7 +19,6 @@ import java.util.List;
 
 public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder> implements DraggableItemAdapter<StationAdapter.ViewHolder>
 {
-    private final Context context;
     private final LayoutInflater inflater;
     private final List<Station> items = new ArrayList<Station>();
     private final StationClickListener callback;
@@ -32,14 +31,13 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
         {
             items.add(station);
         }
-        this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.callback = callback;
         setHasStableIds(true);
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType)
     {
         View view = inflater.inflate(R.layout.item_station, null);
         return new ViewHolder(view);
@@ -135,10 +133,5 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
             title = (TextView) itemView.findViewById(R.id.station_name);
         }
 
-    }
-
-    public interface StationClickListener
-    {
-        void onClick(Station station);
     }
 }

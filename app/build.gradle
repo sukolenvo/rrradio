@@ -67,5 +67,6 @@ dependencies {
         transitive=true
     }
     compile "com.android.support:appcompat-v7:21.0.+"
+    compile group: 'org.jsoup', name: 'jsoup', version: '1.7.2'
     provided "org.projectlombok:lombok:1.12.6"
 }

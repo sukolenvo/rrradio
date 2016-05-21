@@ -75,7 +75,6 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         playlistView.setEmptyView(findViewById(R.id.no_results));
         setupOnClickListeners();
         updateViews();
-        hidePlayerMenuButton();
     }
 
     private void setupOnClickListeners()

@@ -36,7 +36,7 @@
                     android:layout_toLeftOf="@+id/button_media_close"
                     android:layout_alignParentLeft="true"
                     style="@android:style/TextAppearance.StatusBar.EventContent.Title"
-                    android:text="@android:color/black"/>
+                    android:textColor="@android:color/black"/>
 
             <ImageButton
                     android:id="@id/button_media_close"

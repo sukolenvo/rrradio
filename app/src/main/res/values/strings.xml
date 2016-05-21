@@ -10,6 +10,7 @@
     <string name="message_connecting">Connecting to server...</string>
     <string name="settings_text">Settings</string>
     <string name="menu_main_text">Radio stations</string>
+    <string name="menu_history_text">History</string>
     <string name="menu_player_text">Player</string>
     <string name="feedback_text">Send feedback</string>
     <string name="no_default_quality">Always ask</string>
@@ -21,4 +22,13 @@
     <string name="image_metadata_secondary">Load and display album image (if available)</string>
     <string name="on_call_secondary">Automatically interrupt playback on income call</string>
     <string name="no_results">Playlist is empty</string>
+    <string name="no_content_text">No results</string>
+    <string name="error_load_history">Failed to load data from server. Please check your connection or try later.</string>
+    <string name="message_loading">Loading</string>
+    <string name="message_preparing">Preparing parser</string>
+    <string name="message_search_entries">Searching entries...</string>
+    <string name="message_parsing_progres">Parsing %1$d of %2$d</string>
+    <string name="message_parsing_summary">Success: %1$d, failed: %2$d</string>
+    <string name="artist_stub">Unknown artist</string>
+    <string name="song_name_stub">Unknown song name</string>
 </resources>

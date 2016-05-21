@@ -14,7 +14,7 @@ import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropM
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends MenuActivity implements StationAdapter.StationClickListener, QualityDialog.QualityHandler
+public class MainActivity extends MenuActivity implements StationClickListener, QualityDialog.QualityHandler
 {
     private RecyclerViewDragDropManager mRecyclerViewDragDropManager;
 
@@ -24,6 +24,7 @@ public class MainActivity extends MenuActivity implements StationAdapter.Station
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initToolbar();
+        setTitle(R.string.menu_main_text);
         RecyclerView stationsView = (RecyclerView) findViewById(R.id.station_grid);
         stationsView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.stations_columns)));
         mRecyclerViewDragDropManager = new RecyclerViewDragDropManager();
@@ -32,7 +33,6 @@ public class MainActivity extends MenuActivity implements StationAdapter.Station
         mRecyclerViewDragDropManager.setLongPressTimeout(750);
         stationsView.setAdapter(mRecyclerViewDragDropManager.createWrappedAdapter(new StationAdapter(this, this)));
         mRecyclerViewDragDropManager.attachRecyclerView(stationsView);
-        hideMainMenuButton();
     }
 
     @Override
