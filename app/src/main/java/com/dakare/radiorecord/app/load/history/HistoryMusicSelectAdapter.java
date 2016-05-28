@@ -120,7 +120,7 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
                 @Override
                 public int compare(final HistoryMusicItem lhs, final HistoryMusicItem rhs)
                 {
-                    return rhs.getWhen().compareTo(lhs.getWhen());
+                    return lhs.getWhen().compareTo(rhs.getWhen());
                 }
             });
         } else
@@ -130,7 +130,7 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
                 @Override
                 public int compare(final HistoryMusicItem lhs, final HistoryMusicItem rhs)
                 {
-                    return lhs.getWhen().compareTo(rhs.getWhen());
+                    return rhs.getWhen().compareTo(lhs.getWhen());
                 }
             });
         }

@@ -11,6 +11,8 @@ public enum PlayerMessageType
     UPDATE_STATE(1002),
     STOP_PLAYBACK(1004),
     PLAYBACK_STATE(1003),
+    UPDATE_POSITION(1005),
+    POSITION_STATE(1006),
     METADATA_UPDATE(1007);
 
     @Getter

@@ -6,11 +6,11 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.PowerManager;
-import android.util.Log;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
+import com.dakare.radiorecord.app.player.service.message.PositionStateMessage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -74,7 +74,8 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
             mediaPlayer.reset();
             try
             {
-                mediaPlayer.setDataSource(playlist.get(position).getUrl());
+                PlaylistItem playlistItem = playlist.get(position);
+                mediaPlayer.setDataSource(playlistItem.getUrl());
                 mediaPlayer.prepareAsync();
                 state = PlayerState.PLAY;
             } catch (IOException e)
@@ -146,6 +147,17 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
             mediaPlayer.start();
         }
         updateState();
+    }
+
+    public void updatePosition()
+    {
+        if (mediaPlayer.isPlaying())
+        {
+            playerServiceMessageHandler.handleServiceResponse(new PositionStateMessage(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration()));
+        } else
+        {
+            playerServiceMessageHandler.handleServiceResponse(new PositionStateMessage(0, 0));
+        }
     }
 
     @Override

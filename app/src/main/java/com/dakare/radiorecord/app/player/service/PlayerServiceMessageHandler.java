@@ -44,6 +44,9 @@ public class PlayerServiceMessageHandler extends Handler {
                 case STOP_PLAYBACK:
                     player.stop();
                     break;
+                case UPDATE_POSITION:
+                    player.updatePosition();
+                    break;
                 default:
                     Log.w("PlayerMessageHandler", "Unrecognised message type " + msg.what);
                     super.handleMessage(msg);

@@ -34,6 +34,10 @@ public abstract class PlayerMessage
                 return new UpdateStatePlayerMessage();
             case PLAYBACK_STATE:
                 return PlaybackStatePlayerMessage.fromMessage(message.getData());
+            case UPDATE_POSITION:
+                return new UpdatePositionMessage();
+            case POSITION_STATE:
+                return PositionStateMessage.fromMessage(message.getData());
             default:
                 Log.w("Player Message", "Cannot deserialise message " + message.what);
                 break;

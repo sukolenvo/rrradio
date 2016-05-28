@@ -53,7 +53,6 @@ public class PlaybackStatePlayerMessage extends PlayerMessage
         this.state = PlayerState.valueOf(data.getString(PLAYING_KEY));
     }
 
-
     public static PlaybackStatePlayerMessage fromMessage(final Bundle args)
     {
         return new PlaybackStatePlayerMessage(args);

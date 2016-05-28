@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.MenuActivity;
@@ -23,7 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
-public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler
+public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler, Runnable
 {
     private static final String METADATA_ICON_KEY = "player_metadata_icon";
     private static final String METADATA_ARTIST_KEY = "player_metadata_artist";
@@ -44,6 +45,8 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             .showImageForEmptyUri(R.drawable.default_player_background)
             .showImageOnFail(R.drawable.default_player_background).build();
     private ListView playlistView;
+    private Thread positionUpdater;
+    private View playbackProgressView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -75,6 +78,7 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             }
         });
         playlistView.setEmptyView(findViewById(R.id.no_results));
+        playbackProgressView = findViewById(R.id.playback_progress_view);
         setupOnClickListeners();
         updateViews();
     }
@@ -226,12 +230,17 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     public void onServiceConnected()
     {
         playerServiceHelper.getServiceClient().execute(new UpdateStatePlayerMessage());
+        positionUpdater = new Thread(this);
+        positionUpdater.start();
     }
 
     @Override
     public void onServiceDisconnected()
     {
-        //Nothing to do for now
+        if (positionUpdater != null)
+        {
+            positionUpdater.interrupt();
+        }
     }
 
     @Override
@@ -260,6 +269,23 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             updateViews();
             adapter.setPosition(position);
             adapter.notifyDataSetChanged();
+        } else if (playerMessage.getMessageType() == PlayerMessageType.POSITION_STATE)
+        {
+            PositionStateMessage positionStateMessage = (PositionStateMessage) playerMessage;
+            updateProgress(positionStateMessage.getPosition(), positionStateMessage.getDuration());
+        }
+    }
+
+    private void updateProgress(final float position, final int duration)
+    {
+        if (duration == 0 || position / duration < 0.01)
+        {
+            playbackProgressView.setVisibility(View.GONE);
+        } else
+        {
+            playbackProgressView.setVisibility(View.VISIBLE);
+            ((LinearLayout.LayoutParams) playbackProgressView.getLayoutParams()).weight = position / duration * 100;
+            playbackProgressView.requestLayout();
         }
     }
 
@@ -282,5 +308,24 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             startService(intent);
         }
         super.onBackPressed();
+    }
+
+    @Override
+    public void run()
+    {
+        try
+        {
+            while(true)
+            {
+                if (state == PlayerState.PLAY && items != null && items.get(position) != null && !items.get(position).isLive())
+                {
+                    playerServiceHelper.getServiceClient().execute(new UpdatePositionMessage());
+                }
+                Thread.sleep(2000);
+            }
+        } catch (InterruptedException e)
+        {
+            //Nothing to do
+        }
     }
 }
