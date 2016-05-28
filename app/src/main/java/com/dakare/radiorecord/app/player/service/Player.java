@@ -164,16 +164,9 @@ public class Player implements MediaPlayer.OnPreparedListener, MediaPlayer.OnErr
             public void run()
             {
                 Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show();
-                uiHandler.postDelayed(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        startPlayback();
-                    }
-                }, 5000);
             }
         });
+        stop();
         return true;
     }
 

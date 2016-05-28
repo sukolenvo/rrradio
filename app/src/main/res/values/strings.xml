@@ -32,4 +32,8 @@
     <string name="message_parsing_summary">Success: %1$d, failed: %2$d</string>
     <string name="artist_stub">Unknown artist</string>
     <string name="song_name_stub">Unknown song name</string>
+    <string name="menu_sort_up">From new to old</string>
+    <string name="menu_sort_down">From old to new</string>
+    <string name="menu_show_items">Show all items</string>
+    <string name="menu_hide_items">Hide music without name</string>
 </resources>

@@ -3,7 +3,12 @@ package com.dakare.radiorecord.app.load.history;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import com.dakare.radiorecord.app.MenuActivity;
+import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.load.StationSelectFragment;
@@ -114,5 +119,68 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
     {
         super.onSaveInstanceState(outState);
         breadcrumbManager.saveState(outState);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.history_menu, menu);
+        return true;
+    }
+
+    @Override
+    protected boolean onPrepareOptionsPanel(final View view, final Menu menu)
+    {
+        PreferenceManager instance = PreferenceManager.getInstance(this);
+        if (instance.isHistoryShowAll())
+        {
+            menu.findItem(R.id.show_items).setVisible(false);
+            menu.findItem(R.id.hide_items).setVisible(true);
+        } else
+        {
+            menu.findItem(R.id.show_items).setVisible(true);
+            menu.findItem(R.id.hide_items).setVisible(false);
+        }
+        if (instance.isHistorySortOld())
+        {
+            menu.findItem(R.id.sort_up).setVisible(true);
+            menu.findItem(R.id.sort_down).setVisible(false);
+        } else
+        {
+            menu.findItem(R.id.sort_up).setVisible(false);
+            menu.findItem(R.id.sort_down).setVisible(true);
+        }
+        return super.onPrepareOptionsPanel(view, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.show_items:
+                PreferenceManager.getInstance(this).setHistoryShowAll(true);
+                break;
+            case R.id.hide_items:
+                PreferenceManager.getInstance(this).setHistoryShowAll(false);
+                break;
+            case R.id.sort_up:
+                PreferenceManager.getInstance(this).setHistorySortOld(false);
+                break;
+            case R.id.sort_down:
+                PreferenceManager.getInstance(this).setHistorySortOld(true);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for (Fragment fragment : fragments)
+        {
+            if (fragment instanceof HistoryMusicSelectFragment)
+            {
+                ((HistoryMusicSelectFragment) fragment).onPreferenceChanged();
+            }
+        }
+        return false;
     }
 }

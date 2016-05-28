@@ -34,4 +34,8 @@
     <string name="artist_stub">Неизвестный исполнитель</string>
     <string name="song_name_stub">Без названия</string>
     <string name="menu_top_text">Топ 100</string>
+    <string name="menu_sort_down">От старых к новым</string>
+    <string name="menu_sort_up">От новых к старым</string>
+    <string name="menu_hide_items">Скрыть музыку без названия</string>
+    <string name="menu_show_items">Показывать все результаты</string>
 </resources>

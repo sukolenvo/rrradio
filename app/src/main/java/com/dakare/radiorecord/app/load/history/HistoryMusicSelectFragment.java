@@ -90,6 +90,7 @@ public class HistoryMusicSelectFragment extends AbstractHistoryMediatorFragment<
                 return Collections.emptyList();
             }
             HistoryMusicItem item = new HistoryMusicItem();
+            item.setVisible(!element.attr("class").contains("hidden"));
             Elements whenElements = element.select("div.place-num");
             if (whenElements.size() == 1)
             {
@@ -135,4 +136,8 @@ public class HistoryMusicSelectFragment extends AbstractHistoryMediatorFragment<
         return result;
     }
 
+    public void onPreferenceChanged()
+    {
+        adapter.onPrefChanged();
+    }
 }

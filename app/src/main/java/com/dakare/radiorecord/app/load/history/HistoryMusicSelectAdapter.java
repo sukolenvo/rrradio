@@ -6,11 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem>
@@ -19,12 +22,15 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
     private List<HistoryMusicItem> items = new ArrayList<HistoryMusicItem>();
     private final HistoryFragmentMediator historyFragmentMediator;
     private final Station station;
+    private final PreferenceManager preferenceManager;
+    private List<HistoryMusicItem> visibleList = new ArrayList<HistoryMusicItem>();
 
     public HistoryMusicSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator, final Station station)
     {
         this.station = station;
         this.historyFragmentMediator = historyFragmentMediator;
         this.inflater = LayoutInflater.from(context);
+        preferenceManager = PreferenceManager.getInstance(context);
         setHasStableIds(true);
     }
 
@@ -34,7 +40,7 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
         if (this.items != items || !this.items.containsAll(items))
         {
             this.items = items;
-            notifyDataSetChanged();
+            onPrefChanged();
         }
     }
 
@@ -48,7 +54,7 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position)
     {
-        final HistoryMusicItem item = items.get(position);
+        final HistoryMusicItem item = visibleList.get(position);
         holder.title.setText(item.getSong());
         holder.subTitle.setText(item.getArtist());
         holder.duration.setText(item.getWhen());
@@ -57,7 +63,7 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
             @Override
             public void onClick(final View v)
             {
-                historyFragmentMediator.onMusicSelected(items, position, station);
+                historyFragmentMediator.onMusicSelected(visibleList, position, station);
             }
         });
     }
@@ -70,7 +76,7 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
     @Override
     public int getItemCount()
     {
-        return items.size();
+        return visibleList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder
@@ -89,5 +95,45 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
             subTitle = (TextView) itemView.findViewById(R.id.sub_title);
             duration = (TextView) itemView.findViewById(R.id.duration);
         }
+    }
+
+    public void onPrefChanged()
+    {
+        if (preferenceManager.isHistoryShowAll())
+        {
+            visibleList = items;
+        } else
+        {
+            visibleList = new ArrayList<HistoryMusicItem>();
+            for (HistoryMusicItem item : items)
+            {
+                if (item.isVisible())
+                {
+                    visibleList.add(item);
+                }
+            }
+        }
+        if (preferenceManager.isHistorySortOld())
+        {
+            Collections.sort(visibleList, new Comparator<HistoryMusicItem>()
+            {
+                @Override
+                public int compare(final HistoryMusicItem lhs, final HistoryMusicItem rhs)
+                {
+                    return rhs.getWhen().compareTo(lhs.getWhen());
+                }
+            });
+        } else
+        {
+            Collections.sort(visibleList, new Comparator<HistoryMusicItem>()
+            {
+                @Override
+                public int compare(final HistoryMusicItem lhs, final HistoryMusicItem rhs)
+                {
+                    return lhs.getWhen().compareTo(rhs.getWhen());
+                }
+            });
+        }
+        notifyDataSetChanged();
     }
 }

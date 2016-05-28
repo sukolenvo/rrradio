@@ -19,6 +19,8 @@ public class PreferenceManager
     private static final String MUSIC_IMAGE_KEY = "music_image";
     private static final String CALL_SETTINGS_KEY = "call_settings";
     private static final String LAST_STATION = "last_station";
+    private static final String SORT_HISTORY_FROM_OLD = "history_sort";
+    private static final String HISTORY_SHOW_ALL = "hisoty_show_all";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -131,6 +133,30 @@ public class PreferenceManager
     {
         sharedPreferences.edit()
                 .putString(LAST_STATION, station.name())
+                .apply();
+    }
+
+    public boolean isHistoryShowAll()
+    {
+        return sharedPreferences.getBoolean(HISTORY_SHOW_ALL, false);
+    }
+
+    public void setHistoryShowAll(final boolean allItems)
+    {
+        sharedPreferences.edit()
+                .putBoolean(HISTORY_SHOW_ALL, allItems)
+                .apply();
+    }
+
+    public boolean isHistorySortOld()
+    {
+        return sharedPreferences.getBoolean(SORT_HISTORY_FROM_OLD, true);
+    }
+
+    public void setHistorySortOld(final boolean fromOld)
+    {
+        sharedPreferences.edit()
+                .putBoolean(SORT_HISTORY_FROM_OLD, fromOld)
                 .apply();
     }
 }
