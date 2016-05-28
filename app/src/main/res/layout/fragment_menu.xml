@@ -11,7 +11,11 @@
             android:layout_height="match_parent"
             android:scrollbars="none">
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
             <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/menu_label_height"
@@ -24,6 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="mainActivity">
 
                 <ImageView
@@ -43,10 +48,38 @@
             </LinearLayout>
 
             <LinearLayout
+                    android:id="@+id/menu_player_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="playerActivity">
+
+                <ImageView
+                        android:layout_width="@dimen/menu_icon_size"
+                        android:layout_height="@dimen/menu_icon_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/main_padding"
+                        android:src="@drawable/ic_music_video_black_24dp"
+                        android:scaleType="fitXY"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="@string/menu_player_text"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/menu_text_size"/>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                    android:background="@color/material_deep_teal_200"/>
+
+            <LinearLayout
                     android:id="@+id/menu_history_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="historyActivity">
 
                 <ImageView
@@ -66,32 +99,37 @@
             </LinearLayout>
 
             <LinearLayout
-                    android:id="@+id/menu_player_container"
+                    android:id="@+id/menu_top_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:onClick="playerActivity">
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="topsActivity">
 
                 <ImageView
                         android:layout_width="@dimen/menu_icon_size"
                         android:layout_height="@dimen/menu_icon_size"
                         android:layout_gravity="center_vertical"
                         android:layout_margin="@dimen/main_padding"
-                        android:src="@drawable/ic_music_video_black_24dp"
+                        android:src="@drawable/ic_star_black_24dp"
                         android:scaleType="fitXY"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
-                        android:text="@string/menu_player_text"
+                        android:text="@string/menu_top_text"
                         android:layout_gravity="center_vertical"
                         android:textSize="@dimen/menu_text_size"/>
             </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                  android:background="@color/material_deep_teal_200"/>
 
             <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="sendFeedback">
 
                 <ImageView
@@ -114,6 +152,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
                     android:onClick="showSettings">
 
                 <ImageView

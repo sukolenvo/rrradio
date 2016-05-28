@@ -32,4 +32,5 @@
     <string name="message_parsing_summary">Успешно: %1$d, ошибок чтения: %2$d</string>
     <string name="artist_stub">Неизвестный исполнитель</string>
     <string name="song_name_stub">Без названия</string>
+    <string name="menu_top_text">Топ 100</string>
 </resources>

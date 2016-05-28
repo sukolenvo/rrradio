@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app.history;
+package com.dakare.radiorecord.app.load.history;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.load.StationSelectFragment;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
@@ -22,7 +23,7 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
     protected void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
+        setContentView(R.layout.activity_fragment);
         initToolbar();
         getSupportActionBar().setTitle("");
         if (getSupportFragmentManager().getBackStackEntryCount() == 0)
@@ -40,7 +41,7 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
     }
 
     @Override
-    public void onStationSelected(final Station station)
+    public void onClick(final Station station)
     {
         breadcrumbManager.onSelectLevel2(station.getName());
         Fragment fragment = new HistoryDateSelectFragment();

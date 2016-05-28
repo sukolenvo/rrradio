@@ -11,6 +11,7 @@
     <string name="settings_text">Settings</string>
     <string name="menu_main_text">Radio stations</string>
     <string name="menu_history_text">History</string>
+    <string name="menu_top_text">Top 100</string>
     <string name="menu_player_text">Player</string>
     <string name="feedback_text">Send feedback</string>
     <string name="no_default_quality">Always ask</string>

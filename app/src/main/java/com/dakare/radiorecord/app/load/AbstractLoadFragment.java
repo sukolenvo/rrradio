@@ -1,6 +1,5 @@
-package com.dakare.radiorecord.app.history;
+package com.dakare.radiorecord.app.load;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -20,32 +19,15 @@ import lombok.Getter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-public abstract class AbstractHistoryLoadFragment<T extends RecyclerView.ViewHolder, K> extends Fragment implements Runnable
+public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K> extends Fragment implements Runnable
 {
 
-    @Getter(AccessLevel.PROTECTED)
-    private HistoryFragmentMediator mediator;
     private Handler handler;
     private ProgressView progressView;
     private ArrayList<K> items = new ArrayList<K>();
     @Getter(AccessLevel.PROTECTED)
     private volatile boolean destroyed;
-
-    @Override
-    public void onDetach()
-    {
-        super.onDetach();
-        mediator = null;
-    }
-
-    @Override
-    public void onAttach(final Context context)
-    {
-        super.onAttach(context);
-        mediator = (HistoryFragmentMediator) context;
-    }
 
     @Override
     public void onCreate(final Bundle savedInstanceState)
@@ -64,7 +46,7 @@ public abstract class AbstractHistoryLoadFragment<T extends RecyclerView.ViewHol
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_history, null);
+        View view = inflater.inflate(R.layout.fragment_load, null);
         progressView = (ProgressView) view.findViewById(R.id.progress_bar);
         progressView.showProgress();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
@@ -81,7 +63,7 @@ public abstract class AbstractHistoryLoadFragment<T extends RecyclerView.ViewHol
         return view;
     }
 
-    protected abstract AbstractHistoryLoadAdapter<T, K> getAdapter();
+    protected abstract AbstractLoadAdapter<T, K> getAdapter();
 
     @Override
     public void onResume()

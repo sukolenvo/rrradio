@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app.history;
+package com.dakare.radiorecord.app.load.history;
 
 import android.os.Parcel;
 import android.os.Parcelable;

@@ -1,8 +1,10 @@
-package com.dakare.radiorecord.app.history;
+package com.dakare.radiorecord.app.load.history;
 
 import android.os.Bundle;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
+import com.dakare.radiorecord.app.load.AbstractLoadFragment;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class HistoryDateSelectFragment extends AbstractHistoryLoadFragment<HistoryDateSelectAdapter.ViewHolder, String>
+public class HistoryDateSelectFragment extends AbstractHistoryMediatorFragment<HistoryDateSelectAdapter.ViewHolder, String>
 {
     private static final String ITEMS_KEY = "history_items";
     public static final String STATION_KEY = "station_key";
@@ -38,7 +40,7 @@ public class HistoryDateSelectFragment extends AbstractHistoryLoadFragment<Histo
     }
 
     @Override
-    protected AbstractHistoryLoadAdapter<HistoryDateSelectAdapter.ViewHolder, String> getAdapter()
+    protected AbstractLoadAdapter<HistoryDateSelectAdapter.ViewHolder, String> getAdapter()
     {
         return adapter;
     }

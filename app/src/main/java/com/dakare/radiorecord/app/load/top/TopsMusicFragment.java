@@ -1,10 +1,14 @@
-package com.dakare.radiorecord.app.history;
+package com.dakare.radiorecord.app.load.top;
 
 import android.os.Bundle;
 import android.util.Log;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
+import com.dakare.radiorecord.app.load.AbstractLoadFragment;
+import com.dakare.radiorecord.app.load.history.HistoryDateSelectAdapter;
+import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,50 +20,47 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class HistoryMusicSelectFragment extends AbstractHistoryLoadFragment<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem>
+public class TopsMusicFragment extends AbstractLoadFragment<TopsMusicSelectAdapter.ViewHolder, TopsMusicItem>
 {
-    private static final String ITEMS_KEY = "history_items";
+    private static final String ITEMS_KEY = "tops_items";
     public static final String STATION_KEY = "station_key";
-    public static final String DATE_KEY = "date_key";
-    private static final String URL_TEMPLATE = "http://history.radiorecord.ru/index-onstation.php?station=%s&day=%s";
+    private static final String URL_TEMPLATE = "http://www.radiorecord.ru/radio/top100/%s.txt";
 
     private Station station;
-    private String date;
-    private HistoryMusicSelectAdapter adapter;
+    private TopsMusicSelectAdapter adapter;
 
     @Override
     public void onCreate(final Bundle savedInstanceState)
     {
         station = Station.valueOf(getArguments().getString(STATION_KEY));
-        date = getArguments().getString(DATE_KEY);
         super.onCreate(savedInstanceState);
-        adapter = new HistoryMusicSelectAdapter(getContext(), getMediator(), station);
+        adapter = new TopsMusicSelectAdapter(getContext(), (TopsFragmentMediator) getActivity(), station);
     }
 
     @Override
-    protected List<HistoryMusicItem> restoreItems(final Bundle args)
+    protected List<TopsMusicItem> restoreItems(final Bundle args)
     {
         return args.containsKey(ITEMS_KEY) ? args.getParcelableArrayList(ITEMS_KEY) : Collections.EMPTY_LIST;
     }
 
     @Override
-    protected AbstractHistoryLoadAdapter<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem> getAdapter()
+    protected AbstractLoadAdapter<TopsMusicSelectAdapter.ViewHolder, TopsMusicItem> getAdapter()
     {
         return adapter;
     }
 
     @Override
-    protected void saveItems(final ArrayList<HistoryMusicItem> items, final Bundle outState)
+    protected void saveItems(final ArrayList<TopsMusicItem> items, final Bundle outState)
     {
         outState.putParcelableArrayList(ITEMS_KEY, items);
     }
 
     @Override
-    protected List<HistoryMusicItem> startLoading() throws IOException
+    protected List<TopsMusicItem> startLoading() throws IOException
     {
         setStatus(R.string.message_loading);
-        List<HistoryMusicItem> result;
-        Connection.Response response = Jsoup.connect(String.format(URL_TEMPLATE, station.getCodeAsParam(), date))
+        List<TopsMusicItem> result;
+        Connection.Response response = Jsoup.connect(String.format(URL_TEMPLATE, station.getCodeAsParam()))
                 .userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36")
                 .execute();
         if (isDestroyed())
@@ -75,7 +76,7 @@ public class HistoryMusicSelectFragment extends AbstractHistoryLoadFragment<Hist
         setStatus(R.string.message_search_entries);
         Elements elements = doc.select("article.track-holder");
         int index = 1;
-        result = new ArrayList<HistoryMusicItem>(elements.size());
+        result = new ArrayList<TopsMusicItem>(elements.size());
         if (isDestroyed())
         {
             return Collections.emptyList();
@@ -87,23 +88,14 @@ public class HistoryMusicSelectFragment extends AbstractHistoryLoadFragment<Hist
             {
                 return Collections.emptyList();
             }
-            HistoryMusicItem item = new HistoryMusicItem();
-            Elements whenElements = element.select("div.place-num");
-            if (whenElements.size() == 1)
-            {
-                item.setWhen(whenElements.get(0).ownText());
-            }  else
-            {
-                Log.e("ParserFactory", "Cannot parse element[when]");
-                continue;
-            }
+            TopsMusicItem item = new TopsMusicItem();
             Elements urlElements = element.select("td.play_pause");
             if (urlElements.size() == 1 && urlElements.get(0).hasAttr("item_url"))
             {
                 item.setUrl(urlElements.get(0).attr("item_url"));
             }  else
             {
-                Log.e("ParserFactory", "Cannot parse element[url]");
+                Log.e("Tops Fragment", "Cannot parse element[url]");
                 continue;
             }
             Elements artistElements = element.select("span.artist");
@@ -112,7 +104,7 @@ public class HistoryMusicSelectFragment extends AbstractHistoryLoadFragment<Hist
                 item.setArtist(artistElements.get(0).ownText());
             }  else
             {
-                Log.e("ParserFactory", "Cannot parse element[artist]");
+                Log.e("Tops Fragment", "Cannot parse element[artist]");
                 continue;
             }
             Elements nameElements = element.select("span.name");
@@ -132,5 +124,4 @@ public class HistoryMusicSelectFragment extends AbstractHistoryLoadFragment<Hist
         }
         return result;
     }
-
 }

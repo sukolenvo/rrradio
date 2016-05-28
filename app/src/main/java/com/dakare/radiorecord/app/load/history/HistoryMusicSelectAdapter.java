@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app.history;
+package com.dakare.radiorecord.app.load.history;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryMusicSelectAdapter extends AbstractHistoryLoadAdapter<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem>
+public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem>
 {
     private final LayoutInflater inflater;
     private List<HistoryMusicItem> items = new ArrayList<HistoryMusicItem>();

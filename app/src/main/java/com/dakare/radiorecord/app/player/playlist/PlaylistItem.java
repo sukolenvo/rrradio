@@ -3,7 +3,8 @@ package com.dakare.radiorecord.app.player.playlist;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.dakare.radiorecord.app.Station;
-import com.dakare.radiorecord.app.history.HistoryMusicItem;
+import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
+import com.dakare.radiorecord.app.load.top.TopsMusicItem;
 import com.dakare.radiorecord.app.quality.Quality;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -50,6 +51,15 @@ public class PlaylistItem implements Parcelable
         this.station = station;
         this.url = historyMusicItem.getUrl();
         this.subtitle = historyMusicItem.getSong();
+        this.live = false;
+    }
+
+    public PlaylistItem(final Station station, final TopsMusicItem item)
+    {
+        this.title = item.getArtist();
+        this.station = station;
+        this.url = item.getUrl();
+        this.subtitle = item.getSong();
         this.live = false;
     }
 

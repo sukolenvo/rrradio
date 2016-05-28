@@ -13119,9 +13119,9 @@ com.dakare.radiorecord.app.StationAdapter$ViewHolder -> com.dakare.radiorecord.a
     android.widget.FrameLayout access$300(com.dakare.radiorecord.app.StationAdapter$ViewHolder) -> c
 com.dakare.radiorecord.app.StationClickListener -> com.dakare.radiorecord.app.g:
     void onClick(com.dakare.radiorecord.app.Station) -> a
-com.dakare.radiorecord.app.history.AbstractHistoryLoadAdapter -> com.dakare.radiorecord.app.history.a:
+com.dakare.radiorecord.app.load.AbstractHistoryLoadAdapter -> com.dakare.radiorecord.app.history.a:
     void setItems(java.util.List) -> a
-com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment -> com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment:
+com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment -> com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment:
     com.dakare.radiorecord.app.history.HistoryFragmentMediator mediator -> a
     android.os.Handler handler -> b
     com.dakare.radiorecord.app.ProgressView progressView -> c
@@ -13132,7 +13132,7 @@ com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment -> com.dakare.rad
     void onCreate(android.os.Bundle) -> onCreate
     java.util.List restoreItems(android.os.Bundle) -> a
     android.view.View onCreateView(android.view.LayoutInflater,android.view.ViewGroup,android.os.Bundle) -> onCreateView
-    com.dakare.radiorecord.app.history.AbstractHistoryLoadAdapter getAdapter() -> a
+    com.dakare.radiorecord.app.load.AbstractHistoryLoadAdapter getAdapter() -> a
     void onResume() -> onResume
     void run() -> run
     void onDestroy() -> onDestroy
@@ -13143,22 +13143,22 @@ com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment -> com.dakare.rad
     java.util.List startLoading() -> b
     com.dakare.radiorecord.app.history.HistoryFragmentMediator getMediator() -> c
     boolean isDestroyed() -> d
-    com.dakare.radiorecord.app.ProgressView access$000(com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment) -> a
-    java.util.ArrayList access$100(com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment) -> b
-com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment$1 -> com.dakare.radiorecord.app.history.b:
-    com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment this$0 -> a
+    com.dakare.radiorecord.app.ProgressView access$000(com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment) -> a
+    java.util.ArrayList access$100(com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment) -> b
+com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment$1 -> com.dakare.radiorecord.app.history.b:
+    com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment this$0 -> a
     void run() -> run
-com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment$2 -> com.dakare.radiorecord.app.history.c:
-    com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment this$0 -> a
+com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment$2 -> com.dakare.radiorecord.app.history.c:
+    com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment this$0 -> a
     void run() -> run
-com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment$3 -> com.dakare.radiorecord.app.history.d:
+com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment$3 -> com.dakare.radiorecord.app.history.d:
     int val$statusId -> a
     java.lang.Object[] val$args -> b
-    com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment this$0 -> c
+    com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment this$0 -> c
     void run() -> run
-com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment$4 -> com.dakare.radiorecord.app.history.e:
+com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment$4 -> com.dakare.radiorecord.app.history.e:
     java.lang.String val$message -> a
-    com.dakare.radiorecord.app.history.AbstractHistoryLoadFragment this$0 -> b
+    com.dakare.radiorecord.app.load.AbstractHistoryLoadFragment this$0 -> b
     void run() -> run
 com.dakare.radiorecord.app.history.BreadcrumbManager -> com.dakare.radiorecord.app.history.f:
     android.content.Context context -> a
@@ -13208,7 +13208,7 @@ com.dakare.radiorecord.app.history.HistoryDateSelectFragment -> com.dakare.radio
     com.dakare.radiorecord.app.history.HistoryDateSelectAdapter adapter -> b
     void onCreate(android.os.Bundle) -> onCreate
     java.util.List restoreItems(android.os.Bundle) -> a
-    com.dakare.radiorecord.app.history.AbstractHistoryLoadAdapter getAdapter() -> a
+    com.dakare.radiorecord.app.load.AbstractHistoryLoadAdapter getAdapter() -> a
     void saveItems(java.util.ArrayList,android.os.Bundle) -> a
     java.util.List startLoading() -> b
 com.dakare.radiorecord.app.history.HistoryFragmentMediator -> com.dakare.radiorecord.app.history.j:
@@ -13267,7 +13267,7 @@ com.dakare.radiorecord.app.history.HistoryMusicSelectFragment -> com.dakare.radi
     com.dakare.radiorecord.app.history.HistoryMusicSelectAdapter adapter -> c
     void onCreate(android.os.Bundle) -> onCreate
     java.util.List restoreItems(android.os.Bundle) -> a
-    com.dakare.radiorecord.app.history.AbstractHistoryLoadAdapter getAdapter() -> a
+    com.dakare.radiorecord.app.load.AbstractHistoryLoadAdapter getAdapter() -> a
     void saveItems(java.util.ArrayList,android.os.Bundle) -> a
     java.util.List startLoading() -> b
 com.dakare.radiorecord.app.history.HistoryStationSelectAdapter -> com.dakare.radiorecord.app.history.o:
@@ -13291,7 +13291,7 @@ com.dakare.radiorecord.app.history.HistoryStationSelectAdapter$ViewHolder -> com
     android.widget.ImageView access$000(com.dakare.radiorecord.app.history.HistoryStationSelectAdapter$ViewHolder) -> a
     android.widget.TextView access$100(com.dakare.radiorecord.app.history.HistoryStationSelectAdapter$ViewHolder) -> b
     android.widget.FrameLayout access$300(com.dakare.radiorecord.app.history.HistoryStationSelectAdapter$ViewHolder) -> c
-com.dakare.radiorecord.app.history.StationSelectFragment -> com.dakare.radiorecord.app.history.StationSelectFragment:
+com.dakare.radiorecord.app.load.StationSelectFragment -> com.dakare.radiorecord.app.load.StationSelectFragment:
     com.dakare.radiorecord.app.history.HistoryFragmentMediator mediator -> a
     void onDetach() -> onDetach
     void onAttach(android.content.Context) -> onAttach

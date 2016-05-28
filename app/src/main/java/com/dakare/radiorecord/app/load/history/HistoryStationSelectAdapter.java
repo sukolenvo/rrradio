@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app.history;
+package com.dakare.radiorecord.app.load.history;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app.history;
+package com.dakare.radiorecord.app.load.top;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,27 +8,30 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
+import com.dakare.radiorecord.app.load.history.HistoryFragmentMediator;
+import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryDateSelectAdapter extends AbstractHistoryLoadAdapter<HistoryDateSelectAdapter.ViewHolder, String>
+public class TopsMusicSelectAdapter extends AbstractLoadAdapter<TopsMusicSelectAdapter.ViewHolder, TopsMusicItem>
 {
     private final LayoutInflater inflater;
-    private List<String> items = new ArrayList<String>();
-    private final HistoryFragmentMediator historyFragmentMediator;
+    private List<TopsMusicItem> items = new ArrayList<TopsMusicItem>();
+    private final TopsFragmentMediator fragmentMediator;
     private final Station station;
 
-    public HistoryDateSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator, final Station station)
+    public TopsMusicSelectAdapter(final Context context, final TopsFragmentMediator fragmentMediator, final Station station)
     {
-        this.historyFragmentMediator = historyFragmentMediator;
         this.station = station;
+        this.fragmentMediator = fragmentMediator;
         this.inflater = LayoutInflater.from(context);
         setHasStableIds(true);
     }
 
-    //TODO: make abstract adapter and extract items logic there
-    public void setItems(final List<String> items)
+    @Override
+    public void setItems(final List<TopsMusicItem> items)
     {
         if (this.items != items || !this.items.containsAll(items))
         {
@@ -40,21 +43,22 @@ public class HistoryDateSelectAdapter extends AbstractHistoryLoadAdapter<History
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType)
     {
-        View view = inflater.inflate(R.layout.item_history_date, parent, false);
+        View view = inflater.inflate(R.layout.item_tops_music, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position)
     {
-        final String item = items.get(position);
-        holder.textView.setText(item);
+        final TopsMusicItem item = items.get(position);
+        holder.title.setText(item.getSong());
+        holder.subTitle.setText(item.getArtist());
         holder.container.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v)
+            public void onClick(final View v)
             {
-                historyFragmentMediator.onDateSelected(station, item);
+                fragmentMediator.onItemsSelected(items, position, station);
             }
         });
     }
@@ -72,14 +76,17 @@ public class HistoryDateSelectAdapter extends AbstractHistoryLoadAdapter<History
 
     public static class ViewHolder extends RecyclerView.ViewHolder
     {
-        private final TextView textView;
+        private final TextView title;
+        private final TextView subTitle;
         private final View container;
 
         public ViewHolder(final View itemView)
         {
             super(itemView);
             container = itemView;
-            textView = (TextView) itemView.findViewById(R.id.title);
+            title = (TextView) itemView.findViewById(R.id.title);
+            title.setSelected(true);
+            subTitle = (TextView) itemView.findViewById(R.id.sub_title);
         }
     }
 }

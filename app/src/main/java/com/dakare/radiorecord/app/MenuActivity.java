@@ -3,7 +3,6 @@ package com.dakare.radiorecord.app;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,9 +10,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import com.dakare.radiorecord.app.history.HistoryActivity;
+import com.dakare.radiorecord.app.load.history.HistoryActivity;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.settings.SettingsActivity;
+import com.dakare.radiorecord.app.load.top.TopsActivity;
 import lombok.Getter;
 
 public class MenuActivity extends AppCompatActivity
@@ -83,6 +83,17 @@ public class MenuActivity extends AppCompatActivity
         if (!(this instanceof HistoryActivity))
         {
             Intent intent = new Intent(this, HistoryActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        closeMenu();
+    }
+
+    public void topsActivity(final View view)
+    {
+        if (!(this instanceof TopsActivity))
+        {
+            Intent intent = new Intent(this, TopsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app.history;
+package com.dakare.radiorecord.app.load;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,11 +12,12 @@ import android.view.ViewGroup;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.StationClickListener;
+import com.dakare.radiorecord.app.load.history.HistoryStationSelectAdapter;
 
 public class StationSelectFragment extends Fragment implements StationClickListener
 {
 
-    private HistoryFragmentMediator mediator;
+    private StationClickListener mediator;
 
     @Override
     public void onDetach()
@@ -29,7 +30,7 @@ public class StationSelectFragment extends Fragment implements StationClickListe
     public void onAttach(final Context context)
     {
         super.onAttach(context);
-        mediator = (HistoryFragmentMediator) context;
+        mediator = (StationClickListener) context;
     }
 
     @Override
@@ -42,7 +43,7 @@ public class StationSelectFragment extends Fragment implements StationClickListe
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
     {
-        View view = inflater.inflate(R.layout.fragment_history, null);
+        View view = inflater.inflate(R.layout.fragment_load, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), getResources().getInteger(R.integer.stations_columns)));
@@ -55,7 +56,7 @@ public class StationSelectFragment extends Fragment implements StationClickListe
     {
         if (mediator != null)
         {
-            mediator.onStationSelected(station);
+            mediator.onClick(station);
         }
     }
 }
