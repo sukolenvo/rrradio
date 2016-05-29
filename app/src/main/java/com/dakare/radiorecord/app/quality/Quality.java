@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public enum Quality
 {
-    LOW(64, R.string.quality_low),
+    LOW(32, R.string.quality_low),
     MEDIUM(128, R.string.quality_medium),
     HIGH(320, R.string.quality_high);
 

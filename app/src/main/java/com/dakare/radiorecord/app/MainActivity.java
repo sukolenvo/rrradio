@@ -47,7 +47,7 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
     {
         Intent serviceIntent = new Intent(this, PlayerService.class);
         List<Station> stations = PreferenceManager.getInstance(this).getStations();
-        ArrayList<PlaylistItem> items = new ArrayList<PlaylistItem>(stations.size());
+        ArrayList<PlaylistItem> items = new ArrayList<>(stations.size());
         for (Station station : stations)
         {
             items.add(new PlaylistItem(station, quality));
