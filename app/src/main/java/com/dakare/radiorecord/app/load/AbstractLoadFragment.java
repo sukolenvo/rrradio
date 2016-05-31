@@ -91,8 +91,14 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
                     if (isResumed())
                     {
                         progressView.hideProgress();
-                        getView().findViewById(R.id.recycler_view).setVisibility(View.VISIBLE);
-                        getAdapter().setItems(items);
+                        if (items.isEmpty())
+                        {
+                            progressView.showEmptyView();
+                        } else
+                        {
+                            getView().findViewById(R.id.recycler_view).setVisibility(View.VISIBLE);
+                            getAdapter().setItems(items);
+                        }
                     }
                 }
             });

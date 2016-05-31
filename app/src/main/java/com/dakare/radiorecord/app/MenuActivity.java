@@ -11,6 +11,8 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import com.dakare.radiorecord.app.load.history.HistoryActivity;
+import com.dakare.radiorecord.app.load.section.SectionNewActivity;
+import com.dakare.radiorecord.app.load.section.SuperchartActivity;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.settings.SettingsActivity;
 import com.dakare.radiorecord.app.load.top.TopsActivity;
@@ -105,6 +107,28 @@ public class MenuActivity extends AppCompatActivity
         if (!(this instanceof PlayerActivity))
         {
             Intent intent = new Intent(this, PlayerActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        closeMenu();
+    }
+
+    public void sectionNewActivity(final View view)
+    {
+        if (!(this instanceof SectionNewActivity))
+        {
+            Intent intent = new Intent(this, SectionNewActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        closeMenu();
+    }
+
+    public void superchartActivity(final View view)
+    {
+        if (!(this instanceof SuperchartActivity))
+        {
+            Intent intent = new Intent(this, SuperchartActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

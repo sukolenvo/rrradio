@@ -38,4 +38,8 @@
     <string name="menu_sort_up">От новых к старым</string>
     <string name="menu_hide_items">Скрыть музыку без названия</string>
     <string name="menu_show_items">Показывать все результаты</string>
+    <string name="menu_new_text">Свежаки</string>
+    <string name="message_loading_category">Загрузка категории</string>
+    <string name="message_loading_music">Загрузка списка аудиозаписей</string>
+    <string name="message_failed_category">Ошибка загрузки категории</string>
 </resources>

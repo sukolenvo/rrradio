@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
+import com.dakare.radiorecord.app.load.section.SectionMusicItem;
 import com.dakare.radiorecord.app.load.top.TopsMusicItem;
 import com.dakare.radiorecord.app.quality.Quality;
 import lombok.EqualsAndHashCode;
@@ -58,6 +59,15 @@ public class PlaylistItem implements Parcelable
     {
         this.title = item.getArtist();
         this.station = station;
+        this.url = item.getUrl();
+        this.subtitle = item.getSong();
+        this.live = false;
+    }
+
+    public PlaylistItem(final SectionMusicItem item)
+    {
+        this.title = item.getArtist();
+        this.station = Station.RADIO_RECORD;
         this.url = item.getUrl();
         this.subtitle = item.getSong();
         this.live = false;

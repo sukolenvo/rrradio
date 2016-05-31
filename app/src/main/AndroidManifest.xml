@@ -30,6 +30,10 @@
                   android:theme="@style/Main" />
         <activity android:name=".load.top.TopsActivity"
                   android:theme="@style/Main" />
+        <activity android:name=".load.section.SectionNewActivity"
+                  android:theme="@style/Main" />
+        <activity android:name=".load.section.SuperchartActivity"
+                  android:theme="@style/Main" />
         <service android:name=".player.service.PlayerService" />
     </application>
 

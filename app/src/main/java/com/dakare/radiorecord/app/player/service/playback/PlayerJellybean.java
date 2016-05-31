@@ -92,6 +92,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
                     MediaCodecSelector.DEFAULT, null, true, uiHandler, this, AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC);
             player.prepare(audioRenderer);
             state = PlayerState.PLAY;
+            updateState();
         }
     }
 

@@ -99,6 +99,30 @@
             </LinearLayout>
 
             <LinearLayout
+                    android:id="@+id/menu_new_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="sectionNewActivity">
+
+                <ImageView
+                        android:layout_width="@dimen/menu_icon_size"
+                        android:layout_height="@dimen/menu_icon_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/main_padding"
+                        android:src="@drawable/ic_fiber_new_black_24dp"
+                        android:scaleType="fitXY"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="@string/menu_new_text"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/menu_text_size"/>
+            </LinearLayout>
+
+            <LinearLayout
                     android:id="@+id/menu_top_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -118,6 +142,30 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:text="@string/menu_top_text"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/menu_text_size"/>
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/menu_superchart_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="?attr/selectableItemBackground"
+                    android:onClick="superchartActivity">
+
+                <ImageView
+                        android:layout_width="@dimen/menu_icon_size"
+                        android:layout_height="@dimen/menu_icon_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="@dimen/main_padding"
+                        android:src="@drawable/ic_thumb_up_black_24dp"
+                        android:scaleType="fitXY"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="@string/menu_superchart_text"
                         android:layout_gravity="center_vertical"
                         android:textSize="@dimen/menu_text_size"/>
             </LinearLayout>

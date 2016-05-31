@@ -12,6 +12,8 @@
     <string name="menu_main_text">Radio stations</string>
     <string name="menu_history_text">History</string>
     <string name="menu_top_text">Top 100</string>
+    <string name="menu_superchart_text" translatable="false">Superchart</string>
+    <string name="menu_new_text">New Record</string>
     <string name="menu_player_text">Player</string>
     <string name="feedback_text">Send feedback</string>
     <string name="no_default_quality">Always ask</string>
@@ -26,10 +28,13 @@
     <string name="no_content_text">No results</string>
     <string name="error_load_history">Failed to load data from server. Please check your connection or try later.</string>
     <string name="message_loading">Loading</string>
+    <string name="message_loading_category">Loading category</string>
+    <string name="message_loading_music">Loading music list</string>
     <string name="message_preparing">Preparing parser</string>
     <string name="message_search_entries">Searching entries...</string>
     <string name="message_parsing_progres">Parsing %1$d of %2$d</string>
     <string name="message_parsing_summary">Success: %1$d, failed: %2$d</string>
+    <string name="message_failed_category">Failed to obtain category address</string>
     <string name="artist_stub">Unknown artist</string>
     <string name="song_name_stub">Unknown song name</string>
     <string name="menu_sort_up">From new to old</string>
