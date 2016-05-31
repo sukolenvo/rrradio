@@ -2,10 +2,14 @@ package com.dakare.radiorecord.app.player.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.os.Messenger;
 import com.dakare.radiorecord.app.player.listener.IncomeCallListener;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
+import com.dakare.radiorecord.app.player.service.playback.Player;
+import com.dakare.radiorecord.app.player.service.playback.PlayerImpl;
+import com.dakare.radiorecord.app.player.service.playback.PlayerJellybean;
 
 import java.util.ArrayList;
 
@@ -21,7 +25,13 @@ public class PlayerService extends Service {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-        player = new Player(this);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN)
+        {
+            player = new PlayerImpl(this);
+        } else
+        {
+            player = new PlayerJellybean(this);
+        }
         messageHandler = new PlayerServiceMessageHandler(player);
 		messenger = new Messenger(messageHandler);
 		messageHandler.addPlayerStateListener(new NotificationListener(this));

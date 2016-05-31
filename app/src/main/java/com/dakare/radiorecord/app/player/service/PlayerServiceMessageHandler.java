@@ -4,11 +4,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Messenger;
 import android.util.Log;
-import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.player.listener.AbstractPlayerStateListener;
-import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessageType;
+import com.dakare.radiorecord.app.player.service.playback.Player;
 
 public class PlayerServiceMessageHandler extends Handler {
 
