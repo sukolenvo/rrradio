@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.Messenger;
 import com.dakare.radiorecord.app.PreferenceManager;
+import com.dakare.radiorecord.app.player.listener.HeadsetUnplugListener;
 import com.dakare.radiorecord.app.player.listener.IncomeCallListener;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
@@ -38,6 +39,7 @@ public class PlayerService extends Service {
 		messenger = new Messenger(messageHandler);
 		messageHandler.addPlayerStateListener(new NotificationListener(this));
         messageHandler.addPlayerStateListener(new IncomeCallListener(this));
+        messageHandler.addPlayerStateListener(new HeadsetUnplugListener(this));
 	}
 
 	@SuppressWarnings("unchecked")
