@@ -15,4 +15,11 @@ public class SectionNewActivity extends AbstractSectionActivity
     {
         return "Свежаки";
     }
+
+
+    @Override
+    protected int getMenuContainer()
+    {
+        return R.id.menu_new_container;
+    }
 }

@@ -66,4 +66,10 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
         mRecyclerViewDragDropManager.cancelDrag();
         super.onPause();
     }
+
+    @Override
+    protected int getMenuContainer()
+    {
+        return R.id.menu_main_container;
+    }
 }

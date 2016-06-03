@@ -194,7 +194,7 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
 
     private String buildTitle()
     {
-        PlaylistItem item = items == null ? null : items.get(position);
+        PlaylistItem item = items == null || items.isEmpty() ? null : items.get(position);
         String song;
         if (metadataArtist == null)
         {
@@ -326,5 +326,11 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         {
             //Nothing to do
         }
+    }
+
+    @Override
+    protected int getMenuContainer()
+    {
+        return R.id.menu_player_container;
     }
 }

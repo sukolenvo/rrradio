@@ -76,4 +76,10 @@ public class TopsActivity extends MenuActivity implements TopsFragmentMediator
         intentActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intentActivity);
     }
+
+    @Override
+    protected int getMenuContainer()
+    {
+        return R.id.menu_top_container;
+    }
 }

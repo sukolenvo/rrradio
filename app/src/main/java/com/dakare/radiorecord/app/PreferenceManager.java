@@ -3,10 +3,17 @@ package com.dakare.radiorecord.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.text.TextUtils;
+import android.util.Log;
+import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.quality.Quality;
+import com.google.gson.Gson;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PreferenceManager
@@ -21,6 +28,7 @@ public class PreferenceManager
     private static final String LAST_STATION = "last_station";
     private static final String SORT_HISTORY_FROM_OLD = "history_sort";
     private static final String HISTORY_SHOW_ALL = "hisoty_show_all";
+    private static final String LAST_PLAYLIST_KEY = "last_playlist";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -157,6 +165,50 @@ public class PreferenceManager
     {
         sharedPreferences.edit()
                 .putBoolean(SORT_HISTORY_FROM_OLD, fromOld)
+                .apply();
+    }
+
+    public List<PlaylistItem> getLastPlaylist()
+    {
+        String list = sharedPreferences.getString(LAST_PLAYLIST_KEY, null);
+        if (TextUtils.isEmpty(list))
+        {
+            return Collections.emptyList();
+        }
+        Gson gson = new Gson();
+        try
+        {
+            return gson.fromJson(list, new ParameterizedType()
+            {
+                @Override
+                public Type[] getActualTypeArguments()
+                {
+                    return new Type[]{PlaylistItem.class};
+                }
+
+                @Override
+                public Type getOwnerType()
+                {
+                    return null;
+                }
+
+                @Override
+                public Type getRawType()
+                {
+                    return List.class;
+                }
+            });
+        } catch (Exception e)
+        {
+            Log.e("PrefManager", "Failed to init playlist", e);
+            return Collections.emptyList();
+        }
+    }
+
+    public void setLastPlaylist(final List<PlaylistItem> playlist)
+    {
+        sharedPreferences.edit()
+                .putString(LAST_PLAYLIST_KEY, new Gson().toJson(playlist))
                 .apply();
     }
 }

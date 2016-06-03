@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import com.dakare.radiorecord.app.load.history.HistoryActivity;
+import com.dakare.radiorecord.app.load.section.MegamixActivity;
 import com.dakare.radiorecord.app.load.section.SectionNewActivity;
 import com.dakare.radiorecord.app.load.section.SuperchartActivity;
 import com.dakare.radiorecord.app.player.PlayerActivity;
@@ -32,6 +33,16 @@ public class MenuActivity extends AppCompatActivity
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawer, myToolbar, R.string.app_name, R.string.app_name);
         drawer.addDrawerListener(mDrawerToggle);
+        int container = getMenuContainer();
+        if (getMenuContainer() != 0)
+        {
+            findViewById(container).setSelected(true);
+        }
+    }
+
+    protected int getMenuContainer()
+    {
+        return 0;
     }
 
     protected void setTitle(final String title)
@@ -129,6 +140,17 @@ public class MenuActivity extends AppCompatActivity
         if (!(this instanceof SuperchartActivity))
         {
             Intent intent = new Intent(this, SuperchartActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        closeMenu();
+    }
+
+    public void megamixActivity(final View view)
+    {
+        if (!(this instanceof MegamixActivity))
+        {
+            Intent intent = new Intent(this, MegamixActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

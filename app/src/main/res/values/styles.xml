@@ -86,4 +86,22 @@
         <item name="android:textColor">@color/material_grey_600</item>
     </style>
 
+    <style name="MenuSeparator">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginTop">@dimen/category_menu_padding</item>
+        <item name="android:layout_marginBottom">@dimen/category_menu_padding</item>
+        <item name="android:background">#e0e0e0</item>
+    </style>
+
+    <style name="MenuImage">
+        <item name="android:layout_width">@dimen/menu_icon_size</item>
+        <item name="android:layout_height">@dimen/menu_icon_size</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">@dimen/main_padding</item>
+        <item name="android:layout_marginRight">@dimen/main_padding</item>
+        <item name="android:layout_marginTop">@dimen/padding_75_percent</item>
+        <item name="android:layout_marginBottom">@dimen/padding_75_percent</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
 </resources>

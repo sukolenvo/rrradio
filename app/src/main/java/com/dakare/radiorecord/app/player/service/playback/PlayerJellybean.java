@@ -7,6 +7,7 @@ import android.media.MediaCodec;
 import android.net.Uri;
 import android.os.Handler;
 import android.widget.Toast;
+import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.MetadataLoader;
@@ -19,10 +20,7 @@ import com.google.android.exoplayer.*;
 import com.google.android.exoplayer.audio.AudioCapabilities;
 import com.google.android.exoplayer.audio.AudioTrack;
 import com.google.android.exoplayer.extractor.ExtractorSampleSource;
-import com.google.android.exoplayer.upstream.Allocator;
-import com.google.android.exoplayer.upstream.DataSource;
-import com.google.android.exoplayer.upstream.DefaultAllocator;
-import com.google.android.exoplayer.upstream.DefaultUriDataSource;
+import com.google.android.exoplayer.upstream.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -53,11 +51,12 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
         player = ExoPlayer.Factory.newInstance(1);
         player.addListener(this);
         metadataLoader = new MetadataLoader(this, context);
+        playlist = new ArrayList<>();
+        playlist.addAll(PreferenceManager.getInstance(context).getLastPlaylist());
     }
 
     public void play(final ArrayList<PlaylistItem> playlist, final int position)
     {
-        Toast.makeText(context, R.string.connecting, Toast.LENGTH_LONG).show();
         this.playlist = playlist;
         this.position = position;
         startPlayback();
@@ -78,14 +77,14 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
 
     private void startPlayback()
     {
-        if (playlist != null)
+        if (playlist != null && !playlist.isEmpty())
         {
             player.stop();
             player.seekTo(0L);
             player.setPlayWhenReady(true);
             PlaylistItem playlistItem = playlist.get(position);
             Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
-            DataSource dataSource = new DefaultUriDataSource(context, "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36");
+            DataSource dataSource = new PartialHttpDataSource("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36", null);
             ExtractorSampleSource sampleSource = new ExtractorSampleSource(Uri.parse(playlistItem.getUrl()), dataSource, allocator,
                     BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE, uiHandler, this, 0);
             MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource,
@@ -98,7 +97,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
 
     public void next()
     {
-        if (playlist != null)
+        if (playlist != null && !playlist.isEmpty())
         {
             position = (position + 1) % playlist.size();
             startPlayback();
@@ -115,7 +114,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
 
     public void previous()
     {
-        if (playlist != null)
+        if (playlist != null && !playlist.isEmpty())
         {
             position = (position - 1 + playlist.size()) % playlist.size();
             startPlayback();
@@ -196,19 +195,19 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     @Override
     public void onLoadError(final int i, final IOException e)
     {
-        showError();
+        if (e instanceof HttpDataSource.InvalidResponseCodeException && ((HttpDataSource.InvalidResponseCodeException) e).responseCode == 404)
+        {
+            Toast.makeText(context, R.string.error_not_found, Toast.LENGTH_LONG).show();
+            stop();
+        } else
+        {
+            showError();
+        }
     }
 
     private void showError()
     {
-        uiHandler.post(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show();
-            }
-        });
+        Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show();
         stop();
     }
 

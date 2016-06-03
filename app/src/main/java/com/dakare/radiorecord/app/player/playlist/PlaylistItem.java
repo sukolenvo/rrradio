@@ -1,5 +1,6 @@
 package com.dakare.radiorecord.app.player.playlist;
 
+import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.dakare.radiorecord.app.Station;
@@ -9,16 +10,18 @@ import com.dakare.radiorecord.app.load.top.TopsMusicItem;
 import com.dakare.radiorecord.app.quality.Quality;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Getter
 @EqualsAndHashCode
 public class PlaylistItem implements Parcelable
 {
-    private final String title;
-    private final String subtitle;
-    private final String url;
-    private final Station station;
-    private final boolean live;
+    private String title;
+    private String subtitle;
+    private String url;
+    private Station station;
+    private boolean live;
 
     public PlaylistItem(final Parcel parcel)
     {
@@ -50,16 +53,22 @@ public class PlaylistItem implements Parcelable
     {
         this.title = historyMusicItem.getArtist();
         this.station = station;
-        this.url = historyMusicItem.getUrl();
+        this.url = encodeUrl(historyMusicItem.getUrl());
         this.subtitle = historyMusicItem.getSong();
         this.live = false;
+    }
+
+    private String encodeUrl(final String url)
+    {
+        //TODO: check several semicolon
+        return Uri.encode(url, ":/");
     }
 
     public PlaylistItem(final Station station, final TopsMusicItem item)
     {
         this.title = item.getArtist();
         this.station = station;
-        this.url = item.getUrl();
+        this.url = encodeUrl(item.getUrl());
         this.subtitle = item.getSong();
         this.live = false;
     }
@@ -68,7 +77,7 @@ public class PlaylistItem implements Parcelable
     {
         this.title = item.getArtist();
         this.station = Station.RADIO_RECORD;
-        this.url = item.getUrl();
+        this.url = encodeUrl(item.getUrl());
         this.subtitle = item.getSong();
         this.live = false;
     }

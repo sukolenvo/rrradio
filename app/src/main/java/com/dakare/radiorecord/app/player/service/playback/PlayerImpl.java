@@ -7,6 +7,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.widget.Toast;
+import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.MetadataLoader;
@@ -48,6 +49,8 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
         mediaPlayer.setOnErrorListener(this);
         mediaPlayer.setOnPreparedListener(this);
         metadataLoader = new MetadataLoader(this, context);
+        playlist = new ArrayList<>();
+        playlist.addAll(PreferenceManager.getInstance(context).getLastPlaylist());
     }
 
     public void play(final ArrayList<PlaylistItem> playlist, final int position)
@@ -73,7 +76,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
 
     private void startPlayback()
     {
-        if (playlist != null)
+        if (playlist != null && !playlist.isEmpty())
         {
             mediaPlayer.reset();
             try
@@ -91,7 +94,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
 
     public void next()
     {
-        if (playlist != null)
+        if (playlist != null && !playlist.isEmpty())
         {
             position = (position + 1) % playlist.size();
             startPlayback();
@@ -108,7 +111,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
 
     public void previous()
     {
-        if (playlist != null)
+        if (playlist != null && !playlist.isEmpty())
         {
             position = (position - 1 + playlist.size()) % playlist.size();
             startPlayback();

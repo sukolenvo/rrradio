@@ -183,4 +183,10 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
         }
         return false;
     }
+
+    @Override
+    protected int getMenuContainer()
+    {
+        return R.id.menu_history_container;
+    }
 }

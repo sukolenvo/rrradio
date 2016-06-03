@@ -9,5 +9,5 @@
     <color name="playlist_active">#e96465</color>
     <color name="playlist_default">#919191</color>
     <color name="player_toolbar">#10ffffff</color>
-
+    <color name="menu_selected">#ededed</color>
 </resources>
