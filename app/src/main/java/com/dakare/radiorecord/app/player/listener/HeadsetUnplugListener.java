@@ -8,6 +8,8 @@ import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 public class HeadsetUnplugListener extends AbstractPlayerStateListener
 {
 
@@ -16,7 +18,8 @@ public class HeadsetUnplugListener extends AbstractPlayerStateListener
         @Override
         public void onReceive(final Context context, final Intent intent)
         {
-            if (intent.getIntExtra("state", -1) == 0)
+            boolean unplug = intent.getIntExtra("state", -1) == 0;
+            if (!headsetUnplug.getAndSet(unplug) && unplug)
             {
                 Intent pauseIntent = new Intent(context, PlayerService.class);
                 pauseIntent.setAction(NotificationListener.ACTION_PAUSE);
@@ -25,6 +28,7 @@ public class HeadsetUnplugListener extends AbstractPlayerStateListener
         }
     };
     private final Context context;
+    private final AtomicBoolean headsetUnplug = new AtomicBoolean();
 
     public HeadsetUnplugListener(final Context context)
     {
@@ -36,6 +40,7 @@ public class HeadsetUnplugListener extends AbstractPlayerStateListener
     {
         if (message.getState() == PlayerState.PLAY)
         {
+            headsetUnplug.set(true);
             context.registerReceiver(receiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
         } else
         {

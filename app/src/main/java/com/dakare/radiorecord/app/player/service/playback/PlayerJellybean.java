@@ -44,6 +44,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     private final MetadataLoader metadataLoader;
     private PlayerState state = PlayerState.STOP;
     private final ExoPlayer player;
+    private long lastErrorMessage;
 
     public PlayerJellybean(final Context context)
     {
@@ -207,14 +208,16 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
 
     private void showError()
     {
-        Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show();
-        stop();
+        if (System.currentTimeMillis() - 5000 > lastErrorMessage)
+        {
+            lastErrorMessage = System.currentTimeMillis();
+            Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void onAudioTrackInitializationError(AudioTrack.InitializationException e)
     {
-        //TODO: different error text
         showError();
     }
 

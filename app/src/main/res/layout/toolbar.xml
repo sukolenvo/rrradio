@@ -7,7 +7,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/toolbarColor"
         android:elevation="?attr/toolbarElevation"
-        elevation="?attr/toolbarElevation"
+        app:elevation="?attr/toolbarElevation"
         android:navigationIcon="@drawable/ic_menu_white_24dp"
         app:navigationIcon="@drawable/ic_menu_white_24dp"
         app:titleTextAppearance="@style/ToolbarTitle"

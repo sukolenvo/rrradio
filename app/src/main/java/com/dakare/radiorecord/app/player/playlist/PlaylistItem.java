@@ -60,8 +60,7 @@ public class PlaylistItem implements Parcelable
 
     private String encodeUrl(final String url)
     {
-        //TODO: check several semicolon
-        return Uri.encode(url, ":/");
+        return Uri.encode(url, ":/%");
     }
 
     public PlaylistItem(final Station station, final TopsMusicItem item)

@@ -53,6 +53,14 @@
     *;
 }
 
+-keep class com.dakare.radiorecord.app.player.playlist.PlaylistItem {
+    *;
+}
+
+-keep class com.dakare.radiorecord.app.Station {
+    *;
+}
+
 -dontwarn org.springframework.**
 -dontwarn android.support.v4.**
 -dontwarn android.support.v7.**
