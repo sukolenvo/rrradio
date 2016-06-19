@@ -160,10 +160,19 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
     {
         if (mediaPlayer.isPlaying())
         {
-            playerServiceMessageHandler.handleServiceResponse(new PositionStateMessage(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration()));
+            playerServiceMessageHandler.handleServiceResponse(new PositionStateMessage(mediaPlayer.getCurrentPosition(), mediaPlayer.getDuration(), 0));
         } else
         {
-            playerServiceMessageHandler.handleServiceResponse(new PositionStateMessage(0, 0));
+            playerServiceMessageHandler.handleServiceResponse(new PositionStateMessage(0, 0, 0));
+        }
+    }
+
+    @Override
+    public void seekTo(final float position)
+    {
+        if (mediaPlayer.getDuration() > 0)
+        {
+            mediaPlayer.seekTo((int) (mediaPlayer.getDuration() * position));
         }
     }
 

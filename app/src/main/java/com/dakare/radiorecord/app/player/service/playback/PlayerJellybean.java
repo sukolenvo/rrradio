@@ -162,7 +162,16 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
 
     public void updatePosition()
     {
-        playerServiceMessageHandler.handleServiceResponse(new PositionStateMessage((int) player.getCurrentPosition(), (int) player.getDuration()));
+        playerServiceMessageHandler.handleServiceResponse(new PositionStateMessage((int) player.getCurrentPosition(), (int) player.getDuration(), (int) player.getBufferedPosition()));
+    }
+
+    @Override
+    public void seekTo(final float position)
+    {
+        if (player.getDuration() > 0)
+        {
+            player.seekTo((long) (player.getDuration() * position));
+        }
     }
 
     @Override

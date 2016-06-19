@@ -3,10 +3,7 @@ package com.dakare.radiorecord.app.player;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.Toast;
+import android.widget.*;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.PlayerBackgroundImage;
 import com.dakare.radiorecord.app.PreferenceManager;
@@ -23,7 +20,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
-public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler, Runnable
+public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler, Runnable, SeekBar.OnSeekBarChangeListener
 {
     private static final String METADATA_ICON_KEY = "player_metadata_icon";
     private static final String METADATA_ARTIST_KEY = "player_metadata_artist";
@@ -45,7 +42,10 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             .showImageOnFail(R.drawable.default_player_background).build();
     private ListView playlistView;
     private Thread positionUpdater;
-    private View playbackProgressView;
+    private SeekBar playbackProgressView;
+    private View progressContainer;
+    private TextView positionView;
+    private TextView durationView;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState)
@@ -77,7 +77,11 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             }
         });
         playlistView.setEmptyView(findViewById(R.id.no_results));
-        playbackProgressView = findViewById(R.id.playback_progress_view);
+        playbackProgressView = (SeekBar) findViewById(R.id.playback_progress_view);
+        playbackProgressView.setOnSeekBarChangeListener(this);
+        progressContainer = findViewById(R.id.playback_progress);
+        positionView = (TextView) findViewById(R.id.position);
+        durationView = (TextView) findViewById(R.id.duration);
         setupOnClickListeners();
         updateViews();
     }
@@ -271,21 +275,38 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         } else if (playerMessage.getMessageType() == PlayerMessageType.POSITION_STATE)
         {
             PositionStateMessage positionStateMessage = (PositionStateMessage) playerMessage;
-            updateProgress(positionStateMessage.getPosition(), positionStateMessage.getDuration());
+            updateProgress(positionStateMessage.getPosition(), positionStateMessage.getDuration(), positionStateMessage.getBuffered());
         }
     }
 
-    private void updateProgress(final float position, final int duration)
+    private void updateProgress(final int position, final int duration, final int buffered)
     {
-        if (duration == 0 || position / duration < 0.01)
+        if (duration <= 0)
         {
-            playbackProgressView.setVisibility(View.GONE);
+            progressContainer.setVisibility(View.GONE);
         } else
         {
-            playbackProgressView.setVisibility(View.VISIBLE);
-            ((LinearLayout.LayoutParams) playbackProgressView.getLayoutParams()).weight = position / duration * 100;
-            playbackProgressView.requestLayout();
+            progressContainer.setVisibility(View.VISIBLE);
+            playbackProgressView.setProgress((int) (position * 100. / duration));
+            positionView.setText(msToString(position));
+            durationView.setText(msToString(duration));
+            if (buffered > 0)
+            {
+                playbackProgressView.setSecondaryProgress(buffered * 100 / duration);
+            } else
+            {
+                playbackProgressView.setSecondaryProgress(0);
+            }
         }
+    }
+
+    private String msToString(final int time)
+    {
+        if (time > 3_600_000)
+        {
+            return String.format("%d:%02d:%02d", time / 3_600_000, time / 60_000 % 60, time / 1000 % 60);
+        }
+        return String.format("%d:%02d", time / 60_000 % 60, time / 1000 % 60);
     }
 
     @Override
@@ -320,7 +341,7 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
                 {
                     playerServiceHelper.getServiceClient().execute(new UpdatePositionMessage());
                 }
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             }
         } catch (InterruptedException e)
         {
@@ -332,5 +353,26 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     protected int getMenuContainer()
     {
         return R.id.menu_player_container;
+    }
+
+    @Override
+    public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser)
+    {
+        if (fromUser)
+        {
+            playerServiceHelper.getServiceClient().execute(new SeekToMessage(progress / 100f));
+        }
+    }
+
+    @Override
+    public void onStartTrackingTouch(final SeekBar seekBar)
+    {
+        //Nothing to do
+    }
+
+    @Override
+    public void onStopTrackingTouch(final SeekBar seekBar)
+    {
+        //Nothing to do
     }
 }

@@ -25,4 +25,5 @@ public interface Player
 
     void updatePosition();
 
+    void seekTo(float position);
 }

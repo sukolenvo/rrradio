@@ -7,6 +7,7 @@ import android.util.Log;
 import com.dakare.radiorecord.app.player.listener.AbstractPlayerStateListener;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessageType;
+import com.dakare.radiorecord.app.player.service.message.SeekToMessage;
 import com.dakare.radiorecord.app.player.service.playback.Player;
 
 public class PlayerServiceMessageHandler extends Handler {
@@ -45,6 +46,9 @@ public class PlayerServiceMessageHandler extends Handler {
                     break;
                 case UPDATE_POSITION:
                     player.updatePosition();
+                    break;
+                case SEEK_TO:
+                    player.seekTo(SeekToMessage.fromMessage(msg.getData()).getPosition());
                     break;
                 default:
                     Log.w("PlayerMessageHandler", "Unrecognised message type " + msg.what);

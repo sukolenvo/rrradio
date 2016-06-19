@@ -13,7 +13,8 @@ public enum PlayerMessageType
     PLAYBACK_STATE(1003),
     UPDATE_POSITION(1005),
     POSITION_STATE(1006),
-    METADATA_UPDATE(1007);
+    METADATA_UPDATE(1007),
+    SEEK_TO(1008);
 
     @Getter
     private final int messageId;
