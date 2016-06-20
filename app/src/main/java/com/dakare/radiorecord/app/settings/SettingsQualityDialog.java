@@ -23,23 +23,7 @@ public class SettingsQualityDialog extends Dialog
         ListView listView = (ListView) findViewById(R.id.quality_list);
         adapter = new QualityAdapter(context, true);
         Quality selected = PreferenceManager.getInstance(context).getDefaultQuality(null);
-        if (selected != null)
-        {
-            switch (selected)
-            {
-                case LOW:
-                    adapter.setSelectedPosition(1);
-                    break;
-                case MEDIUM:
-                    adapter.setSelectedPosition(2);
-                    break;
-                case HIGH:
-                    adapter.setSelectedPosition(3);
-                    break;
-                default:
-                    throw new AssertionError("This should never happen");
-            }
-        }
+        adapter.setSelectedQuality(selected);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(adapter);
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener()
@@ -55,13 +39,7 @@ public class SettingsQualityDialog extends Dialog
             @Override
             public void onClick(View v)
             {
-                if (adapter.getSelectedPosition() == 0)
-                {
-                    PreferenceManager.getInstance(context).setDefaultQuality(null);
-                } else
-                {
-                    PreferenceManager.getInstance(context).setDefaultQuality(Quality.values()[adapter.getSelectedPosition() - 1]);
-                }
+                PreferenceManager.getInstance(context).setDefaultQuality(adapter.getSelectedQuality());
                 dismiss();
             }
         });

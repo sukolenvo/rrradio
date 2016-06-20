@@ -35,7 +35,7 @@ public class QualityDialog extends Dialog
             @Override
             public void onClick(View v)
             {
-                Quality quality = Quality.values()[adapter.getSelectedPosition()];
+                Quality quality = adapter.getSelectedQuality();
                 if (((Checkable) findViewById(R.id.checkbox_container)).isChecked())
                 {
                     PreferenceManager.getInstance(context).setDefaultQuality(quality);

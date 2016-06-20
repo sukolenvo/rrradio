@@ -1,6 +1,7 @@
 package com.dakare.radiorecord.app.quality;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,26 +13,27 @@ import com.dakare.radiorecord.app.R;
 import lombok.Getter;
 import lombok.Setter;
 
-public class QualityAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener
+public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements AdapterView.OnItemClickListener
 {
-    private final Context context;
     private final LayoutInflater inflater;
     @Getter
     @Setter
-    private int selectedPosition;
+    private Quality selectedQuality;
 
     public QualityAdapter(final Context context, boolean withNoQuality)
     {
         super(context, 0);
-        this.context = context;
         this.inflater = LayoutInflater.from(context);
         if (withNoQuality)
         {
-            add(context.getString(R.string.no_default_quality));
+            add(new QualityAdapterItem(context.getString(R.string.no_default_quality)));
         }
         for (Quality quality : Quality.values())
         {
-            add(context.getString(quality.getNameRes()));
+            if (quality != Quality.AAC || Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            {
+                add(new QualityAdapterItem(quality, context.getString(quality.getNameRes())));
+            }
         }
         notifyDataSetChanged();
     }
@@ -48,17 +50,17 @@ public class QualityAdapter extends ArrayAdapter<String> implements AdapterView.
             view = convertView;
         }
         ViewHolder.from(view);
-        String item = getItem(position);
-        ViewHolder.icon.setImageResource(position == selectedPosition
+        QualityAdapterItem item = getItem(position);
+        ViewHolder.icon.setImageResource((item.getQuality() == null && selectedQuality == null) || item.getQuality() == selectedQuality
                 ? R.drawable.ic_radio_button_checked_black_24dp : R.drawable.ic_radio_button_unchecked_black_24dp);
-        ViewHolder.title.setText(item);
+        ViewHolder.title.setText(item.getText());
         return view;
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id)
     {
-        selectedPosition = position;
+        selectedQuality = getItem(position).getQuality();
         notifyDataSetChanged();
     }
 

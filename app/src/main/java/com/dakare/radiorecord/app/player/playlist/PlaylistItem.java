@@ -3,6 +3,7 @@ package com.dakare.radiorecord.app.player.playlist;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
 import com.dakare.radiorecord.app.load.section.SectionMusicItem;
@@ -45,7 +46,7 @@ public class PlaylistItem implements Parcelable
         this.title = station.getName();
         this.station = station;
         this.url = station.getStreamUrl(quality);
-        this.subtitle = quality.getBitrate() + "kb";
+        this.subtitle = RecordApplication.getInstance().getString(quality.getNameRes());
         this.live = true;
     }
 

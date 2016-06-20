@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">RadioRecord</string>
     <string name="quality_title">Select Default Quality</string>
-    <string name="quality_low">Low quality</string>
-    <string name="quality_medium">Medium quality</string>
-    <string name="quality_high">High quality</string>
+    <string name="quality_aac">Low quality (AAC, 32kbs)</string>
+    <string name="quality_low">Low quality (MP3, 32kbs)</string>
+    <string name="quality_medium">Medium quality (MP3, 128kbs)</string>
+    <string name="quality_high">High quality (MP3, 320kbs)</string>
     <string name="dont_ask_again">Dont ask again</string>
     <string name="error_connect">Failed to connect to audio server. Please check your connection and try again.</string>
     <string name="error_not_found">Cant find this song on server. Please select another one.</string>

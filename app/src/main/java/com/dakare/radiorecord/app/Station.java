@@ -51,6 +51,8 @@ public enum Station
     {
         switch (quality)
         {
+            case AAC:
+                return "http://air2.radiorecord.ru:805" + code + "_aac";
             case LOW:
                 return "http://air.radiorecord.ru:" + portLow + code + "_64";
             case MEDIUM:

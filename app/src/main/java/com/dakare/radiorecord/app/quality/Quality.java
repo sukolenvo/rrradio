@@ -6,14 +6,15 @@ import lombok.Getter;
 @Getter
 public enum Quality
 {
-    LOW(32, R.string.quality_low),
-    MEDIUM(128, R.string.quality_medium),
-    HIGH(320, R.string.quality_high);
+    AAC("aac", R.string.quality_aac),
+    LOW("32", R.string.quality_low),
+    MEDIUM("128", R.string.quality_medium),
+    HIGH("320", R.string.quality_high);
 
-    private final int bitrate;
+    private final String bitrate;
     private final int nameRes;
 
-    Quality(final int bitrate, final int name)
+    Quality(final String bitrate, final int name)
     {
         this.bitrate = bitrate;
         this.nameRes = name;

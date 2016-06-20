@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">RadioRecord</string>
     <string name="quality_title">Выберите Качество</string>
-    <string name="quality_low">Низкое (32 kbs)</string>
-    <string name="quality_medium">Среднее (128 kbs)</string>
-    <string name="quality_high">Высокое (320 kbs)</string>
+    <string name="quality_low">Низкое (MP3, 32kbs)</string>
+    <string name="quality_medium">Среднее (MP3, 128kbs)</string>
+    <string name="quality_high">Высокое (MP3, 320kbs)</string>
     <string name="dont_ask_again">Запомнить выбор</string>
     <string name="error_connect">Ошибка подключения к серверу. Проверьте ваше интернет подключение и попробуйте еще раз.</string>
     <string name="message_connecting">Подключение к серверу</string>
@@ -43,4 +43,5 @@
     <string name="message_loading_music">Загрузка списка аудиозаписей</string>
     <string name="message_failed_category">Ошибка загрузки категории</string>
     <string name="error_not_found">Данная аудиозапись отсутствует на сервере. Пожалуйста, выберите другую.</string>
+    <string name="quality_aac">Низкое (AAC, 32kbs)</string>
 </resources>
