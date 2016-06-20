@@ -44,4 +44,8 @@
     <string name="message_failed_category">Ошибка загрузки категории</string>
     <string name="error_not_found">Данная аудиозапись отсутствует на сервере. Пожалуйста, выберите другую.</string>
     <string name="quality_aac">Низкое (AAC, 32kbs)</string>
+    <string name="menu_copy_to_clipboard">Скопировать в буфер</string>
+    <string name="clipboard_label">Record аудиозапись</string>
+    <string name="clipboard_success">Название сохранено в буфер обмена</string>
+    <string name="clipboeard_error">Не удалось сохранить название в буфер обмена</string>
 </resources>

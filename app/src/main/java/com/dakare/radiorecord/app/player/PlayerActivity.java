@@ -1,7 +1,12 @@
 package com.dakare.radiorecord.app.player;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.dakare.radiorecord.app.MenuActivity;
@@ -374,5 +379,34 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     public void onStopTrackingTouch(final SeekBar seekBar)
     {
         //Nothing to do
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(final Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.player_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.copy_to_clipboard:
+                try
+                {
+                    ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText(getString(R.string.clipboard_label), buildTitle());
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(this, R.string.clipboard_success, Toast.LENGTH_LONG).show();
+                } catch (Exception e)
+                {
+                    Toast.makeText(this, R.string.clipboeard_error, Toast.LENGTH_LONG).show();
+                }
+                return false;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
