@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:background="?android:selectableItemBackground"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/half_padding">
+
+    <com.dakare.radiorecord.app.view.DownloadImageView
+            android:id="@+id/download_image"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center_vertical"/>
+
+    <LinearLayout android:layout_width="0dp"
+                  android:layout_height="wrap_content"
+                  android:layout_weight="1"
+                  android:orientation="vertical"
+                  android:paddingLeft="5dp"
+                  android:layout_gravity="center_vertical">
+
+        <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollHorizontally="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:singleLine="true"
+                android:textSize="16sp">
+        </TextView>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:paddingTop="5dp">
+
+            <TextView
+                    android:id="@+id/size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="#808080" />
+
+            <TextView
+                    android:id="@+id/saved"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/main_padding"
+                    android:textSize="12sp"
+                    android:textColor="#808080" />
+        </LinearLayout>
+
+        <TextView
+                android:id="@+id/status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:textSize="12sp"
+                android:textColor="#444">
+        </TextView>
+    </LinearLayout>
+
+</LinearLayout>

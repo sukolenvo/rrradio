@@ -3,12 +3,16 @@ package com.dakare.radiorecord.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+import com.dakare.radiorecord.app.database.DownloadAudioTable;
+import com.dakare.radiorecord.app.download.service.DownloadsSort;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -29,6 +33,8 @@ public class PreferenceManager
     private static final String SORT_HISTORY_FROM_OLD = "history_sort";
     private static final String HISTORY_SHOW_ALL = "hisoty_show_all";
     private static final String LAST_PLAYLIST_KEY = "last_playlist";
+    private static final String DOWNLOAD_DIRECTORY_KEY = "download_directory";
+    private static final String DOWNLOADS_SORT_KEY = "downloads_sort";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -209,6 +215,35 @@ public class PreferenceManager
     {
         sharedPreferences.edit()
                 .putString(LAST_PLAYLIST_KEY, new Gson().toJson(playlist))
+                .apply();
+    }
+
+    public void setDownloadDirectory(final String directory)
+    {
+        sharedPreferences.edit()
+                .putString(DOWNLOAD_DIRECTORY_KEY, directory)
+                .apply();
+    }
+
+    public String getDownloadDirectory()
+    {
+        String path = sharedPreferences.getString(DOWNLOAD_DIRECTORY_KEY, null);
+        if (path == null)
+        {
+            path = new File(Environment.getExternalStorageDirectory(), DownloadAudioTable.DEFAULT_DIRECTORY_NAME).getAbsolutePath();
+            setDownloadDirectory(path);
+        }
+        return path;
+    }
+
+    public DownloadsSort getDownloadsSort()
+    {
+        return DownloadsSort.valueOf(sharedPreferences.getString(DOWNLOADS_SORT_KEY, DownloadsSort.NAME_ASC.name()));
+    }
+
+    public void setDownloadsSort(final DownloadsSort downloadsSort)
+    {
+        sharedPreferences.edit().putString(DOWNLOADS_SORT_KEY, downloadsSort.name())
                 .apply();
     }
 }

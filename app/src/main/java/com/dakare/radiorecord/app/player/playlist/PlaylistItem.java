@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.download.service.DownloadItem;
 import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
 import com.dakare.radiorecord.app.load.section.SectionMusicItem;
 import com.dakare.radiorecord.app.load.top.TopsMusicItem;
@@ -79,6 +80,15 @@ public class PlaylistItem implements Parcelable
         this.station = Station.RADIO_RECORD;
         this.url = encodeUrl(item.getUrl());
         this.subtitle = item.getSong();
+        this.live = false;
+    }
+
+    public PlaylistItem(final DownloadItem item)
+    {
+        this.title = item.getTitle();
+        this.station = Station.RADIO_RECORD;
+        this.url = item.getFileUri().toString();
+        this.subtitle = item.getSubtitle();
         this.live = false;
     }
 

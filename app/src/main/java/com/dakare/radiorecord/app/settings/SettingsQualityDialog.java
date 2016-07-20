@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.Window;
-import android.widget.Checkable;
 import android.widget.ListView;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;

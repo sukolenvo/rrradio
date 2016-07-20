@@ -2,6 +2,9 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/toolbar_color</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
     <style name="Main" parent="AppTheme">
@@ -84,6 +87,7 @@
         <item name="android:textSize">16sp</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:textColor">@color/material_grey_600</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
 
     <style name="MenuSeparator">

@@ -22,11 +22,13 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.util.Objects;
+
 
 public class NotificationListener extends AbstractPlayerStateListener implements ImageLoadingListener
 {
     public static final String ACTION_STOP = "stop";
-    public static final String ACTION_PREVIOUS = "precious";
+    public static final String ACTION_PREVIOUS = "previous";
     public static final String ACTION_NEXT = "next";
     public static final String ACTION_PAUSE = "pause";
     public static final String ACTION_RESUME = "resume";
@@ -37,6 +39,7 @@ public class NotificationListener extends AbstractPlayerStateListener implements
     private final RemoteViews expanded;
     private final Notification notification;
     private final NotificationManager notificationManager;
+    private boolean foreground;
 
     public NotificationListener(final Service service)
     {
@@ -75,7 +78,7 @@ public class NotificationListener extends AbstractPlayerStateListener implements
         collapsed.setOnClickPendingIntent(R.id.button_media_next, nextPending);
         expanded.setOnClickPendingIntent(R.id.button_media_next, nextPending);
         Intent previousIntent = new Intent(service, PlayerService.class);
-        previousIntent.setAction(ACTION_NEXT);
+        previousIntent.setAction(ACTION_PREVIOUS);
         PendingIntent previousPending = PendingIntent.getService(service, 0, previousIntent, 0);
         expanded.setOnClickPendingIntent(R.id.button_media_previous, previousPending);
         notificationManager = (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -88,6 +91,7 @@ public class NotificationListener extends AbstractPlayerStateListener implements
         {
             lastUrl = null;
             service.stopForeground(true);
+            foreground = false;
         } else
         {
             PlaylistItem playlistItem = message.getItems().get(message.getPosition());
@@ -116,7 +120,14 @@ public class NotificationListener extends AbstractPlayerStateListener implements
                 expanded.setViewVisibility(R.id.button_media_play, View.VISIBLE);
                 expanded.setViewVisibility(R.id.button_media_pause, View.GONE);
             }
-            service.startForeground(1, notification);
+            if (foreground)
+            {
+                notificationManager.notify(1, notification);
+            } else
+            {
+                service.startForeground(1, notification);
+                foreground = true;
+            }
         }
     }
 

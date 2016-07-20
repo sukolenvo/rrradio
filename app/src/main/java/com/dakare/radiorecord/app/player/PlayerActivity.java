@@ -10,7 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.dakare.radiorecord.app.MenuActivity;
-import com.dakare.radiorecord.app.PlayerBackgroundImage;
+import com.dakare.radiorecord.app.view.PlayerBackgroundImage;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;

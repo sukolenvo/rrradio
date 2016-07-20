@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/sort_up"
+          android:title="@string/menu_sort_up"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/sort_down"
+          android:title="@string/menu_sort_down"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/sort_abc"
+          android:title="@string/menu_sort_abc"
+          app:showAsAction="never" />
+
+    <item android:id="@+id/sort_cba"
+          android:title="@string/menu_sort_cba"
+          app:showAsAction="never" />
+</menu>

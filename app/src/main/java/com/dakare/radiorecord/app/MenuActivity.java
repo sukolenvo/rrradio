@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import com.dakare.radiorecord.app.download.DownloadsActivity;
 import com.dakare.radiorecord.app.load.history.HistoryActivity;
 import com.dakare.radiorecord.app.load.section.MegamixActivity;
 import com.dakare.radiorecord.app.load.section.SectionNewActivity;
@@ -107,6 +108,17 @@ public class MenuActivity extends AppCompatActivity
         if (!(this instanceof TopsActivity))
         {
             Intent intent = new Intent(this, TopsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        closeMenu();
+    }
+
+    public void downloadsActivity(final View view)
+    {
+        if (!(this instanceof DownloadsActivity))
+        {
+            Intent intent = new Intent(this, DownloadsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

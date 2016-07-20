@@ -85,13 +85,16 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
             player.setPlayWhenReady(true);
             PlaylistItem playlistItem = playlist.get(position);
             Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
-            DataSource dataSource = new PartialHttpDataSource("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36", null);
-            ExtractorSampleSource sampleSource = new ExtractorSampleSource(Uri.parse(playlistItem.getUrl()), dataSource, allocator,
-                    BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE, uiHandler, this, 0);
-            MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource,
-                    MediaCodecSelector.DEFAULT, null, true, uiHandler, this, AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC);
-            player.prepare(audioRenderer);
-            state = PlayerState.PLAY;
+            DataSource dataSource = DataSourceFactory.createDataSource(playlistItem.getUrl());
+            if (dataSource != null)
+            {
+                ExtractorSampleSource sampleSource = new ExtractorSampleSource(Uri.parse(playlistItem.getUrl()), dataSource, allocator,
+                        BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE, uiHandler, this, 0);
+                MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource,
+                        MediaCodecSelector.DEFAULT, null, true, uiHandler, this, AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC);
+                player.prepare(audioRenderer);
+                state = PlayerState.PLAY;
+            }
             updateState();
         }
     }

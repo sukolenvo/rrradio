@@ -48,4 +48,30 @@
     <string name="clipboard_label">Record аудиозапись</string>
     <string name="clipboard_success">Название сохранено в буфер обмена</string>
     <string name="clipboeard_error">Не удалось сохранить название в буфер обмена</string>
+    <string name="setting_download_text">Сохранение аудиофайлов</string>
+    <string name="menu_downloads_text">Загрузки</string>
+    <string name="text_no_downloads">Ничего не сохранено. Выберите аудио из категорий</string>
+    <string name="saved_directory_title">Расположение сохраненной музыки</string>
+    <string name="checkbox_move">Переместить все аудиофайлы в эту папку</string>
+    <string name="default_move_status">Аудиофайлы копируются. Пожалуйста, не закрывайте приложение до конца операции.
+    </string>
+    <string name="directory_access_error">Ошибка доступа к директории. Проверьте правильность пути сохранения
+        аудиофайлов</string>
+    <string name="menu_download">Скачать</string>
+    <string name="menu_play">Запусть выбранное</string>
+    <string name="menu_select_all">Выбрать все</string>
+    <string name="menu_select_none">Отменить выделение</string>
+    <string name="selection_title" formatted="false">%d/%d выбрано</string>
+    <string name="error_empty_selection">Выберите аудиозаписи</string>
+    <string name="status_audio_downloaded">Готово</string>
+    <string name="status_audio_downloading">Загрузка</string>
+    <string name="status_audio_none">Ожидает</string>
+    <string name="status_error_file">Ошибка доступа к хранилищу</string>
+    <string name="status_error_saving">Ошибка записи. Проверьте наличие свободного места</string>
+    <string name="status_error_url">Файл отсутствует на сервере</string>
+    <string name="menu_sort_abc">Сортировать по названию АЯ</string>
+    <string name="menu_sort_cba">Сортировать по названию ЯА</string>
+    <string name="menu_delete">Удалить</string>
+    <string name="error_source">Ошибка обработки источника медиа</string>
+    <string name="error_not_downloaded">Некторые аудиозаписи были исключены - загрузка не завершена</string>
 </resources>

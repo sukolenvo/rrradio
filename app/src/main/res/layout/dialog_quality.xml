@@ -30,12 +30,12 @@
             android:listSelector="@android:color/transparent"
             android:choiceMode="singleChoice" />
 
-    <com.dakare.radiorecord.app.CheckboxLayout
+    <com.dakare.radiorecord.app.view.CheckboxLayout
             android:id="@+id/checkbox_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             dakare:text="@string/dont_ask_again">
-    </com.dakare.radiorecord.app.CheckboxLayout>
+    </com.dakare.radiorecord.app.view.CheckboxLayout>
 
     <View
             android:layout_width="match_parent" android:layout_height="1px"

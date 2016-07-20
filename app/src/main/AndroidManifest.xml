@@ -5,6 +5,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
             android:name=".RecordApplication"
@@ -36,7 +38,13 @@
                   android:theme="@style/Main" />
         <activity android:name=".load.section.MegamixActivity"
                   android:theme="@style/Main" />
+        <activity android:name=".download.DownloadsActivity"
+                  android:theme="@style/Main" />
         <service android:name=".player.service.PlayerService" />
+        <service android:name=".download.service.FileService" />
+        <provider android:authorities="com.dakare.radiorecord.app"
+                  android:name=".database.provider.StorageProvider"
+                  android:exported="false" />
     </application>
 
 </manifest>

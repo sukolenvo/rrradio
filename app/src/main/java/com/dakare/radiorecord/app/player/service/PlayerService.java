@@ -78,9 +78,4 @@ public class PlayerService extends Service {
 		return messenger.getBinder();
 	}
 
-	@Override
-	public void onDestroy() {
-        super.onDestroy();
-	}
-
 }

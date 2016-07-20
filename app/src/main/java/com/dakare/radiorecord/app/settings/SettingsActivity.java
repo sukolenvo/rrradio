@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Checkable;
 import android.widget.TextView;
@@ -18,6 +19,8 @@ import com.dakare.radiorecord.app.quality.Quality;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener
 {
+    private static final int CALL_REQUEST = 1;
+    private static final int WRITE_REQUEST = 2;
 
     private PreferenceManager preferenceManager;
     @Override
@@ -33,6 +36,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         initMusicMetadata();
         initMusicImage();
         initCallSettings();
+        initDownloadDirectory();
     }
 
     private void initQuality()
@@ -121,10 +125,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                 boolean enable = !preferenceManager.isOnCallEnabled();
                 if (enable)
                 {
-                    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                             && ContextCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
                     {
-                        ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
+                        ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, CALL_REQUEST);
                     } else
                     {
                         preferenceManager.setOnCall(true);
@@ -141,10 +145,20 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults)
     {
-        if (requestCode == 1 && grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
         {
-            preferenceManager.setOnCall(true);
-            updateCallCheckbox();
+            switch (requestCode)
+            {
+                case CALL_REQUEST:
+                    preferenceManager.setOnCall(true);
+                    updateCallCheckbox();
+                    break;
+                case WRITE_REQUEST:
+                    findViewById(R.id.download_container).performClick();
+                    break;
+                default:
+                    Log.e("SettingActivity", "unknown request permission code " + requestCode);
+            }
         }
     }
 
@@ -158,5 +172,41 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v)
     {
         onBackPressed();
+    }
+
+    private void initDownloadDirectory()
+    {
+        updateDownloadSecondary();
+        findViewById(R.id.download_container).setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(final View v)
+            {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                {
+                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
+                    {
+                        requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST);
+                        return;
+                    }
+                }
+                SettingsDirectoryDialog settingsQualityDialog = new SettingsDirectoryDialog(SettingsActivity.this);
+                settingsQualityDialog.setOnDismissListener(new DialogInterface.OnDismissListener()
+                {
+                    @Override
+                    public void onDismiss(DialogInterface dialog)
+                    {
+                        updateDownloadSecondary();
+                    }
+                });
+                settingsQualityDialog.show();
+            }
+        });
+    }
+
+    private void updateDownloadSecondary()
+    {
+        TextView text = (TextView) findViewById(R.id.download_secondary);
+        text.setText(preferenceManager.getDownloadDirectory());
     }
 }

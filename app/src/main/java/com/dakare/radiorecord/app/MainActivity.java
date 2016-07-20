@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
@@ -33,6 +34,7 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
         mRecyclerViewDragDropManager.setLongPressTimeout(750);
         stationsView.setAdapter(mRecyclerViewDragDropManager.createWrappedAdapter(new StationAdapter(this, this)));
         mRecyclerViewDragDropManager.attachRecyclerView(stationsView);
+        startService(new Intent(this, FileService.class));
     }
 
     @Override

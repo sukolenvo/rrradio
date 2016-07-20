@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.widget.Toast;
@@ -82,7 +83,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
             try
             {
                 PlaylistItem playlistItem = playlist.get(position);
-                mediaPlayer.setDataSource(playlistItem.getUrl());
+                mediaPlayer.setDataSource(context, Uri.parse(playlistItem.getUrl()));
                 mediaPlayer.prepareAsync();
                 state = PlayerState.PLAY;
             } catch (IOException e)

@@ -1,17 +1,20 @@
 <resources>
     <string name="app_name">RadioRecord</string>
+    <string name="saved_directory_title">Saved audio directory</string>
+    <string name="checkbox_move">Move all audio to this folder</string>
     <string name="quality_title">Select Default Quality</string>
     <string name="quality_aac">Low quality (AAC, 32kbs)</string>
     <string name="quality_low">Low quality (MP3, 32kbs)</string>
     <string name="quality_medium">Medium quality (MP3, 128kbs)</string>
     <string name="quality_high">High quality (MP3, 320kbs)</string>
-    <string name="dont_ask_again">Dont ask again</string>
+    <string name="dont_ask_again">Don\'t ask again</string>
     <string name="error_connect">Failed to connect to audio server. Please check your connection and try again.</string>
-    <string name="error_not_found">Cant find this song on server. Please select another one.</string>
+    <string name="error_not_found">Can\'t find this song on server. Please select another one.</string>
     <string name="connecting">Connecting...</string>
     <string name="message_connecting">Connecting to server...</string>
     <string name="settings_text">Settings</string>
     <string name="menu_main_text">Radio stations</string>
+    <string name="menu_downloads_text">Downloaded</string>
     <string name="menu_history_text">History</string>
     <string name="menu_top_text">Top 100</string>
     <string name="menu_superchart_text" translatable="false">Superchart</string>
@@ -20,7 +23,8 @@
     <string name="menu_player_text">Player</string>
     <string name="feedback_text">Send feedback</string>
     <string name="no_default_quality">Always ask</string>
-    <string name="setting_quality_text">Playback quality</string>
+    <string name="setting_quality_text">Live playback quality</string>
+    <string name="setting_download_text">Download directory</string>
     <string name="music_metadata_text">Music metadata</string>
     <string name="image_metadata_text">Album images</string>
     <string name="on_call_text">Stop playback on call</string>
@@ -41,6 +45,14 @@
     <string name="artist_stub">Unknown artist</string>
     <string name="song_name_stub">Unknown song name</string>
     <string name="menu_sort_up">From new to old</string>
+    <string name="menu_sort_abc">Sort by name AZ</string>
+    <string name="menu_sort_cba">Sort by name ZA</string>
+    <string name="menu_download">Download</string>
+    <string name="menu_delete">Delete</string>
+    <string name="menu_play">Play selected</string>
+    <string name="menu_select_all">Select all</string>
+    <string name="menu_select_none">Clear selection</string>
+    <string name="selection_title" formatted="false">%d/%d selected</string>
     <string name="menu_copy_to_clipboard">Copy to clipboard</string>
     <string name="menu_sort_down">From old to new</string>
     <string name="menu_show_items">Show all items</string>
@@ -48,4 +60,18 @@
     <string name="clipboard_label">Record song name</string>
     <string name="clipboard_success">Title copied to clipboard</string>
     <string name="clipboeard_error">Failed to copy title to clipboard</string>
+    <string name="text_no_downloads">No audio saved. Please select some from categories</string>
+    <string name="default_move_status">Moving audio files to new folder. Please don\'t kill application till the end of
+        operation.
+    </string>
+    <string name="directory_access_error">Can access this directory. Please check audio path.</string>
+    <string name="error_empty_selection">No items selected</string>
+    <string name="status_audio_none">Pending</string>
+    <string name="status_audio_downloading">Downloading</string>
+    <string name="status_audio_downloaded">Ready</string>
+    <string name="status_error_url">File is missing on server</string>
+    <string name="status_error_file">Can\'t get access to destination folder, please check storage.</string>
+    <string name="status_error_saving">Can\'t save audio. Please check free space and storage accessibility</string>
+    <string name="error_source">Unsupported source format</string>
+    <string name="error_not_downloaded">Some media was skipped - not downloaded</string>
 </resources>

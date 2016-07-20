@@ -1,12 +1,21 @@
 package com.dakare.radiorecord.app.load.section;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
 import com.dakare.radiorecord.app.load.AbstractLoadFragment;
+import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
+import com.dakare.radiorecord.app.load.selection.SelectionCallback;
+import com.dakare.radiorecord.app.load.selection.SelectionManager;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,7 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SectionFragment extends AbstractLoadFragment<SectionAdapter.ViewHolder, SectionMusicItem>
+public class SectionFragment extends AbstractLoadFragment<SectionAdapter.ViewHolder, SectionMusicItem> implements AbstractSelectionAdapter.PermissionProvider
 {
     private static final String ITEMS_KEY = "section_items";
     public static final String CATEGORY_KEY = "category";
@@ -26,13 +35,15 @@ public class SectionFragment extends AbstractLoadFragment<SectionAdapter.ViewHol
 
     private String categoryName;
     private SectionAdapter adapter;
+    private SelectionManager selectionManager;
 
     @Override
     public void onCreate(final Bundle savedInstanceState)
     {
         categoryName = getArguments().getString(CATEGORY_KEY);
         super.onCreate(savedInstanceState);
-        adapter = new SectionAdapter(getContext());
+        selectionManager = new SelectionManager((AppCompatActivity) getActivity(), new SelectionCallback());
+        adapter = new SectionAdapter(getContext(), selectionManager, this);
     }
 
     @Override
@@ -51,6 +62,18 @@ public class SectionFragment extends AbstractLoadFragment<SectionAdapter.ViewHol
     protected void saveItems(final ArrayList<SectionMusicItem> items, final Bundle outState)
     {
         outState.putParcelableArrayList(ITEMS_KEY, items);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        if (savedInstanceState != null)
+        {
+            selectionManager.restoreState(savedInstanceState);
+        }
+        return view;
     }
 
     @Override
@@ -160,5 +183,21 @@ public class SectionFragment extends AbstractLoadFragment<SectionAdapter.ViewHol
             result.add(item);
         }
         return result;
+    }
+
+    @Override
+    public void onSaveInstanceState(final Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+        selectionManager.saveState(outState);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults)
+    {
+        if (!adapter.onRequestPermissionsResult(requestCode, permissions, grantResults))
+        {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 }

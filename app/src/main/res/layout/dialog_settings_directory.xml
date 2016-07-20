@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:dakare="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+    <TextView
+            android:text="@string/saved_directory_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/one_and_half_padding"
+            android:paddingLeft="@dimen/one_and_half_padding"
+            android:paddingRight="@dimen/one_and_half_padding"
+            android:paddingBottom="20dp"
+            android:textSize="18sp"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/station_color"/>
+
+    <EditText
+            android:id="@+id/saved_directory_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:textSize="14sp"
+            android:layout_marginTop="@dimen/main_padding"
+            android:layout_marginRight="@dimen/main_padding"
+            android:layout_marginLeft="@dimen/main_padding"/>
+
+    <com.dakare.radiorecord.app.view.CheckboxLayout
+            android:id="@+id/checkbox_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            dakare:text="@string/checkbox_move">
+    </com.dakare.radiorecord.app.view.CheckboxLayout>
+
+    <TextView
+            android:id="@+id/status_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/default_move_status"
+            android:layout_marginBottom="@dimen/main_padding"
+            android:layout_marginRight="@dimen/main_padding"
+            android:layout_marginLeft="@dimen/main_padding"
+            android:visibility="gone"/>
+
+    <View
+            android:layout_width="match_parent" android:layout_height="1px"
+            android:background="@color/station_color"/>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                style="@style/DialogButton"
+                android:layout_toLeftOf="@+id/ok"
+                android:text="@android:string/cancel"/>
+        <Button
+                android:id="@id/ok"
+                android:layout_width="wrap_content"
+                style="@style/DialogButton"
+                android:layout_alignParentRight="true"
+                android:text="@android:string/ok"/>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app;
+package com.dakare.radiorecord.app.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;

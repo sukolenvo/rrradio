@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app;
+package com.dakare.radiorecord.app.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.Checkable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import com.dakare.radiorecord.app.R;
 import lombok.Getter;
 
 public class CheckboxLayout extends LinearLayout implements Checkable, View.OnClickListener
