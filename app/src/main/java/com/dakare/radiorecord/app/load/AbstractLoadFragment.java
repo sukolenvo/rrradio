@@ -25,7 +25,7 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
 
     private Handler handler;
     private ProgressView progressView;
-    private ArrayList<K> items = new ArrayList<K>();
+    private ArrayList<K> items = new ArrayList<>();
     @Getter(AccessLevel.PROTECTED)
     private volatile boolean destroyed;
 

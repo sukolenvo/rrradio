@@ -1,6 +1,5 @@
 package com.dakare.radiorecord.app.load.top;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import com.dakare.radiorecord.app.MenuActivity;
@@ -8,14 +7,8 @@ import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.StationClickListener;
 import com.dakare.radiorecord.app.load.StationSelectFragment;
-import com.dakare.radiorecord.app.player.PlayerActivity;
-import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
-import com.dakare.radiorecord.app.player.service.PlayerService;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class TopsActivity extends MenuActivity implements TopsFragmentMediator
+public class TopsActivity extends MenuActivity implements StationClickListener
 {
 
     @Override
@@ -58,23 +51,6 @@ public class TopsActivity extends MenuActivity implements TopsFragmentMediator
         {
             finish();
         }
-    }
-
-    @Override
-    public void onItemsSelected(final List<TopsMusicItem> items, final int position, final Station station)
-    {
-        Intent intent = new Intent(TopsActivity.this, PlayerService.class);
-        ArrayList<PlaylistItem> playlist = new ArrayList<PlaylistItem>(items.size());
-        for (TopsMusicItem item : items)
-        {
-            playlist.add(new PlaylistItem(station, item));
-        }
-        intent.putExtra(PlayerService.PLAYLIST_KEY, playlist);
-        intent.putExtra(PlayerService.POSITION_KEY, position);
-        startService(intent);
-        Intent intentActivity = new Intent(this, PlayerActivity.class);
-        intentActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intentActivity);
     }
 
     @Override

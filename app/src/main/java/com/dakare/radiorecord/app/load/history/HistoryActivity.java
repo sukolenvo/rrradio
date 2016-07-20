@@ -1,6 +1,5 @@
 package com.dakare.radiorecord.app.load.history;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.Menu;
@@ -12,11 +11,7 @@ import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.load.StationSelectFragment;
-import com.dakare.radiorecord.app.player.PlayerActivity;
-import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
-import com.dakare.radiorecord.app.player.service.PlayerService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryActivity extends MenuActivity implements HistoryFragmentMediator
@@ -82,23 +77,6 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
-    }
-
-    @Override
-    public void onMusicSelected(final List<HistoryMusicItem> items, final int position, final Station station)
-    {
-        Intent intent = new Intent(HistoryActivity.this, PlayerService.class);
-        ArrayList<PlaylistItem> playlist = new ArrayList<PlaylistItem>(items.size());
-        for (HistoryMusicItem item : items)
-        {
-            playlist.add(new PlaylistItem(station, item));
-        }
-        intent.putExtra(PlayerService.PLAYLIST_KEY, playlist);
-        intent.putExtra(PlayerService.POSITION_KEY, position);
-        startService(intent);
-        Intent intentActivity = new Intent(this, PlayerActivity.class);
-        intentActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intentActivity);
     }
 
     @Override

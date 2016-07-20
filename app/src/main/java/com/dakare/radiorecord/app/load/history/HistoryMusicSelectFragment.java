@@ -7,6 +7,8 @@ import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
 import com.dakare.radiorecord.app.load.AbstractLoadFragment;
+import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
+import com.dakare.radiorecord.app.load.selection.AbstractSelectionFragment;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class HistoryMusicSelectFragment extends AbstractHistoryMediatorFragment<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem>
+public class HistoryMusicSelectFragment extends AbstractSelectionFragment<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem>
 {
     private static final String ITEMS_KEY = "history_items";
     public static final String STATION_KEY = "station_key";
@@ -35,7 +37,7 @@ public class HistoryMusicSelectFragment extends AbstractHistoryMediatorFragment<
         station = Station.valueOf(getArguments().getString(STATION_KEY));
         date = getArguments().getString(DATE_KEY);
         super.onCreate(savedInstanceState);
-        adapter = new HistoryMusicSelectAdapter(getContext(), getMediator(), station);
+        adapter = new HistoryMusicSelectAdapter(getContext(), station, getSelectionManager(), this);
     }
 
     @Override
@@ -45,7 +47,7 @@ public class HistoryMusicSelectFragment extends AbstractHistoryMediatorFragment<
     }
 
     @Override
-    protected AbstractLoadAdapter<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem> getAdapter()
+    protected AbstractSelectionAdapter<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem> getAdapter()
     {
         return adapter;
     }
@@ -77,7 +79,7 @@ public class HistoryMusicSelectFragment extends AbstractHistoryMediatorFragment<
         setStatus(R.string.message_search_entries);
         Elements elements = doc.select("article.track-holder");
         int index = 1;
-        result = new ArrayList<HistoryMusicItem>(elements.size());
+        result = new ArrayList<>(elements.size());
         if (isDestroyed())
         {
             return Collections.emptyList();

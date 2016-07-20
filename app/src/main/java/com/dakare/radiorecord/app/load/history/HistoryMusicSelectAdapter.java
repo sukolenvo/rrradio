@@ -2,36 +2,33 @@ package com.dakare.radiorecord.app.load.history;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
-import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
+import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
+import com.dakare.radiorecord.app.load.selection.SelectionManager;
+import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem>
+public class HistoryMusicSelectAdapter extends AbstractSelectionAdapter<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem>
 {
-    private final LayoutInflater inflater;
     private List<HistoryMusicItem> items = new ArrayList<HistoryMusicItem>();
-    private final HistoryFragmentMediator historyFragmentMediator;
     private final Station station;
     private final PreferenceManager preferenceManager;
     private List<HistoryMusicItem> visibleList = new ArrayList<HistoryMusicItem>();
 
-    public HistoryMusicSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator, final Station station)
+    public HistoryMusicSelectAdapter(final Context context, final Station station,
+                                     final SelectionManager selectionManager, final PermissionProvider permissionProvider)
     {
+        super(context, selectionManager, permissionProvider);
         this.station = station;
-        this.historyFragmentMediator = historyFragmentMediator;
-        this.inflater = LayoutInflater.from(context);
         preferenceManager = PreferenceManager.getInstance(context);
-        setHasStableIds(true);
     }
 
     @Override
@@ -44,59 +41,6 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
         }
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType)
-    {
-        View view = inflater.inflate(R.layout.item_history_music, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position)
-    {
-        final HistoryMusicItem item = visibleList.get(position);
-        holder.title.setText(item.getSong());
-        holder.subTitle.setText(item.getArtist());
-        holder.duration.setText(item.getWhen());
-        holder.container.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(final View v)
-            {
-                historyFragmentMediator.onMusicSelected(visibleList, position, station);
-            }
-        });
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public int getItemCount()
-    {
-        return visibleList.size();
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
-        private final TextView title;
-        private final TextView subTitle;
-        private final TextView duration;
-        private final View container;
-
-        public ViewHolder(final View itemView)
-        {
-            super(itemView);
-            container = itemView;
-            title = (TextView) itemView.findViewById(R.id.title);
-            title.setSelected(true);
-            subTitle = (TextView) itemView.findViewById(R.id.sub_title);
-            duration = (TextView) itemView.findViewById(R.id.duration);
-        }
-    }
-
     public void onPrefChanged()
     {
         if (preferenceManager.isHistoryShowAll())
@@ -104,7 +48,7 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
             visibleList = items;
         } else
         {
-            visibleList = new ArrayList<HistoryMusicItem>();
+            visibleList = new ArrayList<>();
             for (HistoryMusicItem item : items)
             {
                 if (item.isVisible())
@@ -134,6 +78,50 @@ public class HistoryMusicSelectAdapter extends AbstractLoadAdapter<HistoryMusicS
                 }
             });
         }
-        notifyDataSetChanged();
+        super.setItems(visibleList);
+    }
+
+    @Override
+    protected int getLayoutId()
+    {
+        return R.layout.item_history_music;
+    }
+
+    @Override
+    protected ViewHolder createHolder(final View view)
+    {
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final ViewHolder holder, final int position)
+    {
+        super.onBindViewHolder(holder, position);
+        HistoryMusicItem item = visibleList.get(position);
+        holder.title.setText(item.getSong());
+        holder.subTitle.setText(item.getArtist());
+        holder.duration.setText(item.getWhen());
+    }
+
+    @Override
+    protected PlaylistItem toPlaylistItem(final int position)
+    {
+        return new PlaylistItem(station, getItems().get(position));
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder
+    {
+        private final TextView title;
+        private final TextView subTitle;
+        private final TextView duration;
+
+        public ViewHolder(final View itemView)
+        {
+            super(itemView);
+            title = (TextView) itemView.findViewById(R.id.title);
+            title.setSelected(true);
+            subTitle = (TextView) itemView.findViewById(R.id.sub_title);
+            duration = (TextView) itemView.findViewById(R.id.duration);
+        }
     }
 }

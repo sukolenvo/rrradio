@@ -9,6 +9,8 @@ import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
 import com.dakare.radiorecord.app.load.AbstractLoadFragment;
 import com.dakare.radiorecord.app.load.history.HistoryDateSelectAdapter;
 import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
+import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
+import com.dakare.radiorecord.app.load.selection.AbstractSelectionFragment;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class TopsMusicFragment extends AbstractLoadFragment<TopsMusicSelectAdapter.ViewHolder, TopsMusicItem>
+public class TopsMusicFragment extends AbstractSelectionFragment<TopsMusicSelectAdapter.ViewHolder, TopsMusicItem>
 {
     private static final String ITEMS_KEY = "tops_items";
     public static final String STATION_KEY = "station_key";
@@ -34,7 +36,7 @@ public class TopsMusicFragment extends AbstractLoadFragment<TopsMusicSelectAdapt
     {
         station = Station.valueOf(getArguments().getString(STATION_KEY));
         super.onCreate(savedInstanceState);
-        adapter = new TopsMusicSelectAdapter(getContext(), (TopsFragmentMediator) getActivity(), station);
+        adapter = new TopsMusicSelectAdapter(getContext(), station, getSelectionManager(), this);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class TopsMusicFragment extends AbstractLoadFragment<TopsMusicSelectAdapt
     }
 
     @Override
-    protected AbstractLoadAdapter<TopsMusicSelectAdapter.ViewHolder, TopsMusicItem> getAdapter()
+    protected AbstractSelectionAdapter<TopsMusicSelectAdapter.ViewHolder, TopsMusicItem> getAdapter()
     {
         return adapter;
     }
