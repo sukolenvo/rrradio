@@ -16,4 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="invisible" />
+
+    <ImageView
+            android:id="@+id/hint"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/hint_load"
+            android:scaleType="fitXY"
+            android:visibility="gone"/>
 </RelativeLayout>

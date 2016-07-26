@@ -35,6 +35,8 @@ public class PreferenceManager
     private static final String LAST_PLAYLIST_KEY = "last_playlist";
     private static final String DOWNLOAD_DIRECTORY_KEY = "download_directory";
     private static final String DOWNLOADS_SORT_KEY = "downloads_sort";
+    private static final String MAIN_HINT = "main_hint";
+    private static final String LOAD_HINT = "load_hint";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -244,6 +246,31 @@ public class PreferenceManager
     public void setDownloadsSort(final DownloadsSort downloadsSort)
     {
         sharedPreferences.edit().putString(DOWNLOADS_SORT_KEY, downloadsSort.name())
+                .apply();
+    }
+
+    public boolean showMainHint()
+    {
+        return sharedPreferences.getBoolean(MAIN_HINT, true);
+    }
+
+    public void hideMainHint()
+    {
+        sharedPreferences.edit()
+                .putBoolean(MAIN_HINT, false)
+                .apply();
+    }
+
+
+    public boolean showLoadHint()
+    {
+        return sharedPreferences.getBoolean(LOAD_HINT, true);
+    }
+
+    public void hideLoadHint()
+    {
+        sharedPreferences.edit()
+                .putBoolean(LOAD_HINT, false)
                 .apply();
     }
 }

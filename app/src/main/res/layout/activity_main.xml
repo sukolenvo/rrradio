@@ -10,6 +10,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+        <ImageView
+                android:id="@+id/hint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/hint_sort"
+                android:scaleType="fitXY"
+                android:visibility="gone"/>
+
         <include layout="@layout/toolbar"/>
 
         <android.support.v7.widget.RecyclerView

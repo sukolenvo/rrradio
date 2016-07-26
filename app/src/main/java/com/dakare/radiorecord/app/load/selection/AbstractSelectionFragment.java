@@ -1,5 +1,6 @@
 package com.dakare.radiorecord.app.load.selection;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.dakare.radiorecord.app.MainActivity;
+import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
@@ -48,6 +51,22 @@ public abstract class AbstractSelectionFragment<T extends RecyclerView.ViewHolde
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View view = super.onCreateView(inflater, container, savedInstanceState);
+        if (PreferenceManager.getInstance(getContext()).showLoadHint())
+        {
+            final View image = view.findViewById(R.id.hint);
+            image.setVisibility(View.VISIBLE);
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            image.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    image.setVisibility(View.GONE);
+                    PreferenceManager.getInstance(getContext()).hideLoadHint();
+                    getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                }
+            });
+        }
         if (savedInstanceState != null)
         {
             selectionManager.restoreState(savedInstanceState);

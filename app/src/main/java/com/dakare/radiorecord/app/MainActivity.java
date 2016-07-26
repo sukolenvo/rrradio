@@ -1,9 +1,12 @@
 package com.dakare.radiorecord.app;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
@@ -35,6 +38,22 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
         stationsView.setAdapter(mRecyclerViewDragDropManager.createWrappedAdapter(new StationAdapter(this, this)));
         mRecyclerViewDragDropManager.attachRecyclerView(stationsView);
         startService(new Intent(this, FileService.class));
+        if (PreferenceManager.getInstance(this).showMainHint())
+        {
+            final View image = findViewById(R.id.hint);
+            image.setVisibility(View.VISIBLE);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            image.setOnClickListener(new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    image.setVisibility(View.GONE);
+                    PreferenceManager.getInstance(MainActivity.this).hideMainHint();
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+                }
+            });
+        }
     }
 
     @Override
