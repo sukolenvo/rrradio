@@ -15,6 +15,7 @@
     <string name="settings_text">Settings</string>
     <string name="menu_main_text">Radio stations</string>
     <string name="menu_downloads_text">Downloaded</string>
+    <string name="menu_iap_text">Donate</string>
     <string name="menu_history_text">History</string>
     <string name="menu_top_text">Top 100</string>
     <string name="menu_superchart_text" translatable="false">Superchart</string>
@@ -74,4 +75,18 @@
     <string name="status_error_saving">Can\'t save audio. Please check free space and storage accessibility</string>
     <string name="error_source">Unsupported source format</string>
     <string name="error_not_downloaded">Some media was skipped - not downloaded</string>
+    <string name="donate_text">\tHello!\n\tHope you have a good day. This application is fully free. And all features are available for all users.
+        So, if you like <b>Radio Record</b> and want to support project - press that button below :). Sor sure this will motivate for new awesome releases
+        and new cool features you asking. Thanks for being with us.
+        \n\tSincerely,\n\tDevelopers Team
+    </string>
+    <string name="donate_small">Donate 1$</string>
+    <string name="donate_medium">Donate 5$</string>
+    <string name="donate_large">Donate 25$</string>
+    <string name="erro_no_iap_service">Google payment service cannot be located on device</string>
+    <string name="error_iap_purchase">This purchase cannot be performed. Please try later</string>
+    <string name="error_iap_open">Cannot open Google payment service</string>
+    <string name="error_iap_remote">Failed to connect to Google payment service. Please try later</string>
+    <string name="iap_thanks">Thanks for your support!</string>
+    <string name="error_iap_support">Google payment service not supported</string>
 </resources>

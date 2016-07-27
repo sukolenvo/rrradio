@@ -1,0 +1,81 @@
+<android.support.v4.widget.DrawerLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <include layout="@layout/toolbar"/>
+
+
+        <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/main_padding"
+                        android:textSize="16sp"
+                        android:text="@string/donate_text"/>
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/main_padding"
+                        android:paddingRight="@dimen/main_padding"
+                        android:paddingBottom="@dimen/main_padding"
+                        android:orientation="horizontal">
+
+                    <Button
+                            android:id="@+id/button_iap_small"
+                            android:background="@drawable/iap_button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/donate_small"
+                            android:textColor="@android:color/white"
+                            android:enabled="false"
+                            android:layout_weight="1"/>
+
+                    <Button
+                            android:id="@+id/button_iap_medium"
+                            android:background="@drawable/iap_button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="@string/donate_medium"
+                            android:layout_marginLeft="@dimen/main_padding"
+                            android:layout_marginRight="@dimen/main_padding"
+                            android:enabled="false"
+                            android:textColor="@android:color/white"
+                            android:layout_weight="1"/>
+                    <Button
+                            android:id="@+id/button_iap_large"
+                            android:background="@drawable/iap_button"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/white"
+                            android:enabled="false"
+                            android:text="@string/donate_large"
+                            android:layout_weight="1"/>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <fragment
+            android:id="@+id/fragment_drawer"
+            android:layout_width="@dimen/menu_width"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|start"
+            android:name="com.dakare.radiorecord.app.MenuFragment"/>
+
+</android.support.v4.widget.DrawerLayout>

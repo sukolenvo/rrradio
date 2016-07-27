@@ -83,6 +83,26 @@
                         android:textSize="@dimen/menu_text_size"/>
             </LinearLayout>
 
+            <LinearLayout
+                    android:id="@+id/menu_iap_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/item_menu_background"
+                    android:onClick="iapActivity">
+
+                <ImageView
+                        style="@style/MenuImage"
+                        android:src="@drawable/ic_attach_money_black_24dp"/>
+                <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:text="@string/menu_iap_text"
+                        android:layout_gravity="center_vertical"
+                        android:textSize="@dimen/menu_text_size"/>
+            </LinearLayout>
+
             <View style="@style/MenuSeparator"/>
 
             <LinearLayout
