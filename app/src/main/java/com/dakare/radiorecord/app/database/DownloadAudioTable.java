@@ -84,7 +84,8 @@ public class DownloadAudioTable extends Table {
         NONE(2, R.string.status_audio_none),
         ERROR_BROKEN_URL(3, R.string.status_error_url),
         ERROR_FILE_MISSING(4, R.string.status_error_file),
-        ERROR_SAVING(5, R.string.status_error_saving);
+        ERROR_SAVING(5, R.string.status_error_saving),
+        ERROR_UNKNOWN(6, R.string.status_error_unknown);
 
         private final int code;
         private final int messageId;

@@ -4,21 +4,11 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-    <TextView
-            android:id="@+id/playlist_position"
-            android:layout_width="@dimen/playlist_position"
-            android:padding="@dimen/main_padding"
-            android:layout_gravity="center_vertical"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:textColor="@android:color/black" />
-
     <ImageView
             android:id="@+id/playlist_icon"
             android:layout_width="@dimen/playlist_position"
             android:layout_height="@dimen/playlist_position_icon_height"
-            android:padding="@dimen/main_padding"
+            android:layout_marginLeft="@dimen/main_padding"
             android:layout_gravity="center_vertical"
             android:scaleType="centerInside"
             android:visibility="gone"
@@ -30,8 +20,17 @@
             android:layout_weight="1"
             android:padding="@dimen/main_padding"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:textSize="16sp"
             android:textColor="@color/playlist_default" />
+
+    <ImageView
+            android:id="@+id/download_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:padding="@dimen/main_padding"
+            android:layout_gravity="center_vertical"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_file_download_black_24dp"/>
 </LinearLayout>

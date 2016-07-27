@@ -72,7 +72,7 @@ public class DownloadTask implements Runnable
                 Log.i("Download Task", "Reconnecting...");
                 continue;
             }
-            if (responseCode == 416)
+            if (responseCode == 416 || responseCode == -1)
             {
                 length = (int) ready;
                 break;
@@ -103,6 +103,10 @@ public class DownloadTask implements Runnable
         {
             Log.w("DownloadTask", "Cannot connect to server");
             return 400;
+        } catch (Exception e)
+        {
+            listener.notifyError(id, DownloadAudioTable.Status.ERROR_UNKNOWN);
+            return -1;
         }
     }
 

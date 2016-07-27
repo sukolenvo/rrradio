@@ -91,4 +91,6 @@
         устройстве
     </string>
     <string name="iap_thanks">Спасибо за поддержку проекта!</string>
+    <string name="download_starting">Аудиозапись добавлена в загрузки</string>
+    <string name="status_error_unknown">Неизвестная ошибка при загрузке файла</string>
 </resources>

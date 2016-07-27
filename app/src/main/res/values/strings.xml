@@ -89,4 +89,6 @@
     <string name="error_iap_remote">Failed to connect to Google payment service. Please try later</string>
     <string name="iap_thanks">Thanks for your support!</string>
     <string name="error_iap_support">Google payment service not supported</string>
+    <string name="download_starting">Audio added to downloads</string>
+    <string name="status_error_unknown">Unknown error happend while downloading attempt</string>
 </resources>
