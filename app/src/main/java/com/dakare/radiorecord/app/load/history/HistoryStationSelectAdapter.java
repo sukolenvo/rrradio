@@ -12,6 +12,7 @@ import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.StationClickListener;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
     public void onBindViewHolder(final ViewHolder holder, final int position)
     {
         final Station item = items.get(position);
-        holder.icon.setImageResource(item.getIcon());
+        ImageLoader.getInstance().displayImage("drawable://" + item.getIcon(), holder.icon);
         holder.title.setText(item.getName());
         holder.container.setOnClickListener(new View.OnClickListener()
         {

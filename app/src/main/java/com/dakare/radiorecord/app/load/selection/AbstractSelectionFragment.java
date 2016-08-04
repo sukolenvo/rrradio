@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import com.dakare.radiorecord.app.MainActivity;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
@@ -53,7 +54,8 @@ public abstract class AbstractSelectionFragment<T extends RecyclerView.ViewHolde
         View view = super.onCreateView(inflater, container, savedInstanceState);
         if (PreferenceManager.getInstance(getContext()).showLoadHint())
         {
-            final View image = view.findViewById(R.id.hint);
+            final ImageView image = (ImageView) view.findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_load);
             image.setVisibility(View.VISIBLE);
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             image.setOnClickListener(new View.OnClickListener()

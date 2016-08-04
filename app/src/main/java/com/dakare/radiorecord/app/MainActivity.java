@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
@@ -40,7 +41,8 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
         startService(new Intent(this, FileService.class));
         if (PreferenceManager.getInstance(this).showMainHint())
         {
-            final View image = findViewById(R.id.hint);
+            final ImageView image = (ImageView) findViewById(R.id.hint);
+            image.setImageResource(R.drawable.hint_sort);
             image.setVisibility(View.VISIBLE);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             image.setOnClickListener(new View.OnClickListener()

@@ -13,6 +13,7 @@ import com.h6ah4i.android.widget.advrecyclerview.draggable.DraggableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.DraggableItemConstants;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.ItemDraggableRange;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractDraggableItemViewHolder;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,7 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position)
     {
         final Station item = items.get(position);
-        holder.icon.setImageResource(item.getIcon());
+        ImageLoader.getInstance().displayImage("drawable://" + item.getIcon(), holder.icon);
         holder.title.setText(item.getName());
         holder.container.setOnClickListener(new View.OnClickListener()
         {
