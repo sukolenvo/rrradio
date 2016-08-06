@@ -4,8 +4,7 @@ import android.os.Message;
 import android.util.Log;
 import lombok.Getter;
 
-public enum FileMessageType
-{
+public enum FileMessageType {
     REGISTER_SERVICE_CLIENT(1000),
     UNREGISTER_SERVICE_CLIENT(1001),
     UPDATE_ITEM(10001),
@@ -14,17 +13,13 @@ public enum FileMessageType
     @Getter
     private final int messageId;
 
-    FileMessageType(final int messageId)
-    {
+    FileMessageType(final int messageId) {
         this.messageId = messageId;
     }
 
-    public static FileMessageType fromMessage(Message message)
-    {
-        for (FileMessageType serviceMessageType : values())
-        {
-            if (message.what == serviceMessageType.messageId)
-            {
+    public static FileMessageType fromMessage(Message message) {
+        for (FileMessageType serviceMessageType : values()) {
+            if (message.what == serviceMessageType.messageId) {
                 return serviceMessageType;
             }
         }

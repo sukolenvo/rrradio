@@ -13,25 +13,20 @@ import com.dakare.radiorecord.app.R;
 import lombok.Getter;
 import lombok.Setter;
 
-public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements AdapterView.OnItemClickListener
-{
+public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements AdapterView.OnItemClickListener {
     private final LayoutInflater inflater;
     @Getter
     @Setter
     private Quality selectedQuality;
 
-    public QualityAdapter(final Context context, boolean withNoQuality)
-    {
+    public QualityAdapter(final Context context, boolean withNoQuality) {
         super(context, 0);
         this.inflater = LayoutInflater.from(context);
-        if (withNoQuality)
-        {
+        if (withNoQuality) {
             add(new QualityAdapterItem(context.getString(R.string.no_default_quality)));
         }
-        for (Quality quality : Quality.values())
-        {
-            if (quality != Quality.AAC || Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
-            {
+        for (Quality quality : Quality.values()) {
+            if (quality != Quality.AAC || Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 add(new QualityAdapterItem(quality, context.getString(quality.getNameRes())));
             }
         }
@@ -39,14 +34,11 @@ public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements 
     }
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent)
-    {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
         View view;
-        if (convertView == null)
-        {
+        if (convertView == null) {
             view = inflater.inflate(R.layout.item_quality, null);
-        } else
-        {
+        } else {
             view = convertView;
         }
         ViewHolder.from(view);
@@ -58,19 +50,16 @@ public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements 
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id)
-    {
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         selectedQuality = getItem(position).getQuality();
         notifyDataSetChanged();
     }
 
-    private static class ViewHolder
-    {
+    private static class ViewHolder {
         private static ImageView icon;
         private static TextView title;
 
-        private static void from(View parent)
-        {
+        private static void from(View parent) {
             icon = (ImageView) parent.findViewById(R.id.select_icon);
             title = (TextView) parent.findViewById(R.id.quality_text);
         }

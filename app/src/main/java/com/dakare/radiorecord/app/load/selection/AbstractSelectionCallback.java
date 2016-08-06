@@ -5,21 +5,18 @@ import android.view.Menu;
 import lombok.Setter;
 
 @Setter
-public abstract class AbstractSelectionCallback implements ActionMode.Callback
-{
+public abstract class AbstractSelectionCallback implements ActionMode.Callback {
 
     protected SelectionManager selectionManager;
     protected SelectionManager.SelectionItemCallback selectionItemCallback;
 
     @Override
-    public boolean onPrepareActionMode(final ActionMode mode, final Menu menu)
-    {
+    public boolean onPrepareActionMode(final ActionMode mode, final Menu menu) {
         return false;
     }
 
     @Override
-    public void onDestroyActionMode(final ActionMode mode)
-    {
+    public void onDestroyActionMode(final ActionMode mode) {
         selectionManager.onCancelSelection();
     }
 }

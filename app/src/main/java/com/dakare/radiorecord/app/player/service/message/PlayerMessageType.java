@@ -4,8 +4,7 @@ import android.os.Message;
 import android.util.Log;
 import lombok.Getter;
 
-public enum PlayerMessageType
-{
+public enum PlayerMessageType {
     REGISTER_SERVICE_CLIENT(1000),
     UNREGISTER_SERVICE_CLIENT(1001),
     UPDATE_STATE(1002),
@@ -19,17 +18,13 @@ public enum PlayerMessageType
     @Getter
     private final int messageId;
 
-    PlayerMessageType(final int messageId)
-    {
+    PlayerMessageType(final int messageId) {
         this.messageId = messageId;
     }
 
-    public static PlayerMessageType fromMessage(Message message)
-    {
-        for (PlayerMessageType serviceMessageType : values())
-        {
-            if (message.what == serviceMessageType.messageId)
-            {
+    public static PlayerMessageType fromMessage(Message message) {
+        for (PlayerMessageType serviceMessageType : values()) {
+            if (message.what == serviceMessageType.messageId) {
                 return serviceMessageType;
             }
         }

@@ -6,22 +6,19 @@ import com.dakare.radiorecord.app.load.AbstractLoadFragment;
 import lombok.AccessLevel;
 import lombok.Getter;
 
-public abstract class AbstractHistoryMediatorFragment<T extends RecyclerView.ViewHolder, K> extends AbstractLoadFragment<T, K>
-{
+public abstract class AbstractHistoryMediatorFragment<T extends RecyclerView.ViewHolder, K> extends AbstractLoadFragment<T, K> {
 
     @Getter(AccessLevel.PROTECTED)
     private HistoryFragmentMediator mediator;
 
     @Override
-    public void onDetach()
-    {
+    public void onDetach() {
         super.onDetach();
         mediator = null;
     }
 
     @Override
-    public void onAttach(final Context context)
-    {
+    public void onAttach(final Context context) {
         super.onAttach(context);
         mediator = (HistoryFragmentMediator) context;
     }

@@ -10,12 +10,10 @@ import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.quality.QualityAdapter;
 
-public class SettingsQualityDialog extends Dialog
-{
+public class SettingsQualityDialog extends Dialog {
     private QualityAdapter adapter;
 
-    public SettingsQualityDialog(final Context context)
-    {
+    public SettingsQualityDialog(final Context context) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_settings_quality);
@@ -25,19 +23,15 @@ public class SettingsQualityDialog extends Dialog
         adapter.setSelectedQuality(selected);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(adapter);
-        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 dismiss();
             }
         });
-        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 PreferenceManager.getInstance(context).setDefaultQuality(adapter.getSelectedQuality());
                 dismiss();
             }

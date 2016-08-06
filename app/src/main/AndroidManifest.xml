@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".player.PlayerActivity"
+                  android:hardwareAccelerated="true"
                   android:theme="@style/Player" />
         <activity android:name=".settings.SettingsActivity"
                   android:theme="@style/Main" />

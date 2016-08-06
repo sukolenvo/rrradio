@@ -20,8 +20,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K> extends Fragment implements Runnable
-{
+public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K> extends Fragment implements Runnable {
 
     private Handler handler;
     private ProgressView progressView;
@@ -30,11 +29,9 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
     private volatile boolean destroyed;
 
     @Override
-    public void onCreate(final Bundle savedInstanceState)
-    {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             items.addAll(restoreItems(savedInstanceState));
         }
         handler = new Handler();
@@ -44,8 +41,7 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
 
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
-    {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_load, null);
         progressView = (ProgressView) view.findViewById(R.id.progress_bar);
         progressView.showProgress();
@@ -53,11 +49,9 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.history_divider), false));
         recyclerView.setAdapter(getAdapter());
-        if (items.isEmpty())
-        {
+        if (items.isEmpty()) {
             new Thread(this).start();
-        } else
-        {
+        } else {
             getAdapter().setItems(items);
         }
         return view;
@@ -66,11 +60,9 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
     protected abstract AbstractLoadAdapter<T, K> getAdapter();
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
-        if (!items.isEmpty())
-        {
+        if (!items.isEmpty()) {
             progressView.hideProgress();
             getView().findViewById(R.id.recycler_view).setVisibility(View.VISIBLE);
             getAdapter().setItems(items);
@@ -78,37 +70,27 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
     }
 
     @Override
-    public void run()
-    {
-        try
-        {
+    public void run() {
+        try {
             items.addAll(startLoading());
-            handler.post(new Runnable()
-            {
+            handler.post(new Runnable() {
                 @Override
-                public void run()
-                {
-                    if (isResumed())
-                    {
+                public void run() {
+                    if (isResumed()) {
                         progressView.hideProgress();
-                        if (items.isEmpty())
-                        {
+                        if (items.isEmpty()) {
                             progressView.showEmptyView();
-                        } else
-                        {
+                        } else {
                             getView().findViewById(R.id.recycler_view).setVisibility(View.VISIBLE);
                             getAdapter().setItems(items);
                         }
                     }
                 }
             });
-        } catch (IOException e)
-        {
-            handler.post(new Runnable()
-            {
+        } catch (IOException e) {
+            handler.post(new Runnable() {
                 @Override
-                public void run()
-                {
+                public void run() {
                     Toast.makeText(getContext(), R.string.error_load_history, Toast.LENGTH_LONG).show();
                     progressView.hideProgress();
                     progressView.showEmptyView();
@@ -118,46 +100,36 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
     }
 
     @Override
-    public void onDestroy()
-    {
+    public void onDestroy() {
         super.onDestroy();
         destroyed = true;
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState)
-    {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (items.size() > 0)
-        {
+        if (items.size() > 0) {
             saveItems(items, outState);
         }
     }
 
     protected abstract void saveItems(final ArrayList<K> items, final Bundle outState);
 
-    protected void setStatus(final int statusId, final Object ... args)
-    {
-        handler.post(new Runnable()
-        {
+    protected void setStatus(final int statusId, final Object... args) {
+        handler.post(new Runnable() {
             @Override
-            public void run()
-            {
-                if (getContext() != null)
-                {
+            public void run() {
+                if (getContext() != null) {
                     progressView.setStatus(getString(statusId, args));
                 }
             }
         });
     }
 
-    protected void sendToast(final String message)
-    {
-        handler.post(new Runnable()
-        {
+    protected void sendToast(final String message) {
+        handler.post(new Runnable() {
             @Override
-            public void run()
-            {
+            public void run() {
                 Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
             }
         });

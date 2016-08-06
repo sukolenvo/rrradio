@@ -5,8 +5,7 @@ import com.dakare.radiorecord.app.player.service.PlayerServiceMessageHandler;
 
 import java.util.ArrayList;
 
-public interface Player
-{
+public interface Player {
     void setPlayerServiceMessageHandler(PlayerServiceMessageHandler playerServiceMessageHandler);
 
     void play(ArrayList<PlaylistItem> playlist, int position);

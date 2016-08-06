@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractSelectionAdapter<T extends RecyclerView.ViewHolder, K> extends AbstractLoadAdapter<T, K>
-        implements SelectionManager.SelectionItemCallback
-{
+        implements SelectionManager.SelectionItemCallback {
     @Getter
     protected List<K> items = new ArrayList<>();
     private final LayoutInflater inflater;
@@ -32,8 +31,7 @@ public abstract class AbstractSelectionAdapter<T extends RecyclerView.ViewHolder
     protected final SelectionManager selectionManager;
     private final PermissionProvider permissionProvider;
 
-    public AbstractSelectionAdapter(final Context context, final SelectionManager selectionManager, final PermissionProvider permissionProvider)
-    {
+    public AbstractSelectionAdapter(final Context context, final SelectionManager selectionManager, final PermissionProvider permissionProvider) {
         this.context = context;
         this.selectionManager = selectionManager;
         this.permissionProvider = permissionProvider;
@@ -43,18 +41,15 @@ public abstract class AbstractSelectionAdapter<T extends RecyclerView.ViewHolder
     }
 
     @Override
-    public void setItems(final List<K> items)
-    {
-        if (this.items != items || !this.items.containsAll(items))
-        {
+    public void setItems(final List<K> items) {
+        if (this.items != items || !this.items.containsAll(items)) {
             this.items = items;
             notifyDataSetChanged();
         }
     }
 
     @Override
-    public T onCreateViewHolder(final ViewGroup parent, final int viewType)
-    {
+    public T onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View view = inflater.inflate(getLayoutId(), parent, false);
         view.setOnClickListener(selectionManager);
         view.setOnLongClickListener(selectionManager);
@@ -66,8 +61,7 @@ public abstract class AbstractSelectionAdapter<T extends RecyclerView.ViewHolder
     protected abstract T createHolder(View view);
 
     @Override
-    public void onBindViewHolder(final T holder, final int position)
-    {
+    public void onBindViewHolder(final T holder, final int position) {
         holder.itemView.setTag(position);
         holder.itemView.setSelected(selectionManager.isSelecting() && selectionManager.isSelected(position));
     }
@@ -78,35 +72,28 @@ public abstract class AbstractSelectionAdapter<T extends RecyclerView.ViewHolder
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return items.size();
     }
 
     @Override
-    public void playSelected()
-    {
+    public void playSelected() {
         ArrayList<PlaylistItem> list = getSelectedList();
-        if (list.isEmpty())
-        {
+        if (list.isEmpty()) {
             showEmptySelection();
-        } else
-        {
+        } else {
             play(list, 0);
             selectionManager.finishSelection();
         }
     }
 
-    protected void showEmptySelection()
-    {
+    protected void showEmptySelection() {
         Toast.makeText(context, context.getString(R.string.error_empty_selection), Toast.LENGTH_LONG).show();
     }
 
-    public boolean onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults)
-    {
+    public boolean onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults) {
         if (requestCode == 1 && grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-        {
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             downloadSelected();
             return true;
         }
@@ -114,35 +101,27 @@ public abstract class AbstractSelectionAdapter<T extends RecyclerView.ViewHolder
     }
 
     @Override
-    public void downloadSelected()
-    {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-        {
-            if (context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-            {
-                permissionProvider.requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+    public void downloadSelected() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                permissionProvider.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 return;
             }
         }
         ArrayList<PlaylistItem> downloadList = getSelectedList();
-        if (downloadList.isEmpty())
-        {
+        if (downloadList.isEmpty()) {
             showEmptySelection();
-        } else
-        {
+        } else {
             StorageContract.getInstance().bulkInsertDownloadAudio(downloadList);
             context.startService(new Intent(context, FileService.class));
             selectionManager.finishSelection();
         }
     }
 
-    protected ArrayList<PlaylistItem> getSelectedList()
-    {
+    protected ArrayList<PlaylistItem> getSelectedList() {
         ArrayList<PlaylistItem> downloadList = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++)
-        {
-            if (selectionManager.isSelected(i))
-            {
+        for (int i = 0; i < items.size(); i++) {
+            if (selectionManager.isSelected(i)) {
                 downloadList.add(toPlaylistItem(i));
             }
         }
@@ -152,13 +131,11 @@ public abstract class AbstractSelectionAdapter<T extends RecyclerView.ViewHolder
     protected abstract PlaylistItem toPlaylistItem(int position);
 
     @Override
-    public void removeSelected()
-    {
+    public void removeSelected() {
 
     }
 
-    protected void play(final ArrayList<PlaylistItem> items, final int position)
-    {
+    protected void play(final ArrayList<PlaylistItem> items, final int position) {
         Intent intent = new Intent(context, PlayerService.class);
         intent.putExtra(PlayerService.PLAYLIST_KEY, items);
         intent.putExtra(PlayerService.POSITION_KEY, position);
@@ -169,30 +146,24 @@ public abstract class AbstractSelectionAdapter<T extends RecyclerView.ViewHolder
     }
 
     @Override
-    public void onSelectionChanged(final int position)
-    {
-        if (position == SelectionManager.POSITION_UNKNOWN)
-        {
+    public void onSelectionChanged(final int position) {
+        if (position == SelectionManager.POSITION_UNKNOWN) {
             notifyDataSetChanged();
-        } else
-        {
+        } else {
             notifyItemChanged(position);
         }
     }
 
     @Override
-    public void onClick(final View v)
-    {
+    public void onClick(final View v) {
         ArrayList<PlaylistItem> playlist = new ArrayList<>(items.size());
-        for (int  i = 0; i < items.size(); i++)
-        {
+        for (int i = 0; i < items.size(); i++) {
             playlist.add(toPlaylistItem(i));
         }
         play(playlist, (Integer) v.getTag());
     }
 
-    public interface PermissionProvider
-    {
+    public interface PermissionProvider {
         void requestPermissions(final String[] permissions, final int code);
     }
 }

@@ -18,18 +18,15 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder> implements DraggableItemAdapter<StationAdapter.ViewHolder>
-{
+public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder> implements DraggableItemAdapter<StationAdapter.ViewHolder> {
     private final LayoutInflater inflater;
     private final List<Station> items = new ArrayList<Station>();
     private final StationClickListener callback;
     private final PreferenceManager preferenceManager;
 
-    public StationAdapter(final Context context, final StationClickListener callback)
-    {
+    public StationAdapter(final Context context, final StationClickListener callback) {
         preferenceManager = PreferenceManager.getInstance(context);
-        for (Station station : preferenceManager.getStations())
-        {
+        for (Station station : preferenceManager.getStations()) {
             items.add(station);
         }
         this.inflater = LayoutInflater.from(context);
@@ -38,23 +35,19 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType)
-    {
+    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View view = inflater.inflate(R.layout.item_station, null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position)
-    {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Station item = items.get(position);
         ImageLoader.getInstance().displayImage("drawable://" + item.getIcon(), holder.icon);
         holder.title.setText(item.getName());
-        holder.container.setOnClickListener(new View.OnClickListener()
-        {
+        holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 callback.onClick(item);
             }
         });
@@ -77,8 +70,7 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
         }
     }
 
-    private void clearState(Drawable drawable)
-    {
+    private void clearState(Drawable drawable) {
         if (drawable != null) {
             drawable.setState(new int[0]);
         }
@@ -90,28 +82,23 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return items.size();
     }
 
     @Override
-    public boolean onCheckCanStartDrag(ViewHolder viewHolder, int i, int i1, int i2)
-    {
+    public boolean onCheckCanStartDrag(ViewHolder viewHolder, int i, int i1, int i2) {
         return true;
     }
 
     @Override
-    public ItemDraggableRange onGetItemDraggableRange(ViewHolder viewHolder, int i)
-    {
+    public ItemDraggableRange onGetItemDraggableRange(ViewHolder viewHolder, int i) {
         return null;
     }
 
     @Override
-    public void onMoveItem(final int fromPosition, final int toPosition)
-    {
-        if (fromPosition != toPosition)
-        {
+    public void onMoveItem(final int fromPosition, final int toPosition) {
+        if (fromPosition != toPosition) {
             Station fromItem = items.get(fromPosition);
             items.set(fromPosition, items.get(toPosition));
             items.set(toPosition, fromItem);
@@ -120,14 +107,12 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
         }
     }
 
-    public static class ViewHolder extends AbstractDraggableItemViewHolder
-    {
+    public static class ViewHolder extends AbstractDraggableItemViewHolder {
         private ImageView icon;
         private TextView title;
         private FrameLayout container;
 
-        public ViewHolder(View itemView)
-        {
+        public ViewHolder(View itemView) {
             super(itemView);
             container = (FrameLayout) itemView.findViewById(R.id.station_container);
             icon = (ImageView) itemView.findViewById(R.id.station_icon);

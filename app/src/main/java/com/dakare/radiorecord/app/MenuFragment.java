@@ -9,12 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-public class MenuFragment extends Fragment
-{
+public class MenuFragment extends Fragment {
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
-    {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.fragment_menu, null);
         ImageLoader.getInstance().displayImage("drawable://" + R.drawable.menu_label, (ImageView) inflate.findViewById(R.id.menu_label));
         return inflate;

@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DownloadTask implements Runnable
-{
+public class DownloadTask implements Runnable {
     @Getter
     private final long id;
     private final String url;
@@ -30,8 +29,7 @@ public class DownloadTask implements Runnable
     @Getter
     private boolean remove;
 
-    public DownloadTask(final Cursor cursor, final DownloadListener listener)
-    {
+    public DownloadTask(final Cursor cursor, final DownloadListener listener) {
         this.listener = listener;
         id = cursor.getLong(cursor.getColumnIndex(DownloadAudioTable.COLUMN_ID));
         url = cursor.getString(cursor.getColumnIndex(DownloadAudioTable.COLUMN_URL));
@@ -42,38 +40,30 @@ public class DownloadTask implements Runnable
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         File dir = new File(directory);
-        if (!dir.exists())
-        {
-            if (!dir.mkdirs())
-            {
+        if (!dir.exists()) {
+            if (!dir.mkdirs()) {
                 listener.notifyError(id, DownloadAudioTable.Status.ERROR_SAVING);
                 return;
             }
         }
         listener.notifyStart(id);
-        while (!stop)
-        {
+        while (!stop) {
             long ready = destinationFile.length();
             int responseCode = connect(ready);
-            if (responseCode == 404)
-            {
+            if (responseCode == 404) {
                 listener.notifyError(id, DownloadAudioTable.Status.ERROR_FILE_MISSING);
                 break;
             }
-            if (responseCode >= 200 && responseCode < 300)
-            {
-                if (!startCopy(ready))
-                {
+            if (responseCode >= 200 && responseCode < 300) {
+                if (!startCopy(ready)) {
                     break;
                 }
                 Log.i("Download Task", "Reconnecting...");
                 continue;
             }
-            if (responseCode == 416 || responseCode == -1)
-            {
+            if (responseCode == 416 || responseCode == -1) {
                 length = (int) ready;
                 break;
             }
@@ -84,10 +74,8 @@ public class DownloadTask implements Runnable
         listener.notifyExit(id, true);
     }
 
-    private int connect(final long skip)
-    {
-        try
-        {
+    private int connect(final long skip) {
+        try {
             connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setConnectTimeout(10000);
             connection.setRequestMethod("GET");
@@ -99,56 +87,42 @@ public class DownloadTask implements Runnable
             connection.setRequestProperty("Accept", "*/*");
             int responseCode = connection.getResponseCode();
             return responseCode;
-        } catch (IOException e)
-        {
+        } catch (IOException e) {
             Log.w("DownloadTask", "Cannot connect to server");
             return 400;
-        } catch (Exception e)
-        {
+        } catch (Exception e) {
             listener.notifyError(id, DownloadAudioTable.Status.ERROR_UNKNOWN);
             return -1;
         }
     }
 
-    private boolean startCopy(final long skip)
-    {
+    private boolean startCopy(final long skip) {
         FileOutputStream out = null;
-        try
-        {
-            try
-            {
+        try {
+            try {
                 out = new FileOutputStream(destinationFile, true);
-            } catch (FileNotFoundException e)
-            {
+            } catch (FileNotFoundException e) {
                 Log.e("DownloadTask", "Failed to open out stream");
                 listener.notifyError(id, DownloadAudioTable.Status.ERROR_SAVING);
                 return false;
             }
-            if (connection.getContentLength() > 0)
-            {
+            if (connection.getContentLength() > 0) {
                 length = (int) (connection.getContentLength() + skip);
             }
-            try
-            {
-                while (!stop)
-                {
+            try {
+                while (!stop) {
                     int readCount = connection.getInputStream().read(buffer);
-                    if (readCount == -1)
-                    {
+                    if (readCount == -1) {
                         return false;
-                    } else
-                    {
-                        try
-                        {
+                    } else {
+                        try {
                             out.write(buffer, 0, readCount);
                             out.flush();
-                            if (System.currentTimeMillis() - lastUpdate > 1000)
-                            {
+                            if (System.currentTimeMillis() - lastUpdate > 1000) {
                                 listener.updateSize(id, destinationFile.length(), length);
                                 lastUpdate = System.currentTimeMillis();
                             }
-                        } catch (IOException e)
-                        {
+                        } catch (IOException e) {
                             Log.e("DownloadTask", "Failed to write portion");
                             listener.notifyError(id, DownloadAudioTable.Status.ERROR_SAVING);
                             return false;
@@ -156,34 +130,27 @@ public class DownloadTask implements Runnable
                     }
                 }
                 return false;
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 Log.w("DownloadTask", "Connection refused", e);
                 return true;
             }
-        } finally
-        {
-            try
-            {
-                if (out != null)
-                {
+        } finally {
+            try {
+                if (out != null) {
                     out.close();
                 }
-            } catch (IOException e)
-            {
+            } catch (IOException e) {
                 Log.w("DownloadTask", "Failed to close out stream");
             }
         }
     }
 
-    public void cancel(final boolean remove)
-    {
+    public void cancel(final boolean remove) {
         stop = true;
         this.remove = remove;
     }
 
-    public interface DownloadListener
-    {
+    public interface DownloadListener {
         void notifyError(long id, DownloadAudioTable.Status error);
 
         void notifyExit(long id, boolean success);

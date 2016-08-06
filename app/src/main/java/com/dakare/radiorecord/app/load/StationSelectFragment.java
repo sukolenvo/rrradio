@@ -14,35 +14,30 @@ import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.StationClickListener;
 import com.dakare.radiorecord.app.load.history.HistoryStationSelectAdapter;
 
-public class StationSelectFragment extends Fragment implements StationClickListener
-{
+public class StationSelectFragment extends Fragment implements StationClickListener {
 
     private StationClickListener mediator;
 
     @Override
-    public void onDetach()
-    {
+    public void onDetach() {
         super.onDetach();
         mediator = null;
     }
 
     @Override
-    public void onAttach(final Context context)
-    {
+    public void onAttach(final Context context) {
         super.onAttach(context);
         mediator = (StationClickListener) context;
     }
 
     @Override
-    public void onCreate(final Bundle savedInstanceState)
-    {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState)
-    {
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_load, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setVisibility(View.VISIBLE);
@@ -52,10 +47,8 @@ public class StationSelectFragment extends Fragment implements StationClickListe
     }
 
     @Override
-    public void onClick(final Station station)
-    {
-        if (mediator != null)
-        {
+    public void onClick(final Station station) {
+        if (mediator != null) {
             mediator.onClick(station);
         }
     }

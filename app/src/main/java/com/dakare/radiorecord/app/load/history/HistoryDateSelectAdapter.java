@@ -13,15 +13,13 @@ import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryDateSelectAdapter extends AbstractLoadAdapter<HistoryDateSelectAdapter.ViewHolder, String>
-{
+public class HistoryDateSelectAdapter extends AbstractLoadAdapter<HistoryDateSelectAdapter.ViewHolder, String> {
     private final LayoutInflater inflater;
     private List<String> items = new ArrayList<String>();
     private final HistoryFragmentMediator historyFragmentMediator;
     private final Station station;
 
-    public HistoryDateSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator, final Station station)
-    {
+    public HistoryDateSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator, final Station station) {
         this.historyFragmentMediator = historyFragmentMediator;
         this.station = station;
         this.inflater = LayoutInflater.from(context);
@@ -29,32 +27,26 @@ public class HistoryDateSelectAdapter extends AbstractLoadAdapter<HistoryDateSel
     }
 
     //TODO: make abstract adapter and extract items logic there
-    public void setItems(final List<String> items)
-    {
-        if (this.items != items || !this.items.containsAll(items))
-        {
+    public void setItems(final List<String> items) {
+        if (this.items != items || !this.items.containsAll(items)) {
             this.items = items;
             notifyDataSetChanged();
         }
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType)
-    {
+    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View view = inflater.inflate(R.layout.item_history_date, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position)
-    {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final String item = items.get(position);
         holder.textView.setText(item);
-        holder.container.setOnClickListener(new View.OnClickListener()
-        {
+        holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 historyFragmentMediator.onDateSelected(station, item);
             }
         });
@@ -66,18 +58,15 @@ public class HistoryDateSelectAdapter extends AbstractLoadAdapter<HistoryDateSel
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return items.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
         private final View container;
 
-        public ViewHolder(final View itemView)
-        {
+        public ViewHolder(final View itemView) {
             super(itemView);
             container = itemView;
             textView = (TextView) itemView.findViewById(R.id.title);

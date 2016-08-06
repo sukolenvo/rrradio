@@ -3,6 +3,7 @@ package com.dakare.radiorecord.app.player;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.Menu;
@@ -11,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.dakare.radiorecord.app.MenuActivity;
+import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
+import com.dakare.radiorecord.app.view.EqualizerImage;
 import com.dakare.radiorecord.app.view.PlayerBackgroundImage;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
@@ -26,8 +29,9 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
-public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler, Runnable, SeekBar.OnSeekBarChangeListener
-{
+public class PlayerActivity extends MenuActivity
+        implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler,
+        Runnable, SeekBar.OnSeekBarChangeListener, SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String METADATA_ICON_KEY = "player_metadata_icon";
     private static final String METADATA_ARTIST_KEY = "player_metadata_artist";
     private static final String METADATA_SONG_KEY = "player_metadata_song";
@@ -52,15 +56,16 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     private View progressContainer;
     private TextView positionView;
     private TextView durationView;
+    private View eqButton;
+    private EqualizerImage equalizerImage;
+    private boolean isEqView;
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState)
-    {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
         initToolbar();
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             metadataIcon = savedInstanceState.getString(METADATA_ICON_KEY);
             metadataArtist = savedInstanceState.getString(METADATA_ARTIST_KEY);
             metadataSong = savedInstanceState.getString(METADATA_SONG_KEY);
@@ -71,11 +76,9 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         playlistView = (ListView) findViewById(R.id.playlist);
         adapter = new PlaylistAdapter(this);
         playlistView.setAdapter(adapter);
-        playlistView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        playlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id)
-            {
+            public void onItemClick(final AdapterView<?> parent, final View view, final int position, final long id) {
                 Intent serviceIntent = new Intent(PlayerActivity.this, PlayerService.class);
                 serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
                 serviceIntent.putExtra(PlayerService.POSITION_KEY, position);
@@ -88,31 +91,47 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         progressContainer = findViewById(R.id.playback_progress);
         positionView = (TextView) findViewById(R.id.position);
         durationView = (TextView) findViewById(R.id.duration);
+        eqButton = findViewById(R.id.equalizer_button);
+        eqButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                isEqView ^= true;
+                updateIcon();
+            }
+        });
+        equalizerImage = (EqualizerImage) findViewById(R.id.equalizer_image);
         setupOnClickListeners();
         updateViews();
+        PreferenceManager.getInstance(this).registerChangeListener(this);
+        updateEqViews();
+        updateIcon();
     }
 
-    private void setupOnClickListeners()
-    {
-        playButton.setOnClickListener(new View.OnClickListener()
-        {
+    private void updateIcon() {
+        if (isEqView) {
+            icon.setVisibility(View.GONE);
+            findViewById(R.id.player_control_container).setVisibility(View.GONE);
+            equalizerImage.setVisibility(View.VISIBLE);
+        } else {
+            icon.setVisibility(View.VISIBLE);
+            findViewById(R.id.player_control_container).setVisibility(View.VISIBLE);
+            equalizerImage.setVisibility(View.GONE);
+        }
+    }
+
+    private void setupOnClickListeners() {
+        playButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if (items == null)
-                {
+            public void onClick(View v) {
+                if (items == null) {
                     Toast.makeText(PlayerActivity.this, R.string.no_results, Toast.LENGTH_LONG).show();
-                } else
-                {
-                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
-                    {
-                        if (state == PlayerState.PAUSE)
-                        {
+                } else {
+                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted()) {
+                        if (state == PlayerState.PAUSE) {
                             Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
                             intent.setAction(NotificationListener.ACTION_RESUME);
                             startService(intent);
-                        } else
-                        {
+                        } else {
                             Intent serviceIntent = new Intent(PlayerActivity.this, PlayerService.class);
                             serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
                             serviceIntent.putExtra(PlayerService.POSITION_KEY, position);
@@ -122,18 +141,13 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
                 }
             }
         });
-        pauseButton.setOnClickListener(new View.OnClickListener()
-        {
+        pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                if (items == null)
-                {
+            public void onClick(View v) {
+                if (items == null) {
                     Toast.makeText(PlayerActivity.this, R.string.no_results, Toast.LENGTH_LONG).show();
-                } else
-                {
-                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
-                    {
+                } else {
+                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted()) {
                         Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
                         intent.setAction(NotificationListener.ACTION_PAUSE);
                         startService(intent);
@@ -141,18 +155,13 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
                 }
             }
         });
-        findViewById(R.id.next_button).setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.next_button).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v)
-            {
-                if (items == null)
-                {
+            public void onClick(final View v) {
+                if (items == null) {
                     Toast.makeText(PlayerActivity.this, R.string.no_results, Toast.LENGTH_LONG).show();
-                } else
-                {
-                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
-                    {
+                } else {
+                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted()) {
                         Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
                         intent.setAction(NotificationListener.ACTION_NEXT);
                         startService(intent);
@@ -160,18 +169,13 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
                 }
             }
         });
-        findViewById(R.id.prev_button).setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.prev_button).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v)
-            {
-                if (items == null)
-                {
+            public void onClick(final View v) {
+                if (items == null) {
                     Toast.makeText(PlayerActivity.this, R.string.no_results, Toast.LENGTH_LONG).show();
-                } else
-                {
-                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted())
-                    {
+                } else {
+                    if (playerServiceHelper.getServiceClient().isMessagingSessionStarted()) {
                         Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
                         intent.setAction(NotificationListener.ACTION_PREVIOUS);
                         startService(intent);
@@ -181,90 +185,71 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
         });
     }
 
-    private void updateViews()
-    {
+    private void updateViews() {
         setTitle(buildTitle());
-        if (PreferenceManager.getInstance(this).isMusicImageEnabled())
-        {
+        if (PreferenceManager.getInstance(this).isMusicImageEnabled()) {
             ImageLoader.getInstance().displayImage(metadataIcon, icon, options);
-        } else
-        {
+        } else {
             icon.setImageResource(R.drawable.default_player_background);
         }
-        if (state == PlayerState.PLAY)
-        {
+        if (state == PlayerState.PLAY) {
             playButton.setVisibility(View.GONE);
             pauseButton.setVisibility(View.VISIBLE);
-        } else
-        {
+        } else {
             playButton.setVisibility(View.VISIBLE);
             pauseButton.setVisibility(View.GONE);
         }
     }
 
-    private String buildTitle()
-    {
+    private String buildTitle() {
         PlaylistItem item = items == null || items.isEmpty() ? null : items.get(position);
         String song;
-        if (metadataArtist == null)
-        {
+        if (metadataArtist == null) {
             song = item == null ? getString(R.string.app_name) : (item.getTitle() + " - " + item.getSubtitle());
-        } else if (metadataSong == null)
-        {
+        } else if (metadataSong == null) {
             song = metadataArtist;
-        } else
-        {
+        } else {
             song = metadataArtist + " - " + metadataSong;
         }
         return song;
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         playerServiceHelper.getServiceClient().setPlayerMessageHandler(this);
         playerServiceHelper.bindService(this, this);
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
         playerServiceHelper.getServiceClient().setPlayerMessageHandler(null);
         playerServiceHelper.unbindService(this);
     }
 
     @Override
-    public void onServiceConnected()
-    {
+    public void onServiceConnected() {
         playerServiceHelper.getServiceClient().execute(new UpdateStatePlayerMessage());
         positionUpdater = new Thread(this);
         positionUpdater.start();
     }
 
     @Override
-    public void onServiceDisconnected()
-    {
-        if (positionUpdater != null)
-        {
+    public void onServiceDisconnected() {
+        if (positionUpdater != null) {
             positionUpdater.interrupt();
         }
     }
 
     @Override
-    public void onMessage(final PlayerMessage playerMessage)
-    {
-        if (playerMessage.getMessageType() == PlayerMessageType.PLAYBACK_STATE)
-        {
+    public void onMessage(final PlayerMessage playerMessage) {
+        if (playerMessage.getMessageType() == PlayerMessageType.PLAYBACK_STATE) {
             PlaybackStatePlayerMessage playbackState = (PlaybackStatePlayerMessage) playerMessage;
-            if (items == null || !items.equals(playbackState.getItems()))
-            {
+            if (items == null || !items.equals(playbackState.getItems())) {
                 adapter.clear();
-                if (playbackState.getItems() != null)
-                {
-                    for (PlaylistItem item : playbackState.getItems())
-                    {
+                if (playbackState.getItems() != null) {
+                    for (PlaylistItem item : playbackState.getItems()) {
                         adapter.add(item);
                     }
                 }
@@ -278,46 +263,37 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
             updateViews();
             adapter.setPosition(position);
             adapter.notifyDataSetChanged();
-        } else if (playerMessage.getMessageType() == PlayerMessageType.POSITION_STATE)
-        {
+        } else if (playerMessage.getMessageType() == PlayerMessageType.POSITION_STATE) {
             PositionStateMessage positionStateMessage = (PositionStateMessage) playerMessage;
             updateProgress(positionStateMessage.getPosition(), positionStateMessage.getDuration(), positionStateMessage.getBuffered());
         }
     }
 
-    private void updateProgress(final int position, final int duration, final int buffered)
-    {
-        if (duration <= 0)
-        {
+    private void updateProgress(final int position, final int duration, final int buffered) {
+        if (duration <= 0) {
             progressContainer.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             progressContainer.setVisibility(View.VISIBLE);
             playbackProgressView.setProgress((int) (position * 100. / duration));
             positionView.setText(msToString(position));
             durationView.setText(msToString(duration));
-            if (buffered > 0)
-            {
+            if (buffered > 0) {
                 playbackProgressView.setSecondaryProgress(buffered * 100 / duration);
-            } else
-            {
+            } else {
                 playbackProgressView.setSecondaryProgress(0);
             }
         }
     }
 
-    private String msToString(final int time)
-    {
-        if (time > 3_600_000)
-        {
+    private String msToString(final int time) {
+        if (time > 3_600_000) {
             return String.format("%d:%02d:%02d", time / 3_600_000, time / 60_000 % 60, time / 1000 % 60);
         }
         return String.format("%d:%02d", time / 60_000 % 60, time / 1000 % 60);
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState)
-    {
+    protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(METADATA_ICON_KEY, metadataIcon);
         outState.putString(METADATA_ARTIST_KEY, metadataArtist);
@@ -325,10 +301,8 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     }
 
     @Override
-    public void onBackPressed()
-    {
-        if (state == PlayerState.PAUSE)
-        {
+    public void onBackPressed() {
+        if (state == PlayerState.PAUSE) {
             Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
             intent.setAction(NotificationListener.ACTION_STOP);
             startService(intent);
@@ -337,48 +311,38 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     }
 
     @Override
-    public void run()
-    {
-        try
-        {
-            while(true)
-            {
-                if (state == PlayerState.PLAY && items != null && items.get(position) != null && !items.get(position).isLive())
-                {
+    public void run() {
+        try {
+            while (true) {
+                if (state == PlayerState.PLAY && items != null && items.get(position) != null && !items.get(position).isLive()) {
                     playerServiceHelper.getServiceClient().execute(new UpdatePositionMessage());
                 }
                 Thread.sleep(1000);
             }
-        } catch (InterruptedException e)
-        {
+        } catch (InterruptedException e) {
             //Nothing to do
         }
     }
 
     @Override
-    protected int getMenuContainer()
-    {
+    protected int getMenuContainer() {
         return R.id.menu_player_container;
     }
 
     @Override
-    public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser)
-    {
-        if (fromUser)
-        {
+    public void onProgressChanged(final SeekBar seekBar, final int progress, final boolean fromUser) {
+        if (fromUser) {
             playerServiceHelper.getServiceClient().execute(new SeekToMessage(progress / 100f));
         }
     }
 
     @Override
-    public void onStartTrackingTouch(final SeekBar seekBar)
-    {
+    public void onStartTrackingTouch(final SeekBar seekBar) {
         //Nothing to do
     }
 
     @Override
-    public void onStopTrackingTouch(final SeekBar seekBar)
-    {
+    public void onStopTrackingTouch(final SeekBar seekBar) {
         //Nothing to do
     }
 
@@ -390,19 +354,15 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.copy_to_clipboard:
-                try
-                {
+                try {
                     ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
                     ClipData clip = ClipData.newPlainText(getString(R.string.clipboard_label), buildTitle());
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(this, R.string.clipboard_success, Toast.LENGTH_LONG).show();
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     Toast.makeText(this, R.string.clipboeard_error, Toast.LENGTH_LONG).show();
                 }
                 return false;
@@ -412,8 +372,26 @@ public class PlayerActivity extends MenuActivity implements PlayerServiceHelper.
     }
 
     @Override
-    public void onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, final @NonNull int[] grantResults)
-    {
+    public void onRequestPermissionsResult(final int requestCode, final @NonNull String[] permissions, final @NonNull int[] grantResults) {
         adapter.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
+        if (PreferenceManager.EQ_ENABLED_KEY.equals(key)) {
+            updateEqViews();
+        }
+    }
+
+    private void updateEqViews() {
+        EqualizerSettings equalizerSettings = PreferenceManager.getInstance(this).getEqSettings();
+        if (equalizerSettings.isEnabled()) {
+            eqButton.setVisibility(View.VISIBLE);
+            equalizerImage.updateSettings(equalizerSettings);
+        } else {
+            eqButton.setVisibility(View.GONE);
+            isEqView = false;
+            updateIcon();
+        }
     }
 }

@@ -8,7 +8,7 @@
     <color name="settings_divider">#e1e1e1</color>
     <color name="playlist_active">#e96465</color>
     <color name="playlist_default">#919191</color>
-    <color name="player_toolbar">#10ffffff</color>
+    <color name="player_toolbar">@color/toolbar_color</color>
     <color name="menu_selected">#ededed</color>
     <color name="progress_empty">#cccbcb</color>
 </resources>

@@ -17,19 +17,16 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistoryStationSelectAdapter.ViewHolder>
-{
+public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistoryStationSelectAdapter.ViewHolder> {
     private final Context context;
     private final LayoutInflater inflater;
     private final List<Station> items = new ArrayList<Station>();
     private final StationClickListener callback;
     private final PreferenceManager preferenceManager;
 
-    public HistoryStationSelectAdapter(final Context context, final StationClickListener callback)
-    {
+    public HistoryStationSelectAdapter(final Context context, final StationClickListener callback) {
         preferenceManager = PreferenceManager.getInstance(context);
-        for (Station station : preferenceManager.getStations())
-        {
+        for (Station station : preferenceManager.getStations()) {
             items.add(station);
         }
         this.context = context;
@@ -39,23 +36,19 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType)
-    {
+    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         View view = inflater.inflate(R.layout.item_station, null);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position)
-    {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Station item = items.get(position);
         ImageLoader.getInstance().displayImage("drawable://" + item.getIcon(), holder.icon);
         holder.title.setText(item.getName());
-        holder.container.setOnClickListener(new View.OnClickListener()
-        {
+        holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 callback.onClick(item);
             }
         });
@@ -67,19 +60,16 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
     }
 
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return items.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView icon;
         private TextView title;
         private FrameLayout container;
 
-        public ViewHolder(View itemView)
-        {
+        public ViewHolder(View itemView) {
             super(itemView);
             container = (FrameLayout) itemView.findViewById(R.id.station_container);
             icon = (ImageView) itemView.findViewById(R.id.station_icon);

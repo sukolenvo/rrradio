@@ -17,33 +17,28 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode
-public class PlaylistItem implements Parcelable
-{
+public class PlaylistItem implements Parcelable {
     private String title;
     private String subtitle;
     private String url;
     private Station station;
     private boolean live;
 
-    public PlaylistItem(final Parcel parcel)
-    {
+    public PlaylistItem(final Parcel parcel) {
         title = parcel.readString();
         boolean[] booleans = new boolean[2];
         parcel.readBooleanArray(booleans);
         live = booleans[1];
-        if (booleans[0])
-        {
+        if (booleans[0]) {
             subtitle = parcel.readString();
-        } else
-        {
+        } else {
             subtitle = null;
         }
         station = Station.valueOf(parcel.readString());
         url = parcel.readString();
     }
 
-    public PlaylistItem(final Station station, final Quality quality)
-    {
+    public PlaylistItem(final Station station, final Quality quality) {
         this.title = station.getName();
         this.station = station;
         this.url = station.getStreamUrl(quality);
@@ -51,8 +46,7 @@ public class PlaylistItem implements Parcelable
         this.live = true;
     }
 
-    public PlaylistItem(final Station station, final HistoryMusicItem historyMusicItem)
-    {
+    public PlaylistItem(final Station station, final HistoryMusicItem historyMusicItem) {
         this.title = historyMusicItem.getArtist();
         this.station = station;
         this.url = encodeUrl(historyMusicItem.getUrl());
@@ -60,13 +54,11 @@ public class PlaylistItem implements Parcelable
         this.live = false;
     }
 
-    private String encodeUrl(final String url)
-    {
+    private String encodeUrl(final String url) {
         return Uri.encode(url, ":/%");
     }
 
-    public PlaylistItem(final Station station, final TopsMusicItem item)
-    {
+    public PlaylistItem(final Station station, final TopsMusicItem item) {
         this.title = item.getArtist();
         this.station = station;
         this.url = encodeUrl(item.getUrl());
@@ -74,8 +66,7 @@ public class PlaylistItem implements Parcelable
         this.live = false;
     }
 
-    public PlaylistItem(final SectionMusicItem item)
-    {
+    public PlaylistItem(final SectionMusicItem item) {
         this.title = item.getArtist();
         this.station = Station.RADIO_RECORD;
         this.url = encodeUrl(item.getUrl());
@@ -83,8 +74,7 @@ public class PlaylistItem implements Parcelable
         this.live = false;
     }
 
-    public PlaylistItem(final DownloadItem item)
-    {
+    public PlaylistItem(final DownloadItem item) {
         this.title = item.getTitle();
         this.station = Station.RADIO_RECORD;
         this.url = item.getFileUri().toString();
@@ -93,18 +83,15 @@ public class PlaylistItem implements Parcelable
     }
 
     @Override
-    public int describeContents()
-    {
+    public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(final Parcel dest, final int flags)
-    {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(title);
-        dest.writeBooleanArray(new boolean[] {subtitle != null, live});
-        if (subtitle != null)
-        {
+        dest.writeBooleanArray(new boolean[]{subtitle != null, live});
+        if (subtitle != null) {
             dest.writeString(subtitle);
         }
         dest.writeString(station.name());

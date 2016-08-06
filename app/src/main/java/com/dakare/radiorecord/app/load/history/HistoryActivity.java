@@ -14,35 +14,30 @@ import com.dakare.radiorecord.app.load.StationSelectFragment;
 
 import java.util.List;
 
-public class HistoryActivity extends MenuActivity implements HistoryFragmentMediator
-{
+public class HistoryActivity extends MenuActivity implements HistoryFragmentMediator {
 
     private BreadcrumbManager breadcrumbManager;
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState)
-    {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
         initToolbar();
         getSupportActionBar().setTitle("");
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0)
-        {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new StationSelectFragment())
                     .addToBackStack(null)
                     .commit();
         }
         breadcrumbManager = new BreadcrumbManager(getMyToolbar(), this);
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             breadcrumbManager.restoreState(savedInstanceState);
         }
     }
 
     @Override
-    public void onClick(final Station station)
-    {
+    public void onClick(final Station station) {
         breadcrumbManager.onSelectLevel2(station.getName());
         Fragment fragment = new HistoryDateSelectFragment();
         Bundle args = new Bundle();
@@ -56,17 +51,14 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
     }
 
     @Override
-    public void moveBack(final int level)
-    {
-        for (int i = level; i < getSupportFragmentManager().getBackStackEntryCount(); i++)
-        {
+    public void moveBack(final int level) {
+        for (int i = level; i < getSupportFragmentManager().getBackStackEntryCount(); i++) {
             getSupportFragmentManager().popBackStack();
         }
     }
 
     @Override
-    public void onDateSelected(final Station station, final String date)
-    {
+    public void onDateSelected(final Station station, final String date) {
         breadcrumbManager.onSelectLevel3(date);
         Fragment fragment = new HistoryMusicSelectFragment();
         Bundle args = new Bundle();
@@ -80,21 +72,17 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
     }
 
     @Override
-    public void onBackPressed()
-    {
-        if (getSupportFragmentManager().getBackStackEntryCount() > 1)
-        {
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() > 1) {
             getSupportFragmentManager().popBackStack();
             breadcrumbManager.setLevel(getSupportFragmentManager().getBackStackEntryCount() - 1);
-        } else
-        {
+        } else {
             finish();
         }
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState)
-    {
+    protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         breadcrumbManager.saveState(outState);
     }
@@ -107,24 +95,19 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
     }
 
     @Override
-    protected boolean onPrepareOptionsPanel(final View view, final Menu menu)
-    {
+    protected boolean onPrepareOptionsPanel(final View view, final Menu menu) {
         PreferenceManager instance = PreferenceManager.getInstance(this);
-        if (instance.isHistoryShowAll())
-        {
+        if (instance.isHistoryShowAll()) {
             menu.findItem(R.id.show_items).setVisible(false);
             menu.findItem(R.id.hide_items).setVisible(true);
-        } else
-        {
+        } else {
             menu.findItem(R.id.show_items).setVisible(true);
             menu.findItem(R.id.hide_items).setVisible(false);
         }
-        if (instance.isHistorySortOld())
-        {
+        if (instance.isHistorySortOld()) {
             menu.findItem(R.id.sort_up).setVisible(true);
             menu.findItem(R.id.sort_down).setVisible(false);
-        } else
-        {
+        } else {
             menu.findItem(R.id.sort_up).setVisible(false);
             menu.findItem(R.id.sort_down).setVisible(true);
         }
@@ -132,10 +115,8 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.show_items:
                 PreferenceManager.getInstance(this).setHistoryShowAll(true);
                 break;
@@ -152,10 +133,8 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
                 return super.onOptionsItemSelected(item);
         }
         List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for (Fragment fragment : fragments)
-        {
-            if (fragment instanceof HistoryMusicSelectFragment)
-            {
+        for (Fragment fragment : fragments) {
+            if (fragment instanceof HistoryMusicSelectFragment) {
                 ((HistoryMusicSelectFragment) fragment).onPreferenceChanged();
             }
         }
@@ -163,8 +142,7 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
     }
 
     @Override
-    protected int getMenuContainer()
-    {
+    protected int getMenuContainer() {
         return R.id.menu_history_container;
     }
 }

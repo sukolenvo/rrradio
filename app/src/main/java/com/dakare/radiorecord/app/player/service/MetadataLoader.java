@@ -18,8 +18,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class MetadataLoader implements Runnable
-{
+public class MetadataLoader implements Runnable {
     private final String URL = "https://www.radiorecord.ru/xml/{station}_online_v8.txt";
 
     private final AtomicBoolean playing = new AtomicBoolean();
@@ -31,8 +30,7 @@ public class MetadataLoader implements Runnable
     private final Context context;
     private Thread thread;
 
-    public MetadataLoader(final MetadataChangeCallback callback, final Context context)
-    {
+    public MetadataLoader(final MetadataChangeCallback callback, final Context context) {
         //TODO: fix image blink
         this.callback = callback;
         this.context = context;
@@ -40,87 +38,67 @@ public class MetadataLoader implements Runnable
         gsonHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json", GsonHttpMessageConverter.DEFAULT_CHARSET),
                 new MediaType("text", "plain", GsonHttpMessageConverter.DEFAULT_CHARSET)));
         template.getMessageConverters().add(gsonHttpMessageConverter);
-        template.setErrorHandler(new ResponseErrorHandler()
-        {
+        template.setErrorHandler(new ResponseErrorHandler() {
             @Override
-            public boolean hasError(final ClientHttpResponse response) throws IOException
-            {
+            public boolean hasError(final ClientHttpResponse response) throws IOException {
                 return response.getStatusCode() != HttpStatus.OK;
             }
 
             @Override
-            public void handleError(ClientHttpResponse response) throws IOException
-            {
+            public void handleError(ClientHttpResponse response) throws IOException {
                 Log.w("Update Task", "Cannot parse response");
             }
         });
     }
 
-    public void start(final Station station)
-    {
+    public void start(final Station station) {
         response = new UpdateResponse();
         this.station = station;
-        if (playing.compareAndSet(false, true))
-        {
+        if (playing.compareAndSet(false, true)) {
             thread = new Thread(this);
             thread.start();
         }
     }
 
-    public void stop()
-    {
+    public void stop() {
         playing.set(false);
         response = new UpdateResponse();
-        if (thread != null)
-        {
+        if (thread != null) {
             thread.interrupt();
         }
     }
 
     @Override
-    public void run()
-    {
-        while (playing.get() && thread == Thread.currentThread())
-        {
-            if (PreferenceManager.getInstance(context).isMusicMetadataEnabled())
-            {
+    public void run() {
+        while (playing.get() && thread == Thread.currentThread()) {
+            if (PreferenceManager.getInstance(context).isMusicMetadataEnabled()) {
                 UpdateResponse updateResponse = null;
-                try
-                {
+                try {
                     ResponseEntity<UpdateResponse> response = template.getForEntity(URL, UpdateResponse.class, station.getCodeAsParam());
-                    if (response.getStatusCode() == HttpStatus.OK)
-                    {
+                    if (response.getStatusCode() == HttpStatus.OK) {
                         updateResponse = response.getBody();
-                    } else
-                    {
+                    } else {
                         Log.w("MetadataLoader", "Received bad response " + response.getStatusCode());
                     }
-                } catch (Exception e)
-                {
+                } catch (Exception e) {
                     Log.e("Update Task", "Failed to load update", e);
                 }
-                if (updateResponse == null)
-                {
+                if (updateResponse == null) {
                     updateResponse = new UpdateResponse();
                 }
                 publishProgress(updateResponse);
             }
-            try
-            {
+            try {
                 Thread.sleep(5000);
-            } catch (InterruptedException e)
-            {
+            } catch (InterruptedException e) {
                 Log.w("Update task", "Exception in update task", e);
             }
         }
     }
 
-    private void publishProgress(final UpdateResponse response)
-    {
-        if (playing.get())
-        {
-            if (!response.equals(this.response))
-            {
+    private void publishProgress(final UpdateResponse response) {
+        if (playing.get()) {
+            if (!response.equals(this.response)) {
                 this.response = response;
                 callback.onMetadataChanged();
             }
@@ -128,8 +106,7 @@ public class MetadataLoader implements Runnable
     }
 
 
-    public interface MetadataChangeCallback
-    {
+    public interface MetadataChangeCallback {
         void onMetadataChanged();
     }
 }

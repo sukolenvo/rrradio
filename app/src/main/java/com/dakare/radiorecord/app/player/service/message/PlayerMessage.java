@@ -4,32 +4,26 @@ import android.os.Message;
 import android.util.Log;
 import lombok.Getter;
 
-public abstract class PlayerMessage
-{
+public abstract class PlayerMessage {
 
     @Getter
     private final PlayerMessageType messageType;
 
-    protected PlayerMessage(final PlayerMessageType messageType)
-    {
+    protected PlayerMessage(final PlayerMessageType messageType) {
         this.messageType = messageType;
     }
 
-    public Message toMessage()
-    {
+    public Message toMessage() {
         Message message = Message.obtain(null, messageType.getMessageId());
         return message;
     }
 
-    public static PlayerMessage fromMessage(final Message message)
-    {
+    public static PlayerMessage fromMessage(final Message message) {
         PlayerMessageType playerMessageType = PlayerMessageType.fromMessage(message);
-        if (playerMessageType == null)
-        {
+        if (playerMessageType == null) {
             return null;
         }
-        switch (playerMessageType)
-        {
+        switch (playerMessageType) {
             case UPDATE_STATE:
                 return new UpdateStatePlayerMessage();
             case PLAYBACK_STATE:

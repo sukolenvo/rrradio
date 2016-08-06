@@ -14,44 +14,38 @@ import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
 import lombok.Getter;
 
-public class CheckboxLayout extends LinearLayout implements Checkable, View.OnClickListener
-{
+public class CheckboxLayout extends LinearLayout implements Checkable, View.OnClickListener {
     @Getter
     private boolean checked;
     private ImageView imageView;
     private TextView text;
 
-    public CheckboxLayout(Context context)
-    {
+    public CheckboxLayout(Context context) {
         super(context);
         init();
     }
 
-    public CheckboxLayout(Context context, AttributeSet attrs)
-    {
+    public CheckboxLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
         setText(attrs, 0, 0);
     }
 
     @TargetApi(11)
-    public CheckboxLayout(Context context, AttributeSet attrs, int defStyleAttr)
-    {
+    public CheckboxLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
         setText(attrs, defStyleAttr, 0);
     }
 
     @TargetApi(21)
-    public CheckboxLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
-    {
+    public CheckboxLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
         setText(attrs, defStyleAttr, defStyleRes);
     }
 
-    private void init()
-    {
+    private void init() {
         setOrientation(HORIZONTAL);
         setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         int halfPadding = getResources().getDimensionPixelOffset(R.dimen.half_padding);
@@ -74,33 +68,28 @@ public class CheckboxLayout extends LinearLayout implements Checkable, View.OnCl
 
     }
 
-    private void setText(AttributeSet attrs, int defStyleAttr, int defStyleRes)
-    {
+    private void setText(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.dakare, defStyleAttr, defStyleRes);
         text.setText(array.getString(R.styleable.dakare_text));
     }
 
 
     @Override
-    public void setChecked(boolean checked)
-    {
-        if (this.checked ^ checked)
-        {
+    public void setChecked(boolean checked) {
+        if (this.checked ^ checked) {
             this.checked = checked;
             imageView.setImageResource(checked ? R.drawable.checked : R.drawable.unchecked);
         }
     }
 
     @Override
-    public void toggle()
-    {
+    public void toggle() {
         checked ^= true;
         imageView.setImageResource(checked ? R.drawable.checked : R.drawable.unchecked);
     }
 
     @Override
-    public void onClick(View v)
-    {
+    public void onClick(View v) {
         toggle();
     }
 }

@@ -5,18 +5,15 @@ import android.support.v4.app.Fragment;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.R;
 
-public abstract class AbstractSectionActivity extends MenuActivity
-{
+public abstract class AbstractSectionActivity extends MenuActivity {
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState)
-    {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment);
         initToolbar();
         getSupportActionBar().setTitle(getActionbarTitle());
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0)
-        {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
             Fragment fragment = new SectionFragment();
             Bundle args = new Bundle();
             args.putString(SectionFragment.CATEGORY_KEY, getSectionName());
@@ -33,8 +30,7 @@ public abstract class AbstractSectionActivity extends MenuActivity
     protected abstract String getSectionName();
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed() {
         finish();
     }
 }

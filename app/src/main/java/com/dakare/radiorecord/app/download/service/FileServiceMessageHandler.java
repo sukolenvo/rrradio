@@ -12,16 +12,13 @@ public class FileServiceMessageHandler extends Handler {
     private final ServiceClientsList clients = new ServiceClientsList();
 
     @Override
-	public void handleMessage(final Message msg) {
+    public void handleMessage(final Message msg) {
         FileMessageType fileMessageType = FileMessageType.fromMessage(msg);
-        if (fileMessageType == null)
-        {
+        if (fileMessageType == null) {
             super.handleMessage(msg);
 
-        } else
-        {
-            switch (fileMessageType)
-            {
+        } else {
+            switch (fileMessageType) {
                 case REGISTER_SERVICE_CLIENT:
                     clients.registerClient(msg.replyTo);
                     break;
@@ -33,9 +30,9 @@ public class FileServiceMessageHandler extends Handler {
                     super.handleMessage(msg);
             }
         }
-	}
+    }
 
-	public void handleServiceResponse(final FileMessage response) {
-		clients.sendBroadcastMessage(response.toMessage());
-	}
+    public void handleServiceResponse(final FileMessage response) {
+        clients.sendBroadcastMessage(response.toMessage());
+    }
 }

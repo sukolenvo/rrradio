@@ -4,8 +4,7 @@ import com.dakare.radiorecord.app.quality.Quality;
 import lombok.Getter;
 
 @Getter
-public enum Station
-{
+public enum Station {
 
     RADIO_RECORD("Radio Record", R.drawable.rr_ico, "/rr", 8100, 8101),
     MEGAMIX("Megamix", R.drawable.megamix_ico, "/mix", 805, 805),
@@ -38,8 +37,7 @@ public enum Station
     private int portLow;
     private int portMedium;
 
-    Station(final String name, final int icon, final String code, final int portLow, final int portMedium)
-    {
+    Station(final String name, final int icon, final String code, final int portLow, final int portMedium) {
         this.name = name;
         this.icon = icon;
         this.code = code;
@@ -47,10 +45,8 @@ public enum Station
         this.portMedium = portMedium;
     }
 
-    public String getStreamUrl(final Quality quality)
-    {
-        switch (quality)
-        {
+    public String getStreamUrl(final Quality quality) {
+        switch (quality) {
             case AAC:
                 return "http://air2.radiorecord.ru:805" + code + "_aac";
             case LOW:
@@ -64,8 +60,7 @@ public enum Station
         }
     }
 
-    public String getCodeAsParam()
-    {
+    public String getCodeAsParam() {
         return code.substring(1);
     }
 }

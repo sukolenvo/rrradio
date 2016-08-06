@@ -21,71 +21,58 @@ import com.dakare.radiorecord.app.settings.SettingsActivity;
 import com.dakare.radiorecord.app.load.top.TopsActivity;
 import lombok.Getter;
 
-public class MenuActivity extends AppCompatActivity
-{
+public class MenuActivity extends AppCompatActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout drawer;
     @Getter
     private Toolbar myToolbar;
 
-    protected void initToolbar()
-    {
+    protected void initToolbar() {
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawer, myToolbar, R.string.app_name, R.string.app_name);
         drawer.addDrawerListener(mDrawerToggle);
         int container = getMenuContainer();
-        if (getMenuContainer() != 0)
-        {
+        if (getMenuContainer() != 0) {
             findViewById(container).setSelected(true);
         }
     }
 
-    protected int getMenuContainer()
-    {
+    protected int getMenuContainer() {
         return 0;
     }
 
-    protected void setTitle(final String title)
-    {
+    protected void setTitle(final String title) {
         myToolbar.setTitle(title);
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item)
-    {
-        if (mDrawerToggle.onOptionsItemSelected(item))
-        {
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void showSettings(final View view)
-    {
+    public void showSettings(final View view) {
         startActivity(new Intent(this, SettingsActivity.class));
         closeMenu();
     }
 
-    public void sendFeedback(final View view)
-    {
+    public void sendFeedback(final View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("market://details?id=" + getPackageName()));
-        try
-        {
+        try {
             startActivity(intent);
-        } catch (ActivityNotFoundException e)
-        {
+        } catch (ActivityNotFoundException e) {
             intent.setData(Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName()));
             startActivity(intent);
         }
     }
 
-    public void mainActivity(final View view)
-    {
-        if (!(this instanceof MainActivity))
-        {
+    public void mainActivity(final View view) {
+        if (!(this instanceof MainActivity)) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -93,10 +80,8 @@ public class MenuActivity extends AppCompatActivity
         closeMenu();
     }
 
-    public void historyActivity(final View view)
-    {
-        if (!(this instanceof HistoryActivity))
-        {
+    public void historyActivity(final View view) {
+        if (!(this instanceof HistoryActivity)) {
             Intent intent = new Intent(this, HistoryActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -104,10 +89,8 @@ public class MenuActivity extends AppCompatActivity
         closeMenu();
     }
 
-    public void topsActivity(final View view)
-    {
-        if (!(this instanceof TopsActivity))
-        {
+    public void topsActivity(final View view) {
+        if (!(this instanceof TopsActivity)) {
             Intent intent = new Intent(this, TopsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -115,10 +98,8 @@ public class MenuActivity extends AppCompatActivity
         closeMenu();
     }
 
-    public void downloadsActivity(final View view)
-    {
-        if (!(this instanceof DownloadsActivity))
-        {
+    public void downloadsActivity(final View view) {
+        if (!(this instanceof DownloadsActivity)) {
             Intent intent = new Intent(this, DownloadsActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -126,10 +107,8 @@ public class MenuActivity extends AppCompatActivity
         closeMenu();
     }
 
-    public void playerActivity(final View view)
-    {
-        if (!(this instanceof PlayerActivity))
-        {
+    public void playerActivity(final View view) {
+        if (!(this instanceof PlayerActivity)) {
             Intent intent = new Intent(this, PlayerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -137,10 +116,8 @@ public class MenuActivity extends AppCompatActivity
         closeMenu();
     }
 
-    public void sectionNewActivity(final View view)
-    {
-        if (!(this instanceof SectionNewActivity))
-        {
+    public void sectionNewActivity(final View view) {
+        if (!(this instanceof SectionNewActivity)) {
             Intent intent = new Intent(this, SectionNewActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -148,10 +125,8 @@ public class MenuActivity extends AppCompatActivity
         closeMenu();
     }
 
-    public void superchartActivity(final View view)
-    {
-        if (!(this instanceof SuperchartActivity))
-        {
+    public void superchartActivity(final View view) {
+        if (!(this instanceof SuperchartActivity)) {
             Intent intent = new Intent(this, SuperchartActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -159,10 +134,8 @@ public class MenuActivity extends AppCompatActivity
         closeMenu();
     }
 
-    public void megamixActivity(final View view)
-    {
-        if (!(this instanceof MegamixActivity))
-        {
+    public void megamixActivity(final View view) {
+        if (!(this instanceof MegamixActivity)) {
             Intent intent = new Intent(this, MegamixActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -170,10 +143,8 @@ public class MenuActivity extends AppCompatActivity
         closeMenu();
     }
 
-    public void iapActivity(final View view)
-    {
-        if (!(this instanceof IapActivity))
-        {
+    public void iapActivity(final View view) {
+        if (!(this instanceof IapActivity)) {
             Intent intent = new Intent(this, IapActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -182,19 +153,15 @@ public class MenuActivity extends AppCompatActivity
     }
 
     @Override
-    public void onBackPressed()
-    {
-        if (drawer.isDrawerOpen(Gravity.LEFT))
-        {
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(Gravity.LEFT)) {
             closeMenu();
-        } else
-        {
+        } else {
             super.onBackPressed();
         }
     }
 
-    private void closeMenu()
-    {
+    private void closeMenu() {
         drawer.closeDrawer(Gravity.LEFT);
     }
 }

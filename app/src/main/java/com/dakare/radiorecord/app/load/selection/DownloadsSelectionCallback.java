@@ -6,21 +6,17 @@ import android.view.MenuItem;
 import com.dakare.radiorecord.app.R;
 import lombok.Setter;
 
-public class DownloadsSelectionCallback extends AbstractSelectionCallback
-{
+public class DownloadsSelectionCallback extends AbstractSelectionCallback {
 
     @Override
-    public boolean onCreateActionMode(final ActionMode mode, final Menu menu)
-    {
+    public boolean onCreateActionMode(final ActionMode mode, final Menu menu) {
         mode.getMenuInflater().inflate(R.menu.downloads_selection_menu, menu);
         return true;
     }
 
     @Override
-    public boolean onActionItemClicked(final ActionMode mode, final MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onActionItemClicked(final ActionMode mode, final MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.remove:
                 selectionItemCallback.removeSelected();
                 return true;

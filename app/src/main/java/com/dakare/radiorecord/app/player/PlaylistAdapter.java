@@ -22,51 +22,42 @@ import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import lombok.Setter;
 
-public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.OnClickListener
-{
+public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.OnClickListener {
 
     private final LayoutInflater layoutInflater;
     @Setter
     private int position;
     private final Activity activity;
 
-    public PlaylistAdapter(final Activity activity)
-    {
+    public PlaylistAdapter(final Activity activity) {
         super(activity, 0);
         this.activity = activity;
         layoutInflater = LayoutInflater.from(activity);
     }
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent)
-    {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
         View view;
-        if (convertView == null)
-        {
+        if (convertView == null) {
             view = layoutInflater.inflate(R.layout.item_playlist, null);
             view.findViewById(R.id.download_icon).setOnClickListener(this);
-        } else
-        {
+        } else {
             view = convertView;
         }
         TextView titleView = (TextView) view.findViewById(R.id.playlist_title);
         PlaylistItem item = getItem(position);
         View downloadIcon = view.findViewById(R.id.download_icon);
-        if (item.isLive() || item.getUrl().startsWith("file://"))
-        {
+        if (item.isLive() || item.getUrl().startsWith("file://")) {
             downloadIcon.setVisibility(View.GONE);
-        } else
-        {
+        } else {
             downloadIcon.setVisibility(View.VISIBLE);
         }
         downloadIcon.setTag(position);
-        if (this.position == position)
-        {
+        if (this.position == position) {
             titleView.setText(item.getTitle() + " - " + item.getSubtitle());
             titleView.setTextColor(view.getResources().getColor(R.color.playlist_active));
             view.findViewById(R.id.playlist_icon).setVisibility(View.VISIBLE);
-        } else
-        {
+        } else {
             String positionString = (position + 1) + ".  ";
             Spannable spannable = new SpannableString(positionString + item.getTitle() + " - " + item.getSubtitle());
             spannable.setSpan(new ForegroundColorSpan(Color.BLACK), 0, positionString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -82,31 +73,25 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.
     }
 
     @Override
-    public void onClick(final View v)
-    {
+    public void onClick(final View v) {
         int position = (int) v.getTag();
-        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, position + 1);
-        } else
-        {
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, position + 1);
+        } else {
             downloadItem(position);
         }
     }
 
-    private void downloadItem(final int position)
-    {
+    private void downloadItem(final int position) {
         PlaylistItem item = getItem(position);
         StorageContract.getInstance().insertDownloadAudio(item);
         activity.startService(new Intent(activity, FileService.class));
         Toast.makeText(activity, R.string.download_starting, Toast.LENGTH_LONG).show();
     }
 
-    public void onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults)
-    {
+    public void onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults) {
         if (grantResults.length > 0
-                && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-        {
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             downloadItem(requestCode - 1);
         }
     }

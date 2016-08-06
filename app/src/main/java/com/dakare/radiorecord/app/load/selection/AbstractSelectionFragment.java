@@ -32,14 +32,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public abstract class AbstractSelectionFragment<T extends RecyclerView.ViewHolder, K> extends AbstractLoadFragment<T, K> implements AbstractSelectionAdapter.PermissionProvider
-{
+public abstract class AbstractSelectionFragment<T extends RecyclerView.ViewHolder, K> extends AbstractLoadFragment<T, K> implements AbstractSelectionAdapter.PermissionProvider {
     @Getter(AccessLevel.PROTECTED)
     private SelectionManager selectionManager;
 
     @Override
-    public void onCreate(final Bundle savedInstanceState)
-    {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         selectionManager = new SelectionManager((AppCompatActivity) getActivity(), new SelectionCallback());
     }
@@ -49,45 +47,37 @@ public abstract class AbstractSelectionFragment<T extends RecyclerView.ViewHolde
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
-    {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
-        if (PreferenceManager.getInstance(getContext()).showLoadHint())
-        {
+        if (PreferenceManager.getInstance(getContext()).showLoadHint()) {
             final ImageView image = (ImageView) view.findViewById(R.id.hint);
             image.setImageResource(R.drawable.hint_load);
             image.setVisibility(View.VISIBLE);
             getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            image.setOnClickListener(new View.OnClickListener()
-            {
+            image.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view)
-                {
+                public void onClick(View view) {
                     image.setVisibility(View.GONE);
                     PreferenceManager.getInstance(getContext()).hideLoadHint();
                     getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                 }
             });
         }
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             selectionManager.restoreState(savedInstanceState);
         }
         return view;
     }
 
     @Override
-    public void onSaveInstanceState(final Bundle outState)
-    {
+    public void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         selectionManager.saveState(outState);
     }
 
     @Override
-    public void onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults)
-    {
-        if (!getAdapter().onRequestPermissionsResult(requestCode, permissions, grantResults))
-        {
+    public void onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults) {
+        if (!getAdapter().onRequestPermissionsResult(requestCode, permissions, grantResults)) {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }

@@ -7,29 +7,23 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class SectionMusicItem implements Parcelable
-{
+public class SectionMusicItem implements Parcelable {
     private String artist;
     private String song;
     private String url;
 
-    public SectionMusicItem(final Parcel parcel)
-    {
+    public SectionMusicItem(final Parcel parcel) {
         artist = parcel.readString();
         song = parcel.readString();
         url = parcel.readString();
     }
 
-    public void setArtist(final String artist)
-    {
-        if (artist != null)
-        {
+    public void setArtist(final String artist) {
+        if (artist != null) {
             String[] values = artist.split(" - ", 2);
-            if (values.length == 1)
-            {
+            if (values.length == 1) {
                 this.artist = values[0];
-            } else
-            {
+            } else {
                 this.artist = values[0];
                 this.song = values[1];
             }
@@ -37,14 +31,12 @@ public class SectionMusicItem implements Parcelable
     }
 
     @Override
-    public int describeContents()
-    {
+    public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(final Parcel dest, final int flags)
-    {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(artist);
         dest.writeString(song);
         dest.writeString(url);

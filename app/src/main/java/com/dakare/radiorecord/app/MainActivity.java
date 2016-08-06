@@ -19,13 +19,11 @@ import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropM
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends MenuActivity implements StationClickListener, QualityDialog.QualityHandler
-{
+public class MainActivity extends MenuActivity implements StationClickListener, QualityDialog.QualityHandler {
     private RecyclerViewDragDropManager mRecyclerViewDragDropManager;
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState)
-    {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initToolbar();
@@ -39,17 +37,14 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
         stationsView.setAdapter(mRecyclerViewDragDropManager.createWrappedAdapter(new StationAdapter(this, this)));
         mRecyclerViewDragDropManager.attachRecyclerView(stationsView);
         startService(new Intent(this, FileService.class));
-        if (PreferenceManager.getInstance(this).showMainHint())
-        {
+        if (PreferenceManager.getInstance(this).showMainHint()) {
             final ImageView image = (ImageView) findViewById(R.id.hint);
             image.setImageResource(R.drawable.hint_sort);
             image.setVisibility(View.VISIBLE);
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-            image.setOnClickListener(new View.OnClickListener()
-            {
+            image.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view)
-                {
+                public void onClick(View view) {
                     image.setVisibility(View.GONE);
                     PreferenceManager.getInstance(MainActivity.this).hideMainHint();
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
@@ -59,20 +54,17 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
     }
 
     @Override
-    public void onClick(final Station station)
-    {
+    public void onClick(final Station station) {
         PreferenceManager.getInstance(this).setLastStation(station);
         QualityDialog.getQuality(this, this);
     }
 
     @Override
-    public void onQualitySelected(final Quality quality)
-    {
+    public void onQualitySelected(final Quality quality) {
         Intent serviceIntent = new Intent(this, PlayerService.class);
         List<Station> stations = PreferenceManager.getInstance(this).getStations();
         ArrayList<PlaylistItem> items = new ArrayList<>(stations.size());
-        for (Station station : stations)
-        {
+        for (Station station : stations) {
             items.add(new PlaylistItem(station, quality));
         }
         serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
@@ -84,15 +76,13 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         mRecyclerViewDragDropManager.cancelDrag();
         super.onPause();
     }
 
     @Override
-    protected int getMenuContainer()
-    {
+    protected int getMenuContainer() {
         return R.id.menu_main_container;
     }
 }

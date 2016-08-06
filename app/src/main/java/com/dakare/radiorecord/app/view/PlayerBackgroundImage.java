@@ -10,30 +10,25 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
 
-public class PlayerBackgroundImage extends ImageView
-{
+public class PlayerBackgroundImage extends ImageView {
     private static final float PADDING = 0.2f;
     private static final float BLUR_SCALE = 0.25f;
     private static final int BLUR_RADIUS = 4;
 
-    public PlayerBackgroundImage(Context context)
-    {
+    public PlayerBackgroundImage(Context context) {
         super(context);
     }
 
-    public PlayerBackgroundImage(Context context, AttributeSet attrs)
-    {
+    public PlayerBackgroundImage(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public PlayerBackgroundImage(Context context, AttributeSet attrs, int defStyleAttr)
-    {
+    public PlayerBackgroundImage(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public PlayerBackgroundImage(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
-    {
+    public PlayerBackgroundImage(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -42,13 +37,10 @@ public class PlayerBackgroundImage extends ImageView
     private float imageXYRate;
 
     @Override
-    protected void onDraw(final Canvas canvas)
-    {
+    protected void onDraw(final Canvas canvas) {
         canvas.drawColor(Color.WHITE);
-        if (width != 0 && height != 0)
-        {
-            if (getDrawable() != null)
-            {
+        if (width != 0 && height != 0) {
+            if (getDrawable() != null) {
                 Bitmap bitmap = drawableToBitmap(getDrawable());
                 putInBackground(canvas, bitmap);
                 canvas.drawARGB(80, 256, 256, 256);
@@ -57,17 +49,17 @@ public class PlayerBackgroundImage extends ImageView
         }
     }
 
-    public Bitmap drawableToBitmap (Drawable drawable) {
+    public Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap = null;
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if(bitmapDrawable.getBitmap() != null) {
+            if (bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }
         }
 
-        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
             bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
         } else {
             bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
@@ -79,34 +71,28 @@ public class PlayerBackgroundImage extends ImageView
         return bitmap;
     }
 
-    private void putInCenter(final Canvas canvas, final Bitmap bitmap)
-    {
+    private void putInCenter(final Canvas canvas, final Bitmap bitmap) {
         float defaultXYRate = (float) bitmap.getWidth() / bitmap.getHeight();
         Rect destination;
-        if (imageXYRate > defaultXYRate)
-        {
+        if (imageXYRate > defaultXYRate) {
             int resultWidth = (int) (height * defaultXYRate * (1 - 2 * PADDING));
             destination = new Rect((int) (width * PADDING + (width * (1 - 2 * PADDING) - resultWidth) / 2), (int) (height * PADDING),
                     (int) (width * (1 - PADDING) - (width * (1 - 2 * PADDING) - resultWidth) / 2), (int) (height * (1 - PADDING)));
-        } else
-        {
+        } else {
             int resultHeight = (int) ((1 - 2 * PADDING) * width / defaultXYRate);
             destination = new Rect((int) (width * PADDING), (int) (height * PADDING + (height * (1 - 2 * PADDING) - resultHeight) / 2),
-                    (int) (width * (1 - PADDING)), (int) (height * (1 - PADDING)  - (height * (1 - 2 * PADDING) - resultHeight) / 2));
+                    (int) (width * (1 - PADDING)), (int) (height * (1 - PADDING) - (height * (1 - 2 * PADDING) - resultHeight) / 2));
         }
         canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()), destination, null);
     }
 
-    private void putInBackground(final Canvas canvas, final Bitmap bitmap)
-    {
+    private void putInBackground(final Canvas canvas, final Bitmap bitmap) {
         float defaultXYRate = (float) bitmap.getWidth() / bitmap.getHeight();
         Rect destination;
-        if (imageXYRate > defaultXYRate)
-        {
+        if (imageXYRate > defaultXYRate) {
             int resultHeight = (int) (bitmap.getHeight() * defaultXYRate / imageXYRate);
             destination = new Rect(0, (bitmap.getHeight() - resultHeight) / 2, bitmap.getWidth(), (bitmap.getHeight() - resultHeight) / 2 + resultHeight);
-        } else
-        {
+        } else {
             int resultWidth = (int) (bitmap.getWidth() * imageXYRate / defaultXYRate);
             destination = new Rect((bitmap.getWidth() - resultWidth) / 2, 0, (bitmap.getWidth() - resultWidth) / 2 + resultWidth, bitmap.getHeight());
         }
@@ -271,7 +257,7 @@ public class PlayerBackgroundImage extends ImageView
             stackpointer = radius;
             for (y = 0; y < h; y++) {
                 // Preserve alpha channel: ( 0xff000000 & pix[yi] )
-                pix[yi] = ( 0xff000000 & pix[yi] ) | ( dv[rsum] << 16 ) | ( dv[gsum] << 8 ) | dv[bsum];
+                pix[yi] = (0xff000000 & pix[yi]) | (dv[rsum] << 16) | (dv[gsum] << 8) | dv[bsum];
 
                 rsum -= routsum;
                 gsum -= goutsum;
@@ -322,8 +308,7 @@ public class PlayerBackgroundImage extends ImageView
     }
 
     @Override
-    protected void onLayout(final boolean changed, final int left, final int top, final int right, final int bottom)
-    {
+    protected void onLayout(final boolean changed, final int left, final int top, final int right, final int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         width = right - left;
         height = bottom - top;

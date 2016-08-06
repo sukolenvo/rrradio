@@ -6,8 +6,7 @@ import com.dakare.radiorecord.app.database.DownloadAudioTable;
 import lombok.Data;
 
 @Data
-public class DownloadItem
-{
+public class DownloadItem {
 
     private final long id;
     private final String url;
@@ -19,8 +18,7 @@ public class DownloadItem
     private final long saved;
     private DownloadAudioTable.Status status;
 
-    public DownloadItem(final Cursor cursor)
-    {
+    public DownloadItem(final Cursor cursor) {
         id = cursor.getLong(cursor.getColumnIndex(DownloadAudioTable.COLUMN_ID));
         url = cursor.getString(cursor.getColumnIndex(DownloadAudioTable.COLUMN_URL));
         title = cursor.getString(cursor.getColumnIndex(DownloadAudioTable.COLUMN_TITLE));
@@ -32,8 +30,7 @@ public class DownloadItem
         status = DownloadAudioTable.Status.getFromCursor(cursor);
     }
 
-    public Uri getFileUri()
-    {
+    public Uri getFileUri() {
         return Uri.fromFile(DownloadManager.getAudioFile(directory, id, title));
     }
 }

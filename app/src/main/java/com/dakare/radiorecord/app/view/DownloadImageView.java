@@ -9,8 +9,7 @@ import android.widget.ImageView;
 import com.dakare.radiorecord.app.R;
 import lombok.Getter;
 
-public class DownloadImageView extends ImageView
-{
+public class DownloadImageView extends ImageView {
 
     private static final float FILLING = 0.9f;
 
@@ -22,24 +21,20 @@ public class DownloadImageView extends ImageView
     private Paint paintText = new Paint();
     private Rect textBounds = new Rect();
 
-    public DownloadImageView(final Context context)
-    {
+    public DownloadImageView(final Context context) {
         super(context);
     }
 
-    public DownloadImageView(final Context context, final AttributeSet attrs)
-    {
+    public DownloadImageView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public DownloadImageView(final Context context, final AttributeSet attrs, final int defStyleAttr)
-    {
+    public DownloadImageView(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public DownloadImageView(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes)
-    {
+    public DownloadImageView(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -56,15 +51,12 @@ public class DownloadImageView extends ImageView
         paintText.getTextBounds(getStatus(), 0, getStatus().length(), textBounds);
     }
 
-    private String getStatus()
-    {
+    private String getStatus() {
         return progress + "%";
     }
 
-    public void setProgress(final int progress)
-    {
-        if (this.progress != progress)
-        {
+    public void setProgress(final int progress) {
+        if (this.progress != progress) {
             this.progress = progress;
             paintText.getTextBounds(getStatus(), 0, getStatus().length(), textBounds);
             invalidate();
@@ -72,16 +64,14 @@ public class DownloadImageView extends ImageView
     }
 
     @Override
-    protected void onDraw(final Canvas canvas)
-    {
-        canvas.drawArc(borders, 0,  360, false, paintCommon);
-        canvas.drawArc(borders, -90,  360 * progress / 100.f, false, paintProgress);
+    protected void onDraw(final Canvas canvas) {
+        canvas.drawArc(borders, 0, 360, false, paintCommon);
+        canvas.drawArc(borders, -90, 360 * progress / 100.f, false, paintProgress);
         canvas.drawText(getStatus(), borders.centerX() - textBounds.width() / 2, borders.centerY() + textBounds.height() / 2, paintText);
     }
 
     @Override
-    protected void onLayout(final boolean changed, final int left, final int top, final int right, final int bottom)
-    {
+    protected void onLayout(final boolean changed, final int left, final int top, final int right, final int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         int width = right - left;
         int height = bottom - top;

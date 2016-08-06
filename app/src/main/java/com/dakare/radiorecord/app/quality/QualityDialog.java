@@ -9,12 +9,10 @@ import android.widget.ListView;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 
-public class QualityDialog extends Dialog
-{
+public class QualityDialog extends Dialog {
     private QualityAdapter adapter;
 
-    public QualityDialog(final Context context, final QualityHandler handler)
-    {
+    public QualityDialog(final Context context, final QualityHandler handler) {
         super(context);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_quality);
@@ -22,22 +20,17 @@ public class QualityDialog extends Dialog
         adapter = new QualityAdapter(context, false);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(adapter);
-        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 dismiss();
             }
         });
-        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener()
-        {
+        findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Quality quality = adapter.getSelectedQuality();
-                if (((Checkable) findViewById(R.id.checkbox_container)).isChecked())
-                {
+                if (((Checkable) findViewById(R.id.checkbox_container)).isChecked()) {
                     PreferenceManager.getInstance(context).setDefaultQuality(quality);
                 }
                 handler.onQualitySelected(quality);
@@ -46,20 +39,16 @@ public class QualityDialog extends Dialog
         });
     }
 
-    public static void getQuality(Context context, QualityHandler handler)
-    {
+    public static void getQuality(Context context, QualityHandler handler) {
         Quality defaultQuality = PreferenceManager.getInstance(context).getDefaultQuality(null);
-        if (defaultQuality == null)
-        {
+        if (defaultQuality == null) {
             new QualityDialog(context, handler).show();
-        } else
-        {
+        } else {
             handler.onQualitySelected(defaultQuality);
         }
     }
 
-    public interface QualityHandler
-    {
+    public interface QualityHandler {
         void onQualitySelected(Quality quality);
     }
 }

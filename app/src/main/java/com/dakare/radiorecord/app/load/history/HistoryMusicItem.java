@@ -11,8 +11,7 @@ import lombok.Setter;
 
 @Setter
 @NoArgsConstructor
-public class HistoryMusicItem implements Parcelable
-{
+public class HistoryMusicItem implements Parcelable {
     private String artist;
     private String song;
     private String url;
@@ -20,8 +19,7 @@ public class HistoryMusicItem implements Parcelable
     @Getter
     private boolean visible = true;
 
-    public HistoryMusicItem(final Parcel parcel)
-    {
+    public HistoryMusicItem(final Parcel parcel) {
         artist = parcel.readString();
         song = parcel.readString();
         url = parcel.readString();
@@ -31,35 +29,29 @@ public class HistoryMusicItem implements Parcelable
         visible = bools[0];
     }
 
-    public String getArtist()
-    {
+    public String getArtist() {
         return TextUtils.isEmpty(artist) ? RecordApplication.getInstance().getString(R.string.artist_stub) : artist;
     }
 
-    public String getSong()
-    {
+    public String getSong() {
         return TextUtils.isEmpty(song) ? RecordApplication.getInstance().getString(R.string.song_name_stub) : song;
     }
 
-    public String getUrl()
-    {
+    public String getUrl() {
         return url;
     }
 
-    public String getWhen()
-    {
+    public String getWhen() {
         return when;
     }
 
     @Override
-    public int describeContents()
-    {
+    public int describeContents() {
         return 0;
     }
 
     @Override
-    public void writeToParcel(final Parcel dest, final int flags)
-    {
+    public void writeToParcel(final Parcel dest, final int flags) {
         dest.writeString(artist);
         dest.writeString(song);
         dest.writeString(url);

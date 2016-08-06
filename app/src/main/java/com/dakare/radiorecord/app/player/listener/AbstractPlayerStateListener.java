@@ -6,17 +6,13 @@ import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMess
 import com.dakare.radiorecord.app.player.service.message.PlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessageType;
 
-public abstract class AbstractPlayerStateListener extends Handler
-{
+public abstract class AbstractPlayerStateListener extends Handler {
     @Override
-    public void handleMessage(final Message msg)
-    {
+    public void handleMessage(final Message msg) {
         PlayerMessage message = PlayerMessage.fromMessage(msg);
-        if (message == null)
-        {
+        if (message == null) {
             super.handleMessage(msg);
-        } else if (message.getMessageType() == PlayerMessageType.PLAYBACK_STATE)
-        {
+        } else if (message.getMessageType() == PlayerMessageType.PLAYBACK_STATE) {
             onPlaybackChange((PlaybackStatePlayerMessage) message);
         }
 

@@ -8,8 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
 
-public class BreadcrumbManager implements View.OnClickListener
-{
+public class BreadcrumbManager implements View.OnClickListener {
     private static final String LEVEL_2_KEY = "breadcrumb_level_2";
     private static final String LEVEL_3_KEY = "breadcrumb_level_3";
 
@@ -20,8 +19,7 @@ public class BreadcrumbManager implements View.OnClickListener
     private final TextView viewLevel3;
     private final HistoryFragmentMediator historyFragmentMediator;
 
-    public BreadcrumbManager(final Toolbar toolbar, final HistoryFragmentMediator historyFragmentMediator)
-    {
+    public BreadcrumbManager(final Toolbar toolbar, final HistoryFragmentMediator historyFragmentMediator) {
         this.context = toolbar.getContext();
         this.historyFragmentMediator = historyFragmentMediator;
         View container = LayoutInflater.from(context).inflate(R.layout.breadcrumb, null);
@@ -35,10 +33,8 @@ public class BreadcrumbManager implements View.OnClickListener
     }
 
     @Override
-    public void onClick(final View view)
-    {
-        switch (view.getId())
-        {
+    public void onClick(final View view) {
+        switch (view.getId()) {
             case R.id.breadcrumb_level_1:
                 setLevel(1);
                 historyFragmentMediator.moveBack(1);
@@ -52,22 +48,18 @@ public class BreadcrumbManager implements View.OnClickListener
         }
     }
 
-    public void onSelectLevel2(final String title)
-    {
+    public void onSelectLevel2(final String title) {
         level2Container.setVisibility(View.VISIBLE);
         viewLevel2.setText(title);
     }
 
-    public void onSelectLevel3(final String title)
-    {
+    public void onSelectLevel3(final String title) {
         level3Container.setVisibility(View.VISIBLE);
         viewLevel3.setText(title);
     }
 
-    public void setLevel(final int level)
-    {
-        switch (level)
-        {
+    public void setLevel(final int level) {
+        switch (level) {
             case 3:
                 level3Container.setVisibility(View.VISIBLE);
                 level2Container.setVisibility(View.VISIBLE);
@@ -85,26 +77,20 @@ public class BreadcrumbManager implements View.OnClickListener
         }
     }
 
-    public void saveState(final Bundle outState)
-    {
-        if (level2Container.getVisibility() == View.VISIBLE)
-        {
+    public void saveState(final Bundle outState) {
+        if (level2Container.getVisibility() == View.VISIBLE) {
             outState.putString(LEVEL_2_KEY, viewLevel2.getText().toString());
-            if (level3Container.getVisibility() == View.VISIBLE)
-            {
+            if (level3Container.getVisibility() == View.VISIBLE) {
                 outState.putString(LEVEL_3_KEY, viewLevel3.getText().toString());
             }
         }
     }
 
-    public void restoreState(final Bundle state)
-    {
-        if (state.containsKey(LEVEL_2_KEY))
-        {
+    public void restoreState(final Bundle state) {
+        if (state.containsKey(LEVEL_2_KEY)) {
             level2Container.setVisibility(View.VISIBLE);
             viewLevel2.setText(state.getString(LEVEL_2_KEY));
-            if (state.containsKey(LEVEL_3_KEY))
-            {
+            if (state.containsKey(LEVEL_3_KEY)) {
                 level3Container.setVisibility(View.VISIBLE);
                 viewLevel3.setText(state.getString(LEVEL_3_KEY));
             }

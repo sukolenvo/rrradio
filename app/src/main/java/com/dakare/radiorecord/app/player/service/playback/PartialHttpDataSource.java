@@ -29,8 +29,7 @@ import java.util.regex.Pattern;
  * HTTP to HTTPS or vice versa). Cross-protocol redirects can be enabled by using the
  * constructor and passing {@code true} as the final argument.
  */
-public class PartialHttpDataSource implements HttpDataSource
-{
+public class PartialHttpDataSource implements HttpDataSource {
 
     /**
      * The default connection timeout, in milliseconds.
@@ -67,21 +66,21 @@ public class PartialHttpDataSource implements HttpDataSource
     private long bytesRead;
 
     /**
-     * @param userAgent The User-Agent string that should be used.
+     * @param userAgent            The User-Agent string that should be used.
      * @param contentTypePredicate An optional {@link Predicate}. If a content type is
-     *     rejected by the predicate then a {@link HttpDataSource.InvalidContentTypeException} is
-     *     thrown from {@link #open(DataSpec)}.
+     *                             rejected by the predicate then a {@link HttpDataSource.InvalidContentTypeException} is
+     *                             thrown from {@link #open(DataSpec)}.
      */
     public PartialHttpDataSource(String userAgent, Predicate<String> contentTypePredicate) {
         this(userAgent, contentTypePredicate, null);
     }
 
     /**
-     * @param userAgent The User-Agent string that should be used.
+     * @param userAgent            The User-Agent string that should be used.
      * @param contentTypePredicate An optional {@link Predicate}. If a content type is
-     *     rejected by the predicate then a {@link HttpDataSource.InvalidContentTypeException} is
-     *     thrown from {@link #open(DataSpec)}.
-     * @param listener An optional listener.
+     *                             rejected by the predicate then a {@link HttpDataSource.InvalidContentTypeException} is
+     *                             thrown from {@link #open(DataSpec)}.
+     * @param listener             An optional listener.
      */
     public PartialHttpDataSource(String userAgent, Predicate<String> contentTypePredicate,
                                  TransferListener listener) {
@@ -90,15 +89,15 @@ public class PartialHttpDataSource implements HttpDataSource
     }
 
     /**
-     * @param userAgent The User-Agent string that should be used.
+     * @param userAgent            The User-Agent string that should be used.
      * @param contentTypePredicate An optional {@link Predicate}. If a content type is
-     *     rejected by the predicate then a {@link HttpDataSource.InvalidContentTypeException} is
-     *     thrown from {@link #open(DataSpec)}.
-     * @param listener An optional listener.
+     *                             rejected by the predicate then a {@link HttpDataSource.InvalidContentTypeException} is
+     *                             thrown from {@link #open(DataSpec)}.
+     * @param listener             An optional listener.
      * @param connectTimeoutMillis The connection timeout, in milliseconds. A timeout of zero is
-     *     interpreted as an infinite timeout.
-     * @param readTimeoutMillis The read timeout, in milliseconds. A timeout of zero is interpreted
-     *     as an infinite timeout.
+     *                             interpreted as an infinite timeout.
+     * @param readTimeoutMillis    The read timeout, in milliseconds. A timeout of zero is interpreted
+     *                             as an infinite timeout.
      */
     public PartialHttpDataSource(String userAgent, Predicate<String> contentTypePredicate,
                                  TransferListener listener, int connectTimeoutMillis, int readTimeoutMillis) {
@@ -106,18 +105,18 @@ public class PartialHttpDataSource implements HttpDataSource
     }
 
     /**
-     * @param userAgent The User-Agent string that should be used.
-     * @param contentTypePredicate An optional {@link Predicate}. If a content type is
-     *     rejected by the predicate then a {@link HttpDataSource.InvalidContentTypeException} is
-     *     thrown from {@link #open(DataSpec)}.
-     * @param listener An optional listener.
-     * @param connectTimeoutMillis The connection timeout, in milliseconds. A timeout of zero is
-     *     interpreted as an infinite timeout. Pass {@link #DEFAULT_CONNECT_TIMEOUT_MILLIS} to use
-     *     the default value.
-     * @param readTimeoutMillis The read timeout, in milliseconds. A timeout of zero is interpreted
-     *     as an infinite timeout. Pass {@link #DEFAULT_READ_TIMEOUT_MILLIS} to use the default value.
+     * @param userAgent                   The User-Agent string that should be used.
+     * @param contentTypePredicate        An optional {@link Predicate}. If a content type is
+     *                                    rejected by the predicate then a {@link HttpDataSource.InvalidContentTypeException} is
+     *                                    thrown from {@link #open(DataSpec)}.
+     * @param listener                    An optional listener.
+     * @param connectTimeoutMillis        The connection timeout, in milliseconds. A timeout of zero is
+     *                                    interpreted as an infinite timeout. Pass {@link #DEFAULT_CONNECT_TIMEOUT_MILLIS} to use
+     *                                    the default value.
+     * @param readTimeoutMillis           The read timeout, in milliseconds. A timeout of zero is interpreted
+     *                                    as an infinite timeout. Pass {@link #DEFAULT_READ_TIMEOUT_MILLIS} to use the default value.
      * @param allowCrossProtocolRedirects Whether cross-protocol redirects (i.e. redirects from HTTP
-     *     to HTTPS and vice versa) are enabled.
+     *                                    to HTTPS and vice versa) are enabled.
      */
     public PartialHttpDataSource(String userAgent, Predicate<String> contentTypePredicate,
                                  TransferListener listener, int connectTimeoutMillis, int readTimeoutMillis,
@@ -241,8 +240,7 @@ public class PartialHttpDataSource implements HttpDataSource
             return readInternal(buffer, offset, readLength);
         } catch (IOException e) {
             closeConnectionQuietly();
-            try
-            {
+            try {
                 HttpURLConnection con = makeConnection(new DataSpec(dataSpec.uri, dataSpec.postBody, dataSpec.absoluteStreamPosition, bytesSkipped + bytesRead, dataSpec.length, dataSpec.key, dataSpec.flags));
                 if (con.getResponseCode() < 200 || con.getResponseCode() > 299) {
                     throw new HttpDataSourceException(new IOException("Invalid response code"), dataSpec, HttpDataSourceException.TYPE_READ);
@@ -251,8 +249,7 @@ public class PartialHttpDataSource implements HttpDataSource
                 inputStream = con.getInputStream();
                 skipInternal();
                 return readInternal(buffer, offset, readLength);
-            } catch (IOException e1)
-            {
+            } catch (IOException e1) {
                 throw new HttpDataSourceException(e1, dataSpec, HttpDataSourceException.TYPE_READ);
             }
         }
@@ -371,11 +368,11 @@ public class PartialHttpDataSource implements HttpDataSource
     /**
      * Configures a connection and opens it.
      *
-     * @param url The url to connect to.
-     * @param postBody The body data for a POST request.
-     * @param position The byte offset of the requested data.
-     * @param length The length of the requested data, or {@link C#LENGTH_UNBOUNDED}.
-     * @param allowGzip Whether to allow the use of gzip.
+     * @param url             The url to connect to.
+     * @param postBody        The body data for a POST request.
+     * @param position        The byte offset of the requested data.
+     * @param length          The length of the requested data, or {@link C#LENGTH_UNBOUNDED}.
+     * @param allowGzip       Whether to allow the use of gzip.
      * @param followRedirects Whether to follow redirects.
      */
     private HttpURLConnection makeConnection(URL url, byte[] postBody, long position,
@@ -417,7 +414,7 @@ public class PartialHttpDataSource implements HttpDataSource
      * Handles a redirect.
      *
      * @param originalUrl The original URL.
-     * @param location The Location header in the response.
+     * @param location    The Location header in the response.
      * @return The next URL.
      * @throws IOException If redirection isn't possible.
      */
@@ -492,7 +489,7 @@ public class PartialHttpDataSource implements HttpDataSource
      * This implementation is based roughly on {@code libcore.io.Streams.skipByReading()}.
      *
      * @throws InterruptedIOException If the thread is interrupted during the operation.
-     * @throws EOFException If the end of the input stream is reached before the bytes are skipped.
+     * @throws EOFException           If the end of the input stream is reached before the bytes are skipped.
      */
     private void skipInternal() throws IOException {
         if (bytesSkipped == bytesToSkip) {
@@ -531,11 +528,11 @@ public class PartialHttpDataSource implements HttpDataSource
      * This method blocks until at least one byte of data can be read, the end of the opened range is
      * detected, or an exception is thrown.
      *
-     * @param buffer The buffer into which the read data should be stored.
-     * @param offset The start offset into {@code buffer} at which data should be written.
+     * @param buffer     The buffer into which the read data should be stored.
+     * @param offset     The start offset into {@code buffer} at which data should be written.
      * @param readLength The maximum number of bytes to read.
      * @return The number of bytes read, or {@link C#RESULT_END_OF_INPUT} if the end of the opened
-     *     range is reached.
+     * range is reached.
      * @throws IOException If an error occurs reading from the source.
      */
     private int readInternal(byte[] buffer, int offset, int readLength) throws IOException {

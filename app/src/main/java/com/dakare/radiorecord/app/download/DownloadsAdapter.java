@@ -19,46 +19,38 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class DownloadsAdapter extends AbstractSelectionAdapter<DownloadsAdapter.ViewHolder, DownloadItem>
-{
+public class DownloadsAdapter extends AbstractSelectionAdapter<DownloadsAdapter.ViewHolder, DownloadItem> {
 
     private final SimpleDateFormat format;
 
-    public DownloadsAdapter(final Context context, final SelectionManager selectionManager, final PermissionProvider permissionProvider)
-    {
+    public DownloadsAdapter(final Context context, final SelectionManager selectionManager, final PermissionProvider permissionProvider) {
         super(context, selectionManager, permissionProvider);
         format = new SimpleDateFormat("dd/MM/yyyy hh:mm");
     }
 
     @Override
-    protected int getLayoutId()
-    {
+    protected int getLayoutId() {
         return R.layout.item_download_music;
     }
 
     @Override
-    protected ViewHolder createHolder(final View view)
-    {
+    protected ViewHolder createHolder(final View view) {
         return new ViewHolder(view);
     }
 
     @Override
-    protected PlaylistItem toPlaylistItem(final int position)
-    {
+    protected PlaylistItem toPlaylistItem(final int position) {
         return new PlaylistItem(items.get(position));
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position)
-    {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         super.onBindViewHolder(holder, position);
         DownloadItem item = items.get(position);
-        if (item.getTotalSize() > 0)
-        {
+        if (item.getTotalSize() > 0) {
             holder.image.setProgress((int) (item.getSize() * 100 / item.getTotalSize()));
             holder.sizeView.setText(String.format("%s / %s", humanReadableByteCount(item.getSize(), false), humanReadableByteCount(item.getTotalSize(), false)));
-        } else
-        {
+        } else {
             holder.image.setProgress(item.getStatus() == DownloadAudioTable.Status.DOWNLOADED ? 100 : 0);
             holder.sizeView.setText(humanReadableByteCount(item.getSize(), false));
         }
@@ -71,58 +63,46 @@ public class DownloadsAdapter extends AbstractSelectionAdapter<DownloadsAdapter.
         int unit = si ? 1000 : 1024;
         if (bytes < unit) return bytes + " B";
         int exp = (int) (Math.log(bytes) / Math.log(unit));
-        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
         return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
     }
 
     @Override
-    protected ArrayList<PlaylistItem> getSelectedList()
-    {
+    protected ArrayList<PlaylistItem> getSelectedList() {
         boolean skipped = false;
         ArrayList<PlaylistItem> downloadList = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++)
-        {
+        for (int i = 0; i < items.size(); i++) {
             DownloadAudioTable.Status status = items.get(i).getStatus();
-            if (status == DownloadAudioTable.Status.DOWNLOADED || status == DownloadAudioTable.Status.DOWNLOADING)
-            {
-                if (selectionManager.isSelected(i))
-                {
+            if (status == DownloadAudioTable.Status.DOWNLOADED || status == DownloadAudioTable.Status.DOWNLOADING) {
+                if (selectionManager.isSelected(i)) {
                     downloadList.add(toPlaylistItem(i));
                 }
-            } else
-            {
+            } else {
                 skipped = true;
             }
         }
-        if (skipped)
-        {
+        if (skipped) {
             Toast.makeText(context, R.string.error_not_downloaded, Toast.LENGTH_LONG).show();
         }
         return downloadList;
     }
 
     @Override
-    public void downloadSelected()
-    {
+    public void downloadSelected() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void removeSelected()
-    {
+    public void removeSelected() {
         ArrayList<Integer> selectedItems = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++)
-        {
-            if (selectionManager.isSelected(i))
-            {
+        for (int i = 0; i < items.size(); i++) {
+            if (selectionManager.isSelected(i)) {
                 selectedItems.add((int) items.get(i).getId());
             }
         }
-        if (selectedItems.isEmpty())
-        {
+        if (selectedItems.isEmpty()) {
             showEmptySelection();
-        } else
-        {
+        } else {
             Intent service = new Intent(context, FileService.class);
             service.putExtra(FileService.IDS_KEY, selectedItems);
             context.startService(service);
@@ -131,46 +111,37 @@ public class DownloadsAdapter extends AbstractSelectionAdapter<DownloadsAdapter.
     }
 
     @Override
-    public void onClick(final View v)
-    {
+    public void onClick(final View v) {
         boolean skipped = false;
         int selectedPosition = (Integer) v.getTag();
         ArrayList<PlaylistItem> playlist = new ArrayList<>(items.size());
-        for (int i = 0; i < items.size(); i++)
-        {
+        for (int i = 0; i < items.size(); i++) {
             DownloadAudioTable.Status status = items.get(i).getStatus();
-            if (status == DownloadAudioTable.Status.DOWNLOADED || status == DownloadAudioTable.Status.DOWNLOADING)
-            {
+            if (status == DownloadAudioTable.Status.DOWNLOADED || status == DownloadAudioTable.Status.DOWNLOADING) {
                 playlist.add(toPlaylistItem(i));
-            } else
-            {
+            } else {
                 skipped = true;
             }
-            if (i == selectedPosition)
-            {
+            if (i == selectedPosition) {
                 selectedPosition = Math.max(0, playlist.size() - 1);
             }
         }
-        if (skipped)
-        {
+        if (skipped) {
             Toast.makeText(context, R.string.error_not_downloaded, Toast.LENGTH_LONG).show();
         }
-        if (!playlist.isEmpty())
-        {
+        if (!playlist.isEmpty()) {
             play(playlist, selectedPosition);
         }
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private final DownloadImageView image;
         private final TextView titleView;
         private final TextView sizeView;
         private final TextView createdView;
         private final TextView statusView;
 
-        public ViewHolder(View itemView)
-        {
+        public ViewHolder(View itemView) {
             super(itemView);
             image = (DownloadImageView) itemView.findViewById(R.id.download_image);
             titleView = (TextView) itemView.findViewById(R.id.title);

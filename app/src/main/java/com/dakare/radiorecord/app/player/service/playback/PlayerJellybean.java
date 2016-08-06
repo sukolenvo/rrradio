@@ -2,8 +2,10 @@ package com.dakare.radiorecord.app.player.service.playback;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.MediaCodec;
+import android.media.audiofx.Equalizer;
 import android.net.Uri;
 import android.os.Handler;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import com.dakare.radiorecord.app.player.service.MetadataLoader;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerServiceMessageHandler;
 import com.dakare.radiorecord.app.player.service.PlayerState;
+import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PositionStateMessage;
 import com.google.android.exoplayer.*;
@@ -27,8 +30,9 @@ import lombok.Setter;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, ExoPlayer.Listener, ExtractorSampleSource.EventListener, MediaCodecAudioTrackRenderer.EventListener, Player
-{
+public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, ExoPlayer.Listener,
+        ExtractorSampleSource.EventListener, MediaCodecAudioTrackRenderer.EventListener, Player,
+        SharedPreferences.OnSharedPreferenceChangeListener {
     private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
     private static final int BUFFER_SEGMENT_COUNT = 256;
 
@@ -45,53 +49,71 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     private PlayerState state = PlayerState.STOP;
     private final ExoPlayer player;
     private long lastErrorMessage;
+    private Equalizer equalizer;
+    private final PreferenceManager instance;
 
-    public PlayerJellybean(final Context context)
-    {
+    public PlayerJellybean(final Context context) {
         this.context = context;
         player = ExoPlayer.Factory.newInstance(1);
         player.addListener(this);
         metadataLoader = new MetadataLoader(this, context);
         playlist = new ArrayList<>();
         playlist.addAll(PreferenceManager.getInstance(context).getLastPlaylist());
+        instance = PreferenceManager.getInstance(context);
     }
 
-    public void play(final ArrayList<PlaylistItem> playlist, final int position)
-    {
+    public void play(final ArrayList<PlaylistItem> playlist, final int position) {
         this.playlist = playlist;
         this.position = position;
         startPlayback();
-        if (playlist.get(position).isLive())
-        {
+        if (playlist.get(position).isLive()) {
             metadataLoader.start(playlist.get(position).getStation());
-        } else
-        {
+        } else {
             metadataLoader.stop();
         }
         updateState();
     }
 
-    public void updateState()
-    {
+    public void updateState() {
         playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(playlist, position, state, metadataLoader.getResponse()));
     }
 
-    private void startPlayback()
-    {
-        if (playlist != null && !playlist.isEmpty())
-        {
+    private void startPlayback() {
+        if (playlist != null && !playlist.isEmpty()) {
             player.stop();
             player.seekTo(0L);
             player.setPlayWhenReady(true);
             PlaylistItem playlistItem = playlist.get(position);
             Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
             DataSource dataSource = DataSourceFactory.createDataSource(playlistItem.getUrl());
-            if (dataSource != null)
-            {
+            if (dataSource != null) {
                 ExtractorSampleSource sampleSource = new ExtractorSampleSource(Uri.parse(playlistItem.getUrl()), dataSource, allocator,
                         BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE, uiHandler, this, 0);
                 MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource,
-                        MediaCodecSelector.DEFAULT, null, true, uiHandler, this, AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC);
+                        MediaCodecSelector.DEFAULT, null, true, uiHandler, this, AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC) {
+                    @Override
+                    protected void onAudioSessionId(final int audioSessionId) {
+                        equalizer = new Equalizer(0, audioSessionId);
+                        EqualizerSettings old = instance.getEqSettings();
+                        old.applyLevels(equalizer);
+                        EqualizerSettings newSettings = new EqualizerSettings(equalizer);
+                        if (!newSettings.equals(old)) {
+                            instance.setEqSettings(newSettings);
+                        }
+                        super.onAudioSessionId(audioSessionId);
+                        instance.registerChangeListener(PlayerJellybean.this);
+                    }
+
+                    @Override
+                    protected void onDisabled() throws ExoPlaybackException {
+                        if (equalizer != null) {
+                            equalizer.release();
+                            equalizer = null;
+                        }
+                        instance.unregisterChangeListener(PlayerJellybean.this);
+                        super.onDisabled();
+                    }
+                };
                 player.prepare(audioRenderer);
                 state = PlayerState.PLAY;
             }
@@ -99,42 +121,33 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
         }
     }
 
-    public void next()
-    {
-        if (playlist != null && !playlist.isEmpty())
-        {
+    public void next() {
+        if (playlist != null && !playlist.isEmpty()) {
             position = (position + 1) % playlist.size();
             startPlayback();
-            if (playlist.get(position).isLive())
-            {
+            if (playlist.get(position).isLive()) {
                 metadataLoader.start(playlist.get(position).getStation());
-            } else
-            {
+            } else {
                 metadataLoader.stop();
             }
         }
         updateState();
     }
 
-    public void previous()
-    {
-        if (playlist != null && !playlist.isEmpty())
-        {
+    public void previous() {
+        if (playlist != null && !playlist.isEmpty()) {
             position = (position - 1 + playlist.size()) % playlist.size();
             startPlayback();
-            if (playlist.get(position).isLive())
-            {
+            if (playlist.get(position).isLive()) {
                 metadataLoader.start(playlist.get(position).getStation());
-            } else
-            {
+            } else {
                 metadataLoader.stop();
             }
         }
         updateState();
     }
 
-    public void stop()
-    {
+    public void stop() {
         context.stopService(new Intent(context, PlayerService.class));
         player.stop();
         player.seekTo(0L);
@@ -143,123 +156,109 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
         updateState();
     }
 
-    public void pause()
-    {
-        if (state == PlayerState.PLAY)
-        {
+    public void pause() {
+        if (state == PlayerState.PLAY) {
             state = PlayerState.PAUSE;
             player.setPlayWhenReady(false);
         }
         updateState();
     }
 
-    public void resume()
-    {
-        if (state != PlayerState.STOP)
-        {
+    public void resume() {
+        if (state != PlayerState.STOP) {
             state = PlayerState.PLAY;
             player.setPlayWhenReady(true);
         }
         updateState();
     }
 
-    public void updatePosition()
-    {
+    public void updatePosition() {
         playerServiceMessageHandler.handleServiceResponse(new PositionStateMessage((int) player.getCurrentPosition(), (int) player.getDuration(), (int) player.getBufferedPosition()));
     }
 
     @Override
-    public void seekTo(final float position)
-    {
-        if (player.getDuration() > 0)
-        {
+    public void seekTo(final float position) {
+        if (player.getDuration() > 0) {
             player.seekTo((long) (player.getDuration() * position));
         }
     }
 
     @Override
-    public void onMetadataChanged()
-    {
+    public void onMetadataChanged() {
         updateState();
     }
 
     @Override
-    public void onPlayerStateChanged(final boolean b, final int i)
-    {
-        if (i == ExoPlayer.STATE_ENDED && playlist != null && position < playlist.size() - 1)
-        {
+    public void onPlayerStateChanged(final boolean b, final int i) {
+        if (i == ExoPlayer.STATE_ENDED && playlist != null && position < playlist.size() - 1) {
             position++;
             startPlayback();
+        } else if (i == ExoPlayer.STATE_READY && equalizer != null && !equalizer.getEnabled()) {
+            equalizer.setEnabled(true);
         }
     }
 
     @Override
-    public void onPlayWhenReadyCommitted()
-    {
+    public void onPlayWhenReadyCommitted() {
 
     }
 
     @Override
-    public void onPlayerError(ExoPlaybackException e)
-    {
+    public void onPlayerError(ExoPlaybackException e) {
 
     }
 
     @Override
-    public void onLoadError(final int i, final IOException e)
-    {
-        if (e instanceof HttpDataSource.InvalidResponseCodeException && ((HttpDataSource.InvalidResponseCodeException) e).responseCode == 404)
-        {
+    public void onLoadError(final int i, final IOException e) {
+        if (e instanceof HttpDataSource.InvalidResponseCodeException && ((HttpDataSource.InvalidResponseCodeException) e).responseCode == 404) {
             Toast.makeText(context, R.string.error_not_found, Toast.LENGTH_LONG).show();
             stop();
-        } else
-        {
+        } else {
             showError();
         }
     }
 
-    private void showError()
-    {
-        if (System.currentTimeMillis() - 5000 > lastErrorMessage)
-        {
+    private void showError() {
+        if (System.currentTimeMillis() - 5000 > lastErrorMessage) {
             lastErrorMessage = System.currentTimeMillis();
             Toast.makeText(context, R.string.error_connect, Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
-    public void onAudioTrackInitializationError(AudioTrack.InitializationException e)
-    {
+    public void onAudioTrackInitializationError(AudioTrack.InitializationException e) {
         showError();
     }
 
     @Override
-    public void onAudioTrackWriteError(AudioTrack.WriteException e)
-    {
+    public void onAudioTrackWriteError(AudioTrack.WriteException e) {
         showError();
     }
 
     @Override
-    public void onAudioTrackUnderrun(int i, long l, long l1)
-    {
+    public void onAudioTrackUnderrun(int i, long l, long l1) {
 
     }
 
     @Override
-    public void onDecoderInitializationError(MediaCodecTrackRenderer.DecoderInitializationException e)
-    {
+    public void onDecoderInitializationError(MediaCodecTrackRenderer.DecoderInitializationException e) {
         showError();
     }
 
     @Override
-    public void onCryptoError(MediaCodec.CryptoException e)
-    {
+    public void onCryptoError(MediaCodec.CryptoException e) {
         showError();
     }
 
     @Override
-    public void onDecoderInitialized(String s, long l, long l1)
-    {
+    public void onDecoderInitialized(String s, long l, long l1) {
 
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
+        if (PreferenceManager.EQ_LEVELS_KEY.equals(key) && equalizer != null) {
+            instance.getEqSettings().applyLevels(equalizer);
+        }
     }
 }

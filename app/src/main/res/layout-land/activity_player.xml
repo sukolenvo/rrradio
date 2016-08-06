@@ -22,6 +22,22 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/default_player_background" />
 
+                <com.dakare.radiorecord.app.view.EqualizerImage
+                        android:id="@+id/equalizer_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        android:padding="10dp" />
+
+                <ImageView
+                        android:id="@+id/equalizer_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:padding="12dp"
+                        android:scaleType="fitXY"
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/ic_settings_white_24dp"/>
+
                 <LinearLayout
                         android:id="@+id/player_control_container"
                         android:layout_width="wrap_content"

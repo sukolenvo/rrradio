@@ -6,8 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor(suppressConstructorProperties = true)
-public class Table
-{
+public class Table {
     @Getter(AccessLevel.PROTECTED)
-	private final SQLiteDatabase database; 
+    private final SQLiteDatabase database;
 }

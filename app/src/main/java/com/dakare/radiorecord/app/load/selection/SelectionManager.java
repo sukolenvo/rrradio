@@ -11,8 +11,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
-public class SelectionManager implements View.OnLongClickListener, View.OnClickListener
-{
+public class SelectionManager implements View.OnLongClickListener, View.OnClickListener {
     public static final int POSITION_UNKNOWN = -1;
     private static final String SELECTING_KEY = "selecting_key";
     private static final String SELECTED_ARRAY_KEY = "selected_key";
@@ -26,28 +25,23 @@ public class SelectionManager implements View.OnLongClickListener, View.OnClickL
     private final String title;
     private final AbstractSelectionCallback actionModeCallback;
 
-    public SelectionManager(final AppCompatActivity activity, final AbstractSelectionCallback actionModeCallback)
-    {
+    public SelectionManager(final AppCompatActivity activity, final AbstractSelectionCallback actionModeCallback) {
         this.activity = activity;
         this.actionModeCallback = actionModeCallback;
         actionModeCallback.setSelectionManager(this);
         title = activity.getString(R.string.selection_title);
     }
 
-    public void setCallback(final SelectionItemCallback callback)
-    {
+    public void setCallback(final SelectionItemCallback callback) {
         this.callback = callback;
         actionModeCallback.setSelectionItemCallback(callback);
     }
 
     @Override
-    public boolean onLongClick(View v)
-    {
-        if (selecting)
-        {
+    public boolean onLongClick(View v) {
+        if (selecting) {
             return false;
-        } else
-        {
+        } else {
             actionMode = activity.startSupportActionMode(actionModeCallback);
             int position = (Integer) v.getTag();
             selectedArray.put(position, true);
@@ -57,13 +51,10 @@ public class SelectionManager implements View.OnLongClickListener, View.OnClickL
         }
     }
 
-    public void updateTitle()
-    {
+    public void updateTitle() {
         int count = 0;
-        for (int  i = 0; i < selectedArray.size(); i++)
-        {
-            if (selectedArray.valueAt(i))
-            {
+        for (int i = 0; i < selectedArray.size(); i++) {
+            if (selectedArray.valueAt(i)) {
                 count++;
             }
         }
@@ -71,87 +62,71 @@ public class SelectionManager implements View.OnLongClickListener, View.OnClickL
     }
 
     @Override
-    public void onClick(final View v)
-    {
-        if (selecting)
-        {
+    public void onClick(final View v) {
+        if (selecting) {
             int position = (int) v.getTag();
             selectedArray.put(position, !selectedArray.get(position));
             callback.onSelectionChanged(position);
             updateTitle();
-        } else
-        {
+        } else {
             callback.onClick(v);
         }
     }
 
-    public boolean isSelected(final int position)
-    {
+    public boolean isSelected(final int position) {
         return selectedArray.get(position);
     }
 
-    public void saveState(final Bundle outState)
-    {
+    public void saveState(final Bundle outState) {
         outState.putBoolean(SELECTING_KEY, selecting);
         ArrayList<Integer> values = new ArrayList<>(selectedArray.size());
-        for (int  i = 0; i < selectedArray.size(); i++)
-        {
-            if (selectedArray.valueAt(i))
-            {
+        for (int i = 0; i < selectedArray.size(); i++) {
+            if (selectedArray.valueAt(i)) {
                 values.add(selectedArray.keyAt(i));
             }
         }
         outState.putIntegerArrayList(SELECTED_ARRAY_KEY, values);
     }
 
-    public void restoreState(final Bundle state)
-    {
+    public void restoreState(final Bundle state) {
         selecting = state.getBoolean(SELECTING_KEY);
-        for (int position : state.getIntegerArrayList(SELECTED_ARRAY_KEY))
-        {
+        for (int position : state.getIntegerArrayList(SELECTED_ARRAY_KEY)) {
             selectedArray.put(position, true);
         }
-        if (selecting && actionMode == null)
-        {
+        if (selecting && actionMode == null) {
             actionMode = activity.startSupportActionMode(actionModeCallback);
             updateTitle();
         }
     }
 
 
-    public void selectAll()
-    {
-        for (int i = 0; i < callback.getItemCount(); i++)
-        {
+    public void selectAll() {
+        for (int i = 0; i < callback.getItemCount(); i++) {
             selectedArray.put(i, true);
         }
         callback.onSelectionChanged(POSITION_UNKNOWN);
         updateTitle();
     }
 
-    public void clearSelection()
-    {
+    public void clearSelection() {
         selectedArray.clear();
         callback.onSelectionChanged(POSITION_UNKNOWN);
         updateTitle();
     }
 
-    public void finishSelection()
-    {
+    public void finishSelection() {
         selecting = false;
         selectedArray.clear();
         actionMode.finish();
     }
 
-    public void onCancelSelection()
-    {
+    public void onCancelSelection() {
         selecting = false;
         selectedArray.clear();
         callback.onSelectionChanged(POSITION_UNKNOWN);
     }
 
-    public interface SelectionItemCallback extends View.OnClickListener
-    {
+    public interface SelectionItemCallback extends View.OnClickListener {
 
         void onSelectionChanged(int position);
 

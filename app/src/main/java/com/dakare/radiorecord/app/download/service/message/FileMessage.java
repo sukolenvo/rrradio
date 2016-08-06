@@ -4,32 +4,26 @@ import android.os.Message;
 import android.util.Log;
 import lombok.Getter;
 
-public abstract class FileMessage
-{
+public abstract class FileMessage {
 
     @Getter
     private final FileMessageType messageType;
 
-    protected FileMessage(final FileMessageType messageType)
-    {
+    protected FileMessage(final FileMessageType messageType) {
         this.messageType = messageType;
     }
 
-    public Message toMessage()
-    {
+    public Message toMessage() {
         Message message = Message.obtain(null, messageType.getMessageId());
         return message;
     }
 
-    public static FileMessage fromMessage(final Message message)
-    {
+    public static FileMessage fromMessage(final Message message) {
         FileMessageType fileMessageType = FileMessageType.fromMessage(message);
-        if (fileMessageType == null)
-        {
+        if (fileMessageType == null) {
             return null;
         }
-        switch (fileMessageType)
-        {
+        switch (fileMessageType) {
             case UPDATE_ITEM:
                 return new UpdateFileMessage(message.getData());
             case REMOVE_RESPONSE:

@@ -27,8 +27,7 @@ import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDec
 
 import java.util.*;
 
-public class DownloadsActivity extends MenuActivity implements FileServiceClient.PlayerMessageHandler, FileServiceHelper.ServiceBindListener, AbstractSelectionAdapter.PermissionProvider
-{
+public class DownloadsActivity extends MenuActivity implements FileServiceClient.PlayerMessageHandler, FileServiceHelper.ServiceBindListener, AbstractSelectionAdapter.PermissionProvider {
 
     private RecyclerView recyclerView;
     private View emptyView;
@@ -37,8 +36,7 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
     private SelectionManager selectionManager;
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState)
-    {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_downloads);
         initToolbar();
@@ -50,34 +48,28 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
         downloadsAdapter = new DownloadsAdapter(this, selectionManager, null);
         recyclerView.setAdapter(downloadsAdapter);
         emptyView = findViewById(R.id.list_empty_stub);
-        if (savedInstanceState != null)
-        {
+        if (savedInstanceState != null) {
             selectionManager.restoreState(savedInstanceState);
         }
     }
 
-    private void updateEmptyView()
-    {
-        if (downloadsAdapter.getItems().isEmpty())
-        {
+    private void updateEmptyView() {
+        if (downloadsAdapter.getItems().isEmpty()) {
             recyclerView.setVisibility(View.GONE);
             emptyView.setVisibility(View.VISIBLE);
-        } else
-        {
+        } else {
             recyclerView.setVisibility(View.VISIBLE);
             emptyView.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
-    protected int getMenuContainer()
-    {
+    protected int getMenuContainer() {
         return R.id.menu_downloads_container;
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         helper.getServiceClient().setPlayerMessageHandler(this);
         helper.bindService(this, this);
@@ -87,14 +79,11 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
         updateEmptyView();
     }
 
-    private List<DownloadItem> getContent()
-    {
+    private List<DownloadItem> getContent() {
         List<DownloadItem> items = new ArrayList<>();
         Cursor cursor = StorageContract.getInstance().getAllAudio();
-        if (cursor.moveToFirst())
-        {
-            do
-            {
+        if (cursor.moveToFirst()) {
+            do {
                 items.add(new DownloadItem(cursor));
             } while (cursor.moveToNext());
         }
@@ -103,41 +92,33 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
     }
 
     @Override
-    protected void onPause()
-    {
+    protected void onPause() {
         super.onPause();
         helper.getServiceClient().setPlayerMessageHandler(null);
         helper.unbindService(this);
     }
 
     @Override
-    public void onServiceConnected()
-    {
+    public void onServiceConnected() {
         //Nothing to do
     }
 
     @Override
-    public void onServiceDisconnected()
-    {
+    public void onServiceDisconnected() {
         //Nothing to do
     }
 
     @Override
-    public void onMessage(final FileMessage playerMessage)
-    {
-        switch (playerMessage.getMessageType())
-        {
+    public void onMessage(final FileMessage playerMessage) {
+        switch (playerMessage.getMessageType()) {
             case UPDATE_ITEM:
                 UpdateFileMessage msg = (UpdateFileMessage) playerMessage;
-                for (int i = 0; i < downloadsAdapter.getItems().size(); i++)
-                {
+                for (int i = 0; i < downloadsAdapter.getItems().size(); i++) {
                     DownloadItem downloadItem = downloadsAdapter.getItems().get(i);
-                    if (downloadItem.getId() == msg.getId())
-                    {
+                    if (downloadItem.getId() == msg.getId()) {
                         downloadItem.setSize(msg.getSize());
                         downloadItem.setTotalSize(msg.getTotal());
-                        if (msg.getStatus() != null)
-                        {
+                        if (msg.getStatus() != null) {
                             downloadItem.setStatus(msg.getStatus());
                         }
                         downloadsAdapter.notifyItemChanged(i);
@@ -147,22 +128,18 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
                 break;
             case REMOVE_RESPONSE:
                 RemoveFileResponse response = (RemoveFileResponse) playerMessage;
-                for (Integer id : response.getIds())
-                {
+                for (Integer id : response.getIds()) {
                     Iterator<DownloadItem> iterator = downloadsAdapter.getItems().iterator();
-                    while(iterator.hasNext())
-                    {
+                    while (iterator.hasNext()) {
                         DownloadItem downloadItem = iterator.next();
-                        if (downloadItem.getId() == id)
-                        {
+                        if (downloadItem.getId() == id) {
                             iterator.remove();
                             break;
                         }
                     }
                 }
                 downloadsAdapter.notifyDataSetChanged();
-                if (downloadsAdapter.getItems().isEmpty())
-                {
+                if (downloadsAdapter.getItems().isEmpty()) {
                     updateEmptyView();
                 }
                 break;
@@ -180,50 +157,40 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.sort_abc:
                 PreferenceManager.getInstance(this).setDownloadsSort(DownloadsSort.NAME_ASC);
-                Collections.sort(downloadsAdapter.getItems(), new Comparator<DownloadItem>()
-                {
+                Collections.sort(downloadsAdapter.getItems(), new Comparator<DownloadItem>() {
                     @Override
-                    public int compare(DownloadItem a, DownloadItem b)
-                    {
+                    public int compare(DownloadItem a, DownloadItem b) {
                         return a.getTitle().compareTo(b.getTitle());
                     }
                 });
                 break;
             case R.id.sort_cba:
                 PreferenceManager.getInstance(this).setDownloadsSort(DownloadsSort.NAME_DESC);
-                Collections.sort(downloadsAdapter.getItems(), new Comparator<DownloadItem>()
-                {
+                Collections.sort(downloadsAdapter.getItems(), new Comparator<DownloadItem>() {
                     @Override
-                    public int compare(DownloadItem a, DownloadItem b)
-                    {
+                    public int compare(DownloadItem a, DownloadItem b) {
                         return b.getTitle().compareTo(a.getTitle());
                     }
                 });
                 break;
             case R.id.sort_down:
                 PreferenceManager.getInstance(this).setDownloadsSort(DownloadsSort.CREATED_ASC);
-                Collections.sort(downloadsAdapter.getItems(), new Comparator<DownloadItem>()
-                {
+                Collections.sort(downloadsAdapter.getItems(), new Comparator<DownloadItem>() {
                     @Override
-                    public int compare(DownloadItem a, DownloadItem b)
-                    {
+                    public int compare(DownloadItem a, DownloadItem b) {
                         return (int) (a.getSaved() - b.getSaved());
                     }
                 });
                 break;
             case R.id.sort_up:
                 PreferenceManager.getInstance(this).setDownloadsSort(DownloadsSort.CREATED_DESC);
-                Collections.sort(downloadsAdapter.getItems(), new Comparator<DownloadItem>()
-                {
+                Collections.sort(downloadsAdapter.getItems(), new Comparator<DownloadItem>() {
                     @Override
-                    public int compare(DownloadItem a, DownloadItem b)
-                    {
+                    public int compare(DownloadItem a, DownloadItem b) {
                         return (int) (b.getSaved() - a.getSaved());
                     }
                 });
@@ -236,8 +203,7 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
     }
 
     @Override
-    protected void onSaveInstanceState(final Bundle outState)
-    {
+    protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         selectionManager.saveState(outState);
     }

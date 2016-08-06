@@ -25,8 +25,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import java.util.Objects;
 
 
-public class NotificationListener extends AbstractPlayerStateListener implements ImageLoadingListener
-{
+public class NotificationListener extends AbstractPlayerStateListener implements ImageLoadingListener {
     public static final String ACTION_STOP = "stop";
     public static final String ACTION_PREVIOUS = "previous";
     public static final String ACTION_NEXT = "next";
@@ -41,8 +40,7 @@ public class NotificationListener extends AbstractPlayerStateListener implements
     private final NotificationManager notificationManager;
     private boolean foreground;
 
-    public NotificationListener(final Service service)
-    {
+    public NotificationListener(final Service service) {
         this.service = service;
         Intent intent = new Intent(service, PlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -53,8 +51,7 @@ public class NotificationListener extends AbstractPlayerStateListener implements
         collapsed = new RemoteViews(service.getPackageName(), R.layout.notification_collapsed);
         notification.contentView = collapsed;
         expanded = new RemoteViews(service.getPackageName(), R.layout.notification_expanded);
-        if (Build.VERSION.SDK_INT >= 16)
-        {
+        if (Build.VERSION.SDK_INT >= 16) {
             notification.bigContentView = expanded;
         }
         Intent stopIntent = new Intent(service, PlayerService.class);
@@ -85,78 +82,63 @@ public class NotificationListener extends AbstractPlayerStateListener implements
     }
 
     @Override
-    protected void onPlaybackChange(final PlaybackStatePlayerMessage message)
-    {
-        if (message.getState() == PlayerState.STOP)
-        {
+    protected void onPlaybackChange(final PlaybackStatePlayerMessage message) {
+        if (message.getState() == PlayerState.STOP) {
             lastUrl = null;
             service.stopForeground(true);
             foreground = false;
-        } else
-        {
+        } else {
             PlaylistItem playlistItem = message.getItems().get(message.getPosition());
             collapsed.setTextViewText(R.id.text_media_title, message.getSong() == null ? buildTitle(playlistItem.getTitle(), playlistItem.getSubtitle()) : message.getSong());
             expanded.setTextViewText(R.id.text_media_title, message.getSong() == null ? buildTitle(playlistItem.getTitle(), playlistItem.getSubtitle()) : buildTitle(message.getArtist(), message.getSong()));
-            if (message.getIcon() == null || !PreferenceManager.getInstance(service).isMusicImageEnabled())
-            {
+            if (message.getIcon() == null || !PreferenceManager.getInstance(service).isMusicImageEnabled()) {
                 lastUrl = null;
                 collapsed.setImageViewResource(R.id.image_media_preview, playlistItem.getStation().getIcon());
                 expanded.setImageViewResource(R.id.image_media_preview, playlistItem.getStation().getIcon());
-            } else
-            {
+            } else {
                 lastUrl = message.getIcon();
                 ImageLoader.getInstance().loadImage(message.getIcon(), new ImageSize(128, 128), this);
             }
-            if (message.getState() == PlayerState.PLAY)
-            {
+            if (message.getState() == PlayerState.PLAY) {
                 collapsed.setViewVisibility(R.id.button_media_play, View.GONE);
                 collapsed.setViewVisibility(R.id.button_media_pause, View.VISIBLE);
                 expanded.setViewVisibility(R.id.button_media_play, View.GONE);
                 expanded.setViewVisibility(R.id.button_media_pause, View.VISIBLE);
-            } else
-            {
+            } else {
                 collapsed.setViewVisibility(R.id.button_media_play, View.VISIBLE);
                 collapsed.setViewVisibility(R.id.button_media_pause, View.GONE);
                 expanded.setViewVisibility(R.id.button_media_play, View.VISIBLE);
                 expanded.setViewVisibility(R.id.button_media_pause, View.GONE);
             }
-            if (foreground)
-            {
+            if (foreground) {
                 notificationManager.notify(1, notification);
-            } else
-            {
+            } else {
                 service.startForeground(1, notification);
                 foreground = true;
             }
         }
     }
 
-    private String buildTitle(final String main, final String second)
-    {
-        if (second == null)
-        {
+    private String buildTitle(final String main, final String second) {
+        if (second == null) {
             return main;
         }
         return main + "-" + second;
     }
 
     @Override
-    public void onLoadingStarted(final String imageUri, final View view)
-    {
+    public void onLoadingStarted(final String imageUri, final View view) {
         //Nothing to do
     }
 
     @Override
-    public void onLoadingFailed(final String imageUri, final View view, final FailReason failReason)
-    {
+    public void onLoadingFailed(final String imageUri, final View view, final FailReason failReason) {
         //Nothing to do
     }
 
     @Override
-    public void onLoadingComplete(final String imageUri, final View view, final Bitmap loadedImage)
-    {
-        if (lastUrl != null && lastUrl.equals(imageUri))
-        {
+    public void onLoadingComplete(final String imageUri, final View view, final Bitmap loadedImage) {
+        if (lastUrl != null && lastUrl.equals(imageUri)) {
             collapsed.setImageViewBitmap(R.id.image_media_preview, loadedImage);
             expanded.setImageViewBitmap(R.id.image_media_preview, loadedImage);
             notificationManager.notify(1, notification);
@@ -164,8 +146,7 @@ public class NotificationListener extends AbstractPlayerStateListener implements
     }
 
     @Override
-    public void onLoadingCancelled(final String imageUri, final View view)
-    {
+    public void onLoadingCancelled(final String imageUri, final View view) {
         //Nothing to do
     }
 }

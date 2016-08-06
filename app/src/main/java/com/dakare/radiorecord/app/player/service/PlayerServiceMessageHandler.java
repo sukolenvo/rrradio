@@ -15,23 +15,19 @@ public class PlayerServiceMessageHandler extends Handler {
     private final ServiceClientsList clients = new ServiceClientsList();
     private final Player player;
 
-    public PlayerServiceMessageHandler(final Player player)
-    {
+    public PlayerServiceMessageHandler(final Player player) {
         this.player = player;
         player.setPlayerServiceMessageHandler(this);
     }
 
     @Override
-	public void handleMessage(final Message msg) {
+    public void handleMessage(final Message msg) {
         PlayerMessageType playerMessageType = PlayerMessageType.fromMessage(msg);
-        if (playerMessageType == null)
-        {
+        if (playerMessageType == null) {
             super.handleMessage(msg);
 
-        } else
-        {
-            switch (playerMessageType)
-            {
+        } else {
+            switch (playerMessageType) {
                 case REGISTER_SERVICE_CLIENT:
                     clients.registerClient(msg.replyTo);
                     break;
@@ -55,14 +51,13 @@ public class PlayerServiceMessageHandler extends Handler {
                     super.handleMessage(msg);
             }
         }
-	}
+    }
 
-    public void addPlayerStateListener(final AbstractPlayerStateListener listener)
-    {
+    public void addPlayerStateListener(final AbstractPlayerStateListener listener) {
         clients.registerClient(new Messenger(listener));
     }
 
-	public void handleServiceResponse(final PlayerMessage response) {
-		clients.sendBroadcastMessage(response.toMessage());
-	}
+    public void handleServiceResponse(final PlayerMessage response) {
+        clients.sendBroadcastMessage(response.toMessage());
+    }
 }

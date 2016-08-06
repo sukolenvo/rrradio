@@ -13,8 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-public class PlaybackStatePlayerMessage extends PlayerMessage
-{
+public class PlaybackStatePlayerMessage extends PlayerMessage {
     private static final String PLAYLIST_KEY = "playlist";
     private static final String POSITION_KEY = "position";
     private static final String PLAYING_KEY = "playing";
@@ -30,8 +29,7 @@ public class PlaybackStatePlayerMessage extends PlayerMessage
     private final PlayerState state;
 
     public PlaybackStatePlayerMessage(final ArrayList<PlaylistItem> items, final int position, final PlayerState state,
-                                      final UpdateResponse updateResponse)
-    {
+                                      final UpdateResponse updateResponse) {
         super(PlayerMessageType.PLAYBACK_STATE);
         this.items = items;
         this.position = position;
@@ -42,8 +40,7 @@ public class PlaybackStatePlayerMessage extends PlayerMessage
     }
 
     @SuppressWarnings("unchecked")
-    public PlaybackStatePlayerMessage(final Bundle data)
-    {
+    public PlaybackStatePlayerMessage(final Bundle data) {
         super(PlayerMessageType.PLAYBACK_STATE);
         this.icon = data.getString(ICON_KEY);
         this.artist = data.getString(ARTIST_KEY);
@@ -53,14 +50,12 @@ public class PlaybackStatePlayerMessage extends PlayerMessage
         this.state = PlayerState.valueOf(data.getString(PLAYING_KEY));
     }
 
-    public static PlaybackStatePlayerMessage fromMessage(final Bundle args)
-    {
+    public static PlaybackStatePlayerMessage fromMessage(final Bundle args) {
         return new PlaybackStatePlayerMessage(args);
     }
 
     @Override
-    public Message toMessage()
-    {
+    public Message toMessage() {
         Message message = super.toMessage();
         Bundle args = new Bundle();
         args.putParcelableArrayList(PLAYLIST_KEY, items);

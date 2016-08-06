@@ -5,8 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 @Getter
-public class Purchase
-{
+public class Purchase {
     private final String mOrderId;
     private final String mPackageName;
     private final String mSku;

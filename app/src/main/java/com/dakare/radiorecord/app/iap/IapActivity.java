@@ -7,16 +7,14 @@ import android.view.View;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.R;
 
-public class IapActivity extends MenuActivity implements IapHelper.IapCallback, View.OnClickListener
-{
+public class IapActivity extends MenuActivity implements IapHelper.IapCallback, View.OnClickListener {
     private View smallPaymantButton;
     private View mediumPaymentButton;
     private View largePaymentButton;
     private IapHelper iapHelper;
 
     @Override
-    protected void onCreate(final Bundle savedInstanceState)
-    {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iap);
         initToolbar();
@@ -30,14 +28,12 @@ public class IapActivity extends MenuActivity implements IapHelper.IapCallback, 
     }
 
     @Override
-    protected int getMenuContainer()
-    {
+    protected int getMenuContainer() {
         return R.id.menu_iap_container;
     }
 
     @Override
-    public void onConnected()
-    {
+    public void onConnected() {
         smallPaymantButton.setEnabled(true);
         mediumPaymentButton.setEnabled(true);
         largePaymentButton.setEnabled(true);
@@ -45,18 +41,15 @@ public class IapActivity extends MenuActivity implements IapHelper.IapCallback, 
 
 
     @Override
-    public void onDisconnected()
-    {
+    public void onDisconnected() {
         smallPaymantButton.setEnabled(false);
         mediumPaymentButton.setEnabled(false);
         largePaymentButton.setEnabled(false);
     }
 
     @Override
-    public void onClick(final View v)
-    {
-        switch (v.getId())
-        {
+    public void onClick(final View v) {
+        switch (v.getId()) {
             case R.id.button_iap_small:
                 iapHelper.purchase("donate_1");
                 break;
