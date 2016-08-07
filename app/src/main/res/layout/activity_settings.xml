@@ -18,164 +18,171 @@
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
-    <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/main_padding"
-                android:paddingRight="@dimen/main_padding"
-                android:orientation="vertical">
-
-            <RelativeLayout
-                    android:id="@+id/quality_container"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/main_padding"
-                            android:layout_marginRight="@dimen/half_padding"
-                            android:layout_marginBottom="@dimen/main_padding">
-                <TextView
-                        android:id="@+id/quality_main"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        style="@style/SettingsPrimary"
-                        android:text="@string/setting_quality_text"/>
-                <TextView
-                        android:id="@+id/quality_secondary"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:layout_below="@+id/quality_main"
-                        style="@style/SettingsSecondary" />
-            </RelativeLayout>
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
 
-            <View android:layout_width="match_parent" android:layout_height="1px"
-                  android:background="@color/settings_divider"/>
-
-            <RelativeLayout
-                    android:id="@+id/music_metadata_container"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/main_padding"
-                            android:layout_marginRight="@dimen/half_padding"
-                            android:layout_marginBottom="@dimen/main_padding">
-                <TextView
-                        android:id="@+id/metadata_main"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                          style="@style/SettingsPrimary"
-                          android:text="@string/music_metadata_text"/>
-
-                <TextView
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:layout_below="@+id/metadata_main"
-                        style="@style/SettingsSecondary"
-                        android:text="@string/music_metadata_secondary"/>
-
-                <CheckBox
-                        android:id="@+id/music_metadata_checkbox"
-                        android:background="@drawable/transparent"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:focusableInTouchMode="false"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                          android:layout_alignParentRight="true"
-                          android:layout_centerVertical="true"/>
-            </RelativeLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="1px"
-                  android:background="@color/settings_divider"/>
-
-            <RelativeLayout
-                    android:id="@+id/music_image_container"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/main_padding"
-                            android:layout_marginRight="@dimen/half_padding"
-                            android:layout_marginBottom="@dimen/main_padding">
-
-                <TextView
-                        android:id="@+id/metadata_image_main"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        style="@style/SettingsPrimary"
-                        android:text="@string/image_metadata_text"/>
-
-                <TextView
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:layout_below="@+id/metadata_image_main"
-                        style="@style/SettingsSecondary"
-                        android:text="@string/image_metadata_secondary"/>
-
-                <CheckBox
-                        android:id="@+id/music_image_checkbox"
-                        android:background="@drawable/transparent"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:focusableInTouchMode="false"
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
-
-            </RelativeLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="1px"
-                  android:background="@color/settings_divider"/>
-
-            <RelativeLayout
-                    android:id="@+id/call_settings_container"
-                    android:layout_width="match_parent" android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/main_padding"
-                            android:layout_marginRight="@dimen/half_padding"
-                            android:layout_marginBottom="@dimen/main_padding">
-
-                <TextView
-                        android:id="@+id/call_main"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                          style="@style/SettingsPrimary"
-                          android:text="@string/on_call_text"/>
-
-                <TextView
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:layout_below="@+id/call_main"
-                        style="@style/SettingsSecondary"
-                        android:text="@string/on_call_secondary"/>
-
-                <CheckBox
-                        android:id="@+id/call_settings_checkbox"
-                        android:layout_width="wrap_content"
-                        android:background="@drawable/transparent"
-                        android:focusable="false"
-                        android:clickable="false"
-                        android:focusableInTouchMode="false"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"/>
-
-            </RelativeLayout>
-
-            <View android:layout_width="match_parent" android:layout_height="1px"
-                  android:background="@color/settings_divider"/>
-
-            <RelativeLayout
-                    android:id="@+id/download_container"
+        <ScrollView android:layout_width="match_parent" android:layout_height="match_parent">
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/main_padding"
-                    android:layout_marginRight="@dimen/half_padding"
-                    android:layout_marginBottom="@dimen/main_padding">
+                    android:paddingLeft="@dimen/main_padding"
+                    android:paddingRight="@dimen/main_padding"
+                    android:orientation="vertical">
 
-                <TextView
-                        android:id="@+id/download_main"
+                <RelativeLayout
+                        android:id="@+id/quality_container"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/main_padding"
+                        android:layout_marginRight="@dimen/half_padding"
+                        android:layout_marginBottom="@dimen/main_padding">
+                    <TextView
+                            android:id="@+id/quality_main"
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            style="@style/SettingsPrimary"
+                            android:text="@string/setting_quality_text"/>
+                    <TextView
+                            android:id="@+id/quality_secondary"
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:layout_below="@+id/quality_main"
+                            style="@style/SettingsSecondary" />
+                </RelativeLayout>
+
+
+                <View android:layout_width="match_parent" android:layout_height="1px"
+                      android:background="@color/settings_divider"/>
+
+                <RelativeLayout
+                        android:id="@+id/music_metadata_container"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/main_padding"
+                        android:layout_marginRight="@dimen/half_padding"
+                        android:layout_marginBottom="@dimen/main_padding">
+                    <TextView
+                            android:id="@+id/metadata_main"
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            style="@style/SettingsPrimary"
+                            android:text="@string/music_metadata_text"/>
+
+                    <TextView
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:layout_below="@+id/metadata_main"
+                            style="@style/SettingsSecondary"
+                            android:text="@string/music_metadata_secondary"/>
+
+                    <CheckBox
+                            android:id="@+id/music_metadata_checkbox"
+                            android:background="@drawable/transparent"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:focusableInTouchMode="false"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"/>
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1px"
+                      android:background="@color/settings_divider"/>
+
+                <RelativeLayout
+                        android:id="@+id/music_image_container"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/main_padding"
+                        android:layout_marginRight="@dimen/half_padding"
+                        android:layout_marginBottom="@dimen/main_padding">
+
+                    <TextView
+                            android:id="@+id/metadata_image_main"
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            style="@style/SettingsPrimary"
+                            android:text="@string/image_metadata_text"/>
+
+                    <TextView
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:layout_below="@+id/metadata_image_main"
+                            style="@style/SettingsSecondary"
+                            android:text="@string/image_metadata_secondary"/>
+
+                    <CheckBox
+                            android:id="@+id/music_image_checkbox"
+                            android:background="@drawable/transparent"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:focusableInTouchMode="false"
+                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1px"
+                      android:background="@color/settings_divider"/>
+
+                <RelativeLayout
+                        android:id="@+id/call_settings_container"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/main_padding"
+                        android:layout_marginRight="@dimen/half_padding"
+                        android:layout_marginBottom="@dimen/main_padding">
+
+                    <TextView
+                            android:id="@+id/call_main"
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            style="@style/SettingsPrimary"
+                            android:text="@string/on_call_text"/>
+
+                    <TextView
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:layout_below="@+id/call_main"
+                            style="@style/SettingsSecondary"
+                            android:text="@string/on_call_secondary"/>
+
+                    <CheckBox
+                            android:id="@+id/call_settings_checkbox"
+                            android:layout_width="wrap_content"
+                            android:background="@drawable/transparent"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:focusableInTouchMode="false"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1px"
+                      android:background="@color/settings_divider"/>
+
+                <RelativeLayout
+                        android:id="@+id/download_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/SettingsPrimary"
-                        android:text="@string/setting_download_text"/>
-                <TextView
-                        android:id="@+id/download_secondary"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/download_main"
-                        style="@style/SettingsSecondary" />
-            </RelativeLayout>
+                        android:layout_marginTop="@dimen/main_padding"
+                        android:layout_marginRight="@dimen/half_padding"
+                        android:layout_marginBottom="@dimen/main_padding">
+
+                    <TextView
+                            android:id="@+id/download_main"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/SettingsPrimary"
+                            android:text="@string/setting_download_text"/>
+                    <TextView
+                            android:id="@+id/download_secondary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/download_main"
+                            style="@style/SettingsSecondary" />
+                </RelativeLayout>
 
 
-            <View android:layout_width="match_parent" android:layout_height="1px"
-                  android:background="@color/settings_divider"/>
+                <View android:layout_width="match_parent" android:layout_height="1px"
+                      android:background="@color/settings_divider"/>
 
-        </LinearLayout>
-    </ScrollView>
+            </LinearLayout>
+        </ScrollView>
 
+        <View android:layout_width="match_parent"
+              android:layout_height="3dp"
+              android:background="@drawable/toolbar_dropshadow"/>
+    </FrameLayout>
 </LinearLayout>

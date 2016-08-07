@@ -8,6 +8,7 @@ import android.media.MediaCodec;
 import android.media.audiofx.Equalizer;
 import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
@@ -193,8 +194,14 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
         if (i == ExoPlayer.STATE_ENDED && playlist != null && position < playlist.size() - 1) {
             position++;
             startPlayback();
-        } else if (i == ExoPlayer.STATE_READY && equalizer != null && !equalizer.getEnabled()) {
-            equalizer.setEnabled(true);
+        } else if (i == ExoPlayer.STATE_READY && equalizer != null) {
+            try {
+                if (!equalizer.getEnabled()) {
+                    equalizer.setEnabled(true);
+                }
+            } catch (IllegalStateException e) {
+                Log.e("Exoplayer", "Failed to enable equalizer", e);
+            }
         }
     }
 

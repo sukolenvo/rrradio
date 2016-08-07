@@ -5,8 +5,7 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
-    <LinearLayout
-            android:orientation="vertical"
+    <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -16,6 +15,7 @@
                 android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/my_toolbar"
                 android:scrollbars="none"/>
 
         <RelativeLayout
@@ -36,7 +36,12 @@
                     android:layout_below="@+id/stub_image"
                     android:text="@string/text_no_downloads" />
         </RelativeLayout>
-    </LinearLayout>
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="3dp"
+                  android:layout_below="@+id/my_toolbar"
+                  android:background="@drawable/toolbar_dropshadow"/>
+    </RelativeLayout>
 
     <fragment
             android:id="@+id/fragment_drawer"

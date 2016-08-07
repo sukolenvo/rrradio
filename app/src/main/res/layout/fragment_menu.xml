@@ -20,14 +20,18 @@
                     android:id="@+id/menu_label"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/menu_label_height"
-                    android:scaleType="fitXY"
-                    android:layout_marginBottom="@dimen/category_menu_padding"/>
+                    android:scaleType="fitXY"/>
+
+            <View android:layout_width="match_parent"
+                  android:layout_height="1dp"
+                  android:background="@drawable/toolbar_dropshadow"/>
 
             <LinearLayout
                     android:id="@+id/menu_main_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/category_menu_padding"
                     android:background="@drawable/item_menu_background"
                     android:onClick="mainActivity">
 

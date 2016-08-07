@@ -13,14 +13,12 @@
         <item name="colorPrimaryDark">@color/toolbar_color</item>
         <item name="colorAccent">@color/toolbar_color</item>
         <item name="toolbarColor">@color/toolbar_color</item>
-        <item name="toolbarElevation">4dp</item>
         <item name="toolbarTitleSize">@dimen/abc_text_size_title_material_toolbar</item>
         <item name="android:selectableItemBackground">@drawable/selectable_background</item>
     </style>
 
     <style name="Player" parent="Main">
         <item name="toolbarColor">@color/player_toolbar</item>
-        <item name="toolbarElevation">0dp</item>
         <item name="toolbarTitleSize">14sp</item>
     </style>
 

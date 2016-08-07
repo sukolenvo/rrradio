@@ -59,7 +59,7 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
             emptyView.setVisibility(View.VISIBLE);
         } else {
             recyclerView.setVisibility(View.VISIBLE);
-            emptyView.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
         }
     }
 
