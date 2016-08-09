@@ -91,4 +91,5 @@
     <string name="error_iap_support">Google payment service not supported</string>
     <string name="download_starting">Audio added to downloads</string>
     <string name="status_error_unknown">Unknown error happend while downloading attempt</string>
+    <string name="message_eq_not_ready">Equalizer not initialized yet</string>
 </resources>

@@ -38,6 +38,16 @@
                     android:layout_alignParentRight="true"
                     android:src="@drawable/ic_settings_white_24dp"/>
 
+            <ImageView
+                    android:id="@+id/equalizer_refresh"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:padding="12dp"
+                    android:scaleType="fitXY"
+                    android:layout_below="@id/equalizer_button"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_autorenew_white_24dp"/>
+
             <LinearLayout
                     android:id="@+id/player_control_container"
                     android:layout_width="wrap_content"

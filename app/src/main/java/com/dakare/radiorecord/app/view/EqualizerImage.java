@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
+import android.widget.Toast;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
@@ -144,7 +145,7 @@ public class EqualizerImage extends ImageView {
     public void updateSettings(final EqualizerSettings equalizerSettings) {
         this.equalizerSettings = equalizerSettings;
         invalidateView();
-        postInvalidate();
+        invalidate();
     }
 
     private void invalidateView() {
@@ -152,7 +153,6 @@ public class EqualizerImage extends ImageView {
             labels.clear();
             triangles.clear();
             points.clear();
-            //todo: reset everything
             calculateAxis();
             calculateLeftLables();
             calculateBottomLables();
@@ -255,6 +255,30 @@ public class EqualizerImage extends ImageView {
         Rect rect = new Rect();
         mainLabelText.getTextBounds("Equalizer", 0, "Equalizer".length(), rect);
         labels.add(new Label(width / 2 - rect.width() / 2 + leftAxis / 2, top + rect.height(), "Equalizer", mainLabelText));
+    }
+
+    public void refreshEq() {
+        if (equalizerSettings == null || equalizerSettings.getLevels() == null || equalizerSettings.getLevels().length == 0) {
+            Toast.makeText(getContext(), R.string.message_eq_not_ready, Toast.LENGTH_LONG).show();
+        } else {
+            switch (equalizerSettings.getLevels().length) {
+                case 1:
+                    equalizerSettings.getLevels()[0] = equalizerSettings.getLevelRange() / 2 + equalizerSettings.getRange()[0];
+                    break;
+                case 2:
+                    equalizerSettings.getLevels()[1] = equalizerSettings.getLevels()[0] = equalizerSettings.getLevelRange() / 2 + equalizerSettings.getRange()[0];
+                    break;
+                default:
+                    equalizerSettings.getLevels()[0] = equalizerSettings.getLevels()[equalizerSettings.getLevels().length - 1] =
+                            (int) (equalizerSettings.getLevelRange() * 0.6 + equalizerSettings.getRange()[0]);
+                    int middleLevel = equalizerSettings.getLevelRange() / 2 + equalizerSettings.getRange()[0];
+                    for (int i = 1; i < equalizerSettings.getLevels().length - 1; i++) {
+                        equalizerSettings.getLevels()[i] = middleLevel;
+                    }
+            }
+            instance.setEqSettings(equalizerSettings);
+            updateSettings(equalizerSettings);
+        }
     }
 
     @Override

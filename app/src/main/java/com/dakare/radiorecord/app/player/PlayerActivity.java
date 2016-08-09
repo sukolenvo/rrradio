@@ -58,6 +58,7 @@ public class PlayerActivity extends MenuActivity
     private TextView durationView;
     private View eqButton;
     private EqualizerImage equalizerImage;
+    private View eqRefreshView;
     private boolean isEqView;
 
     @Override
@@ -100,6 +101,13 @@ public class PlayerActivity extends MenuActivity
             }
         });
         equalizerImage = (EqualizerImage) findViewById(R.id.equalizer_image);
+        eqRefreshView = findViewById(R.id.equalizer_refresh);
+        eqRefreshView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                equalizerImage.refreshEq();
+            }
+        });
         setupOnClickListeners();
         updateViews();
         PreferenceManager.getInstance(this).registerChangeListener(this);
@@ -112,10 +120,12 @@ public class PlayerActivity extends MenuActivity
             icon.setVisibility(View.GONE);
             findViewById(R.id.player_control_container).setVisibility(View.GONE);
             equalizerImage.setVisibility(View.VISIBLE);
+            eqRefreshView.setVisibility(View.VISIBLE);
         } else {
             icon.setVisibility(View.VISIBLE);
             findViewById(R.id.player_control_container).setVisibility(View.VISIBLE);
             equalizerImage.setVisibility(View.GONE);
+            eqRefreshView.setVisibility(View.GONE);
         }
     }
 
