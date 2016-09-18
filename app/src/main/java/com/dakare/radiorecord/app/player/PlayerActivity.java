@@ -133,7 +133,7 @@ public class PlayerActivity extends MenuActivity
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (items == null) {
+                if (items == null || items.isEmpty()) {
                     Toast.makeText(PlayerActivity.this, R.string.no_results, Toast.LENGTH_LONG).show();
                 } else {
                     if (playerServiceHelper.getServiceClient().isMessagingSessionStarted()) {

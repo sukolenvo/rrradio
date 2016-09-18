@@ -17,7 +17,7 @@ public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements 
     private final LayoutInflater inflater;
     @Getter
     @Setter
-    private Quality selectedQuality;
+    private Quality selectedQuality = Quality.HIGH;
 
     public QualityAdapter(final Context context, boolean withNoQuality) {
         super(context, 0);

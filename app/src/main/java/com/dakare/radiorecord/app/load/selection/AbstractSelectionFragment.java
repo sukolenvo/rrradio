@@ -58,6 +58,7 @@ public abstract class AbstractSelectionFragment<T extends RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
                     image.setVisibility(View.GONE);
+                    image.setImageDrawable(null);
                     PreferenceManager.getInstance(getContext()).hideLoadHint();
                     getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                 }

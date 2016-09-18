@@ -24,10 +24,13 @@ import lombok.Setter;
 
 public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.OnClickListener {
 
+    public static final int WRITE_PERMISSION_CODE = 99;
+
     private final LayoutInflater layoutInflater;
     @Setter
     private int position;
     private final Activity activity;
+    private int lastClickPosition;
 
     public PlaylistAdapter(final Activity activity) {
         super(activity, 0);
@@ -74,11 +77,11 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.
 
     @Override
     public void onClick(final View v) {
-        int position = (int) v.getTag();
+        lastClickPosition = (int) v.getTag();
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, position + 1);
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_PERMISSION_CODE);
         } else {
-            downloadItem(position);
+            downloadItem(lastClickPosition);
         }
     }
 
@@ -90,9 +93,9 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.
     }
 
     public void onRequestPermissionsResult(final int requestCode, final String[] permissions, final int[] grantResults) {
-        if (grantResults.length > 0
+        if (requestCode == WRITE_PERMISSION_CODE && grantResults.length > 0
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            downloadItem(requestCode - 1);
+            downloadItem(lastClickPosition);
         }
     }
 }

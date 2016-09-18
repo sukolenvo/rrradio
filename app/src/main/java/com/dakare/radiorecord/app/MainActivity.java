@@ -45,6 +45,7 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
                 @Override
                 public void onClick(View view) {
                     image.setVisibility(View.GONE);
+                    image.setImageDrawable(null);
                     PreferenceManager.getInstance(MainActivity.this).hideMainHint();
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                 }
