@@ -51,7 +51,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     private final ExoPlayer player;
     private long lastErrorMessage;
     private Equalizer equalizer;
-    private final PreferenceManager instance;
+    private final PreferenceManager preferenceManager;
 
     public PlayerJellybean(final Context context) {
         this.context = context;
@@ -60,7 +60,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
         metadataLoader = new MetadataLoader(this, context);
         playlist = new ArrayList<>();
         playlist.addAll(PreferenceManager.getInstance(context).getLastPlaylist());
-        instance = PreferenceManager.getInstance(context);
+        preferenceManager = PreferenceManager.getInstance(context);
     }
 
     public void play(final ArrayList<PlaylistItem> playlist, final int position) {
@@ -94,15 +94,17 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
                         MediaCodecSelector.DEFAULT, null, true, uiHandler, this, AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC) {
                     @Override
                     protected void onAudioSessionId(final int audioSessionId) {
-                        equalizer = new Equalizer(0, audioSessionId);
-                        EqualizerSettings old = instance.getEqSettings();
-                        old.applyLevels(equalizer);
-                        EqualizerSettings newSettings = new EqualizerSettings(equalizer);
-                        if (!newSettings.equals(old)) {
-                            instance.setEqSettings(newSettings);
+                        if (preferenceManager.isEqSettingsEnabled()) {
+                            equalizer = new Equalizer(0, audioSessionId);
+                            EqualizerSettings old = preferenceManager.getEqSettings();
+                            old.applyLevels(equalizer);
+                            EqualizerSettings newSettings = new EqualizerSettings(equalizer);
+                            if (!newSettings.equals(old)) {
+                                preferenceManager.setEqSettings(newSettings);
+                            }
+                            super.onAudioSessionId(audioSessionId);
+                            preferenceManager.registerChangeListener(PlayerJellybean.this);
                         }
-                        super.onAudioSessionId(audioSessionId);
-                        instance.registerChangeListener(PlayerJellybean.this);
                     }
 
                     @Override
@@ -111,7 +113,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
                             equalizer.release();
                             equalizer = null;
                         }
-                        instance.unregisterChangeListener(PlayerJellybean.this);
+                        preferenceManager.unregisterChangeListener(PlayerJellybean.this);
                         super.onDisabled();
                     }
                 };
@@ -265,7 +267,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     @Override
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
         if (PreferenceManager.EQ_LEVELS_KEY.equals(key) && equalizer != null) {
-            instance.getEqSettings().applyLevels(equalizer);
+            preferenceManager.getEqSettings().applyLevels(equalizer);
         }
     }
 }

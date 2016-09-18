@@ -38,11 +38,6 @@ public class SettingsDirectoryDialog extends Dialog {
                     Toast.makeText(context, context.getString(R.string.directory_access_error), Toast.LENGTH_LONG).show();
                     return;
                 }
-                if (((Checkable) findViewById(R.id.checkbox_container)).isChecked()) {
-                    findViewById(R.id.status_text).setVisibility(View.VISIBLE);
-                    //TODO: init audio move
-                    return;
-                }
                 PreferenceManager.getInstance(context).setDownloadDirectory(newPath.getAbsolutePath());
                 dismiss();
             }

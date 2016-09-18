@@ -41,6 +41,7 @@ public class PreferenceManager {
     private static final String EQ_BANDS_KEY = "equalizer_bands";
     private static final String EQ_RANGE_KEY = "equalizer_range";
     public static final String EQ_LEVELS_KEY = "equalizer_level";
+    private static final String EQ_SETTINGS_KEY = "equalizer_settings";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -286,5 +287,15 @@ public class PreferenceManager {
 
     public void unregisterChangeListener(final SharedPreferences.OnSharedPreferenceChangeListener listener) {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    public boolean isEqSettingsEnabled() {
+        return sharedPreferences.getBoolean(EQ_SETTINGS_KEY, true);
+    }
+
+    public void setEqSettings(final boolean enabled) {
+        sharedPreferences.edit()
+                .putBoolean(EQ_SETTINGS_KEY, enabled)
+                .apply();
     }
 }

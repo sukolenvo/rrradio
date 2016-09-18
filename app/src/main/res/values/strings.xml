@@ -1,12 +1,11 @@
 <resources>
     <string name="app_name">RadioRecord</string>
     <string name="saved_directory_title">Saved audio directory</string>
-    <string name="checkbox_move">Move all audio to this folder</string>
     <string name="quality_title">Select Default Quality</string>
-    <string name="quality_aac">Low quality (AAC, 32kbs)</string>
-    <string name="quality_low">Low quality (MP3, 32kbs)</string>
-    <string name="quality_medium">Medium quality (MP3, 128kbs)</string>
-    <string name="quality_high">High quality (MP3, 320kbs)</string>
+    <string name="quality_aac">Low (AAC, 32kbs)</string>
+    <string name="quality_low">Low (MP3, 32kbs)</string>
+    <string name="quality_medium">Medium (MP3, 128kbs)</string>
+    <string name="quality_high">High (MP3, 320kbs)</string>
     <string name="dont_ask_again">Don\'t ask again</string>
     <string name="error_connect">Failed to connect to audio server. Please check your connection and try again.</string>
     <string name="error_not_found">Can\'t find this song on server. Please select another one.</string>
@@ -29,9 +28,11 @@
     <string name="music_metadata_text">Music metadata</string>
     <string name="image_metadata_text">Album images</string>
     <string name="on_call_text">Stop playback on call</string>
+    <string name="eq_settings_text">Equalizer</string>
     <string name="music_metadata_secondary">Load current music information (Artist, song name)</string>
     <string name="image_metadata_secondary">Load and display album image (if available)</string>
     <string name="on_call_secondary">Automatically interrupt playback on income call</string>
+    <string name="eq_settings_secondary">Disable this option if you have problems with sound</string>
     <string name="no_results">Playlist is empty</string>
     <string name="no_content_text">No results</string>
     <string name="error_load_history">Failed to load data from server. Please check your connection or try later.</string>
@@ -92,4 +93,9 @@
     <string name="download_starting">Audio added to downloads</string>
     <string name="status_error_unknown">Unknown error happend while downloading attempt</string>
     <string name="message_eq_not_ready">Equalizer not initialized yet</string>
+    <string name="eq_change_message">Please restart playback to apply changes</string>
+    <string name="warning_text">Warning</string>
+    <string name="eq_warning_text">Equalizer is disabled in application settings. Please enable it to have access to
+        this feature.
+    </string>
 </resources>

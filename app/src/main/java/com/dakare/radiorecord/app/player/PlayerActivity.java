@@ -96,8 +96,12 @@ public class PlayerActivity extends MenuActivity
         eqButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                isEqView ^= true;
-                updateIcon();
+                if (PreferenceManager.getInstance(PlayerActivity.this).isEqSettingsEnabled()) {
+                    isEqView ^= true;
+                    updateIcon();
+                } else {
+                    new EqDisabledWarningDialog(PlayerActivity.this).show();
+                }
             }
         });
         equalizerImage = (EqualizerImage) findViewById(R.id.equalizer_image);

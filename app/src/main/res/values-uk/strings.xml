@@ -52,7 +52,6 @@
     <string name="menu_downloads_text">Загрузки</string>
     <string name="text_no_downloads">Ничего не сохранено. Выберите аудио из категорий</string>
     <string name="saved_directory_title">Расположение сохраненной музыки</string>
-    <string name="checkbox_move">Переместить все аудиофайлы в эту папку</string>
     <string name="default_move_status">Аудиофайлы копируются. Пожалуйста, не закрывайте приложение до конца операции.
     </string>
     <string name="directory_access_error">Ошибка доступа к директории. Проверьте правильность пути сохранения
@@ -94,4 +93,9 @@
     <string name="download_starting">Аудиозапись добавлена в загрузки</string>
     <string name="status_error_unknown">Неизвестная ошибка при загрузке файла</string>
     <string name="message_eq_not_ready">Эквалайзер еще не готов</string>
+    <string name="eq_settings_text">Эквалайзер</string>
+    <string name="eq_settings_secondary">Отключите данную функцию при проблемах со звуком</string>
+    <string name="eq_change_message">Перезапустите воспроизведение для применения настроек</string>
+    <string name="warning_text">Внимание</string>
+    <string name="eq_warning_text">Эквалайзер отключен в настройках приложения. Данная функция недоступна.</string>
 </resources>

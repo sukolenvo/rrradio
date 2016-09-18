@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Checkable;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.quality.Quality;
@@ -36,6 +37,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         initMusicImage();
         initCallSettings();
         initDownloadDirectory();
+        initEqSettings();
     }
 
     private void initQuality() {
@@ -171,5 +173,26 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private void updateDownloadSecondary() {
         TextView text = (TextView) findViewById(R.id.download_secondary);
         text.setText(preferenceManager.getDownloadDirectory());
+    }
+
+    private void initEqSettings() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            findViewById(R.id.eq_settings_container).setVisibility(View.GONE);
+        } else {
+            updateEqCheckbox();
+            findViewById(R.id.eq_settings_container).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    preferenceManager.setEqSettings(preferenceManager.isEqSettingsEnabled() ^ true);
+                    Toast.makeText(SettingsActivity.this, R.string.eq_change_message, Toast.LENGTH_SHORT).show();
+                    updateEqCheckbox();
+                }
+            });
+        }
+    }
+
+    private void updateEqCheckbox() {
+        Checkable checkable = (Checkable) findViewById(R.id.eq_settings_checkbox);
+        checkable.setChecked(preferenceManager.isEqSettingsEnabled());
     }
 }

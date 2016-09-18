@@ -153,6 +153,41 @@
                       android:background="@color/settings_divider"/>
 
                 <RelativeLayout
+                        android:id="@+id/eq_settings_container"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/main_padding"
+                        android:layout_marginRight="@dimen/half_padding"
+                        android:layout_marginBottom="@dimen/main_padding">
+
+                    <TextView
+                            android:id="@+id/eq_main"
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            style="@style/SettingsPrimary"
+                            android:text="@string/eq_settings_text"/>
+
+                    <TextView
+                            android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:layout_below="@+id/eq_main"
+                            style="@style/SettingsSecondary"
+                            android:text="@string/eq_settings_secondary"/>
+
+                    <CheckBox
+                            android:id="@+id/eq_settings_checkbox"
+                            android:layout_width="wrap_content"
+                            android:background="@drawable/transparent"
+                            android:focusable="false"
+                            android:clickable="false"
+                            android:focusableInTouchMode="false"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+                <View android:layout_width="match_parent" android:layout_height="1px"
+                      android:background="@color/settings_divider"/>
+
+                <RelativeLayout
                         android:id="@+id/download_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
