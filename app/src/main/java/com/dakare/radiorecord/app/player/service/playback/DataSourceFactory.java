@@ -8,12 +8,12 @@ import com.google.android.exoplayer.upstream.FileDataSource;
 
 public final class DataSourceFactory {
 
-    public static DataSource createDataSource(final String url) {
+    public static DataSource createDataSource(final String url, final boolean stream) {
         if (url.startsWith("file://")) {
             return new FileDataSource();
         }
         if (url.startsWith("http")) {
-            return new PartialHttpDataSource("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36", null);
+            return new PartialHttpDataSource("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36", null, stream);
         }
         Toast.makeText(RecordApplication.getInstance(), R.string.error_source, Toast.LENGTH_LONG).show();
         return null;

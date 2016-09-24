@@ -2,6 +2,7 @@ package com.dakare.radiorecord.app.player.service.playback;
 
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.LruCache;
 import com.google.android.exoplayer.C;
 import com.google.android.exoplayer.upstream.DataSpec;
 import com.google.android.exoplayer.upstream.HttpDataSource;
@@ -16,6 +17,7 @@ import java.net.NoRouteToHostException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -64,6 +66,7 @@ public class PartialHttpDataSource implements HttpDataSource {
 
     private long bytesSkipped;
     private long bytesRead;
+    private boolean stream;
 
     /**
      * @param userAgent            The User-Agent string that should be used.
@@ -71,8 +74,9 @@ public class PartialHttpDataSource implements HttpDataSource {
      *                             rejected by the predicate then a {@link HttpDataSource.InvalidContentTypeException} is
      *                             thrown from {@link #open(DataSpec)}.
      */
-    public PartialHttpDataSource(String userAgent, Predicate<String> contentTypePredicate) {
+    public PartialHttpDataSource(String userAgent, Predicate<String> contentTypePredicate, boolean stream) {
         this(userAgent, contentTypePredicate, null);
+        this.stream = stream;
     }
 
     /**
@@ -237,7 +241,11 @@ public class PartialHttpDataSource implements HttpDataSource {
     public int read(byte[] buffer, int offset, int readLength) throws HttpDataSourceException {
         try {
             skipInternal();
-            return readInternal(buffer, offset, readLength);
+            int read = readInternal(buffer, offset, readLength);
+            if (stream && read == -1) {
+                throw new IOException("Cannot read from stream connection");
+            }
+            return read;
         } catch (IOException e) {
             closeConnectionQuietly();
             try {
@@ -248,7 +256,11 @@ public class PartialHttpDataSource implements HttpDataSource {
                 connection = con;
                 inputStream = con.getInputStream();
                 skipInternal();
-                return readInternal(buffer, offset, readLength);
+                int read = readInternal(buffer, offset, readLength);
+                if (stream && read == -1) {
+                    throw new IOException("Cannot read from stream connection");
+                }
+                return read;
             } catch (IOException e1) {
                 throw new HttpDataSourceException(e1, dataSpec, HttpDataSourceException.TYPE_READ);
             }

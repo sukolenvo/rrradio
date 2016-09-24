@@ -13,6 +13,8 @@ import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.playback.Player;
 import com.dakare.radiorecord.app.player.service.playback.PlayerImpl;
 import com.dakare.radiorecord.app.player.service.playback.PlayerJellybean;
+import com.dakare.radiorecord.app.widget.WidgetListener;
+import com.dakare.radiorecord.app.widget.WidgetReceiver;
 
 import java.util.ArrayList;
 
@@ -38,6 +40,7 @@ public class PlayerService extends Service {
         messageHandler.addPlayerStateListener(new NotificationListener(this));
         messageHandler.addPlayerStateListener(new IncomeCallListener(this));
         messageHandler.addPlayerStateListener(new HeadsetUnplugListener(this));
+        messageHandler.addPlayerStateListener(new WidgetListener(this));
     }
 
     @SuppressWarnings("unchecked")

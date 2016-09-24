@@ -42,6 +42,7 @@ public class PreferenceManager {
     private static final String EQ_RANGE_KEY = "equalizer_range";
     public static final String EQ_LEVELS_KEY = "equalizer_level";
     private static final String EQ_SETTINGS_KEY = "equalizer_settings";
+    private static final String LAST_PLAYLIST_POSITION_KEY = "last_playlist_position";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -134,6 +135,16 @@ public class PreferenceManager {
     public void setLastStation(final Station station) {
         sharedPreferences.edit()
                 .putString(LAST_STATION, station.name())
+                .apply();
+    }
+
+    public int getLastPosition() {
+        return sharedPreferences.getInt(LAST_PLAYLIST_POSITION_KEY, 0);
+    }
+
+    public void setLastPosition(final int position) {
+        sharedPreferences.edit()
+                .putInt(LAST_PLAYLIST_POSITION_KEY, position)
                 .apply();
     }
 
@@ -290,7 +301,7 @@ public class PreferenceManager {
     }
 
     public boolean isEqSettingsEnabled() {
-        return sharedPreferences.getBoolean(EQ_SETTINGS_KEY, true);
+        return sharedPreferences.getBoolean(EQ_SETTINGS_KEY, Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN);
     }
 
     public void setEqSettings(final boolean enabled) {

@@ -61,6 +61,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
         playlist = new ArrayList<>();
         playlist.addAll(PreferenceManager.getInstance(context).getLastPlaylist());
         preferenceManager = PreferenceManager.getInstance(context);
+        position = preferenceManager.getLastPosition();
     }
 
     public void play(final ArrayList<PlaylistItem> playlist, final int position) {
@@ -85,11 +86,12 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
             player.seekTo(0L);
             player.setPlayWhenReady(true);
             PlaylistItem playlistItem = playlist.get(position);
+            preferenceManager.setLastPosition(position);
             Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
-            DataSource dataSource = DataSourceFactory.createDataSource(playlistItem.getUrl());
+            DataSource dataSource = DataSourceFactory.createDataSource(playlistItem.getUrl(), playlistItem.isLive());
             if (dataSource != null) {
                 ExtractorSampleSource sampleSource = new ExtractorSampleSource(Uri.parse(playlistItem.getUrl()), dataSource, allocator,
-                        BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE, uiHandler, this, 0);
+                        BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE, ExtractorSampleSource.DEFAULT_MIN_LOADABLE_RETRY_COUNT_LIVE, uiHandler, this, 0);
                 MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource,
                         MediaCodecSelector.DEFAULT, null, true, uiHandler, this, AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC) {
                     @Override
@@ -168,9 +170,18 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     }
 
     public void resume() {
-        if (state != PlayerState.STOP) {
-            state = PlayerState.PLAY;
-            player.setPlayWhenReady(true);
+        switch (state) {
+            case STOP:
+                if (playlist.isEmpty()) {
+                    Toast.makeText(context, R.string.no_results, Toast.LENGTH_SHORT).show();
+                } else {
+                    play(playlist, position);
+                }
+                break;
+            default:
+                state = PlayerState.PLAY;
+                player.setPlayWhenReady(true);
+                break;
         }
         updateState();
     }

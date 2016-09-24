@@ -53,6 +53,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
         metadataLoader = new MetadataLoader(this, context);
         playlist = new ArrayList<>();
         playlist.addAll(PreferenceManager.getInstance(context).getLastPlaylist());
+        position = PreferenceManager.getInstance(context).getLastPosition();
     }
 
     public void play(final ArrayList<PlaylistItem> playlist, final int position) {
@@ -77,6 +78,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
             mediaPlayer.reset();
             try {
                 PlaylistItem playlistItem = playlist.get(position);
+                PreferenceManager.getInstance(context).setLastPosition(position);
                 mediaPlayer.setDataSource(context, Uri.parse(playlistItem.getUrl()));
                 mediaPlayer.prepareAsync();
                 state = PlayerState.PLAY;
@@ -130,9 +132,18 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
     }
 
     public void resume() {
-        if (state != PlayerState.STOP) {
-            state = PlayerState.PLAY;
-            mediaPlayer.start();
+        switch (state) {
+            case STOP:
+                if (playlist.isEmpty()) {
+                    Toast.makeText(context, R.string.no_results, Toast.LENGTH_SHORT).show();
+                } else {
+                    play(playlist, position);
+                }
+                break;
+            default:
+                state = PlayerState.PLAY;
+                mediaPlayer.start();
+                break;
         }
         updateState();
     }
