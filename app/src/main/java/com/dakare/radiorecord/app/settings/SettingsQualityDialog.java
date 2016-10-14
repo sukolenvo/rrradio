@@ -1,21 +1,20 @@
 package com.dakare.radiorecord.app.settings;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
-import android.view.Window;
 import android.widget.ListView;
+import com.dakare.radiorecord.app.AbstractDialog;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.quality.QualityAdapter;
 
-public class SettingsQualityDialog extends Dialog {
+public class SettingsQualityDialog extends AbstractDialog {
+
     private QualityAdapter adapter;
 
     public SettingsQualityDialog(final Context context) {
         super(context);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_settings_quality);
         ListView listView = (ListView) findViewById(R.id.quality_list);
         adapter = new QualityAdapter(context, true);

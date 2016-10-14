@@ -1,20 +1,19 @@
 package com.dakare.radiorecord.app.quality;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
-import android.view.Window;
 import android.widget.Checkable;
 import android.widget.ListView;
+import com.dakare.radiorecord.app.AbstractDialog;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 
-public class QualityDialog extends Dialog {
+public class QualityDialog extends AbstractDialog {
+
     private QualityAdapter adapter;
 
     public QualityDialog(final Context context, final QualityHandler handler) {
         super(context);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_quality);
         ListView listView = (ListView) findViewById(R.id.quality_list);
         adapter = new QualityAdapter(context, false);

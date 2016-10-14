@@ -1,6 +1,5 @@
 package com.dakare.radiorecord.app.settings;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
@@ -8,17 +7,17 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.dakare.radiorecord.app.AbstractDialog;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.database.DownloadAudioTable;
 
 import java.io.File;
 
-public class SettingsDirectoryDialog extends Dialog implements TextWatcher {
+public class SettingsDirectoryDialog extends AbstractDialog implements TextWatcher {
 
     private final String sdCardDirectory;
     private final Button buttonInternal;
@@ -28,7 +27,6 @@ public class SettingsDirectoryDialog extends Dialog implements TextWatcher {
     public SettingsDirectoryDialog(final Context context) {
         super(context);
         sdCardDirectory = getStorageDirectory(context);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_settings_directory);
         editText = (TextView) findViewById(R.id.saved_directory_input);
         editText.setText(PreferenceManager.getInstance(context).getDownloadDirectory());

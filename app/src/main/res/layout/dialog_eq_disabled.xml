@@ -2,24 +2,16 @@
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white">
+        style="@style/DialogContainer">
 
     <TextView
             android:text="@string/warning_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/one_and_half_padding"
-            android:paddingLeft="@dimen/one_and_half_padding"
-            android:paddingRight="@dimen/one_and_half_padding"
-            android:paddingBottom="20dp"
-            android:textSize="18sp"/>
+            style="@style/DialogTitle"/>
 
     <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/station_color"/>
+            android:background="@color/toolbar_color"/>
 
     <TextView
             android:layout_width="match_parent"

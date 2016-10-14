@@ -115,4 +115,22 @@
         <item name="android:background">@drawable/directory_button_background</item>
         <item name="android:minHeight">36dp</item>
     </style>
+
+    <style name="DialogContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@drawable/dialog_background</item>
+    </style>
+
+    <style name="DialogTitle">
+        <item name="android:paddingTop">@dimen/main_padding</item>
+        <item name="android:paddingBottom">@dimen/main_padding</item>
+        <item name="android:textColor">@color/toolbar_color</item>
+        <item name="android:paddingLeft">@dimen/one_and_half_padding</item>
+        <item name="android:paddingRight">@dimen/one_and_half_padding</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:maxLines">2</item>
+        <item name="android:textSize">18sp</item>
+    </style>
 </resources>
