@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:dakare="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,6 +21,27 @@
             android:layout_height="1px"
             android:background="@color/station_color"/>
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/main_padding"
+            android:paddingLeft="@dimen/main_padding"
+            android:paddingRight="@dimen/main_padding"
+            android:orientation="horizontal">
+
+        <Button
+                android:id="@+id/button_internal"
+                style="@style/DirectoryButton"
+                android:text="@string/button_internal"/>
+
+        <View android:layout_width="10dp" android:layout_height="match_parent" android:background="@drawable/transparent" />
+
+        <Button
+                android:id="@+id/button_external"
+                style="@style/DirectoryButton"
+                android:text="@string/button_sd_card"/>
+    </LinearLayout>
+
     <EditText
             android:id="@+id/saved_directory_input"
             android:layout_width="match_parent"
@@ -29,6 +49,8 @@
             android:paddingRight="5dp"
             android:paddingLeft="5dp"
             android:textSize="14sp"
+            android:inputType="textUri"
+            android:layout_marginBottom="@dimen/half_padding"
             android:layout_marginTop="@dimen/main_padding"
             android:layout_marginRight="@dimen/main_padding"
             android:layout_marginLeft="@dimen/main_padding"/>

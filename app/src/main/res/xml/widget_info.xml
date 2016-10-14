@@ -4,7 +4,7 @@
                     android:widgetCategory="home_screen|keyguard"
                     android:previewImage="@drawable/widget_preview"
                     android:updatePeriodMillis="0"
-                    android:minHeight="72dp"
+                    android:minHeight="40dp"
                     android:resizeMode="none"
                     android:minWidth="250dp">
 

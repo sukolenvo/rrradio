@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">RadioRecord</string>
-    <string name="saved_directory_title">Saved audio directory</string>
+    <string name="saved_directory_title">Folder for saving audio</string>
     <string name="quality_title">Select Default Quality</string>
     <string name="quality_aac">Low (AAC, 32kbs)</string>
     <string name="quality_low">Low (MP3, 32kbs)</string>
@@ -62,11 +62,13 @@
     <string name="clipboard_label">Record song name</string>
     <string name="clipboard_success">Title copied to clipboard</string>
     <string name="clipboeard_error">Failed to copy title to clipboard</string>
-    <string name="text_no_downloads">No audio saved. Please select some from categories</string>
+    <string name="text_no_downloads">No audio saved. Please select some from categories History, New record, Record
+        Megamix, Top 100 or Superchart
+    </string>
     <string name="default_move_status">Moving audio files to new folder. Please don\'t kill application till the end of
         operation.
     </string>
-    <string name="directory_access_error">Can access this directory. Please check audio path.</string>
+    <string name="directory_access_error">Can\'t access this directory. Please check audio path.</string>
     <string name="error_empty_selection">No items selected</string>
     <string name="status_audio_none">Pending</string>
     <string name="status_audio_downloading">Downloading</string>
@@ -91,11 +93,13 @@
     <string name="iap_thanks">Thanks for your support!</string>
     <string name="error_iap_support">Google payment service not supported</string>
     <string name="download_starting">Audio added to downloads</string>
-    <string name="status_error_unknown">Unknown error happend while downloading attempt</string>
+    <string name="status_error_unknown">Unknown error happened while downloading attempt</string>
     <string name="message_eq_not_ready">Equalizer not initialized yet</string>
     <string name="eq_change_message">Please restart playback to apply changes</string>
     <string name="warning_text">Warning</string>
     <string name="eq_warning_text">Equalizer is disabled in application settings. Please enable it to have access to
         this feature.
     </string>
+    <string name="button_internal">Internal</string>
+    <string name="button_sd_card" translatable="false">SD-card</string>
 </resources>

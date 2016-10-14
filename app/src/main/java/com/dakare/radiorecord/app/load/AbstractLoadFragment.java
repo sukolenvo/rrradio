@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.ProgressView;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.RecordApplication;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -91,7 +92,7 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getContext(), R.string.error_load_history, Toast.LENGTH_LONG).show();
+                    Toast.makeText(RecordApplication.getInstance(), R.string.error_load_history, Toast.LENGTH_LONG).show();
                     progressView.hideProgress();
                     progressView.showEmptyView();
                 }

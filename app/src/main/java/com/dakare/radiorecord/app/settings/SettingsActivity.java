@@ -152,20 +152,18 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.download_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST);
-                        return;
-                    }
+                if (ContextCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_REQUEST);
+                } else {
+                    SettingsDirectoryDialog settingsQualityDialog = new SettingsDirectoryDialog(SettingsActivity.this);
+                    settingsQualityDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            updateDownloadSecondary();
+                        }
+                    });
+                    settingsQualityDialog.show();
                 }
-                SettingsDirectoryDialog settingsQualityDialog = new SettingsDirectoryDialog(SettingsActivity.this);
-                settingsQualityDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        updateDownloadSecondary();
-                    }
-                });
-                settingsQualityDialog.show();
             }
         });
     }
@@ -183,7 +181,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
             findViewById(R.id.eq_settings_container).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(final View v) {
-                    preferenceManager.setEqSettings(preferenceManager.isEqSettingsEnabled() ^ true);
+                    preferenceManager.setEqSettings(!preferenceManager.isEqSettingsEnabled());
                     Toast.makeText(SettingsActivity.this, R.string.eq_change_message, Toast.LENGTH_SHORT).show();
                     updateEqCheckbox();
                 }

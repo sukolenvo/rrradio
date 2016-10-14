@@ -106,4 +106,13 @@
         <item name="android:layout_marginBottom">@dimen/padding_75_percent</item>
         <item name="android:scaleType">fitXY</item>
     </style>
+
+    <style name="DirectoryButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@drawable/directory_button_text</item>
+        <item name="android:background">@drawable/directory_button_background</item>
+        <item name="android:minHeight">36dp</item>
+    </style>
 </resources>

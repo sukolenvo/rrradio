@@ -49,7 +49,9 @@
     <string name="clipboeard_error">Не удалось сохранить название в буфер обмена</string>
     <string name="setting_download_text">Сохранение аудиофайлов</string>
     <string name="menu_downloads_text">Загрузки</string>
-    <string name="text_no_downloads">Ничего не сохранено. Выберите аудио из категорий</string>
+    <string name="text_no_downloads">Ничего не сохранено. Выберите аудио из категорий Иcтория, Свежаки, Record Megamix,
+        Топ 100 или Superchart
+    </string>
     <string name="saved_directory_title">Расположение сохраненной музыки</string>
     <string name="default_move_status">Аудиофайлы копируются. Пожалуйста, не закрывайте приложение до конца операции.</string>
     <string name="directory_access_error">Ошибка доступа к директории. Проверьте правильность пути сохранения
@@ -96,4 +98,5 @@
     <string name="eq_change_message">Перезапустите воспроизведение для применения настроек</string>
     <string name="eq_warning_text">Эквалайзер отключен в настройках приложения. Данная функция недоступна.</string>
     <string name="warning_text">Внимание</string>
+    <string name="button_internal">Телефон</string>
 </resources>
