@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
 import lombok.Getter;
@@ -43,8 +43,7 @@ public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements 
         }
         ViewHolder.from(view);
         QualityAdapterItem item = getItem(position);
-        ViewHolder.icon.setImageResource((item.getQuality() == null && selectedQuality == null) || item.getQuality() == selectedQuality
-                ? R.drawable.ic_radio_button_checked_black_24dp : R.drawable.ic_radio_button_unchecked_black_24dp);
+        ViewHolder.icon.setChecked((item.getQuality() == null && selectedQuality == null) || item.getQuality() == selectedQuality);
         ViewHolder.title.setText(item.getText());
         return view;
     }
@@ -56,11 +55,11 @@ public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements 
     }
 
     private static class ViewHolder {
-        private static ImageView icon;
+        private static RadioButton icon;
         private static TextView title;
 
         private static void from(View parent) {
-            icon = (ImageView) parent.findViewById(R.id.select_icon);
+            icon = (RadioButton) parent.findViewById(R.id.select_icon);
             title = (TextView) parent.findViewById(R.id.quality_text);
         }
     }

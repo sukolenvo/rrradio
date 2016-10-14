@@ -23,10 +23,11 @@
     </style>
 
     <style name="DialogButton">
-        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">42dp</item>
         <item name="android:layout_marginRight">@dimen/half_padding</item>
         <item name="android:layout_marginTop">@dimen/half_padding</item>
-        <item name="android:layout_marginBottom">@dimen/half_padding</item>
+        <item name="android:layout_margin">@dimen/half_padding</item>
         <item name="android:minWidth">72dp</item>
         <item name="android:textColor">@color/toolbar_color</item>
         <item name="android:background">@drawable/selectable_background_gray</item>
@@ -132,5 +133,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:maxLines">2</item>
         <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="SettingsContainer">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/main_padding</item>
+        <item name="android:paddingBottom">@dimen/main_padding</item>
+        <item name="android:background">@drawable/selectable_background</item>
+        <item name="android:paddingRight">@dimen/half_padding</item>
     </style>
 </resources>

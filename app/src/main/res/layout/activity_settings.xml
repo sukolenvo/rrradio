@@ -31,10 +31,7 @@
 
                 <RelativeLayout
                         android:id="@+id/quality_container"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/main_padding"
-                        android:layout_marginRight="@dimen/half_padding"
-                        android:layout_marginBottom="@dimen/main_padding">
+                        style="@style/SettingsContainer">
                     <TextView
                             android:id="@+id/quality_main"
                             android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -53,10 +50,7 @@
 
                 <RelativeLayout
                         android:id="@+id/music_metadata_container"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/main_padding"
-                        android:layout_marginRight="@dimen/half_padding"
-                        android:layout_marginBottom="@dimen/main_padding">
+                        style="@style/SettingsContainer">
                     <TextView
                             android:id="@+id/metadata_main"
                             android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -75,7 +69,8 @@
                             android:focusable="false"
                             android:clickable="false"
                             android:focusableInTouchMode="false"
-                            android:layout_width="wrap_content" android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"/>
                 </RelativeLayout>
@@ -85,10 +80,7 @@
 
                 <RelativeLayout
                         android:id="@+id/music_image_container"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/main_padding"
-                        android:layout_marginRight="@dimen/half_padding"
-                        android:layout_marginBottom="@dimen/main_padding">
+                        style="@style/SettingsContainer">
 
                     <TextView
                             android:id="@+id/metadata_image_main"
@@ -119,10 +111,7 @@
 
                 <RelativeLayout
                         android:id="@+id/call_settings_container"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/main_padding"
-                        android:layout_marginRight="@dimen/half_padding"
-                        android:layout_marginBottom="@dimen/main_padding">
+                        style="@style/SettingsContainer">
 
                     <TextView
                             android:id="@+id/call_main"
@@ -154,10 +143,7 @@
 
                 <RelativeLayout
                         android:id="@+id/eq_settings_container"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/main_padding"
-                        android:layout_marginRight="@dimen/half_padding"
-                        android:layout_marginBottom="@dimen/main_padding">
+                        style="@style/SettingsContainer">
 
                     <TextView
                             android:id="@+id/eq_main"
@@ -189,11 +175,7 @@
 
                 <RelativeLayout
                         android:id="@+id/download_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/main_padding"
-                        android:layout_marginRight="@dimen/half_padding"
-                        android:layout_marginBottom="@dimen/main_padding">
+                        style="@style/SettingsContainer">
 
                     <TextView
                             android:id="@+id/download_main"

@@ -1,12 +1,12 @@
 package com.dakare.radiorecord.app;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.AppCompatDialog;
 import android.view.Window;
 
-public class AbstractDialog extends Dialog {
+public class AbstractDialog extends AppCompatDialog {
 
     public AbstractDialog(final Context context) {
         super(context);
