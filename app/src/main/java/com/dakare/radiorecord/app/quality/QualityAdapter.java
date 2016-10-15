@@ -37,7 +37,7 @@ public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements 
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         View view;
         if (convertView == null) {
-            view = inflater.inflate(R.layout.item_quality, null);
+            view = inflater.inflate(R.layout.item_quality, parent, false);
         } else {
             view = convertView;
         }

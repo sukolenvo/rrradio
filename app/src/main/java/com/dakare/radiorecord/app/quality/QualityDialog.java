@@ -38,7 +38,7 @@ public class QualityDialog extends AbstractDialog {
         });
     }
 
-    public static void getQuality(Context context, QualityHandler handler) {
+    public static void getQuality(final Context context, final QualityHandler handler) {
         Quality defaultQuality = PreferenceManager.getInstance(context).getDefaultQuality(null);
         if (defaultQuality == null) {
             new QualityDialog(context, handler).show();
