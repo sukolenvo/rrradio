@@ -52,21 +52,11 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
             }
         });
         final int dragState = holder.getDragStateFlags();
-        if (((dragState & DraggableItemConstants.STATE_FLAG_IS_UPDATED) != 0)) {
-            int bgResId;
-
-            if ((dragState & DraggableItemConstants.STATE_FLAG_IS_ACTIVE) != 0) {
-                bgResId = R.drawable.bg_item_dragging_active_state;
-
-                // need to clear drawable state here to get correct appearance of the dragging item.
-                clearState(holder.container.getForeground());
-            } else if ((dragState & DraggableItemConstants.STATE_FLAG_DRAGGING) != 0) {
-                bgResId = R.drawable.bg_item_dragging_state;
-            } else {
-                bgResId = R.drawable.bg_item_normal_state;
-            }
-
-            holder.container.setBackgroundResource(bgResId);
+        if ((dragState & DraggableItemConstants.STATE_FLAG_IS_ACTIVE) != 0) {
+            holder.container.setSelected(true);
+            clearState(holder.container.getForeground());
+        } else {
+            holder.container.setSelected(false);
         }
     }
 

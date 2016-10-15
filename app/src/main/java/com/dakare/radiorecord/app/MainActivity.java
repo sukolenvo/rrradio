@@ -37,17 +37,14 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
         mRecyclerViewDragDropManager.attachRecyclerView(stationsView);
         startService(new Intent(this, FileService.class));
         if (PreferenceManager.getInstance(this).showMainHint()) {
-            final ImageView image = (ImageView) findViewById(R.id.hint);
-            image.setImageResource(R.drawable.hint_sort);
+            final View image = findViewById(R.id.hint);
+            image.setBackgroundResource(R.drawable.hint_sort);
             image.setVisibility(View.VISIBLE);
-            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     image.setVisibility(View.GONE);
-                    image.setImageDrawable(null);
                     PreferenceManager.getInstance(MainActivity.this).hideMainHint();
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                 }
             });
         }

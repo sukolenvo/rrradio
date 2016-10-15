@@ -77,15 +77,7 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (isResumed()) {
-                        progressView.hideProgress();
-                        if (items.isEmpty()) {
-                            progressView.showEmptyView();
-                        } else {
-                            getView().findViewById(R.id.recycler_view).setVisibility(View.VISIBLE);
-                            getAdapter().setItems(items);
-                        }
-                    }
+                    onLoaded();
                 }
             });
         } catch (IOException e) {
@@ -97,6 +89,18 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
                     progressView.showEmptyView();
                 }
             });
+        }
+    }
+
+    protected void onLoaded() {
+        if (isResumed()) {
+            progressView.hideProgress();
+            if (items.isEmpty()) {
+                progressView.showEmptyView();
+            } else {
+                getView().findViewById(R.id.recycler_view).setVisibility(View.VISIBLE);
+                getAdapter().setItems(items);
+            }
         }
     }
 

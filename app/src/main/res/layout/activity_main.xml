@@ -5,35 +5,34 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <ImageView
+            <include layout="@layout/toolbar"/>
+
+            <FrameLayout android:layout_width="match_parent"
+                         android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                        android:id="@+id/station_grid"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scrollbars="none"/>
+
+                <View android:layout_width="match_parent"
+                      android:layout_height="3dp"
+                      android:background="@drawable/toolbar_dropshadow"/>
+            </FrameLayout>
+        </LinearLayout>
+        <View
                 android:id="@+id/hint"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitXY"
-                android:visibility="gone"/>
-
-        <include layout="@layout/toolbar"/>
-
-        <FrameLayout android:layout_width="match_parent"
-                     android:layout_height="match_parent">
-
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/station_grid"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scrollbars="none"/>
-
-            <View android:layout_width="match_parent"
-                  android:layout_height="3dp"
-                  android:background="@drawable/toolbar_dropshadow"/>
-        </FrameLayout>
-    </LinearLayout>
-
+                android:visibility="gone" />
+    </FrameLayout>
     <fragment
             android:id="@+id/fragment_drawer"
             android:layout_width="@dimen/menu_width"

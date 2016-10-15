@@ -5,26 +5,34 @@
         android:layout_height="match_parent"
         android:background="@android:color/white">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-        <include layout="@layout/toolbar"/>
+            <include layout="@layout/toolbar"/>
 
-        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
+            <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
-            <FrameLayout
-                    android:id="@+id/fragment_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                <FrameLayout
+                        android:id="@+id/fragment_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
+                </FrameLayout>
+                <View android:layout_width="match_parent"
+                      android:layout_height="3dp"
+                      android:background="@drawable/toolbar_dropshadow"/>
             </FrameLayout>
-            <View android:layout_width="match_parent"
-                  android:layout_height="3dp"
-                  android:background="@drawable/toolbar_dropshadow"/>
-        </FrameLayout>
-    </LinearLayout>
+        </LinearLayout>
+
+        <View
+                android:id="@+id/hint"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone" />
+    </FrameLayout>
 
     <fragment
             android:id="@+id/fragment_drawer"
