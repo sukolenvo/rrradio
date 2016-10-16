@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.os.Message;
 import com.dakare.radiorecord.app.database.DownloadAudioTable;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class UpdateFileMessage extends FileMessage {
     private static final String ID_KEY = "id";
     private static final String SIZE_KEY = "size";

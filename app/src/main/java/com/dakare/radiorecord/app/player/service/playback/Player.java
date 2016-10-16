@@ -2,6 +2,7 @@ package com.dakare.radiorecord.app.player.service.playback;
 
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerServiceMessageHandler;
+import com.dakare.radiorecord.app.player.service.PlayerState;
 
 import java.util.ArrayList;
 
@@ -25,4 +26,6 @@ public interface Player {
     void updatePosition();
 
     void seekTo(float position);
+
+    PlayerState getState();
 }

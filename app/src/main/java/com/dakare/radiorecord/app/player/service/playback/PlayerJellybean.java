@@ -47,6 +47,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     private PlayerServiceMessageHandler playerServiceMessageHandler;
     private final Handler uiHandler = new Handler();
     private final MetadataLoader metadataLoader;
+    @Getter
     private PlayerState state = PlayerState.STOP;
     private final ExoPlayer player;
     private long lastErrorMessage;

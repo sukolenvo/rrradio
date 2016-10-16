@@ -56,6 +56,11 @@
             <meta-data android:name="android.appwidget.provider"
                        android:resource="@xml/widget_info" />
         </receiver>
+        <receiver android:name=".player.listener.controls.ControlReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

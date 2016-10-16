@@ -39,6 +39,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
     private final MediaPlayer mediaPlayer;
     private final Handler uiHandler = new Handler();
     private final MetadataLoader metadataLoader;
+    @Getter
     private PlayerState state = PlayerState.STOP;
 
     public PlayerImpl(final Context context) {

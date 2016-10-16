@@ -7,14 +7,13 @@ import android.os.IBinder;
 import android.os.Messenger;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.player.listener.HeadsetUnplugListener;
-import com.dakare.radiorecord.app.player.listener.IncomeCallListener;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
+import com.dakare.radiorecord.app.player.listener.controls.MediaControlsListener;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.playback.Player;
 import com.dakare.radiorecord.app.player.service.playback.PlayerImpl;
 import com.dakare.radiorecord.app.player.service.playback.PlayerJellybean;
 import com.dakare.radiorecord.app.widget.WidgetListener;
-import com.dakare.radiorecord.app.widget.WidgetReceiver;
 
 import java.util.ArrayList;
 
@@ -26,6 +25,7 @@ public class PlayerService extends Service {
     private PlayerServiceMessageHandler messageHandler;
     private Messenger messenger;
     private Player player;
+    private MediaControlsListener mediaControlsListener;
 
     @Override
     public void onCreate() {
@@ -38,9 +38,10 @@ public class PlayerService extends Service {
         messageHandler = new PlayerServiceMessageHandler(player);
         messenger = new Messenger(messageHandler);
         messageHandler.addPlayerStateListener(new NotificationListener(this));
-        messageHandler.addPlayerStateListener(new IncomeCallListener(this));
         messageHandler.addPlayerStateListener(new HeadsetUnplugListener(this));
         messageHandler.addPlayerStateListener(new WidgetListener(this));
+        mediaControlsListener = new MediaControlsListener(this);
+        messageHandler.addPlayerStateListener(mediaControlsListener);
     }
 
     @SuppressWarnings("unchecked")
@@ -61,6 +62,12 @@ public class PlayerService extends Service {
                 player.pause();
             } else if (NotificationListener.ACTION_RESUME.equals(intent.getAction())) {
                 player.resume();
+            } else if (NotificationListener.ACTION_PLAY_PAUSE.equals(intent.getAction())) {
+                if (player.getState() == PlayerState.PLAY) {
+                    player.pause();
+                } else {
+                    player.resume();
+                }
             }
         }
         return START_STICKY;
@@ -71,4 +78,9 @@ public class PlayerService extends Service {
         return messenger.getBinder();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mediaControlsListener.shutdown();
+    }
 }

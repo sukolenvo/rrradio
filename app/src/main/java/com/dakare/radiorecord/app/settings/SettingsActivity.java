@@ -19,7 +19,6 @@ import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.quality.Quality;
 
 public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final int CALL_REQUEST = 1;
     private static final int WRITE_REQUEST = 2;
 
     private PreferenceManager preferenceManager;
@@ -35,7 +34,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         initQuality();
         initMusicMetadata();
         initMusicImage();
-        initCallSettings();
         initDownloadDirectory();
         initEqSettings();
     }
@@ -99,35 +97,10 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         checkable.setChecked(preferenceManager.isMusicImageEnabled());
     }
 
-    private void initCallSettings() {
-        updateCallCheckbox();
-        findViewById(R.id.call_settings_container).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                boolean enable = !preferenceManager.isOnCallEnabled();
-                if (enable) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                            && ContextCompat.checkSelfPermission(SettingsActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(SettingsActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, CALL_REQUEST);
-                    } else {
-                        preferenceManager.setOnCall(true);
-                    }
-                } else {
-                    preferenceManager.setOnCall(false);
-                }
-                updateCallCheckbox();
-            }
-        });
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             switch (requestCode) {
-                case CALL_REQUEST:
-                    preferenceManager.setOnCall(true);
-                    updateCallCheckbox();
-                    break;
                 case WRITE_REQUEST:
                     findViewById(R.id.download_container).performClick();
                     break;
@@ -135,11 +108,6 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
                     Log.e("SettingActivity", "unknown request permission code " + requestCode);
             }
         }
-    }
-
-    private void updateCallCheckbox() {
-        Checkable checkable = (Checkable) findViewById(R.id.call_settings_checkbox);
-        checkable.setChecked(preferenceManager.isOnCallEnabled());
     }
 
     @Override

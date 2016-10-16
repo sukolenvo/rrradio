@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 import com.dakare.radiorecord.app.PreferenceManager;
@@ -31,6 +32,7 @@ public class NotificationListener extends AbstractPlayerStateListener implements
     public static final String ACTION_NEXT = "next";
     public static final String ACTION_PAUSE = "pause";
     public static final String ACTION_RESUME = "resume";
+    public static final String ACTION_PLAY_PAUSE = "play_pause";
 
     private final Service service;
     private String lastUrl;
@@ -44,16 +46,15 @@ public class NotificationListener extends AbstractPlayerStateListener implements
         this.service = service;
         Intent intent = new Intent(service, PlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        notification = new Notification.Builder(service)
+        collapsed = new RemoteViews(service.getPackageName(), R.layout.notification_collapsed);
+        expanded = new RemoteViews(service.getPackageName(), R.layout.notification_expanded);
+        notification = new NotificationCompat.Builder(service)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentIntent(PendingIntent.getActivity(service, 0, intent, 0))
-                .setOngoing(true).getNotification();
-        collapsed = new RemoteViews(service.getPackageName(), R.layout.notification_collapsed);
-        notification.contentView = collapsed;
-        expanded = new RemoteViews(service.getPackageName(), R.layout.notification_expanded);
-        if (Build.VERSION.SDK_INT >= 16) {
-            notification.bigContentView = expanded;
-        }
+                .setCustomBigContentView(expanded)
+                .setCustomContentView(collapsed)
+                .setOngoing(true)
+                .build();
         Intent stopIntent = new Intent(service, PlayerService.class);
         stopIntent.setAction(ACTION_STOP);
         PendingIntent stopPending = PendingIntent.getService(service, 0, stopIntent, 0);

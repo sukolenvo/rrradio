@@ -28,6 +28,7 @@ public class PreferenceManager {
     private static final String STATIONS_KEY = "stations";
     private static final String MUSIC_METADATA_KEY = "music_metadata";
     private static final String MUSIC_IMAGE_KEY = "music_image";
+    @Deprecated
     private static final String CALL_SETTINGS_KEY = "call_settings";
     private static final String LAST_STATION = "last_station";
     private static final String SORT_HISTORY_FROM_OLD = "history_sort";
@@ -115,16 +116,6 @@ public class PreferenceManager {
     public void setMusicImage(final boolean enabled) {
         sharedPreferences.edit()
                 .putBoolean(MUSIC_IMAGE_KEY, enabled)
-                .apply();
-    }
-
-    public boolean isOnCallEnabled() {
-        return sharedPreferences.getBoolean(CALL_SETTINGS_KEY, Build.VERSION.SDK_INT < Build.VERSION_CODES.M);
-    }
-
-    public void setOnCall(final boolean enabled) {
-        sharedPreferences.edit()
-                .putBoolean(CALL_SETTINGS_KEY, enabled)
                 .apply();
     }
 
