@@ -12,9 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.dakare.radiorecord.app.MenuActivity;
-import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
-import com.dakare.radiorecord.app.view.EqualizerImage;
-import com.dakare.radiorecord.app.view.PlayerBackgroundImage;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
@@ -23,11 +20,15 @@ import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerServiceClient;
 import com.dakare.radiorecord.app.player.service.PlayerServiceHelper;
 import com.dakare.radiorecord.app.player.service.PlayerState;
+import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import com.dakare.radiorecord.app.player.service.message.*;
+import com.dakare.radiorecord.app.view.EqualizerImage;
+import com.dakare.radiorecord.app.view.PlayerBackgroundImage;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerActivity extends MenuActivity
         implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler,
@@ -260,15 +261,16 @@ public class PlayerActivity extends MenuActivity
     public void onMessage(final PlayerMessage playerMessage) {
         if (playerMessage.getMessageType() == PlayerMessageType.PLAYBACK_STATE) {
             PlaybackStatePlayerMessage playbackState = (PlaybackStatePlayerMessage) playerMessage;
-            if (items == null || !items.equals(playbackState.getItems())) {
+            List<PlaylistItem> playlist = PreferenceManager.getInstance(this).getLastPlaylist();
+            if (items == null || !items.equals(playlist)) {
                 adapter.clear();
-                if (playbackState.getItems() != null) {
-                    for (PlaylistItem item : playbackState.getItems()) {
+                if (playlist != null) {
+                    for (PlaylistItem item : playlist) {
                         adapter.add(item);
                     }
                 }
             }
-            this.items = playbackState.getItems();
+            this.items = new ArrayList<>(playlist);
             this.position = playbackState.getPosition();
             this.state = playbackState.getState();
             metadataIcon = playbackState.getIcon();

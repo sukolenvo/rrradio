@@ -4,13 +4,14 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class HeadsetUnplugListener extends AbstractPlayerStateListener {
+public class HeadsetUnplugListener implements IPlayerStateListener {
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
 
@@ -32,7 +33,7 @@ public class HeadsetUnplugListener extends AbstractPlayerStateListener {
     }
 
     @Override
-    protected void onPlaybackChange(final PlaybackStatePlayerMessage message) {
+    public void onPlaybackChange(final PlaybackStatePlayerMessage message) {
         if (message.getState() == PlayerState.PLAY) {
             headsetUnplug.set(true);
             context.registerReceiver(receiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
@@ -43,5 +44,10 @@ public class HeadsetUnplugListener extends AbstractPlayerStateListener {
                 //Nothing to do. Receiver not registrated
             }
         }
+    }
+
+    @Override
+    public void onIconChange(final Bitmap image) {
+        //Nothing to do
     }
 }

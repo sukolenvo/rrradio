@@ -13,7 +13,7 @@ public class ServiceClientsList {
     private final Object lock = new Object();
 
     public ServiceClientsList() {
-        serviceClients = new ArrayList<Messenger>();
+        serviceClients = new ArrayList<>();
     }
 
     public void registerClient(final Messenger serviceClient) {

@@ -5,8 +5,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.Messenger;
+import android.util.Log;
 import com.dakare.radiorecord.app.PreferenceManager;
+import com.dakare.radiorecord.app.player.listener.IPlayerStateListener;
 import com.dakare.radiorecord.app.player.listener.HeadsetUnplugListener;
+import com.dakare.radiorecord.app.player.listener.LockListener;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
 import com.dakare.radiorecord.app.player.listener.controls.MediaControlsListener;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
@@ -15,6 +18,8 @@ import com.dakare.radiorecord.app.player.service.playback.PlayerImpl;
 import com.dakare.radiorecord.app.player.service.playback.PlayerJellybean;
 import com.dakare.radiorecord.app.widget.WidgetListener;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PlayerService extends Service {
@@ -25,7 +30,6 @@ public class PlayerService extends Service {
     private PlayerServiceMessageHandler messageHandler;
     private Messenger messenger;
     private Player player;
-    private MediaControlsListener mediaControlsListener;
 
     @Override
     public void onCreate() {
@@ -40,8 +44,8 @@ public class PlayerService extends Service {
         messageHandler.addPlayerStateListener(new NotificationListener(this));
         messageHandler.addPlayerStateListener(new HeadsetUnplugListener(this));
         messageHandler.addPlayerStateListener(new WidgetListener(this));
-        mediaControlsListener = new MediaControlsListener(this);
-        messageHandler.addPlayerStateListener(mediaControlsListener);
+        messageHandler.addPlayerStateListener(new MediaControlsListener(this));
+        messageHandler.addPlayerStateListener(new LockListener(this));
     }
 
     @SuppressWarnings("unchecked")
@@ -81,6 +85,14 @@ public class PlayerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mediaControlsListener.shutdown();
+        for (IPlayerStateListener listener : messageHandler.getListeners()) {
+            if (listener instanceof Closeable) {
+                try {
+                    ((Closeable) listener).close();
+                } catch (IOException e) {
+                    Log.e("PlayerService", "Got exception while closing listener" + listener.getClass().getSimpleName());
+                }
+            }
+        }
     }
 }

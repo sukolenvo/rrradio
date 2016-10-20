@@ -11,7 +11,7 @@ import android.widget.RemoteViews;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.PlayerActivity;
-import com.dakare.radiorecord.app.player.listener.AbstractPlayerStateListener;
+import com.dakare.radiorecord.app.player.listener.IPlayerStateListener;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
@@ -23,10 +23,9 @@ import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 
-public class WidgetListener extends AbstractPlayerStateListener implements ImageLoadingListener {
+public class WidgetListener implements IPlayerStateListener {
 
     private final Service service;
-    private String lastUrl;
     private final RemoteViews views;
     private final AppWidgetManager appWidgetManager;
 
@@ -61,20 +60,15 @@ public class WidgetListener extends AbstractPlayerStateListener implements Image
     }
 
     @Override
-    protected void onPlaybackChange(final PlaybackStatePlayerMessage message) {
+    public void onPlaybackChange(final PlaybackStatePlayerMessage message) {
         if (message.getState() == PlayerState.STOP) {
-            lastUrl = null;
             views.setViewVisibility(R.id.button_media_play, View.VISIBLE);
             views.setViewVisibility(R.id.button_media_pause, View.GONE);
         } else {
-            PlaylistItem playlistItem = message.getItems().get(message.getPosition());
+            PlaylistItem playlistItem = message.getPlaying();
             views.setTextViewText(R.id.text_media_title, message.getSong() == null ? buildTitle(playlistItem.getTitle(), playlistItem.getSubtitle()) : buildTitle(message.getArtist(), message.getSong()));
             if (message.getIcon() == null || !PreferenceManager.getInstance(service).isMusicImageEnabled()) {
-                lastUrl = null;
                 views.setImageViewResource(R.id.image_media_preview, playlistItem.getStation().getIcon());
-            } else {
-                lastUrl = message.getIcon();
-                ImageLoader.getInstance().loadImage(message.getIcon(), new ImageSize(128, 128), this);
             }
             if (message.getState() == PlayerState.PLAY) {
                 views.setViewVisibility(R.id.button_media_play, View.GONE);
@@ -95,25 +89,8 @@ public class WidgetListener extends AbstractPlayerStateListener implements Image
     }
 
     @Override
-    public void onLoadingStarted(final String imageUri, final View view) {
-        //Nothing to do
-    }
-
-    @Override
-    public void onLoadingFailed(final String imageUri, final View view, final FailReason failReason) {
-        //Nothing to do
-    }
-
-    @Override
-    public void onLoadingComplete(final String imageUri, final View view, final Bitmap loadedImage) {
-        if (lastUrl != null && lastUrl.equals(imageUri)) {
-            views.setImageViewBitmap(R.id.image_media_preview, loadedImage);
-            appWidgetManager.updateAppWidget(new ComponentName(service, WidgetReceiver.class), views);
-        }
-    }
-
-    @Override
-    public void onLoadingCancelled(final String imageUri, final View view) {
-        //Nothing to do
+    public void onIconChange(final Bitmap image) {
+        views.setImageViewBitmap(R.id.image_media_preview, image);
+        appWidgetManager.updateAppWidget(new ComponentName(service, WidgetReceiver.class), views);
     }
 }

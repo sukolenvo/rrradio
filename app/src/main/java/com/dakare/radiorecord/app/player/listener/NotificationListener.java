@@ -7,7 +7,6 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -23,10 +22,8 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import java.util.Objects;
 
-
-public class NotificationListener extends AbstractPlayerStateListener implements ImageLoadingListener {
+public class NotificationListener implements IPlayerStateListener {
     public static final String ACTION_STOP = "stop";
     public static final String ACTION_PREVIOUS = "previous";
     public static final String ACTION_NEXT = "next";
@@ -35,7 +32,6 @@ public class NotificationListener extends AbstractPlayerStateListener implements
     public static final String ACTION_PLAY_PAUSE = "play_pause";
 
     private final Service service;
-    private String lastUrl;
     private final RemoteViews collapsed;
     private final RemoteViews expanded;
     private final Notification notification;
@@ -83,22 +79,17 @@ public class NotificationListener extends AbstractPlayerStateListener implements
     }
 
     @Override
-    protected void onPlaybackChange(final PlaybackStatePlayerMessage message) {
+    public void onPlaybackChange(final PlaybackStatePlayerMessage message) {
         if (message.getState() == PlayerState.STOP) {
-            lastUrl = null;
             service.stopForeground(true);
             foreground = false;
         } else {
-            PlaylistItem playlistItem = message.getItems().get(message.getPosition());
+            PlaylistItem playlistItem = message.getPlaying();
             collapsed.setTextViewText(R.id.text_media_title, message.getSong() == null ? buildTitle(playlistItem.getTitle(), playlistItem.getSubtitle()) : message.getSong());
             expanded.setTextViewText(R.id.text_media_title, message.getSong() == null ? buildTitle(playlistItem.getTitle(), playlistItem.getSubtitle()) : buildTitle(message.getArtist(), message.getSong()));
             if (message.getIcon() == null || !PreferenceManager.getInstance(service).isMusicImageEnabled()) {
-                lastUrl = null;
                 collapsed.setImageViewResource(R.id.image_media_preview, playlistItem.getStation().getIcon());
                 expanded.setImageViewResource(R.id.image_media_preview, playlistItem.getStation().getIcon());
-            } else {
-                lastUrl = message.getIcon();
-                ImageLoader.getInstance().loadImage(message.getIcon(), new ImageSize(128, 128), this);
             }
             if (message.getState() == PlayerState.PLAY) {
                 collapsed.setViewVisibility(R.id.button_media_play, View.GONE);
@@ -120,6 +111,13 @@ public class NotificationListener extends AbstractPlayerStateListener implements
         }
     }
 
+    @Override
+    public void onIconChange(final Bitmap image) {
+        collapsed.setImageViewBitmap(R.id.image_media_preview, image);
+        expanded.setImageViewBitmap(R.id.image_media_preview, image);
+        notificationManager.notify(1, notification);
+    }
+
     private String buildTitle(final String main, final String second) {
         if (second == null) {
             return main;
@@ -127,27 +125,5 @@ public class NotificationListener extends AbstractPlayerStateListener implements
         return main + "-" + second;
     }
 
-    @Override
-    public void onLoadingStarted(final String imageUri, final View view) {
-        //Nothing to do
-    }
 
-    @Override
-    public void onLoadingFailed(final String imageUri, final View view, final FailReason failReason) {
-        //Nothing to do
-    }
-
-    @Override
-    public void onLoadingComplete(final String imageUri, final View view, final Bitmap loadedImage) {
-        if (lastUrl != null && lastUrl.equals(imageUri)) {
-            collapsed.setImageViewBitmap(R.id.image_media_preview, loadedImage);
-            expanded.setImageViewBitmap(R.id.image_media_preview, loadedImage);
-            notificationManager.notify(1, notification);
-        }
-    }
-
-    @Override
-    public void onLoadingCancelled(final String imageUri, final View view) {
-        //Nothing to do
-    }
 }

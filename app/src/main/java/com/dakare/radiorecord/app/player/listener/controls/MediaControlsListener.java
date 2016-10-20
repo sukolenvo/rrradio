@@ -6,36 +6,29 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.AudioManager;
-import android.media.session.PlaybackState;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
-import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.player.listener.AbstractPlayerStateListener;
+import com.dakare.radiorecord.app.player.listener.IPlayerStateListener;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-public class MediaControlsListener extends AbstractPlayerStateListener
-        implements AudioManager.OnAudioFocusChangeListener, ImageLoadingListener {
+import java.io.Closeable;
+
+public class MediaControlsListener implements IPlayerStateListener, AudioManager.OnAudioFocusChangeListener,
+        Closeable {
 
     private final Context context;
     private final MediaSessionCompat mediaSession;
     private final AudioManager audioManager;
-    //TODO: extract load logic to separate helper unit
-    private String lastUrl;
     private final Bitmap stub;
     private String artist;
     private String song;
+    private Bitmap image;
 
     public MediaControlsListener(final Context context) {
         this.context = context;
@@ -50,7 +43,7 @@ public class MediaControlsListener extends AbstractPlayerStateListener
     }
 
     @Override
-    protected void onPlaybackChange(final PlaybackStatePlayerMessage message) {
+    public void onPlaybackChange(final PlaybackStatePlayerMessage message) {
         if (message.getState() == PlayerState.PLAY) {
             if (AudioManager.AUDIOFOCUS_REQUEST_FAILED ==
                     audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)) {
@@ -65,16 +58,15 @@ public class MediaControlsListener extends AbstractPlayerStateListener
                             | PlaybackStateCompat.ACTION_SKIP_TO_NEXT | PlaybackStateCompat.ACTION_SKIP_TO_PREVIOUS)
                     .build());
             MediaMetadataCompat.Builder builder = new MediaMetadataCompat.Builder();
-            artist = message.getArtist() == null ? message.getItems().get(message.getPosition()).getTitle() : message.getArtist();
-            song = message.getSong() == null ? message.getItems().get(message.getPosition()).getSubtitle() : message.getSong();
+            artist = message.getArtist() == null ? message.getPlaying().getTitle() : message.getArtist();
+            song = message.getSong() == null ? message.getPlaying().getSubtitle() : message.getSong();
             builder.putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
                     .putString(MediaMetadataCompat.METADATA_KEY_TITLE, song);
-            if (message.getIcon() == null || !PreferenceManager.getInstance(context).isMusicImageEnabled()) {
-                lastUrl = null;
+            if (message.getIcon() == null || !PreferenceManager.getInstance(context).isMusicImageEnabled() || image == null) {
+                image = null;
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, stub);
             } else {
-                lastUrl = message.getIcon();
-                ImageLoader.getInstance().loadImage(message.getIcon(), new ImageSize(128, 128), this);
+                builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, image);
             }
             mediaSession.setMetadata(builder.build());
         } else if (message.getState() == PlayerState.PAUSE){
@@ -88,6 +80,7 @@ public class MediaControlsListener extends AbstractPlayerStateListener
                     .setState(PlaybackStateCompat.STATE_NONE, 0, 0)
                     .build());
             audioManager.abandonAudioFocus(this);
+            image = null;
         }
     }
 
@@ -104,33 +97,18 @@ public class MediaControlsListener extends AbstractPlayerStateListener
         }
     }
 
-    public void shutdown() {
+    @Override
+    public void close() {
         mediaSession.release();
     }
 
     @Override
-    public void onLoadingStarted(final String imageUri, final View view) {
-        //Nothing to do
-    }
-
-    @Override
-    public void onLoadingFailed(final String imageUri, final View view, final FailReason failReason) {
-        //Nothing to do
-    }
-
-    @Override
-    public void onLoadingComplete(final String imageUri, final View view, final Bitmap loadedImage) {
-        if (lastUrl != null && lastUrl.equals(imageUri)) {
-            mediaSession.setMetadata(new MediaMetadataCompat.Builder()
-                    .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
-                    .putString(MediaMetadataCompat.METADATA_KEY_TITLE, song)
-                    .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, loadedImage)
-                    .build());
-        }
-    }
-
-    @Override
-    public void onLoadingCancelled(final String imageUri, final View view) {
-        //Nothing to do
+    public void onIconChange(final Bitmap image) {
+        this.image = image;
+        mediaSession.setMetadata(new MediaMetadataCompat.Builder()
+                .putString(MediaMetadataCompat.METADATA_KEY_ARTIST, artist)
+                .putString(MediaMetadataCompat.METADATA_KEY_TITLE, song)
+                .putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, image)
+                .build());
     }
 }

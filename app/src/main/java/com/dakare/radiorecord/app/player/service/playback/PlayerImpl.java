@@ -71,7 +71,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
     }
 
     public void updateState() {
-        playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(playlist, position, state, metadataLoader.getResponse()));
+        playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(playlist.get(position), position, state, metadataLoader.getResponse()));
     }
 
     private void startPlayback() {
