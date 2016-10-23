@@ -18,6 +18,7 @@ import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 
 import java.io.Closeable;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MediaControlsListener implements IPlayerStateListener, AudioManager.OnAudioFocusChangeListener,
         Closeable {
@@ -29,6 +30,7 @@ public class MediaControlsListener implements IPlayerStateListener, AudioManager
     private String artist;
     private String song;
     private Bitmap image;
+    private AtomicBoolean focusGained = new AtomicBoolean();
 
     public MediaControlsListener(final Context context) {
         this.context = context;
@@ -45,13 +47,14 @@ public class MediaControlsListener implements IPlayerStateListener, AudioManager
     @Override
     public void onPlaybackChange(final PlaybackStatePlayerMessage message) {
         if (message.getState() == PlayerState.PLAY) {
-            if (AudioManager.AUDIOFOCUS_REQUEST_FAILED ==
+            if (!focusGained.get() && AudioManager.AUDIOFOCUS_REQUEST_FAILED ==
                     audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)) {
                 Intent intent = new Intent(context, PlayerService.class);
                 intent.setAction(NotificationListener.ACTION_STOP);
                 context.startService(intent);
                 return;
             }
+            focusGained.set(true);
             mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
                     .setState(PlaybackStateCompat.STATE_PLAYING, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0)
                     .setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE | PlaybackStateCompat.ACTION_PLAY
@@ -79,6 +82,7 @@ public class MediaControlsListener implements IPlayerStateListener, AudioManager
             mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
                     .setState(PlaybackStateCompat.STATE_NONE, 0, 0)
                     .build());
+            focusGained.set(false);
             audioManager.abandonAudioFocus(this);
             image = null;
         }
@@ -86,6 +90,7 @@ public class MediaControlsListener implements IPlayerStateListener, AudioManager
 
     @Override
     public void onAudioFocusChange(final int focusChange) {
+        focusGained.set(focusChange == AudioManager.AUDIOFOCUS_GAIN);
         if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
             Intent intent = new Intent(context, PlayerService.class);
             intent.setAction(NotificationListener.ACTION_RESUME);

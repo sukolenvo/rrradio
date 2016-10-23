@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -51,7 +52,6 @@ public class PlayerActivity extends MenuActivity
     private DisplayImageOptions options = new DisplayImageOptions.Builder()
             .showImageForEmptyUri(R.drawable.default_player_background)
             .showImageOnFail(R.drawable.default_player_background).build();
-    private ListView playlistView;
     private Thread positionUpdater;
     private SeekBar playbackProgressView;
     private View progressContainer;
@@ -75,7 +75,7 @@ public class PlayerActivity extends MenuActivity
         playButton = findViewById(R.id.play_button);
         pauseButton = findViewById(R.id.pause_button);
         icon = (PlayerBackgroundImage) findViewById(R.id.player_icon);
-        playlistView = (ListView) findViewById(R.id.playlist);
+        ListView playlistView = (ListView) findViewById(R.id.playlist);
         adapter = new PlaylistAdapter(this);
         playlistView.setAdapter(adapter);
         playlistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -234,6 +234,11 @@ public class PlayerActivity extends MenuActivity
         super.onResume();
         playerServiceHelper.getServiceClient().setPlayerMessageHandler(this);
         playerServiceHelper.bindService(this, this);
+        if (positionUpdater != null) {
+            positionUpdater.interrupt();
+        }
+        positionUpdater = new Thread(this);
+        positionUpdater.start();
     }
 
     @Override
@@ -241,20 +246,19 @@ public class PlayerActivity extends MenuActivity
         super.onPause();
         playerServiceHelper.getServiceClient().setPlayerMessageHandler(null);
         playerServiceHelper.unbindService(this);
+        if (positionUpdater != null) {
+            positionUpdater.interrupt();
+            positionUpdater = null;
+        }
     }
 
     @Override
     public void onServiceConnected() {
         playerServiceHelper.getServiceClient().execute(new UpdateStatePlayerMessage());
-        positionUpdater = new Thread(this);
-        positionUpdater.start();
     }
 
     @Override
     public void onServiceDisconnected() {
-        if (positionUpdater != null) {
-            positionUpdater.interrupt();
-        }
     }
 
     @Override
@@ -328,15 +332,22 @@ public class PlayerActivity extends MenuActivity
 
     @Override
     public void run() {
+        String old = Thread.currentThread().getName();
         try {
-            while (true) {
-                if (state == PlayerState.PLAY && items != null && items.get(position) != null && !items.get(position).isLive()) {
+            Thread.currentThread().setName("UpdateDurationThread");
+            while (!Thread.currentThread().isInterrupted()) {
+                Thread.sleep(1000);
+                if (state == PlayerState.PLAY && items != null
+                        && items.get(position) != null
+                        && playerServiceHelper.getServiceClient().isMessagingSessionStarted()
+                        && !items.get(position).isLive()) {
                     playerServiceHelper.getServiceClient().execute(new UpdatePositionMessage());
                 }
-                Thread.sleep(1000);
             }
         } catch (InterruptedException e) {
             //Nothing to do
+        } finally {
+            Thread.currentThread().setName(old);
         }
     }
 

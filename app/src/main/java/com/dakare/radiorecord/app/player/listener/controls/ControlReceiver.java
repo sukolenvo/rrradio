@@ -26,6 +26,15 @@ public class ControlReceiver extends BroadcastReceiver {
                     case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
                         action = NotificationListener.ACTION_PREVIOUS;
                         break;
+                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
+                        action = NotificationListener.ACTION_PAUSE;
+                        break;
+                    case KeyEvent.KEYCODE_MEDIA_PLAY:
+                        action = NotificationListener.ACTION_RESUME;
+                        break;
+                    case KeyEvent.KEYCODE_MEDIA_STOP:
+                        action = NotificationListener.ACTION_STOP;
+                        break;
                     default:
                         Log.i("ControlReceiver", "Ignoring unknown key event " + event.getKeyCode());
                 }
