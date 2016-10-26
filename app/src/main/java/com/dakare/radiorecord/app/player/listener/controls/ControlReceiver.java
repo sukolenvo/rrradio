@@ -9,6 +9,7 @@ import com.dakare.radiorecord.app.player.listener.NotificationListener;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 
 public class ControlReceiver extends BroadcastReceiver {
+
     @Override
     public void onReceive(final Context context, final Intent intent) {
         if (Intent.ACTION_MEDIA_BUTTON.equals(intent.getAction())) {

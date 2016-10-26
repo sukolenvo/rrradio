@@ -162,7 +162,7 @@ public class PreferenceManager {
     public List<PlaylistItem> getLastPlaylist() {
         String list = sharedPreferences.getString(LAST_PLAYLIST_KEY, null);
         if (TextUtils.isEmpty(list)) {
-            return Collections.emptyList();
+            return Collections.singletonList(new PlaylistItem(Station.RADIO_RECORD, Quality.HIGH));
         }
         Gson gson = new Gson();
         try {

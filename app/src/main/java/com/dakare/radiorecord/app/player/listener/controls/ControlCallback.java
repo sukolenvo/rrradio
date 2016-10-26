@@ -39,4 +39,11 @@ public class ControlCallback extends MediaSessionCompat.Callback {
         service.setAction(NotificationListener.ACTION_NEXT);
         context.startService(service);
     }
+
+    @Override
+    public void onStop() {
+        Intent service = new Intent(context, PlayerService.class);
+        service.setAction(NotificationListener.ACTION_STOP);
+        context.startService(service);
+    }
 }
