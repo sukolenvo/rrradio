@@ -82,6 +82,10 @@ public class PlaylistItem implements Parcelable {
         this.live = false;
     }
 
+    public boolean isDownloadable() {
+        return !live && !url.startsWith("file://");
+    }
+
     @Override
     public int describeContents() {
         return 0;

@@ -72,6 +72,8 @@ public class PlayerService extends Service {
                 } else {
                     player.resume();
                 }
+            } else if (intent.hasExtra(POSITION_KEY)) {
+                player.play(new ArrayList<>(PreferenceManager.getInstance(this).getLastPlaylist()), intent.getIntExtra(POSITION_KEY, 0));
             }
         }
         return START_STICKY;

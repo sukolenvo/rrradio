@@ -2,6 +2,7 @@ package com.dakare.radiorecord.app.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.*;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,9 +10,9 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ImageView;
+import com.dakare.radiorecord.app.R;
 
 public class PlayerBackgroundImage extends ImageView {
-    private static final float PADDING = 0.2f;
     private static final float BLUR_SCALE = 0.25f;
     private static final int BLUR_RADIUS = 4;
 
@@ -21,21 +22,42 @@ public class PlayerBackgroundImage extends ImageView {
 
     public PlayerBackgroundImage(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initInnerPadding(context, attrs);
     }
 
     public PlayerBackgroundImage(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public PlayerBackgroundImage(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        initInnerPadding(context, attrs);
     }
 
     private int width;
     private int height;
     private float imageXYRate;
+    private float innerHorizontal = 24.f;
+    private float innerVertical = 24.f;
 
+    private void initInnerPadding(final Context context, final AttributeSet attrs) {
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PlayerBackgroundImage, 0, 0);
+        try {
+            innerHorizontal = innerVertical = ta.getDimension(R.styleable.PlayerBackgroundImage_innerMargin, 24.f);
+            float horizontal = ta.getDimension(R.styleable.PlayerBackgroundImage_innerMarginHorizontal, -1.f);
+            if (horizontal > 0) {
+                innerHorizontal = horizontal;
+            }
+            float vertical = ta.getDimension(R.styleable.PlayerBackgroundImage_innerMarginVertical, -1.f);
+            if (vertical > 0) {
+                innerVertical = vertical;
+            }
+        } finally {
+            ta.recycle();
+        }
+    }
     @Override
     protected void onDraw(final Canvas canvas) {
         canvas.drawColor(Color.WHITE);
@@ -74,14 +96,17 @@ public class PlayerBackgroundImage extends ImageView {
     private void putInCenter(final Canvas canvas, final Bitmap bitmap) {
         float defaultXYRate = (float) bitmap.getWidth() / bitmap.getHeight();
         Rect destination;
+        float width = this.width - 2 * innerHorizontal;
+        float height = this.height - 2 * innerVertical;
+        float imageXYRate = width / height;
         if (imageXYRate > defaultXYRate) {
-            int resultWidth = (int) (height * defaultXYRate * (1 - 2 * PADDING));
-            destination = new Rect((int) (width * PADDING + (width * (1 - 2 * PADDING) - resultWidth) / 2), (int) (height * PADDING),
-                    (int) (width * (1 - PADDING) - (width * (1 - 2 * PADDING) - resultWidth) / 2), (int) (height * (1 - PADDING)));
+            int resultWidth = (int) (height * defaultXYRate);
+            destination = new Rect((int) (innerHorizontal + (width - resultWidth) / 2), (int) (innerVertical),
+                    (int) (innerHorizontal + (width + resultWidth) / 2), (int) (height + innerVertical));
         } else {
-            int resultHeight = (int) ((1 - 2 * PADDING) * width / defaultXYRate);
-            destination = new Rect((int) (width * PADDING), (int) (height * PADDING + (height * (1 - 2 * PADDING) - resultHeight) / 2),
-                    (int) (width * (1 - PADDING)), (int) (height * (1 - PADDING) - (height * (1 - 2 * PADDING) - resultHeight) / 2));
+            int resultHeight = (int) (width / defaultXYRate);
+            destination = new Rect((int) (innerHorizontal), (int) (innerVertical + (height - resultHeight) / 2),
+                    (int) (width + innerHorizontal), (int) (innerVertical + (height + resultHeight) / 2));
         }
         canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()), destination, null);
     }

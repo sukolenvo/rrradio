@@ -3,6 +3,7 @@ package com.dakare.radiorecord.app.view;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.*;
+import android.media.audiofx.Equalizer;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -13,8 +14,10 @@ import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import lombok.AllArgsConstructor;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EqualizerImage extends ImageView {
@@ -23,27 +26,26 @@ public class EqualizerImage extends ImageView {
 
     private int width;
     private int height;
-    private EqualizerSettings equalizerSettings;
-    private Paint paintText;
-    private Paint axisPaint;
-    private Paint linePaint;
-    private Paint pointPaint;
-    private Paint mainLabelText;
     private int left;
     private int top;
-    private int leftAxis;
-    private int bottomAxis;
-    private int yStep;
-    private int xStep;
-    private List<Label> labels = new ArrayList<>(10);
-    private List<Path> triangles = new ArrayList<>(2);
-    private NumberFormat numberFormat;
-    private int xLableHeight;
-    private List<Point> points = new ArrayList<>(5);
-    private int editIndex = -1;
-    private int topBorder;
-    private int lastY;
+    private float fieldTop;
+    private float fieldLeft;
+    private EqualizerSettings equalizerSettings;
     private PreferenceManager instance;
+    private final Paint backgroundPaint;
+    private final Paint backgroundDarkerPaint;
+    private int editIndex = -1;
+    private DecimalFormat numberFormat;
+    private Paint paintText;
+    private Paint gridPaint;
+    private int lastY;
+    private Paint linePaint;
+    private Paint pointPaint;
+    private Paint pointMainPaint;
+    private List<Label> labels = new ArrayList<>(10);
+    private List<Point> points = new ArrayList<>(5);
+    private float xStep;
+    private float yStep;
 
     public EqualizerImage(Context context) {
         super(context);
@@ -63,77 +65,80 @@ public class EqualizerImage extends ImageView {
     }
 
     {
+        backgroundPaint = new Paint();
+        backgroundPaint.setColor(Color.rgb(0x18, 0x90, 0xf3));
+        backgroundDarkerPaint = new Paint();
+        backgroundDarkerPaint.setColor(Color.rgb(0x11, 0x66, 0xd7));
         paintText = new Paint();
         paintText.setTextSize(getResources().getDimensionPixelSize(R.dimen.eq_view_textsize));
         paintText.setAntiAlias(true);
-        paintText.setColor(Color.WHITE);
-        mainLabelText = new Paint();
-        mainLabelText.setTextSize(getResources().getDimensionPixelSize(R.dimen.eq_view_main_textsize));
-        mainLabelText.setAntiAlias(true);
-        mainLabelText.setColor(Color.WHITE);
-        axisPaint = new Paint();
-        axisPaint.setColor(Color.WHITE);
-        axisPaint.setStrokeWidth(3);
-        axisPaint.setStyle(Paint.Style.FILL);
-        axisPaint.setAntiAlias(true);
+        paintText.setColor(Color.BLACK);
+        gridPaint = new Paint();
+        gridPaint.setColor(Color.rgb(0x01, 0xd5, 0xf2));
+        gridPaint.setStrokeWidth(3);
+        gridPaint.setStyle(Paint.Style.FILL);
+        gridPaint.setAntiAlias(true);
         linePaint = new Paint();
-        linePaint.setColor(Color.WHITE);
+        int lineColor = Color.WHITE;
+        linePaint.setColor(lineColor);
         linePaint.setAlpha(120);
-        linePaint.setStrokeWidth(3);
+        linePaint.setStrokeWidth(5);
         linePaint.setStyle(Paint.Style.FILL);
         linePaint.setAntiAlias(true);
-        numberFormat = NumberFormat.getNumberInstance();
+        numberFormat = new DecimalFormat("+0;-0");
         numberFormat.setMaximumFractionDigits(1);
         pointPaint = new Paint();
-        pointPaint.setColor(Color.WHITE);
-        pointPaint.setStrokeWidth(3);
+        pointPaint.setColor(lineColor);
         pointPaint.setStyle(Paint.Style.FILL);
         pointPaint.setAntiAlias(true);
         pointPaint.setAlpha(60);
+        pointMainPaint = new Paint();
+        pointMainPaint.setColor(lineColor);
+        pointMainPaint.setStrokeWidth(5);
+        pointMainPaint.setStyle(Paint.Style.FILL);
+        pointMainPaint.setAntiAlias(true);
         setClickable(true);
         instance = PreferenceManager.getInstance(getContext());
     }
 
     @Override
     protected void onDraw(final Canvas canvas) {
-        canvas.drawColor(Color.rgb(0x46, 0x46, 0x46));
-        drawAxis(canvas);
+        canvas.drawRect(fieldLeft, fieldTop, left + width, top + height, backgroundPaint);
+        if (points.isEmpty()) {
+            return;
+        }
+        Path path = new Path();
+        path.reset();
+        path.moveTo(fieldLeft, points.get(0).y);
+        for (Point point : points) {
+            path.lineTo(point.x, point.y);
+        }
+        path.lineTo(left + width, points.get(points.size() - 1).y);
+        path.lineTo(left + width, top + height);
+        path.lineTo(fieldLeft, top + height);
+        canvas.drawPath(path, backgroundDarkerPaint);
+        drawGrid(canvas);
         drawLabels(canvas);
         drawPoints(canvas);
     }
 
-    private void drawPoints(final Canvas canvas) {
-        for (Point point : points) {
-            canvas.drawOval(new RectF(point.x - 7, point.y - 7, point.x + 7, point.y + 7), axisPaint);
-            canvas.drawOval(new RectF(point.x - 10, point.y - 10, point.x + 10, point.y + 10), pointPaint);
+    private void drawGrid(final Canvas canvas) {
+        for (int i = 2; i < 6; i++) {
+            canvas.drawLine(left + xStep * i, fieldTop, left + xStep * i, top + height, gridPaint);
         }
-        for (int i = 1; i < points.size(); i++) {
-            canvas.drawLine(points.get(i - 1).x, points.get(i - 1).y, points.get(i).x, points.get(i).y, linePaint);
+        for (int i = 2; i < 7; i++) {
+            canvas.drawLine(fieldLeft, top + yStep * i, left + width, top + yStep * i, gridPaint);
         }
     }
 
-    private void drawAxis(final Canvas canvas) {
-        canvas.drawLine(leftAxis, top, leftAxis, bottomAxis, axisPaint);
-        canvas.drawLine(leftAxis, bottomAxis, left + width, bottomAxis, axisPaint);
-        for (Path triangle : triangles) {
-            canvas.drawPath(triangle, axisPaint);
+    private void drawPoints(final Canvas canvas) {
+        for (Point point : points) {
+            canvas.drawOval(new RectF(point.x - 10, point.y - 10, point.x + 10, point.y + 10), pointMainPaint);
+            canvas.drawOval(new RectF(point.x - 28, point.y - 28, point.x + 28, point.y + 28), pointPaint);
         }
-        int smallStep = yStep / 3;
-        int smallXStep = xStep / 3;
-        for (int i = 1; i < 5; i++) {
-            canvas.drawLine(leftAxis, bottomAxis - yStep * i, leftAxis + 15, bottomAxis - yStep * i, axisPaint);
-            canvas.drawLine(leftAxis, bottomAxis - yStep * i + smallStep, leftAxis + 7, bottomAxis - yStep * i + smallStep, axisPaint);
-            canvas.drawLine(leftAxis, bottomAxis - yStep * i + smallStep * 2, leftAxis + 7, bottomAxis - yStep * i + smallStep * 2, axisPaint);
+        for (int i = 1; i < points.size(); i++) {
+            canvas.drawLine(points.get(i - 1).x, points.get(i - 1).y, points.get(i).x, points.get(i).y, pointMainPaint);
         }
-        int xBaseline = leftAxis + smallXStep;
-        for (int i = 0, size = equalizerSettings.getBands().length; i < size; i++) {
-            canvas.drawLine(xBaseline + xStep * i, bottomAxis, xBaseline + xStep * i, bottomAxis - 15, axisPaint);
-            if (i < size - 1) {
-                canvas.drawLine(xBaseline + xStep * i + smallXStep, bottomAxis, xBaseline + xStep * i + smallXStep, bottomAxis - 7, axisPaint);
-                canvas.drawLine(xBaseline + xStep * i + smallXStep * 2, bottomAxis, xBaseline + xStep * i + smallXStep * 2, bottomAxis - 7, axisPaint);
-            }
-        }
-        canvas.drawLine(leftAxis, bottomAxis - yStep * 4 - smallStep, leftAxis + 7, bottomAxis - yStep * 4 - smallStep, axisPaint);
     }
 
     private void drawLabels(final Canvas canvas) {
@@ -148,136 +153,52 @@ public class EqualizerImage extends ImageView {
         invalidate();
     }
 
+    public void updateBands(final Equalizer equalizer) {
+        for (int i = 0; i < equalizer.getNumberOfBands(); i++) {
+            equalizerSettings.getLevels()[i] = equalizer.getBandLevel((short) i);
+        }
+        equalizerSettings.setPreset(equalizer.getPresetName(equalizer.getCurrentPreset()));
+        instance.setEqSettings(equalizerSettings);
+        invalidateView();
+        invalidate();
+    }
+
     private void invalidateView() {
         if (equalizerSettings != null && width > 0 && height > 0) {
             labels.clear();
-            triangles.clear();
             points.clear();
-            calculateAxis();
-            calculateLeftLables();
-            calculateBottomLables();
-            calculateArrows();
+            calculateLables();
             calculatePoints();
-            calculateEqLabel();
         }
     }
 
-    private void calculateAxis() {
+    private void calculateLables() {
         Rect bounds = new Rect();
-        paintText.getTextBounds(getLevelString(equalizerSettings.getRange()[0] / 100), 0,
-                getLevelString(equalizerSettings.getRange()[0] / 100).length(), bounds);
-        int width = bounds.width();
-        paintText.getTextBounds(getLevelString(equalizerSettings.getRange()[1] / 100), 0,
-                getLevelString(equalizerSettings.getRange()[1] / 100).length(), bounds);
-        width = Math.max(width, bounds.width());
-        leftAxis = width + 10 + left;
-        xLableHeight = 0;
-        for (int i = 0, size = equalizerSettings.getBands().length; i < size; i++) {
-            String bandString = getBandString(equalizerSettings.getBands()[i]);
+        List<String> tests = Arrays.asList("BASS", "LOW", "MID", "UPPER", "HIGH");
+        for (int i = 0; i < 5; i++) {
+            String bandString = tests.get(i);
             paintText.getTextBounds(bandString, 0, bandString.length(), bounds);
-            if (xLableHeight < bounds.height()) {
-                xLableHeight = bounds.height();
-            }
+            labels.add(new Label((int) (left + (i + 1.5) * xStep - bounds.width() / 2), (int) (top + yStep / 2), bandString, paintText));
         }
-        bottomAxis = top + this.height - 10 - xLableHeight;
+        int low = equalizerSettings.getRange()[0] / 100;
+        int upp = equalizerSettings.getRange()[1] / 100;
+        float step = (upp - low) / 6.f;
+        for (int i = 0; i < 7; i++) {
+            String levelString = getLevelString(upp - step * i);
+            paintText.getTextBounds(levelString, 0, levelString.length(), bounds);
+            labels.add(new Label((int) (left + xStep / 2 - bounds.width() / 2), (int) (fieldTop + yStep * i + bounds.height() / 2), levelString, paintText));
+        }
     }
 
     private String getLevelString(final double level) {
-        return numberFormat.format(level) + "dB";
-    }
-
-    private void calculateLeftLables() {
-        yStep = (int) ((bottomAxis - top) / 4.7);
-        int low = equalizerSettings.getRange()[0] / 100;
-        int upp = equalizerSettings.getRange()[1] / 100;
-        double middle = (upp - low) / 2. + low;
-        double subMiddle = (middle - low) / 2. + low;
-        double subUpp = (upp - middle) / 2. + middle;
-        Rect bounds = new Rect();
-        paintText.getTextBounds(getLevelString(low), 0, getLevelString(low).length(), bounds);
-        labels.add(new Label(leftAxis - 10 - bounds.width(), bottomAxis + bounds.height() / 2, getLevelString(low), paintText));
-        paintText.getTextBounds(getLevelString(subMiddle), 0, getLevelString(subMiddle).length(), bounds);
-        labels.add(new Label(leftAxis - 10 - bounds.width(), bottomAxis + bounds.height() / 2 - yStep, getLevelString(subMiddle), paintText));
-        paintText.getTextBounds(getLevelString(middle), 0, getLevelString(middle).length(), bounds);
-        labels.add(new Label(leftAxis - 10 - bounds.width(), bottomAxis + bounds.height() / 2 - yStep * 2, getLevelString(middle), paintText));
-        paintText.getTextBounds(getLevelString(subUpp), 0, getLevelString(subUpp).length(), bounds);
-        labels.add(new Label(leftAxis - 10 - bounds.width(), bottomAxis + bounds.height() / 2 - yStep * 3, getLevelString(subUpp), paintText));
-        paintText.getTextBounds(getLevelString(upp), 0, getLevelString(upp).length(), bounds);
-        labels.add(new Label(leftAxis - 10 - bounds.width(), bottomAxis + bounds.height() / 2 - yStep * 4, getLevelString(upp), paintText));
-        topBorder = bottomAxis - yStep * 4;
-    }
-
-    private void calculateBottomLables() {
-        xStep = (int) ((left + width - leftAxis) / (equalizerSettings.getBands().length - 0.3));
-        Rect bounds = new Rect();
-        for (int i = 0, size = equalizerSettings.getBands().length; i < size; i++) {
-            String bandString = getBandString(equalizerSettings.getBands()[i]);
-            paintText.getTextBounds(bandString, 0, bandString.length(), bounds);
-            labels.add(new Label(leftAxis  + i * xStep - bounds.width() / 2 + xStep / 3, bottomAxis + 10 + xLableHeight, bandString, paintText));
-        }
-    }
-
-    private String getBandString(final int band) {
-        if (band > 1_000_000) {
-            return numberFormat.format(band / 1_000_000.) + "kHz";
-        }
-        return numberFormat.format(band / 1000.) + "Hz";
-    }
-
-    private void calculateArrows() {
-        float base = yStep * 0.1f;
-        float normal = yStep * 0.25f;
-        Path pathTop = new Path();
-        pathTop.setFillType(Path.FillType.EVEN_ODD);
-        pathTop.moveTo(leftAxis, top - 3);
-        pathTop.lineTo(leftAxis + base, top + normal - 3);
-        pathTop.lineTo(leftAxis - base, top + normal - 3);
-        pathTop.close();
-        Path pathLeft = new Path();
-        pathLeft.setFillType(Path.FillType.EVEN_ODD);
-        pathLeft.moveTo(left + width + 3, bottomAxis);
-        pathLeft.lineTo(left + width - normal + 3, bottomAxis + base);
-        pathLeft.lineTo(left + width - normal + 3, bottomAxis - base);
-        pathLeft.close();
-        triangles.add(pathTop);
-        triangles.add(pathLeft);
+        return numberFormat.format(level);
     }
 
     private void calculatePoints() {
         for (int i = 0; i < equalizerSettings.getLevels().length; i++) {
-            int x = leftAxis + xStep / 3 + i * xStep;
-            int y = bottomAxis - yStep * (equalizerSettings.getLevels()[i] - equalizerSettings.getRange()[0]) / equalizerSettings.getLevelRange() * 4;
+            int x = (int) (left + (1.5 + i) * xStep);
+            int y = (int) (top + height - yStep * (equalizerSettings.getLevels()[i] - equalizerSettings.getRange()[0]) / equalizerSettings.getLevelRange() * 6);
             points.add(new Point(x, y));
-        }
-    }
-
-    private void calculateEqLabel() {
-        Rect rect = new Rect();
-        mainLabelText.getTextBounds("Equalizer", 0, "Equalizer".length(), rect);
-        labels.add(new Label(width / 2 - rect.width() / 2 + leftAxis / 2, top + rect.height(), "Equalizer", mainLabelText));
-    }
-
-    public void refreshEq() {
-        if (equalizerSettings == null || equalizerSettings.getLevels() == null || equalizerSettings.getLevels().length == 0) {
-            Toast.makeText(getContext(), R.string.message_eq_not_ready, Toast.LENGTH_LONG).show();
-        } else {
-            switch (equalizerSettings.getLevels().length) {
-                case 1:
-                    equalizerSettings.getLevels()[0] = equalizerSettings.getLevelRange() / 2 + equalizerSettings.getRange()[0];
-                    break;
-                case 2:
-                    equalizerSettings.getLevels()[1] = equalizerSettings.getLevels()[0] = equalizerSettings.getLevelRange() / 2 + equalizerSettings.getRange()[0];
-                    break;
-                default:
-                    equalizerSettings.getLevels()[0] = equalizerSettings.getLevels()[equalizerSettings.getLevels().length - 1] =
-                            (int) (equalizerSettings.getLevelRange() * 0.6 + equalizerSettings.getRange()[0]);
-                    int middleLevel = equalizerSettings.getLevelRange() / 2 + equalizerSettings.getRange()[0];
-                    for (int i = 1; i < equalizerSettings.getLevels().length - 1; i++) {
-                        equalizerSettings.getLevels()[i] = middleLevel;
-                    }
-            }
-            instance.setEqSettings(equalizerSettings);
-            updateSettings(equalizerSettings);
         }
     }
 
@@ -286,8 +207,12 @@ public class EqualizerImage extends ImageView {
         super.onLayout(changed, left, top, right, bottom);
         width = right - left - getPaddingTop() - getPaddingBottom();
         height = bottom - top - getPaddingLeft() - getPaddingRight();
+        xStep = width / 6.f;
+        yStep = height / 7.f;
         this.top = getPaddingTop();
         this.left = getPaddingLeft();
+        fieldTop = this.top + yStep;
+        fieldLeft = this.left + xStep;
         invalidateView();
         invalidate();
     }
@@ -304,6 +229,7 @@ public class EqualizerImage extends ImageView {
                             range(x, y, point.x, point.y) < POINT_CLICK_RANGE) {
                         editIndex = points.indexOf(point);
                         lastY = point.y;
+                        getParent().requestDisallowInterceptTouchEvent(true);
                         return true;
                     }
                 }
@@ -312,17 +238,17 @@ public class EqualizerImage extends ImageView {
                 if (editIndex == -1) {
                     return false;
                 }
-                float correctedY = Math.min(bottomAxis, Math.max(y, topBorder));
+                float correctedY = Math.min(top + height, Math.max(y, fieldTop));
                 points.get(editIndex).y = (int) correctedY;
                 if (editIndex == 0) {
-                    invalidate(leftAxis, top, points.get(1).x, bottomAxis);
+                    invalidate((int) fieldLeft, top, points.get(1).x, top + height);
                 } else if (editIndex == points.size() - 1) {
-                    invalidate(points.get(editIndex - 1).x, top, left + width, bottomAxis);
+                    invalidate(points.get(editIndex - 1).x, top, left + width, top + height);
                 } else  {
-                    invalidate(points.get(editIndex - 1).x, top, points.get(editIndex + 1).x, bottomAxis);
+                    invalidate(points.get(editIndex - 1).x, top, points.get(editIndex + 1).x, top + height);
                 }
                 if (Math.abs(lastY - correctedY) > yStep / 5) {
-                    equalizerSettings.getLevels()[editIndex] = (int) (equalizerSettings.getRange()[0] + (bottomAxis - correctedY) / yStep / 4 * equalizerSettings.getLevelRange());
+                    equalizerSettings.getLevels()[editIndex] = (int) (equalizerSettings.getRange()[0] + (top + height - correctedY) / yStep / 6 * equalizerSettings.getLevelRange());
                     instance.setEqSettings(equalizerSettings);
                     lastY = (int) correctedY;
                 }
@@ -330,6 +256,7 @@ public class EqualizerImage extends ImageView {
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
                 editIndex = -1;
+                getParent().requestDisallowInterceptTouchEvent(false);
                 break;
             default:
                 //Nothing to do

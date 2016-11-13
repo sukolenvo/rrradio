@@ -13,6 +13,7 @@ public class EqualizerSettings {
     private int[] bands;
     private int[] range;
     private int[] levels;
+    private String preset;
 
     public EqualizerSettings(final Equalizer equalizer) {
         enabled = true;

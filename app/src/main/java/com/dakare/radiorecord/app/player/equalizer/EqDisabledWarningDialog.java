@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app.player;
+package com.dakare.radiorecord.app.player.equalizer;
 
 import android.content.Context;
 import android.content.Intent;

@@ -43,7 +43,6 @@
     <string name="message_failed_category">Ошибка загрузки категории</string>
     <string name="error_not_found">Данная аудиозапись отсутствует на сервере. Пожалуйста, выберите другую.</string>
     <string name="quality_aac">Низкое (AAC, 32kbs)</string>
-    <string name="menu_copy_to_clipboard">Скопировать в буфер</string>
     <string name="clipboard_label">Record аудиозапись</string>
     <string name="clipboard_success">Название сохранено в буфер обмена</string>
     <string name="clipboeard_error">Не удалось сохранить название в буфер обмена</string>
@@ -96,7 +95,18 @@
     <string name="eq_settings_secondary">Отключите данную функцию при проблемах со звуком</string>
     <string name="eq_settings_text">Эквалайзер</string>
     <string name="eq_change_message">Перезапустите воспроизведение для применения настроек</string>
-    <string name="eq_warning_text">Эквалайзер отключен в настройках приложения. Данная функция недоступна.</string>
+    <string name="eq_warning_text">Эквалайзер недоступен в данный момент. Проверьте включен ли он в настройках приложения.
+        Также настройки эквалайзера недоступны до первого запуска воспроизведения. Если проблема остается - возможно Ваше устройство не
+        поддерживает данную функцию.</string>
     <string name="warning_text">Внимание</string>
     <string name="button_internal">Телефон</string>
+    <string name="equalizer_dialog_title">Эквалайзер</string>
+    <string name="message_no_selected">Выберите стиль пожалуйста</string>
+    <string name="no_preset">Стили</string>
+    <string name="permission_guide">Пожалуйста подтвердите разрешение и попробуйте еще раз</string>
+    <string name="playlist_title">Плейлист</string>
+    <string name="preset_button_text"></string>
+    <string name="undownloadable_audio">Невозможно скачать данную аудиозапись. Загрузка поддердживается только из
+        категорий История, Свежаки, Record Megamix, Топ 100, Superchart
+    </string>
 </resources>

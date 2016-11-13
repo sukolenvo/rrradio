@@ -2,4 +2,6 @@
 <resources>
     <integer name="stations_columns">4</integer>
     <dimen name="breadcrumb_text">14sp</dimen>
+    <dimen name="image_inner_margin_horizontal">@dimen/main_padding</dimen>
+    <dimen name="image_inner_margin_vertical">100dp</dimen>
 </resources>

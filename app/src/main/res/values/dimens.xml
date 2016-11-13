@@ -27,4 +27,6 @@
     <dimen name="eq_view_textsize">14sp</dimen>
     <dimen name="eq_view_main_textsize">16sp</dimen>
     <dimen name="widget_margin">8dp</dimen>
+    <dimen name="image_inner_margin_horizontal">30dp</dimen>
+    <dimen name="image_inner_margin_vertical">@dimen/main_padding</dimen>
 </resources>

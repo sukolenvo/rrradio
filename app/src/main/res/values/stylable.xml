@@ -5,4 +5,9 @@
         <attr name="toolbarElevation" format="reference|dimension"></attr>
         <attr name="toolbarTitleSize" format="reference|dimension"></attr>
     </declare-styleable>
+    <declare-styleable name="PlayerBackgroundImage">
+        <attr name="innerMargin" format="reference|dimension"></attr>
+        <attr name="innerMarginHorizontal" format="reference|dimension"></attr>
+        <attr name="innerMarginVertical" format="reference|dimension"></attr>
+    </declare-styleable>
 </resources>

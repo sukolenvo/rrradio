@@ -29,8 +29,8 @@
             android:id="@+id/download_icon"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:padding="@dimen/main_padding"
             android:layout_gravity="center_vertical"
             android:scaleType="centerInside"
+            android:background="@drawable/selectable_background"
             android:src="@drawable/ic_file_download_black_24dp"/>
 </LinearLayout>

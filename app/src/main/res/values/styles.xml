@@ -18,7 +18,7 @@
     </style>
 
     <style name="Player" parent="Main">
-        <item name="toolbarColor">@color/player_toolbar</item>
+        <item name="toolbarColor">#10000000</item>
         <item name="toolbarTitleSize">14sp</item>
     </style>
 
@@ -142,5 +142,21 @@
         <item name="android:paddingBottom">@dimen/main_padding</item>
         <item name="android:background">@drawable/selectable_background</item>
         <item name="android:paddingRight">@dimen/half_padding</item>
+    </style>
+
+    <style name="PlaybackControlButton">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:background">@drawable/selectable_background_gray</item>
+    </style>
+
+    <style name="PlaybackControlSubButton">
+        <item name="android:padding">6dp</item>
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:background">@drawable/selectable_background_gray</item>
     </style>
 </resources>

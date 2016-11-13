@@ -42,6 +42,7 @@ public class PreferenceManager {
     private static final String EQ_BANDS_KEY = "equalizer_bands";
     private static final String EQ_RANGE_KEY = "equalizer_range";
     public static final String EQ_LEVELS_KEY = "equalizer_level";
+    public static final String EQ_PRESET_KEY = "equalizer_preset";
     private static final String EQ_SETTINGS_KEY = "equalizer_settings";
     private static final String LAST_PLAYLIST_POSITION_KEY = "last_playlist_position";
 
@@ -246,6 +247,7 @@ public class PreferenceManager {
             equalizerSettings.setBands(toIntArray(sharedPreferences.getString(EQ_BANDS_KEY, "")));
             equalizerSettings.setRange(toIntArray(sharedPreferences.getString(EQ_RANGE_KEY, "")));
             equalizerSettings.setLevels(toIntArray(sharedPreferences.getString(EQ_LEVELS_KEY, "")));
+            equalizerSettings.setPreset(sharedPreferences.getString(EQ_PRESET_KEY, null));
         }
         return equalizerSettings;
     }
@@ -266,6 +268,9 @@ public class PreferenceManager {
             editor.putString(EQ_BANDS_KEY, joinIntArray(eqSettings.getBands()));
             editor.putString(EQ_RANGE_KEY, joinIntArray(eqSettings.getRange()));
             editor.putString(EQ_LEVELS_KEY, joinIntArray(eqSettings.getLevels()));
+            if (eqSettings.getPreset() != null) {
+                editor.putString(EQ_PRESET_KEY, eqSettings.getPreset());
+            }
         }
         editor.apply();
     }

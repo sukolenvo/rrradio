@@ -27,7 +27,8 @@ import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDec
 
 import java.util.*;
 
-public class DownloadsActivity extends MenuActivity implements FileServiceClient.PlayerMessageHandler, FileServiceHelper.ServiceBindListener, AbstractSelectionAdapter.PermissionProvider {
+public class DownloadsActivity extends MenuActivity implements FileServiceClient.PlayerMessageHandler,
+        FileServiceHelper.ServiceBindListener, AbstractSelectionAdapter.PermissionProvider {
 
     private RecyclerView recyclerView;
     private View emptyView;

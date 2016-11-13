@@ -1,9 +1,11 @@
 package com.dakare.radiorecord.app;
 
 import com.dakare.radiorecord.app.quality.Quality;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
+@AllArgsConstructor
 public enum Station {
 
     RADIO_RECORD("Radio Record", R.drawable.rr_ico, "/rr", 8100, 8101),
@@ -36,14 +38,6 @@ public enum Station {
     private final String code;
     private int portLow;
     private int portMedium;
-
-    Station(final String name, final int icon, final String code, final int portLow, final int portMedium) {
-        this.name = name;
-        this.icon = icon;
-        this.code = code;
-        this.portLow = portLow;
-        this.portMedium = portMedium;
-    }
 
     public String getStreamUrl(final Quality quality) {
         switch (quality) {

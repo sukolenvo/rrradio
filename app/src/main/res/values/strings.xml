@@ -55,7 +55,6 @@
     <string name="menu_select_all">Select all</string>
     <string name="menu_select_none">Clear selection</string>
     <string name="selection_title" formatted="false">%d/%d selected</string>
-    <string name="menu_copy_to_clipboard">Copy to clipboard</string>
     <string name="menu_sort_down">From old to new</string>
     <string name="menu_show_items">Show all items</string>
     <string name="menu_hide_items">Hide music without name</string>
@@ -97,9 +96,17 @@
     <string name="message_eq_not_ready">Equalizer not initialized yet</string>
     <string name="eq_change_message">Please restart playback to apply changes</string>
     <string name="warning_text">Warning</string>
-    <string name="eq_warning_text">Equalizer is disabled in application settings. Please enable it to have access to
-        this feature.
+    <string name="eq_warning_text">Equalizer is not available at the moment. Please check if it is enabled in applications settings and try again.
+        Equalizer is also not available till first audio playback. If problem persists - your device might be not supported.
     </string>
     <string name="button_internal">Internal</string>
     <string name="button_sd_card" translatable="false">SD-card</string>
+    <string name="undownloadable_audio">Can\'t download this audio. Please go to categories History, Record Megamix, Top
+        100, Superchart or New Record.
+    </string>
+    <string name="permission_guide">Please submit permission request and try again.</string>
+    <string name="playlist_title">Playlist</string>
+    <string name="equalizer_dialog_title">Equalizer</string>
+    <string name="no_preset">Manual</string>
+    <string name="message_no_selected">Please select something</string>
 </resources>
