@@ -294,7 +294,7 @@ public class PlayerActivity extends MenuActivity
             Thread.currentThread().setName("UpdateDurationThread");
             while (!Thread.currentThread().isInterrupted()) {
                 Thread.sleep(1000);
-                if (state == PlayerState.PLAY && playlistItem != null && playlistItem.isLive()
+                if (state == PlayerState.PLAY && playlistItem != null
                         && playerServiceHelper.getServiceClient().isMessagingSessionStarted()) {
                     playerServiceHelper.getServiceClient().execute(new UpdatePositionMessage());
                 }

@@ -30,6 +30,12 @@ public class NotificationListener implements IPlayerStateListener {
     public static final String ACTION_PAUSE = "pause";
     public static final String ACTION_RESUME = "resume";
     public static final String ACTION_PLAY_PAUSE = "play_pause";
+    public static final int CONTENT_CODE = 0;
+    public static final int STOP_CODE = 1;
+    public static final int PAUSE_CODE = 2;
+    public static final int RESUME_CODE = 3;
+    public static final int NEXT_CODE = 4;
+    public static final int PREVIOUS_CODE = 5;
 
     private final Service service;
     private final RemoteViews collapsed;
@@ -46,34 +52,34 @@ public class NotificationListener implements IPlayerStateListener {
         expanded = new RemoteViews(service.getPackageName(), R.layout.notification_expanded);
         notification = new NotificationCompat.Builder(service)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentIntent(PendingIntent.getActivity(service, 0, intent, 0))
+                .setContentIntent(PendingIntent.getActivity(service, CONTENT_CODE, intent, 0))
                 .setCustomBigContentView(expanded)
                 .setCustomContentView(collapsed)
                 .setOngoing(true)
                 .build();
         Intent stopIntent = new Intent(service, PlayerService.class);
         stopIntent.setAction(ACTION_STOP);
-        PendingIntent stopPending = PendingIntent.getService(service, 0, stopIntent, 0);
+        PendingIntent stopPending = PendingIntent.getService(service, STOP_CODE, stopIntent, 0);
         collapsed.setOnClickPendingIntent(R.id.button_media_close, stopPending);
         expanded.setOnClickPendingIntent(R.id.button_media_close, stopPending);
         Intent pauseIntent = new Intent(service, PlayerService.class);
         pauseIntent.setAction(ACTION_PAUSE);
-        PendingIntent pausePending = PendingIntent.getService(service, 0, pauseIntent, 0);
+        PendingIntent pausePending = PendingIntent.getService(service, PAUSE_CODE, pauseIntent, 0);
         collapsed.setOnClickPendingIntent(R.id.button_media_pause, pausePending);
         expanded.setOnClickPendingIntent(R.id.button_media_pause, pausePending);
         Intent resumeIntent = new Intent(service, PlayerService.class);
         resumeIntent.setAction(ACTION_RESUME);
-        PendingIntent resumePending = PendingIntent.getService(service, 0, resumeIntent, 0);
+        PendingIntent resumePending = PendingIntent.getService(service, RESUME_CODE, resumeIntent, 0);
         collapsed.setOnClickPendingIntent(R.id.button_media_play, resumePending);
         expanded.setOnClickPendingIntent(R.id.button_media_play, resumePending);
         Intent nextIntent = new Intent(service, PlayerService.class);
         nextIntent.setAction(ACTION_NEXT);
-        PendingIntent nextPending = PendingIntent.getService(service, 0, nextIntent, 0);
+        PendingIntent nextPending = PendingIntent.getService(service, NEXT_CODE, nextIntent, 0);
         collapsed.setOnClickPendingIntent(R.id.button_media_next, nextPending);
         expanded.setOnClickPendingIntent(R.id.button_media_next, nextPending);
         Intent previousIntent = new Intent(service, PlayerService.class);
         previousIntent.setAction(ACTION_PREVIOUS);
-        PendingIntent previousPending = PendingIntent.getService(service, 0, previousIntent, 0);
+        PendingIntent previousPending = PendingIntent.getService(service, PREVIOUS_CODE, previousIntent, 0);
         expanded.setOnClickPendingIntent(R.id.button_media_previous, previousPending);
         notificationManager = (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
     }
