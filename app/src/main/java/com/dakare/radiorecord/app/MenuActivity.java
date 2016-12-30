@@ -3,6 +3,8 @@ package com.dakare.radiorecord.app;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
 import com.dakare.radiorecord.app.download.DownloadsActivity;
 import com.dakare.radiorecord.app.iap.IapActivity;
 import com.dakare.radiorecord.app.load.history.HistoryActivity;
@@ -26,6 +30,15 @@ public class MenuActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     @Getter
     private Toolbar myToolbar;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentName("Open activity")
+                .putContentType(getClass().getSimpleName())
+                .putContentId(getClass().getSimpleName()));
+    }
 
     protected void initToolbar() {
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
