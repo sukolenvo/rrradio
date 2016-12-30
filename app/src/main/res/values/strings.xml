@@ -19,6 +19,7 @@
     <string name="menu_top_text">Top 100</string>
     <string name="menu_superchart_text" translatable="false">Superchart</string>
     <string name="menu_megamix_text" translatable="false">Record Megamix</string>
+    <string name="menu_hrustalev_text" translatable="false">Кремов и Хрусталев</string>
     <string name="menu_new_text">New Record</string>
     <string name="menu_player_text">Player</string>
     <string name="feedback_text">Send feedback</string>

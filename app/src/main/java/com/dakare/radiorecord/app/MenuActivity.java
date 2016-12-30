@@ -17,6 +17,7 @@ import com.crashlytics.android.answers.ContentViewEvent;
 import com.dakare.radiorecord.app.download.DownloadsActivity;
 import com.dakare.radiorecord.app.iap.IapActivity;
 import com.dakare.radiorecord.app.load.history.HistoryActivity;
+import com.dakare.radiorecord.app.load.section.HrustalevActivity;
 import com.dakare.radiorecord.app.load.section.MegamixActivity;
 import com.dakare.radiorecord.app.load.section.SectionNewActivity;
 import com.dakare.radiorecord.app.load.section.SuperchartActivity;
@@ -34,10 +35,12 @@ public class MenuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Answers.getInstance().logContentView(new ContentViewEvent()
-                .putContentName("Open activity")
-                .putContentType(getClass().getSimpleName())
-                .putContentId(getClass().getSimpleName()));
+        if (!BuildConfig.DEBUG) {
+            Answers.getInstance().logContentView(new ContentViewEvent()
+                    .putContentName("Open activity")
+                    .putContentType(getClass().getSimpleName())
+                    .putContentId(getClass().getSimpleName()));
+        }
     }
 
     protected void initToolbar() {
@@ -150,6 +153,15 @@ public class MenuActivity extends AppCompatActivity {
     public void megamixActivity(final View view) {
         if (!(this instanceof MegamixActivity)) {
             Intent intent = new Intent(this, MegamixActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }
+        closeMenu();
+    }
+
+    public void hrustalevActivity(final View view) {
+        if (!(this instanceof HrustalevActivity)) {
+            Intent intent = new Intent(this, HrustalevActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
