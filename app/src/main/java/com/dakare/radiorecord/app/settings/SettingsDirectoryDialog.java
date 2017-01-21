@@ -74,7 +74,7 @@ public class SettingsDirectoryDialog extends AbstractDialog implements TextWatch
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             File[] externalCacheDirs = context.getExternalMediaDirs();
             for (File file : externalCacheDirs) {
-                if (Environment.isExternalStorageRemovable(file)) {
+                if (file != null && file.exists() && Environment.isExternalStorageRemovable(file)) {
                     return file.getPath();
                 }
             }

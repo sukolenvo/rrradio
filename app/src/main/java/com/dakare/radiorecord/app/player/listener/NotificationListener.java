@@ -7,6 +7,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.RemoteViews;
@@ -17,10 +18,6 @@ import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 
 public class NotificationListener implements IPlayerStateListener {
@@ -119,9 +116,22 @@ public class NotificationListener implements IPlayerStateListener {
 
     @Override
     public void onIconChange(final Bitmap image) {
-        collapsed.setImageViewBitmap(R.id.image_media_preview, image);
-        expanded.setImageViewBitmap(R.id.image_media_preview, image);
-        notificationManager.notify(1, notification);
+        if (image != null) {
+            collapsed.setImageViewBitmap(R.id.image_media_preview, image);
+            expanded.setImageViewBitmap(R.id.image_media_preview, image);
+            try {
+                notificationManager.notify(1, notification);
+            } catch (RuntimeException e) {
+                throw new RuntimeException("Failed to update image " + getBitmapBytesCount(image), e);
+            }
+        }
+    }
+
+    private int getBitmapBytesCount(final Bitmap bitmap) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            return bitmap.getByteCount();
+        }
+        return bitmap.getAllocationByteCount();
     }
 
     private String buildTitle(final String main, final String second) {

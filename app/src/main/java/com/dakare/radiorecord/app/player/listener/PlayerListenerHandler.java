@@ -3,7 +3,6 @@ package com.dakare.radiorecord.app.player.listener;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.media.MediaMetadataCompat;
 import android.view.View;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.RecordApplication;
@@ -11,8 +10,10 @@ import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessageType;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import lombok.Getter;
@@ -25,6 +26,15 @@ public class PlayerListenerHandler extends Handler implements ImageLoadingListen
     @Getter
     private final List<IPlayerStateListener> listeners = new ArrayList<>();
     private String lastUrl;
+    private final DisplayImageOptions displayImageOptions;
+
+    public PlayerListenerHandler() {
+        displayImageOptions = new DisplayImageOptions.Builder()
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .build();
+    }
 
     @Override
     public void handleMessage(final Message msg) {
@@ -41,7 +51,7 @@ public class PlayerListenerHandler extends Handler implements ImageLoadingListen
             } else if (PreferenceManager.getInstance(RecordApplication.getInstance()).isMusicImageEnabled()
                     && !stateMessage.getIcon().equals(lastUrl)) {
                 lastUrl = stateMessage.getIcon();
-                ImageLoader.getInstance().loadImage(lastUrl, new ImageSize(128, 128), this);
+                ImageLoader.getInstance().loadImage(lastUrl, new ImageSize(128, 128), displayImageOptions, this);
             }
         }
 

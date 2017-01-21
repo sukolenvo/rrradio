@@ -10,6 +10,8 @@ import com.dakare.radiorecord.app.database.DownloadAudioTable;
 import com.dakare.radiorecord.app.download.service.DownloadsSort;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
+import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
+import com.dakare.radiorecord.app.player.sleep_mode.SleepSettings;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.google.gson.Gson;
 
@@ -45,6 +47,9 @@ public class PreferenceManager {
     public static final String EQ_PRESET_KEY = "equalizer_preset";
     private static final String EQ_SETTINGS_KEY = "equalizer_settings";
     private static final String LAST_PLAYLIST_POSITION_KEY = "last_playlist_position";
+    private static final String SLEEP_SETTINGS_KEY = "sleep_settings_";
+    public static final String SLEEP_MODE_KEY = "sleep_mode";
+    private static final String SLEEP_MODE_STARTED = "sleep_mode_started";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -304,5 +309,47 @@ public class PreferenceManager {
         sharedPreferences.edit()
                 .putBoolean(EQ_SETTINGS_KEY, enabled)
                 .apply();
+    }
+
+    public SleepSettings getSleepSettings(final SleepMode sleepMode) {
+        String value = sharedPreferences.getString(SLEEP_SETTINGS_KEY + sleepMode.name(), null);
+        if (TextUtils.isEmpty(value)) {
+            switch (sleepMode) {
+                case OFF:
+                    return new SleepSettings();
+                case ELAPSED_S:
+                    return new SleepSettings(0, 30);
+                case ELAPSED_M:
+                    return new SleepSettings(1, 0);
+                case ELAPSED_L:
+                    return new SleepSettings(2, 30);
+                case CHOSEN_1:
+                    return new SleepSettings(22, 0);
+                case CHOSEN_2:
+                    return new SleepSettings(23, 30);
+            }
+        }
+        return SleepSettings.unmarshal(value);
+    }
+
+    public void setSleepSettings(final SleepMode sleepMode, final SleepSettings sleepSettings) {
+        sharedPreferences.edit()
+                .putString(SLEEP_SETTINGS_KEY + sleepMode.name(), sleepSettings.marchal())
+                .apply();
+    }
+
+    public SleepMode getSleepMode() {
+        return SleepMode.valueOf(sharedPreferences.getString(SLEEP_MODE_KEY, SleepMode.OFF.name()));
+    }
+
+    public void setSleepMode(final SleepMode sleepMode) {
+        sharedPreferences.edit()
+                .putString(SLEEP_MODE_KEY, sleepMode.name())
+                .putLong(SLEEP_MODE_STARTED, System.currentTimeMillis())
+                .apply();
+    }
+
+    public long getSleepModeTs() {
+        return sharedPreferences.getLong(SLEEP_MODE_STARTED, System.currentTimeMillis());
     }
 }

@@ -3,6 +3,7 @@ package com.dakare.radiorecord.app.player;
 import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -26,13 +27,15 @@ import com.dakare.radiorecord.app.player.service.PlayerServiceClient;
 import com.dakare.radiorecord.app.player.service.PlayerServiceHelper;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.*;
+import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
+import com.dakare.radiorecord.app.player.sleep_mode.SleepTimerSetupDialog;
 import com.dakare.radiorecord.app.view.PlayerBackgroundImage;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class PlayerActivity extends MenuActivity
         implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler,
-        Runnable, SeekBar.OnSeekBarChangeListener {
+        Runnable, SeekBar.OnSeekBarChangeListener, DialogInterface.OnDismissListener {
     private static final String METADATA_ICON_KEY = "player_metadata_icon";
     private static final String METADATA_ARTIST_KEY = "player_metadata_artist";
     private static final String METADATA_SONG_KEY = "player_metadata_song";
@@ -55,6 +58,7 @@ public class PlayerActivity extends MenuActivity
     private PlaylistItem playlistItem;
     private TextView artist;
     private TextView song;
+    private View sleepTimerButton;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -144,6 +148,15 @@ public class PlayerActivity extends MenuActivity
                 }
             }
         });
+        sleepTimerButton = findViewById(R.id.sleep_timer_button);
+        sleepTimerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SleepTimerSetupDialog sleepTimerSetupDialog = new SleepTimerSetupDialog(PlayerActivity.this);
+                sleepTimerSetupDialog.show();
+                sleepTimerSetupDialog.setOnDismissListener(PlayerActivity.this);
+            }
+        });
         findViewById(R.id.download_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,6 +220,7 @@ public class PlayerActivity extends MenuActivity
         }
         positionUpdater = new Thread(this);
         positionUpdater.start();
+        setupSleepTimerButton();
     }
 
     @Override
@@ -326,5 +340,14 @@ public class PlayerActivity extends MenuActivity
     @Override
     public void onStopTrackingTouch(final SeekBar seekBar) {
         //Nothing to do
+    }
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        setupSleepTimerButton();
+    }
+
+    private void setupSleepTimerButton() {
+        sleepTimerButton.setSelected(PreferenceManager.getInstance(this).getSleepMode() != SleepMode.OFF);
     }
 }

@@ -142,6 +142,11 @@
                         android:id="@+id/download_button"
                         style="@style/PlaybackControlSubButton"
                         android:src="@drawable/ic_file_download_white_24dp"/>
+
+                <ImageView
+                        android:id="@+id/sleep_timer_button"
+                        style="@style/PlaybackControlSubButton"
+                        android:src="@drawable/sleep_timer_button"/>
             </LinearLayout>
 
             <View android:layout_width="match_parent"

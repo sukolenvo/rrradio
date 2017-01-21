@@ -97,6 +97,8 @@
     <string name="message_eq_not_ready">Equalizer not initialized yet</string>
     <string name="eq_change_message">Please restart playback to apply changes</string>
     <string name="warning_text">Warning</string>
+    <string name="sleep_timer_title">Sleep timer</string>
+    <string name="sleep_timer_description">Setup automatic stop of playback in give time</string>
     <string name="eq_warning_text">Equalizer is not available at the moment. Please check if it is enabled in applications settings and try again.
         Equalizer is also not available till first audio playback. If problem persists - your device might be not supported.
     </string>
@@ -110,4 +112,12 @@
     <string name="equalizer_dialog_title">Equalizer</string>
     <string name="no_preset">Manual</string>
     <string name="message_no_selected">Please select something</string>
+    <string name="sleep_mode_off">off</string>
+    <string name="sleep_mode_elapsed">in %1$02dh %2$02dm</string>
+    <string name="sleep_mode_elapsed_hours">in %1$dh</string>
+    <string name="sleep_mode_elapsed_minutes">in %1$dm</string>
+    <string name="sleep_mode_chosen">at %1$02d:%2$02d</string>
+    <string name="sleep_in_hint">sleep in %1$02dh %2$02dm</string>
+    <string name="sleep_timer_canceled">Sleep timer is canceled</string>
+    <string name="sleep_timer_toast">Sleep timer is now suspending playback</string>
 </resources>

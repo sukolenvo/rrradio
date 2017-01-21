@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        style="@style/DialogContainer">
+
+    <TextView
+            android:text="@string/sleep_timer_title"
+            style="@style/DialogTitle"/>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/toolbar_color"/>
+
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingBottom="@dimen/half_padding"
+            android:orientation="vertical">
+
+        <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="@string/sleep_timer_description"
+                android:layout_margin="@dimen/main_padding" />
+
+        <ListView
+                android:id="@+id/sleep_mode_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:divider="@android:color/transparent"
+                android:listSelector="@android:color/transparent"
+                android:choiceMode="singleChoice" />
+
+        <TextView
+                android:id="@+id/sleep_in_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:textColor="#848d95"
+                android:layout_marginLeft="@dimen/main_padding" />
+    </LinearLayout>
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <Button
+                android:id="@+id/cancel"
+                android:layout_width="wrap_content"
+                style="@style/DialogButton"
+                android:layout_toLeftOf="@+id/ok"
+                android:text="@android:string/cancel"/>
+        <Button
+                android:id="@id/ok"
+                android:layout_width="wrap_content"
+                style="@style/DialogButton"
+                android:layout_alignParentRight="true"
+                android:text="@android:string/ok"/>
+    </RelativeLayout>
+</LinearLayout>

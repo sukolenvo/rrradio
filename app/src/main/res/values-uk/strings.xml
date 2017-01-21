@@ -110,4 +110,14 @@
     <string name="undownloadable_audio">Невозможно скачать данную аудиозапись. Загрузка поддердживается только из
         категорий История, Свежаки, Record Megamix, Топ 100, Superchart
     </string>
+    <string name="sleep_timer_title">Таймер сна</string>
+    <string name="sleep_timer_description">Настройте автоматическое выключение воспроизведения</string>
+    <string name="sleep_in_hint">Отключение через %1$2dч %2$02dм</string>
+    <string name="sleep_mode_chosen">в %1$02d:%2$02d</string>
+    <string name="sleep_mode_elapsed">через %1$2dч %2$02dм</string>
+    <string name="sleep_mode_elapsed_hours">через %1$dч</string>
+    <string name="sleep_mode_elapsed_minutes">через %1$dм</string>
+    <string name="sleep_mode_off">отключено</string>
+    <string name="sleep_timer_canceled">Таймер сна отключен</string>
+    <string name="sleep_timer_toast">Проигрывание остановлено (таймер сна)</string>
 </resources>

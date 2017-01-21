@@ -7,10 +7,7 @@ import android.os.IBinder;
 import android.os.Messenger;
 import android.util.Log;
 import com.dakare.radiorecord.app.PreferenceManager;
-import com.dakare.radiorecord.app.player.listener.IPlayerStateListener;
-import com.dakare.radiorecord.app.player.listener.HeadsetUnplugListener;
-import com.dakare.radiorecord.app.player.listener.LockListener;
-import com.dakare.radiorecord.app.player.listener.NotificationListener;
+import com.dakare.radiorecord.app.player.listener.*;
 import com.dakare.radiorecord.app.player.listener.controls.MediaControlsListener;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.playback.Player;
@@ -46,6 +43,7 @@ public class PlayerService extends Service {
         messageHandler.addPlayerStateListener(new WidgetListener(this));
         messageHandler.addPlayerStateListener(new MediaControlsListener(this));
         messageHandler.addPlayerStateListener(new LockListener(this));
+        messageHandler.addPlayerStateListener(new SleepTimerListener(this));
     }
 
     @SuppressWarnings("unchecked")

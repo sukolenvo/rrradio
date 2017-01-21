@@ -18,6 +18,8 @@ public class ControlReceiver extends BroadcastReceiver {
             if (event != null && event.getAction() == KeyEvent.ACTION_DOWN) {
                 String action = null;
                 switch (event.getKeyCode()) {
+                    case KeyEvent.KEYCODE_MEDIA_PLAY:
+                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
                     case KeyEvent.KEYCODE_MEDIA_PLAY_PAUSE:
                         action = NotificationListener.ACTION_PLAY_PAUSE;
                         break;
@@ -26,12 +28,6 @@ public class ControlReceiver extends BroadcastReceiver {
                         break;
                     case KeyEvent.KEYCODE_MEDIA_PREVIOUS:
                         action = NotificationListener.ACTION_PREVIOUS;
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_PAUSE:
-                        action = NotificationListener.ACTION_PAUSE;
-                        break;
-                    case KeyEvent.KEYCODE_MEDIA_PLAY:
-                        action = NotificationListener.ACTION_RESUME;
                         break;
                     case KeyEvent.KEYCODE_MEDIA_STOP:
                         action = NotificationListener.ACTION_STOP;
