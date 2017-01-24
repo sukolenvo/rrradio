@@ -25,9 +25,15 @@ public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements 
         if (withNoQuality) {
             add(new QualityAdapterItem(context.getString(R.string.no_default_quality)));
         }
-        for (Quality quality : Quality.values()) {
-            if (quality != Quality.AAC || Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            for (Quality quality : Quality.values()) {
                 add(new QualityAdapterItem(quality, context.getString(quality.getNameRes())));
+            }
+        } else {
+            for (Quality quality : Quality.values()) {
+                if (quality != Quality.AAC && quality != Quality.AAC_64) {
+                    add(new QualityAdapterItem(quality, context.getString(quality.getNameRes())));
+                }
             }
         }
         notifyDataSetChanged();

@@ -4,6 +4,7 @@
     <string name="quality_title">Select Default Quality</string>
     <string name="quality_aac">Low (AAC, 32kbs)</string>
     <string name="quality_low">Low (MP3, 32kbs)</string>
+    <string name="quality_medium_aac">Medium (AAC, 64kbs)</string>
     <string name="quality_medium">Medium (MP3, 128kbs)</string>
     <string name="quality_high">High (MP3, 320kbs)</string>
     <string name="dont_ask_again">Don\'t ask again</string>

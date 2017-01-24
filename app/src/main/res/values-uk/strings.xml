@@ -120,4 +120,5 @@
     <string name="sleep_mode_off">отключено</string>
     <string name="sleep_timer_canceled">Таймер сна отключен</string>
     <string name="sleep_timer_toast">Проигрывание остановлено (таймер сна)</string>
+    <string name="quality_medium_aac">Среднее (AAC, 64kbs)</string>
 </resources>

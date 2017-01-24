@@ -17602,10 +17602,11 @@ com.dakare.radiorecord.app.player.sleep_mode.SleepTimerSetupDialog$2 -> com.daka
 com.dakare.radiorecord.app.quality.Quality -> com.dakare.radiorecord.app.a.a:
     com.dakare.radiorecord.app.quality.Quality AAC -> a
     com.dakare.radiorecord.app.quality.Quality LOW -> b
-    com.dakare.radiorecord.app.quality.Quality MEDIUM -> c
-    com.dakare.radiorecord.app.quality.Quality HIGH -> d
-    int nameRes -> e
-    com.dakare.radiorecord.app.quality.Quality[] $VALUES -> f
+    com.dakare.radiorecord.app.quality.Quality AAC_64 -> c
+    com.dakare.radiorecord.app.quality.Quality MEDIUM -> d
+    com.dakare.radiorecord.app.quality.Quality HIGH -> e
+    int nameRes -> f
+    com.dakare.radiorecord.app.quality.Quality[] $VALUES -> g
     com.dakare.radiorecord.app.quality.Quality[] values() -> values
     com.dakare.radiorecord.app.quality.Quality valueOf(java.lang.String) -> valueOf
     void <init>(java.lang.String,int,java.lang.String,int) -> <init>
