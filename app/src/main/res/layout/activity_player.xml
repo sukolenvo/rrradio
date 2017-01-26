@@ -67,11 +67,11 @@
                 <ImageView
                         android:id="@+id/play_button"
                         style="@style/PlaybackControlButton"
-                        android:src="@drawable/ic_play_circle_outline"/>
+                        android:src="@drawable/ic_play_circle_outline_white_48dp"/>
                 <ImageView
                         android:id="@+id/pause_button"
                         style="@style/PlaybackControlButton"
-                        android:src="@drawable/ic_pause_circle_outline"/>
+                        android:src="@drawable/ic_pause_circle_outline_white_48dp"/>
                 <ImageView
                         android:id="@+id/next_button"
                         style="@style/PlaybackControlButton"
