@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.util.Log;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessage;
 import lombok.Setter;
 
@@ -48,14 +49,10 @@ public class PlayerServiceClient extends Handler {
     }
 
     private void sendRequestToService(final PlayerMessage command) {
-        checkMessagingSession();
-        messageSender.sendMessage(command.toMessage());
-    }
-
-    private void checkMessagingSession() {
         if (messageSender == null) {
-            throw new IllegalStateException(
-                    "You should call startMessagingSession() before request handling.");
+            Log.w("PlayerServiceClient", "No messenger. Ignoring command " + command);
+        } else {
+            messageSender.sendMessage(command.toMessage());
         }
     }
 

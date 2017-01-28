@@ -15,6 +15,6 @@ public class HrustalevActivity extends AbstractSectionActivity {
 
     @Override
     protected int getMenuContainer() {
-        return R.id.menu_megamix_container;
+        return R.id.menu_hrustalev_container;
     }
 }
