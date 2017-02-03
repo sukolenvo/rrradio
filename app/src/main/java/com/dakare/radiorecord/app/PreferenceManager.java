@@ -46,7 +46,7 @@ public class PreferenceManager {
     public static final String EQ_LEVELS_KEY = "equalizer_level";
     public static final String EQ_PRESET_KEY = "equalizer_preset";
     private static final String EQ_SETTINGS_KEY = "equalizer_settings";
-    private static final String LAST_PLAYLIST_POSITION_KEY = "last_playlist_position";
+    public static final String LAST_PLAYLIST_POSITION_KEY = "last_playlist_position";
     private static final String SLEEP_SETTINGS_KEY = "sleep_settings_";
     public static final String SLEEP_MODE_KEY = "sleep_mode";
     private static final String SLEEP_MODE_STARTED = "sleep_mode_started";

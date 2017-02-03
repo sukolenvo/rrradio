@@ -19,6 +19,7 @@ import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.database.provider.StorageContract;
 import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
+import lombok.Getter;
 import lombok.Setter;
 
 public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.OnClickListener {
@@ -27,7 +28,8 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.
 
     private final LayoutInflater layoutInflater;
     @Setter
-    private int position;
+    @Getter
+    private int selectedPosition;
     private final Context context;
     private AbstractSelectionAdapter.PermissionProvider permissionProvider;
 
@@ -56,7 +58,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.
             downloadIcon.setVisibility(View.GONE);
         }
         downloadIcon.setTag(position);
-        if (this.position == position) {
+        if (this.selectedPosition == position) {
             titleView.setText(item.getTitle() + " - " + item.getSubtitle());
             titleView.setTextColor(view.getResources().getColor(R.color.playlist_active));
             view.findViewById(R.id.playlist_icon).setVisibility(View.VISIBLE);

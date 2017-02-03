@@ -39,7 +39,7 @@ public class PlayerService extends Service {
         messageHandler = new PlayerServiceMessageHandler(player);
         messenger = new Messenger(messageHandler);
         messageHandler.addPlayerStateListener(new NotificationListener(this));
-        messageHandler.addPlayerStateListener(new HeadsetUnplugListener(this));
+        messageHandler.addPlayerStateListener(new HeadsetPlugListener(this));
         messageHandler.addPlayerStateListener(new WidgetListener(this));
         messageHandler.addPlayerStateListener(new MediaControlsListener(this));
         messageHandler.addPlayerStateListener(new LockListener(this));
