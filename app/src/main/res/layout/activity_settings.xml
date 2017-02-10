@@ -175,6 +175,26 @@
 
                 <View style="@style/SettingsSeparator"/>
 
+                <RelativeLayout
+                        android:id="@+id/ads_container"
+                        style="@style/SettingsContainer">
+
+                    <TextView
+                            android:id="@+id/ads_main"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/SettingsPrimary"
+                            android:text="@string/settings_ads_text"/>
+                    <TextView
+                            android:id="@+id/ads_secondary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/ads_main"
+                            style="@style/SettingsSecondary" />
+                </RelativeLayout>
+
+                <View style="@style/SettingsSeparator"/>
+
             </LinearLayout>
         </ScrollView>
 

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.ads.SettingsAdsDialog;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.view.theme.Theme;
 import com.dakare.radiorecord.app.view.theme.ThemeActivity;
@@ -34,6 +35,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         preferenceManager = PreferenceManager.getInstance(SettingsActivity.this);
         toolbar.setNavigationOnClickListener(this);
         initQuality();
+        initAds();
         initTheme();
         initMusicMetadata();
         initMusicImage();
@@ -65,6 +67,33 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
             text.setText(R.string.no_default_quality);
         } else {
             text.setText(quality.getNameRes());
+        }
+    }
+
+    private void initAds() {
+        updateAdsSecondary();
+        findViewById(R.id.ads_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                SettingsAdsDialog dialog = new SettingsAdsDialog(SettingsActivity.this);
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        updateAdsSecondary();
+                    }
+                });
+                dialog.show();
+            }
+        });
+    }
+
+    private void updateAdsSecondary() {
+        TextView text = (TextView) findViewById(R.id.ads_secondary);
+        boolean show = preferenceManager.getShowAd();
+        if (show) {
+            text.setText(R.string.ad_status_enabled);
+        } else {
+            text.setText(R.string.ad_status_disabled);
         }
     }
 

@@ -74,3 +74,5 @@
 -keep public class * extends android.support.v4.app.Fragment {
     <init>(...);
 }
+-dontwarn com.google.android.gms.internal.*
+-verbose

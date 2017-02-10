@@ -41,7 +41,8 @@ public class MenuActivity extends ThemeActivity {
                     .putContentName("Open activity")
                     .putContentType(getClass().getSimpleName())
                     .putContentId(getClass().getSimpleName())
-                    .putCustomAttribute("theme", PreferenceManager.getInstance(this).getTheme().name()));
+                    .putCustomAttribute("theme", PreferenceManager.getInstance(this).getTheme().name())
+                    .putCustomAttribute("ads", PreferenceManager.getInstance(this).getShowAd() + ""));
         }
     }
 

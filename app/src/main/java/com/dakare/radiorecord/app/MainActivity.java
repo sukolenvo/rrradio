@@ -3,9 +3,11 @@ package com.dakare.radiorecord.app;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import com.dakare.radiorecord.app.ads.AdUtils;
 import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
@@ -13,6 +15,8 @@ import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.quality.QualityDialog;
 import com.dakare.radiorecord.app.settings.SettingsThemeDialog;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
 
 import java.util.ArrayList;
@@ -57,6 +61,7 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
             PreferenceManager.getInstance(this).setThemePrompt(false);
             new SettingsThemeDialog(this).show();
         }
+        AdUtils.showAd((AdView) findViewById(R.id.adView));
     }
 
     @Override

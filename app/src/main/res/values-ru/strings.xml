@@ -123,4 +123,16 @@
     <string name="settings_theme_text">Тема приложения</string>
     <string name="light_theme_name">Светлая тема</string>
     <string name="dark_theme_name">Темная тема (новая)</string>
+    <string name="ad_status_disabled">Выключено</string>
+    <string name="ad_status_enabled">Включено</string>
+    <string name="ads_dialog_title">Реклама</string>
+    <string name="settings_ads_text">Реклама</string>
+    <string name="ads_dialog_description">
+        Пожалуйста включите рекламу, чтобы поддержать приложение. Реклама, как и донат, помогают в развитии приложения и
+        мотивируют на выпуск новых версий. Мы обещаем:\n\nТолько ненавязчивая реклама: никаких полноэкранных роликов,
+        которые мешают пользоваться приложение.\n\nТолько WiFi: мы блокируем загрузку рекламы при мобильном подключении
+         к сети.
+        Реклама не будет показываться и не будет дополнительных расходов трафика.\n\nПриятного прослушивания!
+    </string>
+    <string name="text_disable">Отключить</string>
 </resources>

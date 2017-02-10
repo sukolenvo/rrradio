@@ -125,4 +125,17 @@
     <string name="settings_theme_text">Application theme</string>
     <string name="dark_theme_name">Dark theme (new)</string>
     <string name="light_theme_name">Light theme</string>
+
+    <string name="ad_main_screen" translatable="false">ca-app-pub-8716939423875482/9795752054</string>
+    <string name="ad_player_screen" translatable="false">ca-app-pub-8716939423875482/5225951651</string>
+    <string name="settings_ads_text">Ads</string>
+    <string name="ad_status_enabled">Enabled</string>
+    <string name="ad_status_disabled">Disabled</string>
+    <string name="ads_dialog_title">Ads policy</string>
+    <string name="ads_dialog_description">Please enable ads to support application. Ads and donation help to promote
+        this application and keep working on it. We are promise:\n\nOnly unostentatious ads. We are not showing
+        full-screen ads that case bad user experience.\n\nOnly wifi. We will block any ads request during mobile
+        connection, so you will not be charged extra.\n\nEnjoy!
+    </string>
+    <string name="text_disable">Disable</string>
 </resources>

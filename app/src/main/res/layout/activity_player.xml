@@ -1,5 +1,6 @@
 <android.support.v4.widget.DrawerLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -7,9 +8,22 @@
 
     <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
+        <com.google.android.gms.ads.AdView
+                android:id="@+id/adView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone"
+                app:adSize="SMART_BANNER"
+                app:adUnitId="@string/ad_player_screen">
+        </com.google.android.gms.ads.AdView>
+
         <RelativeLayout
                 android:id="@+id/current_container"
-                android:layout_width="match_parent" android:layout_height="match_parent">
+                android:layout_width="match_parent"
+                android:layout_above="@id/adView"
+                android:layout_height="match_parent">
 
             <com.dakare.radiorecord.app.view.PlayerBackgroundImage
                     android:id="@+id/player_icon"

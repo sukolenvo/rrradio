@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "661401393916",
+    "firebase_url": "https://radio-record-7cae7.firebaseio.com",
+    "project_id": "radio-record-7cae7",
+    "storage_bucket": "radio-record-7cae7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661401393916:android:0f7a59b3de634469",
+        "android_client_info": {
+          "package_name": "com.dakare.radiorecord.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661401393916-8thonq18e7n5tj2628fups98g0ua239v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlQfKOZUK_XOFpwXXM06NGCfWPaYjamqQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
