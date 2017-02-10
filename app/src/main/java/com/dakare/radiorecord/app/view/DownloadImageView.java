@@ -2,6 +2,7 @@ package com.dakare.radiorecord.app.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.*;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -20,31 +21,39 @@ public class DownloadImageView extends ImageView {
     private Paint paintProgress = new Paint();
     private Paint paintText = new Paint();
     private Rect textBounds = new Rect();
-
-    public DownloadImageView(final Context context) {
-        super(context);
-    }
+    private int primaryColor;
 
     public DownloadImageView(final Context context, final AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
     }
 
     public DownloadImageView(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public DownloadImageView(final Context context, final AttributeSet attrs, final int defStyleAttr, final int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs);
     }
 
-    {
+    private void init(final Context context, final AttributeSet attrs) {
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.DownloadImageView, 0, 0);
+        int secondaryColor;
+        try {
+            primaryColor = ta.getColor(R.styleable.DownloadImageView_primaryColor, 0);
+            secondaryColor = ta.getColor(R.styleable.DownloadImageView_secondaryColor, 0);
+        } finally {
+            ta.recycle();
+        }
         paintProgress.setStrokeWidth(getResources().getDimensionPixelSize(R.dimen.progress_stroke));
         paintProgress.setStyle(Paint.Style.STROKE);
-        paintProgress.setColor(getResources().getColor(R.color.toolbar_color));
+        paintProgress.setColor(primaryColor);
         paintProgress.setAntiAlias(true);
         paintCommon = new Paint(paintProgress);
-        paintCommon.setColor(getResources().getColor(R.color.progress_empty));
+        paintCommon.setColor(secondaryColor);
         paintText.setTextSize(getResources().getDimensionPixelSize(R.dimen.progress_textsize));
         paintText.setColor(paintProgress.getColor());
         paintText.setAntiAlias(true);

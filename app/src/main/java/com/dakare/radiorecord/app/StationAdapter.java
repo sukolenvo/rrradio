@@ -43,8 +43,7 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Station item = items.get(position);
-        ImageLoader.getInstance().displayImage("drawable://" + item.getIcon(), holder.icon);
-        holder.title.setText(item.getName());
+        holder.icon.setImageResource(item.getIcon());
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,10 +52,10 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
         });
         final int dragState = holder.getDragStateFlags();
         if ((dragState & DraggableItemConstants.STATE_FLAG_IS_ACTIVE) != 0) {
-            holder.container.setSelected(true);
+            holder.stationFade.setSelected(true);
             clearState(holder.container.getForeground());
         } else {
-            holder.container.setSelected(false);
+            holder.stationFade.setSelected(false);
         }
     }
 
@@ -99,14 +98,14 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
 
     public static class ViewHolder extends AbstractDraggableItemViewHolder {
         private ImageView icon;
-        private TextView title;
         private FrameLayout container;
+        private View stationFade;
 
         public ViewHolder(View itemView) {
             super(itemView);
             container = (FrameLayout) itemView.findViewById(R.id.station_container);
             icon = (ImageView) itemView.findViewById(R.id.station_icon);
-            title = (TextView) itemView.findViewById(R.id.station_name);
+            stationFade = itemView.findViewById(R.id.station_fade);
         }
 
     }

@@ -13,7 +13,7 @@
             android:layout_marginTop="@dimen/half_padding"
             android:layout_marginBottom="@dimen/half_padding"
             android:layout_marginRight="@dimen/half_padding"
-            android:src="@drawable/ic_queue_music_black_48dp"
+            android:src="?attr/queue_music_icon"
             android:layout_gravity="center_vertical"/>
 
     <LinearLayout
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:textSize="12sp"
-                android:textColor="@android:color/darker_gray">
+                android:textColor="?android:attr/textColorSecondary">
         </TextView>
 
     </LinearLayout>

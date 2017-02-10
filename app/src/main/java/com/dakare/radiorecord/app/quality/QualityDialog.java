@@ -15,7 +15,7 @@ public class QualityDialog extends AbstractDialog {
     public QualityDialog(final Context context, final QualityHandler handler) {
         super(context);
         setContentView(R.layout.dialog_quality);
-        ListView listView = (ListView) findViewById(R.id.quality_list);
+        ListView listView = (ListView) findViewById(R.id.list);
         adapter = new QualityAdapter(context, false);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(adapter);

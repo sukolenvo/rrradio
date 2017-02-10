@@ -17,8 +17,10 @@ import android.widget.Toast;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.quality.Quality;
+import com.dakare.radiorecord.app.view.theme.Theme;
+import com.dakare.radiorecord.app.view.theme.ThemeActivity;
 
-public class SettingsActivity extends AppCompatActivity implements View.OnClickListener {
+public class SettingsActivity extends ThemeActivity implements View.OnClickListener {
     private static final int WRITE_REQUEST = 2;
 
     private PreferenceManager preferenceManager;
@@ -32,6 +34,7 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         preferenceManager = PreferenceManager.getInstance(SettingsActivity.this);
         toolbar.setNavigationOnClickListener(this);
         initQuality();
+        initTheme();
         initMusicMetadata();
         initMusicImage();
         initDownloadDirectory();
@@ -63,6 +66,22 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
         } else {
             text.setText(quality.getNameRes());
         }
+    }
+
+    private void initTheme() {
+        updateThemeSecondary();
+        findViewById(R.id.theme_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                new SettingsThemeDialog(SettingsActivity.this).show();
+            }
+        });
+    }
+
+    private void updateThemeSecondary() {
+        TextView text = (TextView) findViewById(R.id.theme_secondary);
+        Theme theme = preferenceManager.getTheme();
+        text.setText(theme.getNameRes());
     }
 
     private void initMusicMetadata() {
@@ -160,5 +179,11 @@ public class SettingsActivity extends AppCompatActivity implements View.OnClickL
     private void updateEqCheckbox() {
         Checkable checkable = (Checkable) findViewById(R.id.eq_settings_checkbox);
         checkable.setChecked(preferenceManager.isEqSettingsEnabled());
+    }
+
+
+    @Override
+    protected int getThemeId(final Theme theme) {
+        return theme == Theme.DARK ? R.style.MainDark_Settings : R.style.Main_Settings;
     }
 }

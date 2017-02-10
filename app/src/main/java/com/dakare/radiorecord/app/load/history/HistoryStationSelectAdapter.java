@@ -44,8 +44,7 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Station item = items.get(position);
-        ImageLoader.getInstance().displayImage("drawable://" + item.getIcon(), holder.icon);
-        holder.title.setText(item.getName());
+        holder.icon.setImageResource(item.getIcon());
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,14 +65,12 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView icon;
-        private TextView title;
         private FrameLayout container;
 
         public ViewHolder(View itemView) {
             super(itemView);
             container = (FrameLayout) itemView.findViewById(R.id.station_container);
             icon = (ImageView) itemView.findViewById(R.id.station_icon);
-            title = (TextView) itemView.findViewById(R.id.station_name);
         }
     }
 }

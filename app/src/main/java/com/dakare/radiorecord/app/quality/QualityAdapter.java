@@ -66,7 +66,7 @@ public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements 
 
         private static void from(View parent) {
             icon = (RadioButton) parent.findViewById(R.id.select_icon);
-            title = (TextView) parent.findViewById(R.id.quality_text);
+            title = (TextView) parent.findViewById(R.id.text);
         }
     }
 }

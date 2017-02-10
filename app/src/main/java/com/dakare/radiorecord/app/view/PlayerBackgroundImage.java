@@ -27,7 +27,7 @@ public class PlayerBackgroundImage extends ImageView {
 
     public PlayerBackgroundImage(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
+        initInnerPadding(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -41,6 +41,7 @@ public class PlayerBackgroundImage extends ImageView {
     private float imageXYRate;
     private float innerHorizontal = 24.f;
     private float innerVertical = 24.f;
+    private int dim;
 
     private void initInnerPadding(final Context context, final AttributeSet attrs) {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PlayerBackgroundImage, 0, 0);
@@ -54,10 +55,12 @@ public class PlayerBackgroundImage extends ImageView {
             if (vertical > 0) {
                 innerVertical = vertical;
             }
+            dim = ta.getInteger(R.styleable.PlayerBackgroundImage_dim, 80);
         } finally {
             ta.recycle();
         }
     }
+
     @Override
     protected void onDraw(final Canvas canvas) {
         canvas.drawColor(Color.WHITE);
@@ -65,7 +68,7 @@ public class PlayerBackgroundImage extends ImageView {
             if (getDrawable() != null) {
                 Bitmap bitmap = drawableToBitmap(getDrawable());
                 putInBackground(canvas, bitmap);
-                canvas.drawARGB(80, 256, 256, 256);
+                canvas.drawARGB(dim, 256, 256, 256);
                 putInCenter(canvas, bitmap);
             }
         }

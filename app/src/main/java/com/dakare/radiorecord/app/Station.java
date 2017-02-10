@@ -1,6 +1,7 @@
 package com.dakare.radiorecord.app;
 
 import com.dakare.radiorecord.app.quality.Quality;
+import com.dakare.radiorecord.app.view.theme.Theme;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,33 +9,34 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum Station {
 
-    RADIO_RECORD("Radio Record", R.drawable.rr_ico, "/rr", 8100, 8101),
-    MEGAMIX("Megamix", R.drawable.megamix_ico, "/mix", 805, 805),
-    RECORD_DEEP("Record Deep", R.drawable.record_deep_ico, "/deep", 8102, 8102),
-    RECORD_CLUB("Record Club", R.drawable.record_club_ico, "/club", 8102, 8102),
-    FUTURE_HOUSE("Future House", R.drawable.future_house_ico, "/fut", 805, 805),
-    TRANCEMISSION("Trancemission", R.drawable.trancemission_ico, "/tm", 8102, 8102),
-    RECORD_CHILL_OUT("Record Chill-Out", R.drawable.record_chill_out_ico, "/chil", 8102, 8102),
-    MINIMAL_TECH("Minimal/Tech", R.drawable.minimal_tech_ico, "/mini", 805, 805),
-    PIRATE_STATION("Pirate Station", R.drawable.ps_ico, "/ps", 8102, 8102),
-    RUSSIAN_MIX("Russian Mix", R.drawable.russian_mix_ico, "/rus", 8102, 8102),
-    VIP_HOUSE("Vip House", R.drawable.vip_house_ico, "/vip", 8102, 8102),
-    SUPERDISCO_90("Супердиско 90-х", R.drawable.superdisco_90_ico, "/sd90", 8102, 8102),
-    RECORD_BREAKS("Record Breaks", R.drawable.record_breaks_ico, "/brks", 8102, 8102),
-    RECORD_BUDSTEP("Record Dubstep", R.drawable.record_dubstep_ico, "/dub", 8102, 8102),
-    RECORD_DANCECORE("Record Dancecore", R.drawable.recrod_dancecore_ico, "/dc", 8102, 8102),
-    RECORD_TECHNO("Record Techno", R.drawable.record_techno_ico, "/techno", 805, 805),
-    RECORD_HARDSTYLE("Record Hardstyle", R.drawable.record_hardstyle_ico, "/teo", 8102, 8102),
-    RECORD_TRAP("Record Trap", R.drawable.record_trap_ico, "/trap", 8102, 8102),
-    PUMP("Pump", R.drawable.pump_ico, "/pump", 8102, 8102),
-    RECORD_ROCK("Record Rock", R.drawable.record_rock_ico, "/rock", 8102, 8102),
-    SLOW_DANCE_FM("Медляк FM", R.drawable.slow_song_fm_ico, "/mdl", 8102, 8102),
-    GOP_FM("Гоп FM", R.drawable.gop_fm_ico, "/gop", 8102, 8102),
-    YO_FM("Yo!FM", R.drawable.yo_fm_ico, "/yo", 8102, 8102),
-    RAVE_FM("Rave FM", R.drawable.rave_fm_ico, "/rave", 8102, 8102);
+    RADIO_RECORD("Radio Record", R.drawable.icon_dark_rr, R.drawable.icon_light_rr, "/rr", 8100, 8101),
+    MEGAMIX("Megamix", R.drawable.icon_dark_mix, R.drawable.icon_light_mix, "/mix", 805, 805),
+    RECORD_DEEP("Record Deep", R.drawable.icon_dark_deep, R.drawable.icon_light_deep, "/deep", 8102, 8102),
+    RECORD_CLUB("Record Club", R.drawable.icon_dark_club, R.drawable.icon_light_club, "/club", 8102, 8102),
+    FUTURE_HOUSE("Future House", R.drawable.icon_dark_house, R.drawable.icon_light_house, "/fut", 805, 805),
+    TRANCEMISSION("Trancemission", R.drawable.icon_dark_trans, R.drawable.icon_light_trans, "/tm", 8102, 8102),
+    RECORD_CHILL_OUT("Record Chill-Out", R.drawable.icon_dark_chill, R.drawable.icon_light_chill, "/chil", 8102, 8102),
+    MINIMAL_TECH("Minimal/Tech", R.drawable.icon_dark_min, R.drawable.icon_light_min, "/mini", 805, 805),
+    PIRATE_STATION("Pirate Station", R.drawable.icon_dark_pirate, R.drawable.icon_light_pirate, "/ps", 8102, 8102),
+    RUSSIAN_MIX("Russian Mix", R.drawable.icon_dark_rus_mix, R.drawable.icon_light_rus_mix, "/rus", 8102, 8102),
+    VIP_HOUSE("Vip House", R.drawable.icon_dark_vip, R.drawable.icon_light_vip, "/vip", 8102, 8102),
+    SUPERDISCO_90("Супердиско 90-х", R.drawable.icon_dark_super_90, R.drawable.icon_light_super_90, "/sd90", 8102, 8102),
+    RECORD_BREAKS("Record Breaks", R.drawable.icon_dark_breaks, R.drawable.icon_light_breaks, "/brks", 8102, 8102),
+    RECORD_BUDSTEP("Record Dubstep", R.drawable.icon_dark_dubstep, R.drawable.icon_light_dubstep, "/dub", 8102, 8102),
+    RECORD_DANCECORE("Record Dancecore", R.drawable.icon_dark_dancecore, R.drawable.icon_light_dancecore, "/dc", 8102, 8102),
+    RECORD_TECHNO("Record Techno", R.drawable.icon_dark_techno, R.drawable.icon_light_techno, "/techno", 805, 805),
+    RECORD_HARDSTYLE("Record Hardstyle", R.drawable.icon_dark_hardstyle, R.drawable.icon_light_hardstyle, "/teo", 8102, 8102),
+    RECORD_TRAP("Record Trap", R.drawable.icon_dark_trap, R.drawable.icon_light_trap, "/trap", 8102, 8102),
+    PUMP("Pump", R.drawable.icon_dark_pump, R.drawable.icon_light_pump, "/pump", 8102, 8102),
+    RECORD_ROCK("Record Rock", R.drawable.icon_dark_rock, R.drawable.icon_light_rock, "/rock", 8102, 8102),
+    SLOW_DANCE_FM("Медляк FM", R.drawable.icon_dark_medl, R.drawable.icon_light_medl, "/mdl", 8102, 8102),
+    GOP_FM("Гоп FM", R.drawable.icon_dark_gop, R.drawable.icon_light_gop, "/gop", 8102, 8102),
+    YO_FM("Yo!FM", R.drawable.icon_dark_yo, R.drawable.icon_light_yo, "/yo", 8102, 8102),
+    RAVE_FM("Rave FM", R.drawable.icon_dark_rave, R.drawable.icon_light_rave, "/rave", 8102, 8102);
 
     private final String name;
-    private final int icon;
+    private final int iconDark;
+    private final int iconLight;
     private final String code;
     private int portLow;
     private int portMedium;
@@ -58,5 +60,9 @@ public enum Station {
 
     public String getCodeAsParam() {
         return code.substring(1);
+    }
+
+    public int getIcon() {
+        return PreferenceManager.getInstance(RecordApplication.getInstance()).getTheme() == Theme.DARK ? iconDark : iconLight;
     }
 }

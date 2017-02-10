@@ -1,6 +1,7 @@
 package com.dakare.radiorecord.app.load;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.dakare.radiorecord.app.GridDecorator;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.StationClickListener;
@@ -40,6 +42,11 @@ public class StationSelectFragment extends Fragment implements StationClickListe
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_load, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        TypedArray attributes = getContext().getTheme().obtainStyledAttributes(new int[] {R.attr.main_separator_drawable});
+        int decoratorId = attributes.getResourceId(0, 0);
+        attributes.recycle();
+        recyclerView.addItemDecoration(new GridDecorator(
+                4, getResources().getInteger(R.integer.stations_columns), getResources().getDrawable(decoratorId)));
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), getResources().getInteger(R.integer.stations_columns)));
         recyclerView.setAdapter(new HistoryStationSelectAdapter(getContext(), this));

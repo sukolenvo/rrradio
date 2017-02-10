@@ -121,4 +121,8 @@
     <string name="sleep_in_hint">sleep in %1$02dh %2$02dm</string>
     <string name="sleep_timer_canceled">Sleep timer is canceled</string>
     <string name="sleep_timer_toast">Sleep timer is now suspending playback</string>
+    <string name="audio_effect_error">AudioEffect library is corrupted. Disabling equalizer.</string>
+    <string name="settings_theme_text">Application theme</string>
+    <string name="dark_theme_name">Dark theme (new)</string>
+    <string name="light_theme_name">Light theme</string>
 </resources>

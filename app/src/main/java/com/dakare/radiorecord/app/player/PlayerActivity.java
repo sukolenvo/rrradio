@@ -30,6 +30,7 @@ import com.dakare.radiorecord.app.player.service.message.*;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepTimerSetupDialog;
 import com.dakare.radiorecord.app.view.PlayerBackgroundImage;
+import com.dakare.radiorecord.app.view.theme.Theme;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -349,5 +350,10 @@ public class PlayerActivity extends MenuActivity
 
     private void setupSleepTimerButton() {
         sleepTimerButton.setSelected(PreferenceManager.getInstance(this).getSleepMode() != SleepMode.OFF);
+    }
+
+    @Override
+    protected int getThemeId(final Theme theme) {
+        return theme == Theme.DARK ? R.style.MainDark_Player : R.style.Main_Player;
     }
 }

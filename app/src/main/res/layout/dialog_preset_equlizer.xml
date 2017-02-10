@@ -8,9 +8,7 @@
             android:text="@string/equalizer_dialog_title"
             style="@style/DialogTitle"/>
 
-    <View
-            android:layout_width="match_parent" android:layout_height="1px"
-            android:background="@color/toolbar_color"/>
+    <View style="@style/DialogTitleSeparator"/>
 
     <ListView
             android:id="@+id/list"

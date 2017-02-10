@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:background="?android:selectableItemBackground"
@@ -12,7 +13,9 @@
             android:id="@+id/download_image"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_gravity="center_vertical"/>
+            android:layout_gravity="center_vertical"
+            app:primaryColor="?attr/download_primary"
+            app:secondaryColor="?attr/download_secondary"/>
 
     <LinearLayout android:layout_width="0dp"
                   android:layout_height="wrap_content"
@@ -44,7 +47,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:textColor="#808080" />
+                    android:textColor="?android:attr/textColorSecondary" />
 
             <TextView
                     android:id="@+id/saved"
@@ -52,7 +55,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/main_padding"
                     android:textSize="12sp"
-                    android:textColor="#808080" />
+                    android:textColor="?android:attr/textColorSecondary" />
         </LinearLayout>
 
         <TextView
@@ -61,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:textSize="12sp"
-                android:textColor="#444">
+                android:textColor="?android:attr/textColorSecondary">
         </TextView>
     </LinearLayout>
 

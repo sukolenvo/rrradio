@@ -26,7 +26,7 @@
         </activity>
         <activity android:name=".player.PlayerActivity"
                   android:hardwareAccelerated="true"
-                  android:theme="@style/Player" />
+                  android:theme="@style/Main.Player" />
         <activity android:name=".settings.SettingsActivity"
                   android:theme="@style/Main" />
         <activity android:name=".load.history.HistoryActivity"

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
+import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
@@ -25,6 +26,7 @@ import com.google.android.exoplayer.audio.AudioCapabilities;
 import com.google.android.exoplayer.audio.AudioTrack;
 import com.google.android.exoplayer.extractor.ExtractorSampleSource;
 import com.google.android.exoplayer.upstream.*;
+import io.fabric.sdk.android.Fabric;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -97,16 +99,22 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
                         MediaCodecSelector.DEFAULT, null, true, uiHandler, this, AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC) {
                     @Override
                     protected void onAudioSessionId(final int audioSessionId) {
-                        if (preferenceManager.isEqSettingsEnabled()) {
-                            equalizer = new Equalizer(0, audioSessionId);
-                            EqualizerSettings old = preferenceManager.getEqSettings();
-                            old.applyLevels(equalizer);
-                            EqualizerSettings newSettings = new EqualizerSettings(equalizer);
-                            if (!newSettings.equals(old)) {
-                                preferenceManager.setEqSettings(newSettings);
+                        try {
+                            if (preferenceManager.isEqSettingsEnabled()) {
+                                equalizer = new Equalizer(0, audioSessionId);
+                                EqualizerSettings old = preferenceManager.getEqSettings();
+                                old.applyLevels(equalizer);
+                                EqualizerSettings newSettings = new EqualizerSettings(equalizer);
+                                if (!newSettings.equals(old)) {
+                                    preferenceManager.setEqSettings(newSettings);
+                                }
+                                super.onAudioSessionId(audioSessionId);
+                                preferenceManager.registerChangeListener(PlayerJellybean.this);
                             }
-                            super.onAudioSessionId(audioSessionId);
-                            preferenceManager.registerChangeListener(PlayerJellybean.this);
+                        } catch (UnsatisfiedLinkError e) {
+                            Crashlytics.logException(e);
+                            preferenceManager.setEqSettings(false);
+                            Toast.makeText(context, R.string.audio_effect_error, Toast.LENGTH_LONG).show();
                         }
                     }
 

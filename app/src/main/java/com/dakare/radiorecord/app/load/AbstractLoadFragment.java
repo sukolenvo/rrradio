@@ -1,5 +1,6 @@
 package com.dakare.radiorecord.app.load;
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -48,7 +49,10 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
         progressView.showProgress();
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        recyclerView.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.history_divider), false));
+        TypedArray attributes = getContext().getTheme().obtainStyledAttributes(new int[] {R.attr.list_divider});
+        int decoratorId = attributes.getResourceId(0, 0);
+        attributes.recycle();
+        recyclerView.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(decoratorId), false));
         recyclerView.setAdapter(getAdapter());
         if (items.isEmpty()) {
             new Thread(this).start();

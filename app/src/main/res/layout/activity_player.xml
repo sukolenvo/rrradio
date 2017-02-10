@@ -3,7 +3,7 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="?attr/activity_background">
 
     <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent">
 
@@ -17,6 +17,7 @@
                     android:layout_height="match_parent"
                     app:innerMarginVertical="@dimen/image_inner_margin_vertical"
                     app:innerMarginHorizontal="@dimen/image_inner_margin_horizontal"
+                    app:dim="?attr/player_dim"
                     android:src="@drawable/default_player_background" />
 
             <include layout="@layout/toolbar" />
@@ -33,15 +34,15 @@
                 <TextView
                         android:id="@+id/artist"
                         android:layout_width="match_parent"
-                        android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:singleLine="true"
+                        android:textColor="?android:attr/textColorPrimaryInverse"
                         android:layout_height="wrap_content"/>
 
                 <TextView
                         android:id="@+id/song"
                         android:layout_width="match_parent"
-                        android:textColor="@android:color/white"
+                        android:textColor="?android:attr/textColorPrimaryInverse"
                         android:textSize="14sp"
                         android:paddingTop="5dp"
                         android:singleLine="true"
@@ -58,28 +59,28 @@
                 <ImageView
                         android:id="@+id/equalizer_button"
                         style="@style/PlaybackControlButton"
-                        android:src="@drawable/ic_settings_white_24dp"/>
+                        android:src="?attr/player_icon_equalizer"/>
 
                 <ImageView
                         android:id="@+id/prev_button"
                         style="@style/PlaybackControlButton"
-                        android:src="@drawable/ic_skip_previous_white_24dp"/>
+                        android:src="?attr/player_icon_previous"/>
                 <ImageView
                         android:id="@+id/play_button"
                         style="@style/PlaybackControlButton"
-                        android:src="@drawable/ic_play_circle_outline_white_48dp"/>
+                        android:src="?attr/player_icon_play"/>
                 <ImageView
                         android:id="@+id/pause_button"
                         style="@style/PlaybackControlButton"
-                        android:src="@drawable/ic_pause_circle_outline_white_48dp"/>
+                        android:src="?attr/player_icon_pause"/>
                 <ImageView
                         android:id="@+id/next_button"
                         style="@style/PlaybackControlButton"
-                        android:src="@drawable/ic_skip_next_white_24dp"/>
+                        android:src="?attr/player_icon_next"/>
                 <ImageView
                         android:id="@+id/playlist_button"
                         style="@style/PlaybackControlButton"
-                        android:src="@drawable/ic_format_list_bulleted"/>
+                        android:src="?attr/player_icon_playlist"/>
             </LinearLayout>
 
             <LinearLayout
@@ -95,10 +96,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="3dp"
+                        android:textColor="?android:attr/textColorPrimaryInverse"
                         android:id="@+id/position"
                         android:textSize="13sp"
-                        android:layout_gravity="center_vertical"
-                        android:textColor="@android:color/white" />
+                        android:layout_gravity="center_vertical" />
 
                 <SeekBar
                         android:id="@+id/playback_progress_view"
@@ -110,7 +111,7 @@
                         android:paddingRight="@dimen/one_and_half_padding"
                         android:paddingTop="12dp"
                         android:paddingBottom="6dp"
-                        android:thumb="@drawable/seekbar_thumb"
+                        android:thumb="?attr/player_icon_seekbar_thumb"
                         android:progressDrawable="@drawable/seekbar_progress"
                         android:max="100" />
 
@@ -120,7 +121,7 @@
                         android:layout_marginTop="3dp"
                         android:textSize="13sp"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@android:color/white"
+                        android:textColor="?android:attr/textColorPrimaryInverse"
                         android:id="@+id/duration"/>
 
             </LinearLayout>
@@ -136,17 +137,17 @@
                 <ImageView
                         android:id="@+id/clipboard_button"
                         style="@style/PlaybackControlSubButton"
-                        android:src="@drawable/ic_content_copy_white_24dp"/>
+                        android:src="?attr/player_icon_copy"/>
 
                 <ImageView
                         android:id="@+id/download_button"
                         style="@style/PlaybackControlSubButton"
-                        android:src="@drawable/ic_file_download_white_24dp"/>
+                        android:src="?attr/player_icon_download"/>
 
                 <ImageView
                         android:id="@+id/sleep_timer_button"
                         style="@style/PlaybackControlSubButton"
-                        android:src="@drawable/sleep_timer_button"/>
+                        android:src="?attr/player_icon_sleep_time"/>
             </LinearLayout>
 
             <View android:layout_width="match_parent"

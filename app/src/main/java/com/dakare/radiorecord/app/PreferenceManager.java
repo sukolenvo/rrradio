@@ -13,6 +13,7 @@ import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepSettings;
 import com.dakare.radiorecord.app.quality.Quality;
+import com.dakare.radiorecord.app.view.theme.Theme;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -50,6 +51,8 @@ public class PreferenceManager {
     private static final String SLEEP_SETTINGS_KEY = "sleep_settings_";
     public static final String SLEEP_MODE_KEY = "sleep_mode";
     private static final String SLEEP_MODE_STARTED = "sleep_mode_started";
+    private static final String THEME_MODE_KEY = "theme";
+    private static final String THEME_PROMPT_KEY = "theme_promt";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -351,5 +354,25 @@ public class PreferenceManager {
 
     public long getSleepModeTs() {
         return sharedPreferences.getLong(SLEEP_MODE_STARTED, System.currentTimeMillis());
+    }
+
+    public Theme getTheme() {
+        return Theme.valueOf(sharedPreferences.getString(THEME_MODE_KEY, Theme.LIGHT.name()));
+    }
+
+    public void setTheme(final Theme theme) {
+        sharedPreferences.edit()
+                         .putString(THEME_MODE_KEY, theme.name())
+                         .apply();
+    }
+
+    public boolean getThemePrompt() {
+        return sharedPreferences.getBoolean(THEME_PROMPT_KEY, true);
+    }
+
+    public void setThemePrompt(final boolean value) {
+        sharedPreferences.edit()
+                         .putBoolean(THEME_PROMPT_KEY, value)
+                         .apply();
     }
 }

@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.view.theme.Theme;
 
 public class IapActivity extends MenuActivity implements IapHelper.IapCallback, View.OnClickListener {
     private View smallPaymantButton;
@@ -69,5 +70,10 @@ public class IapActivity extends MenuActivity implements IapHelper.IapCallback, 
         if (!iapHelper.handleActivityResult(requestCode, resultCode, data)) {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    @Override
+    protected int getThemeId(final Theme theme) {
+        return theme == Theme.DARK ? R.style.MainDark_Iap : R.style.Main_Iap;
     }
 }

@@ -98,8 +98,10 @@ public class WidgetListener implements IPlayerStateListener {
 
     @Override
     public void onIconChange(final Bitmap image) {
-        RemoteViews views = new RemoteViews(service.getPackageName(), R.layout.widget);
-        views.setImageViewBitmap(R.id.image_media_preview, image);
-        appWidgetManager.partiallyUpdateAppWidget(appWidgetManager.getAppWidgetIds(componentName), views);
+        if (image != null) {
+            RemoteViews views = new RemoteViews(service.getPackageName(), R.layout.widget);
+            views.setImageViewBitmap(R.id.image_media_preview, image);
+            appWidgetManager.partiallyUpdateAppWidget(appWidgetManager.getAppWidgetIds(componentName), views);
+        }
     }
 }

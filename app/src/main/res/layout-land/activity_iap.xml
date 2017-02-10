@@ -3,7 +3,7 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="?attr/primary_background">
 
     <LinearLayout
             android:orientation="vertical"
@@ -38,32 +38,23 @@
 
                         <Button
                                 android:id="@+id/button_iap_small"
-                                android:background="@drawable/iap_button"
+                                style="@style/IapButton"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
                                 android:text="@string/donate_small"
-                                android:textColor="@android:color/white"
-                                android:enabled="false"
                                 android:layout_weight="1"/>
 
                         <Button
                                 android:id="@+id/button_iap_medium"
-                                android:background="@drawable/iap_button"
+                                style="@style/IapButton"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
                                 android:text="@string/donate_medium"
                                 android:layout_marginLeft="@dimen/main_padding"
                                 android:layout_marginRight="@dimen/main_padding"
-                                android:enabled="false"
-                                android:textColor="@android:color/white"
                                 android:layout_weight="1"/>
                         <Button
                                 android:id="@+id/button_iap_large"
-                                android:background="@drawable/iap_button"
+                                style="@style/IapButton"
                                 android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:textColor="@android:color/white"
-                                android:enabled="false"
                                 android:text="@string/donate_large"
                                 android:layout_weight="1"/>
                     </LinearLayout>

@@ -24,9 +24,10 @@ import com.dakare.radiorecord.app.load.section.SuperchartActivity;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.settings.SettingsActivity;
 import com.dakare.radiorecord.app.load.top.TopsActivity;
+import com.dakare.radiorecord.app.view.theme.ThemeActivity;
 import lombok.Getter;
 
-public class MenuActivity extends AppCompatActivity {
+public class MenuActivity extends ThemeActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout drawer;
     @Getter
@@ -39,7 +40,8 @@ public class MenuActivity extends AppCompatActivity {
             Answers.getInstance().logContentView(new ContentViewEvent()
                     .putContentName("Open activity")
                     .putContentType(getClass().getSimpleName())
-                    .putContentId(getClass().getSimpleName()));
+                    .putContentId(getClass().getSimpleName())
+                    .putCustomAttribute("theme", PreferenceManager.getInstance(this).getTheme().name()));
         }
     }
 

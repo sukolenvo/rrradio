@@ -15,10 +15,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.database.provider.StorageContract;
 import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
+import com.dakare.radiorecord.app.player.playlist.spannable.DarkPlaylistItemBuilder;
+import com.dakare.radiorecord.app.player.playlist.spannable.LightPlaylistItemBuilder;
+import com.dakare.radiorecord.app.player.playlist.spannable.PlaylistItemBuilder;
+import com.dakare.radiorecord.app.view.theme.Theme;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,12 +37,14 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.
     private int selectedPosition;
     private final Context context;
     private AbstractSelectionAdapter.PermissionProvider permissionProvider;
+    private final PlaylistItemBuilder playlistItemBuilder;
 
     public PlaylistAdapter(final Context context, final AbstractSelectionAdapter.PermissionProvider permissionProvider) {
         super(context, 0);
         this.permissionProvider = permissionProvider;
         this.context = context;
         layoutInflater = LayoutInflater.from(context);
+        playlistItemBuilder = PreferenceManager.getInstance(context).getTheme() == Theme.DARK ? new DarkPlaylistItemBuilder() : new LightPlaylistItemBuilder();
     }
 
     @Override
@@ -59,19 +66,12 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.
         }
         downloadIcon.setTag(position);
         if (this.selectedPosition == position) {
-            titleView.setText(item.getTitle() + " - " + item.getSubtitle());
-            titleView.setTextColor(view.getResources().getColor(R.color.playlist_active));
+            titleView.setText(playlistItemBuilder.buildItemNameHighlighted(item));
             view.findViewById(R.id.playlist_icon).setVisibility(View.VISIBLE);
+            view.setActivated(true);
         } else {
-            String positionString = (position + 1) + ".  ";
-            Spannable spannable = new SpannableString(positionString + item.getTitle() + " - " + item.getSubtitle());
-            spannable.setSpan(new ForegroundColorSpan(Color.BLACK), 0, positionString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            int titleEnd = positionString.length() + item.getTitle().length();
-            spannable.setSpan(new ForegroundColorSpan(Color.rgb(0x2b, 0x58, 0x7a)), positionString.length(), titleEnd, Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-            spannable.setSpan(new ForegroundColorSpan(Color.BLACK), titleEnd, titleEnd + 3, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannable.setSpan(new ForegroundColorSpan(view.getResources().getColor(R.color.playlist_default)),
-                    titleEnd + 3, spannable.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            titleView.setText(spannable);
+            view.setActivated(false);
+            titleView.setText(playlistItemBuilder.buildItemName(position, item));
             view.findViewById(R.id.playlist_icon).setVisibility(View.GONE);
         }
         return view;

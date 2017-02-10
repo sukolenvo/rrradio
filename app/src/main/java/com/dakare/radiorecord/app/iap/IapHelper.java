@@ -10,10 +10,14 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 import com.android.vending.billing.IInAppBillingService;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.PurchaseEvent;
 import com.dakare.radiorecord.app.R;
 import org.json.JSONException;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Currency;
 import java.util.List;
 
 public class IapHelper implements ServiceConnection {
@@ -126,6 +130,13 @@ public class IapHelper implements ServiceConnection {
             }
             try {
                 Purchase purchase = new Purchase(purchaseData, dataSignature);
+                Answers.getInstance().logPurchase(new PurchaseEvent()
+                                                          .putItemPrice(BigDecimal.valueOf(getPurchaseValue(purchase.getMSku())))
+                                                          .putCurrency(Currency.getInstance("USD"))
+                                                          .putItemName(purchase.getMSku())
+                                                          .putItemType("iap")
+                                                          .putItemId(purchase.getMSku())
+                                                          .putSuccess(true));
                 mService.consumePurchase(3, activity.getPackageName(), purchase.getMToken());
             } catch (JSONException e) {
                 Log.w("IapHelper", "Cannot parse purchase " + purchaseData);
@@ -135,6 +146,22 @@ public class IapHelper implements ServiceConnection {
             Toast.makeText(activity, R.string.iap_thanks, Toast.LENGTH_LONG).show();
         }
         return true;
+    }
+
+    private double getPurchaseValue(final String sku) {
+        if (sku == null) {
+            return 0.01;
+        }
+        switch (sku) {
+            case "donate_1":
+                return 1;
+            case "donate_5":
+                return 5;
+            case "donate_25":
+                return 25;
+            default:
+                return 0.01;
+        }
     }
 
     @Override

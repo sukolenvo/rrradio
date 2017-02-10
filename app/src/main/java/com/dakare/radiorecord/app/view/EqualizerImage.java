@@ -2,6 +2,7 @@ package com.dakare.radiorecord.app.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.*;
 import android.media.audiofx.Equalizer;
 import android.os.Build;
@@ -32,8 +33,8 @@ public class EqualizerImage extends ImageView {
     private float fieldLeft;
     private EqualizerSettings equalizerSettings;
     private PreferenceManager instance;
-    private final Paint backgroundPaint;
-    private final Paint backgroundDarkerPaint;
+    private Paint backgroundPaint;
+    private Paint backgroundDarkerPaint;
     private int editIndex = -1;
     private DecimalFormat numberFormat;
     private Paint paintText;
@@ -47,34 +48,40 @@ public class EqualizerImage extends ImageView {
     private float xStep;
     private float yStep;
 
-    public EqualizerImage(Context context) {
-        super(context);
-    }
-
     public EqualizerImage(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init(context, attrs);
     }
 
     public EqualizerImage(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public EqualizerImage(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        init(context, attrs);
     }
 
-    {
+    private void init(final Context context, final AttributeSet attributeSet) {
+        TypedArray ta = context.obtainStyledAttributes(attributeSet, R.styleable.EqualizerImage, 0, 0);
+        int textColor;
+        try {
+            textColor = ta.getColor(R.styleable.EqualizerImage_textColor, 0);
+        } finally {
+            ta.recycle();
+        }
         backgroundPaint = new Paint();
-        backgroundPaint.setColor(Color.rgb(0x18, 0x90, 0xf3));
+        backgroundPaint.setColor(Color.rgb(0x65, 0x9d, 0xcc));
         backgroundDarkerPaint = new Paint();
-        backgroundDarkerPaint.setColor(Color.rgb(0x11, 0x66, 0xd7));
+        backgroundDarkerPaint.setColor(Color.rgb(0x31, 0x62, 0xa4));
         paintText = new Paint();
         paintText.setTextSize(getResources().getDimensionPixelSize(R.dimen.eq_view_textsize));
         paintText.setAntiAlias(true);
-        paintText.setColor(Color.BLACK);
+        paintText.setColor(textColor);
         gridPaint = new Paint();
-        gridPaint.setColor(Color.rgb(0x01, 0xd5, 0xf2));
+        gridPaint.setColor(Color.rgb(0xa9, 0xc1, 0xd4));
         gridPaint.setStrokeWidth(3);
         gridPaint.setStyle(Paint.Style.FILL);
         gridPaint.setAntiAlias(true);

@@ -29,4 +29,6 @@
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="image_inner_margin_horizontal">30dp</dimen>
     <dimen name="image_inner_margin_vertical">@dimen/main_padding</dimen>
+    <integer name="player_dim_light">80</integer>
+    <integer name="player_dim_dark">200</integer>
 </resources>

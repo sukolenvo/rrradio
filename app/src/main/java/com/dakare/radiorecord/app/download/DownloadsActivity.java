@@ -23,6 +23,7 @@ import com.dakare.radiorecord.app.download.service.message.UpdateFileMessage;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
 import com.dakare.radiorecord.app.load.selection.DownloadsSelectionCallback;
 import com.dakare.radiorecord.app.load.selection.SelectionManager;
+import com.dakare.radiorecord.app.view.theme.Theme;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 
 import java.util.*;
@@ -207,5 +208,11 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
     protected void onSaveInstanceState(final Bundle outState) {
         super.onSaveInstanceState(outState);
         selectionManager.saveState(outState);
+    }
+
+
+    @Override
+    protected int getThemeId(final Theme theme) {
+        return theme == Theme.DARK ? R.style.MainDark_Download : R.style.Main_Download;
     }
 }

@@ -9,5 +9,13 @@
         <attr name="innerMargin" format="reference|dimension"></attr>
         <attr name="innerMarginHorizontal" format="reference|dimension"></attr>
         <attr name="innerMarginVertical" format="reference|dimension"></attr>
+        <attr name="dim" format="integer|reference"></attr>
+    </declare-styleable>
+    <declare-styleable name="DownloadImageView">
+        <attr name="primaryColor" format="color|reference"></attr>
+        <attr name="secondaryColor" format="color|reference"></attr>
+    </declare-styleable>
+    <declare-styleable name="EqualizerImage">
+        <attr name="textColor" format="color|reference"></attr>
     </declare-styleable>
 </resources>

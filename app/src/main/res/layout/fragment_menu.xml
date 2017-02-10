@@ -3,7 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
+        android:background="?attr/primary_background"
         android:clickable="true">
 
     <ScrollView
@@ -28,16 +28,13 @@
 
             <LinearLayout
                     android:id="@+id/menu_main_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    style="@style/MenuItemContainer"
                     android:layout_marginTop="@dimen/category_menu_padding"
-                    android:background="@drawable/item_menu_background"
                     android:onClick="mainActivity">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_home_black_24dp"/>
+                        android:src="?attr/menu_icon_main"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -49,15 +46,12 @@
 
             <LinearLayout
                     android:id="@+id/menu_player_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="playerActivity">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_music_video_black_24dp"/>
+                        android:src="?attr/menu_icon_player"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -69,15 +63,12 @@
 
             <LinearLayout
                     android:id="@+id/menu_downloads_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="downloadsActivity">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_file_download_black_24dp"/>
+                        android:src="?attr/menu_icon_downloads"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -89,15 +80,12 @@
 
             <LinearLayout
                     android:id="@+id/menu_iap_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="iapActivity">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_attach_money_black_24dp"/>
+                        android:src="?attr/menu_icon_iap"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -111,15 +99,12 @@
 
             <LinearLayout
                     android:id="@+id/menu_history_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="historyActivity">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_event_note_black_24dp"/>
+                        android:src="?attr/menu_icon_history"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -131,15 +116,12 @@
 
             <LinearLayout
                     android:id="@+id/menu_new_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="sectionNewActivity">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_fiber_new_black_24dp"/>
+                        android:src="?attr/menu_icon_section_new"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -151,15 +133,12 @@
 
             <LinearLayout
                     android:id="@+id/menu_megamix_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="megamixActivity">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_surround_sound_black_24dp"/>
+                        android:src="?attr/menu_icon_megamix"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -172,15 +151,12 @@
 
             <LinearLayout
                     android:id="@+id/menu_hrustalev_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="hrustalevActivity">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_supervisor_account_black_24dp"/>
+                        android:src="?menu_icon_hrustalev"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -192,15 +168,12 @@
 
             <LinearLayout
                     android:id="@+id/menu_top_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="topsActivity">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_star_black_24dp"/>
+                        android:src="?attr/menu_icon_tops"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -212,15 +185,12 @@
 
             <LinearLayout
                     android:id="@+id/menu_superchart_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="superchartActivity">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_thumb_up_black_24dp"/>
+                        android:src="?attr/menu_icon_superchart"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -233,15 +203,12 @@
             <View style="@style/MenuSeparator"/>
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="sendFeedback">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_chat_bubble_black_24dp"/>
+                        android:src="?attr/menu_icon_send_feedback"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -252,15 +219,12 @@
             </LinearLayout>
 
             <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/item_menu_background"
+                    style="@style/MenuItemContainer"
                     android:onClick="showSettings">
 
                 <ImageView
                         style="@style/MenuImage"
-                        android:src="@drawable/ic_settings_black_24dp"/>
+                        android:src="?attr/menu_icon_settings"/>
                 <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

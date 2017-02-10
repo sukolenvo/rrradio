@@ -119,4 +119,8 @@
     <string name="sleep_timer_canceled">Таймер сна отключен</string>
     <string name="sleep_timer_toast">Проигрывание остановлено (таймер сна)</string>
     <string name="quality_medium_aac">Среднее (AAC, 64kbs)</string>
+    <string name="audio_effect_error">Ошибка загрузки библиотеки аудио эффектов. Эквалайзер недоступен.</string>
+    <string name="settings_theme_text">Тема приложения</string>
+    <string name="light_theme_name">Светлая тема</string>
+    <string name="dark_theme_name">Темная тема (новая)</string>
 </resources>

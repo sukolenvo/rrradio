@@ -3,7 +3,7 @@
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:background="?attr/activity_background">
 
     <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
         <LinearLayout
@@ -23,8 +23,8 @@
                         android:scrollbars="none"/>
 
                 <View android:layout_width="match_parent"
-                      android:layout_height="3dp"
-                      android:background="@drawable/toolbar_dropshadow"/>
+                      android:layout_height="2dp"
+                      android:background="?attr/main_toolbar_shadow"/>
             </FrameLayout>
         </LinearLayout>
         <View

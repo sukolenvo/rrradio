@@ -18,7 +18,7 @@
             android:layout_marginLeft="@dimen/one_and_half_padding"/>
 
     <TextView
-            android:id="@+id/quality_text"
+            android:id="@+id/text"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -30,12 +30,12 @@
             android:id="@+id/settings_icon"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:background="@drawable/selectable_background_gray"
+            android:background="?attr/selectable_background_gray"
             android:clickable="true"
             android:padding="6dp"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:layout_gravity="center_vertical"
             android:layout_marginRight="@dimen/half_padding"
-            android:src="@drawable/ic_settings_black_24dp"/>
+            android:src="?attr/icon_settings_sleep"/>
 </LinearLayout>

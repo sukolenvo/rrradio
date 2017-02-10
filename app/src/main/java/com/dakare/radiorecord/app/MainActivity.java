@@ -1,18 +1,18 @@
 package com.dakare.radiorecord.app;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.quality.QualityDialog;
+import com.dakare.radiorecord.app.settings.SettingsThemeDialog;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
 
 import java.util.ArrayList;
@@ -29,6 +29,11 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
         setTitle(R.string.menu_main_text);
         RecyclerView stationsView = (RecyclerView) findViewById(R.id.station_grid);
         stationsView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.stations_columns)));
+        TypedArray attributes = getTheme().obtainStyledAttributes(new int[] {R.attr.main_separator_drawable});
+        int decoratorId = attributes.getResourceId(0, 0);
+        attributes.recycle();
+        stationsView.addItemDecoration(new GridDecorator(
+                4, getResources().getInteger(R.integer.stations_columns), getResources().getDrawable(decoratorId)));
         mRecyclerViewDragDropManager = new RecyclerViewDragDropManager();
         mRecyclerViewDragDropManager.setInitiateOnLongPress(true);
         mRecyclerViewDragDropManager.setInitiateOnMove(false);
@@ -47,6 +52,10 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
                     PreferenceManager.getInstance(MainActivity.this).hideMainHint();
                 }
             });
+        }
+        if (PreferenceManager.getInstance(this).getThemePrompt()) {
+            PreferenceManager.getInstance(this).setThemePrompt(false);
+            new SettingsThemeDialog(this).show();
         }
     }
 

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/toolbar_color</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="activity_background">@android:color/white</item>
+    </style>
+
+    <style name="AppThemeDark" parent="@style/Theme.AppCompat.DayNight.NoActionBar">
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeBackground">@color/toolbar_color_dark</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="activity_background">@android:color/black</item>
+    </style>
+
+    <style name="Main" parent="AppTheme">
+        <item name="toolbar_text_color">@android:color/white</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorSecondary">@android:color/darker_gray</item>
+        <item name="colorPrimary">@color/toolbar_color</item>
+        <item name="colorPrimaryDark">@color/toolbar_color</item>
+        <item name="colorAccent">@color/toolbar_color</item>
+        <item name="toolbarColor">@color/toolbar_color</item>
+        <item name="toolbarTitleSize">@dimen/abc_text_size_title_material_toolbar</item>
+        <item name="android:selectableItemBackground">@drawable/selectable_background</item>
+        <item name="main_background">#fdfdfd</item>
+        <item name="main_separator_drawable">@drawable/main_decorator_light</item>
+        <item name="main_toolbar_shadow">@drawable/toolbar_dropshadow</item>
+        <item name="main_selection">@drawable/main_selection_light</item>
+        <item name="primary_background">@color/primary_background</item>
+        <item name="menu_selection">@drawable/item_menu_background</item>
+        <item name="menu_icon_main">@drawable/ic_home_black_24dp</item>
+        <item name="menu_icon_player">@drawable/ic_music_video_black_24dp</item>
+        <item name="menu_icon_downloads">@drawable/ic_file_download_black_24dp</item>
+        <item name="menu_icon_iap">@drawable/ic_attach_money_black_24dp</item>
+        <item name="menu_icon_history">@drawable/ic_event_note_black_24dp</item>
+        <item name="menu_icon_section_new">@drawable/ic_fiber_new_black_24dp</item>
+        <item name="menu_icon_megamix">@drawable/ic_surround_sound_black_24dp</item>
+        <item name="menu_icon_hrustalev">@drawable/ic_supervisor_account_black_24dp</item>
+        <item name="menu_icon_tops">@drawable/ic_star_black_24dp</item>
+        <item name="menu_icon_superchart">@drawable/ic_thumb_up_black_24dp</item>
+        <item name="menu_icon_send_feedback">@drawable/ic_chat_bubble_black_24dp</item>
+        <item name="menu_icon_settings">@drawable/ic_settings_black_24dp</item>
+        <item name="toolbar_icon_menu">@drawable/ic_menu_white_24dp</item>
+        <item name="dialog_background">@drawable/dialog_background</item>
+        <item name="progress_text_color">@color/material_grey_850</item>
+        <item name="list_divider">@drawable/history_divider</item>
+        <item name="queue_music_icon">@drawable/ic_queue_music_black_48dp</item>
+        <item name="history_schedule_icon">@drawable/ic_schedule_black_24dp</item>
+        <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="dialog_title_color">@color/toolbar_color</item>
+        <item name="selectable_background_gray">@drawable/selectable_background_gray</item>
+        <item name="closable_dialog_title">#888</item>
+        <item name="closable_dialog_button">@drawable/ic_close</item>
+    </style>
+
+    <style name="MainDark" parent="AppThemeDark">
+        <item name="android:textColor">@color/primary_text_dark</item>
+        <item name="android:textColorSecondary">@color/secondary_text_dark</item>
+        <item name="toolbar_text_color">@color/primary_text_dark</item>
+        <item name="colorPrimary">@color/primary_text_dark</item>
+        <item name="colorPrimaryDark">@color/toolbar_color_dark</item>
+        <item name="colorAccent">@color/primary_text_dark</item>
+        <item name="toolbarColor">@color/toolbar_color_dark</item>
+        <item name="toolbarTitleSize">@dimen/abc_text_size_title_material_toolbar</item>
+        <item name="android:selectableItemBackground">@drawable/selectable_background_dark</item>
+        <item name="main_background">#090909</item>
+        <item name="main_toolbar_shadow">@drawable/main_decorator</item>
+        <item name="main_separator_drawable">@drawable/main_decorator</item>
+        <item name="main_selection">@drawable/main_selection</item>
+        <item name="primary_background">@color/primary_background_dark</item>
+        <item name="menu_selection">@drawable/item_menu_background_dark</item>
+        <item name="menu_icon_main">@drawable/ic_home_white_24dp</item>
+        <item name="menu_icon_player">@drawable/ic_music_video_white_24dp</item>
+        <item name="menu_icon_downloads">@drawable/ic_file_download_white_24dp</item>
+        <item name="menu_icon_iap">@drawable/ic_attach_money_white_24dp</item>
+        <item name="menu_icon_history">@drawable/ic_event_note_white_24dp</item>
+        <item name="menu_icon_section_new">@drawable/ic_fiber_new_white_24dp</item>
+        <item name="menu_icon_megamix">@drawable/ic_surround_sound_white_24dp</item>
+        <item name="menu_icon_hrustalev">@drawable/ic_supervisor_account_white_24dp</item>
+        <item name="menu_icon_tops">@drawable/ic_star_white_24dp</item>
+        <item name="menu_icon_superchart">@drawable/ic_thumb_up_white_24dp</item>
+        <item name="menu_icon_send_feedback">@drawable/ic_chat_bubble_white_24dp</item>
+        <item name="menu_icon_settings">@drawable/ic_settings_white_24dp</item>
+        <item name="toolbar_icon_menu">@drawable/ic_menu_dark</item>
+        <item name="dialog_background">@drawable/dialog_background_dark</item>
+        <item name="progress_text_color">@color/primary_text_dark</item>
+        <item name="list_divider">@drawable/history_divider_dark</item>
+        <item name="queue_music_icon">@drawable/ic_queue_music_dark</item>
+        <item name="history_schedule_icon">@drawable/ic_schedule_dark</item>
+        <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Dark</item>
+        <item name="dialog_title_color">@color/primary_text_dark</item>
+        <item name="selectable_background_gray">@drawable/selectable_background_simple_dark</item>
+        <item name="closable_dialog_title">@color/primary_text_dark</item>
+        <item name="closable_dialog_button">@drawable/ic_close_white_24dp</item>
+    </style>
+
+    <style name="Main.Settings">
+        <item name="directory_button_background">@drawable/directory_button_background</item>
+        <item name="directory_button_text">@drawable/directory_button_text</item>
+        <item name="settings_separator">@color/settings_divider</item>
+        <item name="settings_text_primary">@color/settings_text_color</item>
+        <item name="settings_text_secondary">@color/settings_text_secondary</item>
+        <item name="toolbar_icon_back">@drawable/ic_arrow_back_white_24dp</item>
+    </style>
+
+    <style name="MainDark.Settings">
+        <item name="directory_button_background">@drawable/directory_button_background_dark</item>
+        <item name="directory_button_text">@drawable/directory_button_text_dark</item>
+        <item name="settings_separator">@color/primary_text_dark</item>
+        <item name="settings_text_primary">@color/primary_text_dark</item>
+        <item name="settings_text_secondary">#888888</item>
+        <item name="toolbar_icon_back">@drawable/ic_arrow_back_dark</item>
+    </style>
+
+    <style name="Main.Download">
+        <item name="download_secondary">@color/progress_empty</item>
+        <item name="download_primary">@color/toolbar_color</item>
+    </style>
+
+    <style name="MainDark.Download">
+        <item name="download_secondary">@color/secondary_text_dark</item>
+        <item name="download_primary">@color/primary_text_dark</item>
+    </style>
+
+    <style name="Main.Iap">
+        <item name="iap_button_text">@android:color/white</item>
+        <item name="iap_button_background">@drawable/iap_button</item>
+    </style>
+
+    <style name="MainDark.Iap">
+        <item name="iap_button_text">@color/primary_text_dark</item>
+        <item name="iap_button_background">@drawable/iap_button_background_dark</item>
+    </style>
+
+    <style name="Main.Player">
+        <item name="toolbarColor">#10000000</item>
+        <item name="toolbarTitleSize">14sp</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textColorPrimaryInverse">@android:color/white</item>
+        <item name="player_icon_equalizer">@drawable/setings_icon_white</item>
+        <item name="player_icon_previous">@drawable/ic_skip_previous_white_24dp</item>
+        <item name="player_icon_next">@drawable/ic_skip_next_white_24dp</item>
+        <item name="player_icon_play">@drawable/ic_play_circle_outline_white_48dp</item>
+        <item name="player_icon_pause">@drawable/ic_pause_circle_outline_white_48dp</item>
+        <item name="player_icon_playlist">@drawable/ic_format_list_bulleted</item>
+        <item name="player_icon_download">@drawable/download_icon_white</item>
+        <item name="player_icon_sleep_time">@drawable/sleep_timer_button</item>
+        <item name="player_icon_copy">@drawable/ic_content_copy_white_24dp</item>
+        <item name="genre_background">@color/toolbar_color</item>
+        <item name="genre_button_chevron">@drawable/ic_chevron_up</item>
+        <item name="genre_button_piano">@drawable/ic_piano</item>
+        <item name="player_icon_seekbar_thumb">@drawable/seekbar_thumb</item>
+        <item name="playlist_icon_active">@drawable/playlist_active_icon</item>
+        <item name="playlist_icon_download">@drawable/ic_file_download_black_24dp</item>
+        <item name="playlist_item_selection">@drawable/item_playlist_background</item>
+        <item name="player_dim">@integer/player_dim_light</item>
+        <item name="icon_settings_sleep">@drawable/ic_settings_black_24dp</item>
+    </style>
+
+    <style name="MainDark.Player">
+        <item name="toolbarTitleSize">14sp</item>
+        <item name="android:textColor">@color/primary_text_dark</item>
+        <item name="android:textColorPrimaryInverse">@color/primary_text_dark</item>
+        <item name="player_icon_equalizer">@drawable/ic_settings_white_24dp</item>
+        <item name="player_icon_previous">@drawable/ic_skip_previous_dark</item>
+        <item name="player_icon_next">@drawable/ic_skip_next_dark</item>
+        <item name="player_icon_play">@drawable/ic_play_circle_outline_dark</item>
+        <item name="player_icon_pause">@drawable/ic_pause_circle_outline_dark</item>
+        <item name="player_icon_playlist">@drawable/ic_format_list_bulleted_dark</item>
+        <item name="player_icon_download">@drawable/ic_file_download_white_24dp</item>
+        <item name="player_icon_sleep_time">@drawable/sleep_timer_button_dark</item>
+        <item name="player_icon_copy">@drawable/ic_content_copy_dark</item>
+        <item name="genre_background">@color/primary_text_dark</item>
+        <item name="genre_button_chevron">@drawable/ic_chevron_up_dark</item>
+        <item name="genre_button_piano">@drawable/ic_piano_dark</item>
+        <item name="player_icon_seekbar_thumb">@drawable/seekbar_thumb_dark</item>
+        <item name="playlist_icon_active">@drawable/playlist_active_icon_dark</item>
+        <item name="playlist_icon_download">@drawable/ic_file_download_white_24dp</item>
+        <item name="playlist_item_selection">@drawable/item_playlist_background_dark</item>
+        <item name="player_dim">@integer/player_dim_dark</item>
+        <item name="icon_settings_sleep">@drawable/ic_settings_white_24dp</item>
+    </style>
+
+</resources>

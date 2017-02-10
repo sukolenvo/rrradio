@@ -2,7 +2,6 @@ package com.dakare.radiorecord.app.player.equalizer.preset;
 
 import android.content.Context;
 import android.media.audiofx.Equalizer;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.quality.Quality;
-import com.dakare.radiorecord.app.quality.QualityAdapterItem;
 import lombok.Getter;
-import lombok.Setter;
 
 public class EqualizerPresetAdapter extends ArrayAdapter<String> implements AdapterView.OnItemClickListener {
     private final LayoutInflater inflater;
@@ -35,7 +31,7 @@ public class EqualizerPresetAdapter extends ArrayAdapter<String> implements Adap
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         View view;
         if (convertView == null) {
-            view = inflater.inflate(R.layout.item_quality, parent, false);
+            view = inflater.inflate(R.layout.item_eq_preset, parent, false);
         } else {
             view = convertView;
         }
@@ -57,7 +53,7 @@ public class EqualizerPresetAdapter extends ArrayAdapter<String> implements Adap
 
         private static void from(View parent) {
             icon = (RadioButton) parent.findViewById(R.id.select_icon);
-            title = (TextView) parent.findViewById(R.id.quality_text);
+            title = (TextView) parent.findViewById(R.id.text);
         }
     }
 }

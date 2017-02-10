@@ -6,9 +6,16 @@
     <color name="bg_item_dragging_active_state">#772396f3</color>
     <color name="toolbar_color">#2396f3</color>
     <color name="settings_divider">#e1e1e1</color>
-    <color name="playlist_active">#e96465</color>
-    <color name="playlist_default">#919191</color>
     <color name="player_toolbar">@color/toolbar_color</color>
     <color name="menu_selected">#ededed</color>
     <color name="progress_empty">#cccbcb</color>
+    <color name="toolbar_color_dark">#090909</color>
+    <color name="station_text_color">#666666</color>
+    <color name="primary_background">@android:color/white</color>
+    <color name="primary_background_dark">#212121</color>
+    <color name="primary_text_dark">#dadada</color>
+    <color name="secondary_text_dark">#636363</color>
+    <color name="settings_text_color">#737373</color>
+    <color name="settings_text_secondary">#888</color>
+    <color name="selection_shade_dark">#30dadada</color>
 </resources>
