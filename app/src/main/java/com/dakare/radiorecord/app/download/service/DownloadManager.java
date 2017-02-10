@@ -32,6 +32,9 @@ public class DownloadManager extends BroadcastReceiver implements DownloadTask.D
 
     public void delete(final List<Integer> ids) {
         Cursor cursor = StorageContract.getInstance().getAudioByIds(ids);
+        if (cursor == null) {
+            return;
+        }
         Map<Long, File> removeMap = new HashMap<>(cursor.getCount());
         if (cursor.moveToFirst()) {
             do {
