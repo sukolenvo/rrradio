@@ -18,6 +18,7 @@ import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
+import com.dakare.radiorecord.app.view.theme.Theme;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageSize;
@@ -36,8 +37,8 @@ public class WidgetListener implements IPlayerStateListener {
         appWidgetManager = AppWidgetManager.getInstance(service);
     }
 
-    public static RemoteViews buildWidget(final Context context) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
+    public static RemoteViews buildWidget(final Context context, final int layout) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), layout);
         Intent intent = new Intent(context, PlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent player = PendingIntent.getActivity(context, NotificationListener.CONTENT_CODE, intent, 0);
@@ -65,9 +66,17 @@ public class WidgetListener implements IPlayerStateListener {
         return views;
     }
 
+    protected int getLayoutId() {
+        return R.layout.widget;
+    }
+
+    protected ComponentName getComponentName() {
+        return componentName;
+    }
+
     @Override
     public void onPlaybackChange(final PlaybackStatePlayerMessage message) {
-        RemoteViews views = buildWidget(service);
+        RemoteViews views = buildWidget(service, getLayoutId());
         if (message.getState() == PlayerState.STOP) {
             views.setViewVisibility(R.id.button_media_play, View.VISIBLE);
             views.setViewVisibility(R.id.button_media_pause, View.GONE);
@@ -86,7 +95,7 @@ public class WidgetListener implements IPlayerStateListener {
                 views.setViewVisibility(R.id.button_media_pause, View.GONE);
             }
         }
-        appWidgetManager.updateAppWidget(componentName, views);
+        appWidgetManager.updateAppWidget(getComponentName(), views);
     }
 
     private String buildTitle(final String main, final String second) {
@@ -99,9 +108,9 @@ public class WidgetListener implements IPlayerStateListener {
     @Override
     public void onIconChange(final Bitmap image) {
         if (image != null) {
-            RemoteViews views = new RemoteViews(service.getPackageName(), R.layout.widget);
+            RemoteViews views = new RemoteViews(service.getPackageName(), getLayoutId());
             views.setImageViewBitmap(R.id.image_media_preview, image);
-            appWidgetManager.partiallyUpdateAppWidget(appWidgetManager.getAppWidgetIds(componentName), views);
+            appWidgetManager.partiallyUpdateAppWidget(appWidgetManager.getAppWidgetIds(getComponentName()), views);
         }
     }
 }

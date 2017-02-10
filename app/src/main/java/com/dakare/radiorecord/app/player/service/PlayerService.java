@@ -14,6 +14,7 @@ import com.dakare.radiorecord.app.player.service.playback.Player;
 import com.dakare.radiorecord.app.player.service.playback.PlayerImpl;
 import com.dakare.radiorecord.app.player.service.playback.PlayerJellybean;
 import com.dakare.radiorecord.app.widget.WidgetListener;
+import com.dakare.radiorecord.app.widget.WidgetListenerDark;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class PlayerService extends Service {
         messageHandler.addPlayerStateListener(new NotificationListener(this));
         messageHandler.addPlayerStateListener(new HeadsetPlugListener(this));
         messageHandler.addPlayerStateListener(new WidgetListener(this));
+        messageHandler.addPlayerStateListener(new WidgetListenerDark(this));
         messageHandler.addPlayerStateListener(new MediaControlsListener(this));
         messageHandler.addPlayerStateListener(new LockListener(this));
         messageHandler.addPlayerStateListener(new SleepTimerListener(this));

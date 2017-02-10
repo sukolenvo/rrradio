@@ -9,9 +9,12 @@ import android.graphics.Bitmap;
 import android.view.View;
 import android.widget.RemoteViews;
 import com.crashlytics.android.Crashlytics;
+import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
+import com.dakare.radiorecord.app.view.theme.Theme;
 
 import static com.dakare.radiorecord.app.player.listener.NotificationListener.*;
 
@@ -22,7 +25,8 @@ public class NotificationRemoteImpl implements NotificationRemote {
 
     public NotificationRemoteImpl(final String packageName, final Notification notification) {
         this.notification = notification;
-        collapsed = new RemoteViews(packageName, R.layout.notification_collapsed);
+        collapsed = new RemoteViews(packageName, PreferenceManager.getInstance(RecordApplication.getInstance()).getTheme() == Theme.DARK
+                                                 ? R.layout.notification_collapsed_dark : R.layout.notification_collapsed);
         notification.contentView = collapsed;
     }
 

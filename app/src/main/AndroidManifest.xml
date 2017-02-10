@@ -50,7 +50,14 @@
         <provider android:authorities="com.dakare.radiorecord.app"
                   android:name=".database.provider.StorageProvider"
                   android:exported="false" />
-        <receiver android:name=".widget.WidgetReceiver" >
+        <receiver android:name=".widget.WidgetReceiver" android:label="Radio Record" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                       android:resource="@xml/widget_info" />
+        </receiver>
+        <receiver android:name=".widget.WidgetReceiverDark" android:label="Record Dark">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>

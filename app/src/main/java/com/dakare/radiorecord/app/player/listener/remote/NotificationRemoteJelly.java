@@ -7,8 +7,11 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
+import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
+import com.dakare.radiorecord.app.view.theme.Theme;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class NotificationRemoteJelly extends NotificationRemoteImpl {
@@ -17,7 +20,8 @@ public class NotificationRemoteJelly extends NotificationRemoteImpl {
 
     public NotificationRemoteJelly(final String packageName, final Notification notification) {
         super(packageName, notification);
-        expanded = new RemoteViews(packageName, R.layout.notification_expanded);
+        expanded = new RemoteViews(packageName, PreferenceManager.getInstance(RecordApplication.getInstance()).getTheme() == Theme.DARK
+                                                ? R.layout.notification_expanded_dark : R.layout.notification_expanded);
         notification.bigContentView = expanded;
     }
 
