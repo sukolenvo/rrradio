@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
+import android.util.Config;
 import android.util.Log;
 import com.dakare.radiorecord.app.database.DownloadAudioTable;
 import com.dakare.radiorecord.app.download.service.DownloadsSort;
@@ -378,7 +379,7 @@ public class PreferenceManager {
     }
 
     public boolean getShowAd() {
-        return sharedPreferences.getBoolean(SHOW_AD_KEY, true);
+        return sharedPreferences.getBoolean(SHOW_AD_KEY, !BuildConfig.DEBUG);
     }
 
     public void setShowAd(final boolean value) {
