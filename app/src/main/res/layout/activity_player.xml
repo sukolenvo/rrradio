@@ -162,6 +162,11 @@
                         android:id="@+id/sleep_timer_button"
                         style="@style/PlaybackControlSubButton"
                         android:src="?attr/player_icon_sleep_time"/>
+
+                <ImageView
+                        android:id="@+id/record_button"
+                        style="@style/PlaybackControlSubButton"
+                        android:src="?attr/player_icon_record"/>
             </LinearLayout>
 
             <View android:layout_width="match_parent"

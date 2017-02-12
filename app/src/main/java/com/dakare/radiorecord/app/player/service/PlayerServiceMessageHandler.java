@@ -54,6 +54,10 @@ public class PlayerServiceMessageHandler extends Handler {
                 case SEEK_TO:
                     player.seekTo(SeekToMessage.fromMessage(msg.getData()).getPosition());
                     break;
+                case RECORD:
+                    player.record();
+                    player.updateState();
+                    break;
                 default:
                     Log.w("PlayerMessageHandler", "Unrecognised message type " + msg.what);
                     super.handleMessage(msg);

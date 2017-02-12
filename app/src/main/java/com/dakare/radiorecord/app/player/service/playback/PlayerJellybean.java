@@ -21,12 +21,19 @@ import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PositionStateMessage;
-import com.google.android.exoplayer.*;
+import com.dakare.radiorecord.app.player.service.playback.record.PlaybackRecordManager;
+import com.google.android.exoplayer.ExoPlaybackException;
+import com.google.android.exoplayer.ExoPlayer;
+import com.google.android.exoplayer.MediaCodecAudioTrackRenderer;
+import com.google.android.exoplayer.MediaCodecSelector;
+import com.google.android.exoplayer.MediaCodecTrackRenderer;
 import com.google.android.exoplayer.audio.AudioCapabilities;
 import com.google.android.exoplayer.audio.AudioTrack;
 import com.google.android.exoplayer.extractor.ExtractorSampleSource;
-import com.google.android.exoplayer.upstream.*;
-import io.fabric.sdk.android.Fabric;
+import com.google.android.exoplayer.upstream.Allocator;
+import com.google.android.exoplayer.upstream.DataSource;
+import com.google.android.exoplayer.upstream.DefaultAllocator;
+import com.google.android.exoplayer.upstream.HttpDataSource;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,8 +41,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, ExoPlayer.Listener,
-        ExtractorSampleSource.EventListener, MediaCodecAudioTrackRenderer.EventListener, Player,
-        SharedPreferences.OnSharedPreferenceChangeListener {
+                                        ExtractorSampleSource.EventListener, MediaCodecAudioTrackRenderer.EventListener,
+                                        Player,
+                                        SharedPreferences.OnSharedPreferenceChangeListener {
     private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
     private static final int BUFFER_SEGMENT_COUNT = 256;
 
@@ -55,6 +63,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     private long lastErrorMessage;
     private Equalizer equalizer;
     private final PreferenceManager preferenceManager;
+    private final PlaybackRecordManager playbackRecordManager;
 
     public PlayerJellybean(final Context context) {
         this.context = context;
@@ -65,11 +74,13 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
         playlist.addAll(PreferenceManager.getInstance(context).getLastPlaylist());
         preferenceManager = PreferenceManager.getInstance(context);
         position = preferenceManager.getLastPosition();
+        playbackRecordManager = new PlaybackRecordManager(context);
     }
 
     public void play(final ArrayList<PlaylistItem> playlist, final int position) {
         this.playlist = playlist;
         this.position = position;
+        playbackRecordManager.stop();
         startPlayback();
         if (playlist.get(position).isLive()) {
             metadataLoader.start(playlist.get(position).getStation());
@@ -80,7 +91,9 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     }
 
     public void updateState() {
-        playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(playlist.get(position), position, state, metadataLoader.getResponse()));
+        playerServiceMessageHandler.handleServiceResponse(
+                new PlaybackStatePlayerMessage(playlist.get(position), position, state, metadataLoader.getResponse(),
+                                               playbackRecordManager.isRecord()));
     }
 
     private void startPlayback() {
@@ -91,12 +104,25 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
             PlaylistItem playlistItem = playlist.get(position);
             preferenceManager.setLastPosition(position);
             Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
-            DataSource dataSource = DataSourceFactory.createDataSource(playlistItem.getUrl(), playlistItem.isLive());
+            DataSource dataSource = playbackRecordManager.startRecording(playlistItem,
+                                                                         DataSourceFactory.createDataSource(
+                                                                                 playlistItem.getUrl(),
+                                                                                 playlistItem.isLive()));
             if (dataSource != null) {
-                ExtractorSampleSource sampleSource = new ExtractorSampleSource(Uri.parse(playlistItem.getUrl()), dataSource, allocator,
-                        BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE, ExtractorSampleSource.DEFAULT_MIN_LOADABLE_RETRY_COUNT_LIVE, uiHandler, this, 0);
+                ExtractorSampleSource sampleSource = new ExtractorSampleSource(Uri.parse(playlistItem.getUrl()),
+                                                                               dataSource, allocator,
+                                                                               BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE,
+                                                                               ExtractorSampleSource.DEFAULT_MIN_LOADABLE_RETRY_COUNT_LIVE,
+                                                                               uiHandler, this, 0);
                 MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource,
-                        MediaCodecSelector.DEFAULT, null, true, uiHandler, this, AudioCapabilities.getCapabilities(context), AudioManager.STREAM_MUSIC) {
+                                                                                              MediaCodecSelector.DEFAULT,
+                                                                                              null,
+                                                                                              true,
+                                                                                              uiHandler,
+                                                                                              this,
+                                                                                              AudioCapabilities.getCapabilities(
+                                                                                                      context),
+                                                                                              AudioManager.STREAM_MUSIC) {
                     @Override
                     protected void onAudioSessionId(final int audioSessionId) {
                         try {
@@ -138,6 +164,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     public void next() {
         if (playlist != null && !playlist.isEmpty()) {
             position = (position + 1) % playlist.size();
+            playbackRecordManager.stop();
             startPlayback();
             if (playlist.get(position).isLive()) {
                 metadataLoader.start(playlist.get(position).getStation());
@@ -151,6 +178,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     public void previous() {
         if (playlist != null && !playlist.isEmpty()) {
             position = (position - 1 + playlist.size()) % playlist.size();
+            playbackRecordManager.stop();
             startPlayback();
             if (playlist.get(position).isLive()) {
                 metadataLoader.start(playlist.get(position).getStation());
@@ -167,6 +195,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
         player.seekTo(0L);
         metadataLoader.stop();
         state = PlayerState.STOP;
+        playbackRecordManager.stop();
         updateState();
     }
 
@@ -196,7 +225,9 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     }
 
     public void updatePosition() {
-        playerServiceMessageHandler.handleServiceResponse(new PositionStateMessage((int) player.getCurrentPosition(), (int) player.getDuration(), (int) player.getBufferedPosition()));
+        playerServiceMessageHandler.handleServiceResponse(
+                new PositionStateMessage((int) player.getCurrentPosition(), (int) player.getDuration(),
+                                         (int) player.getBufferedPosition()));
     }
 
     @Override
@@ -204,6 +235,12 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
         if (player.getDuration() > 0) {
             player.seekTo((long) (player.getDuration() * position));
         }
+    }
+
+    @Override
+    public void record() {
+        playbackRecordManager.setRecord(true);
+        startPlayback();
     }
 
     @Override

@@ -16,6 +16,7 @@ public class PlaybackStatePlayerMessage extends PlayerMessage {
     private static final String ICON_KEY = "icon";
     private static final String ARTIST_KEY = "artist";
     private static final String SONG_KEY = "song";
+    private static final String RECORD_KEY = "record";
 
     private final String icon;
     private final String artist;
@@ -23,9 +24,10 @@ public class PlaybackStatePlayerMessage extends PlayerMessage {
     private final PlaylistItem playing;
     private final int position;
     private final PlayerState state;
+    private final boolean record;
 
     public PlaybackStatePlayerMessage(final PlaylistItem playing, final int position, final PlayerState state,
-                                      final UpdateResponse updateResponse) {
+                                      final UpdateResponse updateResponse, final boolean record) {
         super(PlayerMessageType.PLAYBACK_STATE);
         this.playing = playing;
         this.position = position;
@@ -33,6 +35,7 @@ public class PlaybackStatePlayerMessage extends PlayerMessage {
         this.icon = updateResponse.getImage600();
         this.artist = updateResponse.getArtist();
         this.song = updateResponse.getTitle();
+        this.record = record;
     }
 
     @SuppressWarnings("unchecked")
@@ -44,6 +47,7 @@ public class PlaybackStatePlayerMessage extends PlayerMessage {
         this.playing = data.getParcelable(PLAYING_KEY);
         this.position = data.getInt(POSITION_KEY);
         this.state = PlayerState.valueOf(data.getString(STATE_KEY));
+        this.record = data.getBoolean(RECORD_KEY);
     }
 
     public static PlaybackStatePlayerMessage fromMessage(final Bundle args) {
@@ -60,6 +64,7 @@ public class PlaybackStatePlayerMessage extends PlayerMessage {
         args.putString(ICON_KEY, icon);
         args.putString(ARTIST_KEY, artist);
         args.putString(SONG_KEY, song);
+        args.putBoolean(RECORD_KEY, record);
         message.setData(args);
         return message;
     }

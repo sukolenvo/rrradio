@@ -9,12 +9,12 @@ import lombok.Getter;
 
 public class DownloadAudioTable extends Table {
 
-    private static final String NAME = "download_audio_table";
+    public static final String NAME = "download_audio_table";
     public static final String DEFAULT_DIRECTORY_NAME = "Record Music";
 
     public static final String CREATE_TABLE = "create table " + NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, "
             + "subtitle TEXT, url TEXT not null, directory TEXT NOT NULL, status INTEGER DEFAULT 2, saved INTEGER NOT NULL, size INTEGER DEFAULT 0," +
-            "total INTEGER DEFAULT 0)";
+            "total INTEGER DEFAULT 0, file TEXT)";
 
     public static final String DROP_TABLE = "drop table if exists " + NAME;
 
@@ -27,6 +27,7 @@ public class DownloadAudioTable extends Table {
     public static final String COLUMN_SAVED_DATE = "saved";
     public static final String COLUMN_SIZE = "size";
     public static final String COLUMN_TOTAL_SIZE = "total";
+    public static final String COLUMN_FILE_NAME = "file";
 
     public DownloadAudioTable(SQLiteDatabase database) {
         super(database);

@@ -71,7 +71,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
     }
 
     public void updateState() {
-        playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(playlist.get(position), position, state, metadataLoader.getResponse()));
+        playerServiceMessageHandler.handleServiceResponse(new PlaybackStatePlayerMessage(playlist.get(position), position, state, metadataLoader.getResponse(), false));
     }
 
     private void startPlayback() {
@@ -162,6 +162,11 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
         if (mediaPlayer.getDuration() > 0) {
             mediaPlayer.seekTo((int) (mediaPlayer.getDuration() * position));
         }
+    }
+
+    @Override
+    public void record() {
+        //Not supported
     }
 
     @Override

@@ -58,6 +58,7 @@
     <attr name="player_icon_download" format="reference"/>
     <attr name="player_icon_copy" format="reference"/>
     <attr name="player_icon_sleep_time" format="reference"/>
+    <attr name="player_icon_record" format="reference"/>
     <attr name="player_icon_seekbar_thumb" format="reference"/>
     <attr name="playlist_icon_active" format="reference"/>
     <attr name="playlist_icon_download" format="reference"/>

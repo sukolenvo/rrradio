@@ -158,6 +158,7 @@
         <item name="playlist_item_selection">@drawable/item_playlist_background</item>
         <item name="player_dim">@integer/player_dim_light</item>
         <item name="icon_settings_sleep">@drawable/ic_settings_black_24dp</item>
+        <item name="player_icon_record">@drawable/player_record_button</item>
     </style>
 
     <style name="MainDark.Player">
@@ -182,6 +183,7 @@
         <item name="playlist_item_selection">@drawable/item_playlist_background_dark</item>
         <item name="player_dim">@integer/player_dim_dark</item>
         <item name="icon_settings_sleep">@drawable/ic_settings_white_24dp</item>
+        <item name="player_icon_record">@drawable/player_record_button_dark</item>
     </style>
 
 </resources>

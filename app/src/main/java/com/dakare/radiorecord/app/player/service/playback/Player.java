@@ -28,4 +28,6 @@ public interface Player {
     void seekTo(float position);
 
     PlayerState getState();
+
+    void record();
 }

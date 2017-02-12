@@ -34,6 +34,8 @@ public abstract class PlayerMessage {
                 return PositionStateMessage.fromMessage(message.getData());
             case SEEK_TO:
                 return SeekToMessage.fromMessage(message.getData());
+            case RECORD:
+                return new RecordPlayerMessage();
             default:
                 Log.w("Player Message", "Cannot deserialise message " + message.what);
                 break;

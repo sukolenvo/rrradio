@@ -137,4 +137,9 @@
         Реклама не будет показываться и не будет дополнительных расходов трафика.\n\nПриятного прослушивания!
     </string>
     <string name="text_disable">Отключить</string>
+    <string name="record_info_text">Запись доступна только для онлайн потоков. Для других категорий (История, Топ 100…)
+        воспользуйтесь кнопкой скачать
+    </string>
+    <string name="recording_starting_info">Запись %1$s началась. Вы можете ее найти в разделе Загрузки.</string>
+    <string name="recording_stopped_info">Запись прекращена.</string>
 </resources>

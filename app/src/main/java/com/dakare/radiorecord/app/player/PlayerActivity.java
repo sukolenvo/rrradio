@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMess
 import com.dakare.radiorecord.app.player.service.message.PlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessageType;
 import com.dakare.radiorecord.app.player.service.message.PositionStateMessage;
+import com.dakare.radiorecord.app.player.service.message.RecordPlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.SeekToMessage;
 import com.dakare.radiorecord.app.player.service.message.UpdatePositionMessage;
 import com.dakare.radiorecord.app.player.service.message.UpdateStatePlayerMessage;
@@ -48,6 +50,7 @@ public class PlayerActivity extends MenuActivity
     private static final String METADATA_ICON_KEY = "player_metadata_icon";
     private static final String METADATA_ARTIST_KEY = "player_metadata_artist";
     private static final String METADATA_SONG_KEY = "player_metadata_song";
+    private static final String RECORDING_STATE_KEY = "recording";
 
     private final PlayerServiceHelper playerServiceHelper = new PlayerServiceHelper();
     private PlayerBackgroundImage icon;
@@ -68,6 +71,8 @@ public class PlayerActivity extends MenuActivity
     private TextView artist;
     private TextView song;
     private View sleepTimerButton;
+    private View recordButton;
+    private boolean recording;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -78,11 +83,10 @@ public class PlayerActivity extends MenuActivity
             metadataIcon = savedInstanceState.getString(METADATA_ICON_KEY);
             metadataArtist = savedInstanceState.getString(METADATA_ARTIST_KEY);
             metadataSong = savedInstanceState.getString(METADATA_SONG_KEY);
+            recording = savedInstanceState.getBoolean(RECORDING_STATE_KEY);
         }
         artist = (TextView) findViewById(R.id.artist);
         song = (TextView) findViewById(R.id.song);
-        playButton = findViewById(R.id.play_button);
-        pauseButton = findViewById(R.id.pause_button);
         icon = (PlayerBackgroundImage) findViewById(R.id.player_icon);
         playbackProgressView = (SeekBar) findViewById(R.id.playback_progress_view);
         playbackProgressView.setOnSeekBarChangeListener(this);
@@ -105,6 +109,8 @@ public class PlayerActivity extends MenuActivity
         AdUtils.showAd((AdView) findViewById(R.id.adView));
     }
     private void setupOnClickListeners() {
+        playButton = findViewById(R.id.play_button);
+        pauseButton = findViewById(R.id.pause_button);
         playButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,6 +194,25 @@ public class PlayerActivity extends MenuActivity
                 new PlaylistDialogFragment().show(getSupportFragmentManager(), "playlist_fragment");
             }
         });
+        recordButton = findViewById(R.id.record_button);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            recordButton.setVisibility(View.GONE);
+        } else {
+            recordButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(final View v) {
+                    if (playlistItem == null || !playlistItem.isLive()) {
+                        Toast.makeText(PlayerActivity.this, R.string.record_info_text, Toast.LENGTH_LONG).show();
+                    } else if (recording) {
+                        Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+                        intent.setAction(NotificationListener.ACTION_STOP);
+                        startService(intent);
+                    } else {
+                        playerServiceHelper.getServiceClient().execute(new RecordPlayerMessage());
+                    }
+                }
+            });
+        }
     }
 
     private void updateViews() {
@@ -214,6 +239,7 @@ public class PlayerActivity extends MenuActivity
             playButton.setVisibility(View.VISIBLE);
             pauseButton.setVisibility(View.GONE);
         }
+        recordButton.setSelected(recording);
     }
 
     private String buildTitle() {
@@ -262,6 +288,7 @@ public class PlayerActivity extends MenuActivity
             metadataIcon = playbackState.getIcon();
             metadataArtist = playbackState.getArtist();
             metadataSong = playbackState.getSong();
+            recording = playbackState.isRecord();
             updateViews();
         } else if (playerMessage.getMessageType() == PlayerMessageType.POSITION_STATE) {
             PositionStateMessage positionStateMessage = (PositionStateMessage) playerMessage;
@@ -299,6 +326,7 @@ public class PlayerActivity extends MenuActivity
         outState.putString(METADATA_ICON_KEY, metadataIcon);
         outState.putString(METADATA_ARTIST_KEY, metadataArtist);
         outState.putString(METADATA_SONG_KEY, metadataSong);
+        outState.putBoolean(RECORDING_STATE_KEY, recording);
     }
 
     @Override

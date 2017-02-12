@@ -1,7 +1,11 @@
 package com.dakare.radiorecord.app.download.service;
 
 import android.app.Service;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,7 +15,11 @@ import com.dakare.radiorecord.app.download.service.message.RemoveFileResponse;
 import com.dakare.radiorecord.app.download.service.message.UpdateFileMessage;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -38,10 +46,8 @@ public class DownloadManager extends BroadcastReceiver implements DownloadTask.D
         Map<Long, File> removeMap = new HashMap<>(cursor.getCount());
         if (cursor.moveToFirst()) {
             do {
-                long id = cursor.getLong(cursor.getColumnIndex(DownloadAudioTable.COLUMN_ID));
-                String directory = cursor.getString(cursor.getColumnIndex(DownloadAudioTable.COLUMN_DIRECTORY));
-                String title = cursor.getString(cursor.getColumnIndex(DownloadAudioTable.COLUMN_TITLE));
-                removeMap.put(id, getAudioFile(directory, id, title));
+                DownloadItem downloadItem = new DownloadItem(cursor);
+                removeMap.put(downloadItem.getId(), downloadItem.getFile());
             } while (cursor.moveToNext());
         }
         List<Long> idsToDrop = new ArrayList<>();

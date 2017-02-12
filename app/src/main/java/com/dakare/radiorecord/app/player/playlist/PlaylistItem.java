@@ -13,16 +13,26 @@ import com.dakare.radiorecord.app.quality.Quality;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @NoArgsConstructor
 @Getter
 @EqualsAndHashCode
 public class PlaylistItem implements Parcelable {
+    @Setter
     private String title;
     private String subtitle;
     private String url;
     private Station station;
     private boolean live;
+
+    public PlaylistItem(final PlaylistItem item) {
+        this.title = item.title;
+        this.subtitle = item.subtitle;
+        this.url = item.url;
+        this.station = item.station;
+        this.live = item.live;
+    }
 
     public PlaylistItem(final Parcel parcel) {
         title = parcel.readString();
@@ -54,10 +64,6 @@ public class PlaylistItem implements Parcelable {
         this.live = false;
     }
 
-    private String encodeUrl(final String url) {
-        return Uri.encode(url, ":/%");
-    }
-
     public PlaylistItem(final Station station, final TopsMusicItem item) {
         this.title = item.getArtist();
         this.station = station;
@@ -80,6 +86,10 @@ public class PlaylistItem implements Parcelable {
         this.url = item.getFileUri().toString();
         this.subtitle = item.getSubtitle();
         this.live = false;
+    }
+
+    private String encodeUrl(final String url) {
+        return Uri.encode(url, ":/%");
     }
 
     public boolean isDownloadable() {

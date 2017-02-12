@@ -138,4 +138,9 @@
         connection, so you will not be charged extra.\n\nEnjoy!
     </string>
     <string name="text_disable">Disable</string>
+    <string name="record_info_text">Record option only available for online stream. For other categories History, Top
+        100, etc please use download button
+    </string>
+    <string name="recording_starting_info">File %1$s is starting now. You can check it in Downloads section.</string>
+    <string name="recording_stopped_info">Recording is stopped.</string>
 </resources>

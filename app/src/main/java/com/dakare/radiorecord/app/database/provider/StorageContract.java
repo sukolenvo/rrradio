@@ -28,8 +28,15 @@ public class StorageContract {
         return new StorageContract();
     }
 
-    public void insertDownloadAudio(final PlaylistItem item) {
-        resolver.insert(downloadAudioUri, toContentValues(item));
+    public long insertDownloadAudio(final PlaylistItem item) {
+        return Long.parseLong(resolver.insert(downloadAudioUri, toContentValues(item)).getLastPathSegment());
+    }
+
+    public long insertRecordingAudio(final PlaylistItem item, final String fileName) {
+        ContentValues values = toContentValues(item);
+        values.put(DownloadAudioTable.COLUMN_STATUS, DownloadAudioTable.Status.DOWNLOADED.name());
+        values.put(DownloadAudioTable.COLUMN_FILE_NAME, fileName);
+        return Long.parseLong(resolver.insert(downloadAudioUri, values).getLastPathSegment());
     }
 
     public void updateAudioStatus(final long id, final DownloadAudioTable.Status status) {

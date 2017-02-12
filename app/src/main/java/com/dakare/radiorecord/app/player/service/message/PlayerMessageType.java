@@ -13,7 +13,8 @@ public enum PlayerMessageType {
     UPDATE_POSITION(1005),
     POSITION_STATE(1006),
     METADATA_UPDATE(1007),
-    SEEK_TO(1008);
+    SEEK_TO(1008),
+    RECORD(1009);
 
     @Getter
     private final int messageId;
