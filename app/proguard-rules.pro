@@ -76,3 +76,7 @@
 }
 -dontwarn com.google.android.gms.internal.*
 -verbose
+-repackageclasses
+-useuniqueclassmembernames
+-allowaccessmodification
+-keeppackagenames doNotKeepAThing
