@@ -77,7 +77,9 @@ public class RecordingDatasource implements DataSource {
     public void stop() {
         updateSize();
         try {
-            destination.close();
+            if (destination != null) {
+                destination.close();
+            }
         } catch (IOException e) {
             //Nothing to do
         }

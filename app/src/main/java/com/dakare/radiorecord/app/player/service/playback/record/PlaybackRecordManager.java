@@ -2,6 +2,7 @@ package com.dakare.radiorecord.app.player.service.playback.record;
 
 import android.content.Context;
 import android.widget.Toast;
+import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.database.provider.StorageContract;
@@ -28,6 +29,11 @@ public class PlaybackRecordManager {
 
     public DataSource startRecording(final PlaylistItem item, final DataSource dataSource) {
         if (record && item.isLive()) {
+            try {
+                destination.mkdirs();
+            } catch (Exception e) {
+                Crashlytics.logException(e);
+            }
             PlaylistItem fileItem = new PlaylistItem(item);
             String fileName = getFileName(item);
             fileItem.setTitle(fileName);
