@@ -85,7 +85,8 @@ public class WidgetListener implements IPlayerStateListener {
             views.setTextViewText(R.id.text_media_title, message.getSong() == null
                     ? buildTitle(playlistItem.getTitle(), playlistItem.getSubtitle()) : buildTitle(message.getArtist(), message.getSong()));
             if (message.getIcon() == null || !PreferenceManager.getInstance(service).isMusicImageEnabled()) {
-                views.setImageViewResource(R.id.image_media_preview, playlistItem.getStation().getIcon());
+                views.setImageViewResource(R.id.image_media_preview,
+                                           PreferenceManager.getInstance(service).getTheme().getStationIcon(playlistItem.getStation()));
             }
             if (message.getState() == PlayerState.PLAY) {
                 views.setViewVisibility(R.id.button_media_play, View.GONE);

@@ -46,7 +46,7 @@ public class StationSelectFragment extends Fragment implements StationClickListe
         int decoratorId = attributes.getResourceId(0, 0);
         attributes.recycle();
         recyclerView.addItemDecoration(new GridDecorator(
-                4, getResources().getInteger(R.integer.stations_columns), getResources().getDrawable(decoratorId)));
+                2, getResources().getInteger(R.integer.stations_columns), getResources().getDrawable(decoratorId)));
         recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), getResources().getInteger(R.integer.stations_columns)));
         recyclerView.setAdapter(new HistoryStationSelectAdapter(getContext(), this));

@@ -12,6 +12,7 @@ import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.StationClickListener;
+import com.dakare.radiorecord.app.view.theme.Theme;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
@@ -23,9 +24,11 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
     private final List<Station> items = new ArrayList<Station>();
     private final StationClickListener callback;
     private final PreferenceManager preferenceManager;
+    private final Theme theme;
 
     public HistoryStationSelectAdapter(final Context context, final StationClickListener callback) {
         preferenceManager = PreferenceManager.getInstance(context);
+        theme = preferenceManager.getTheme();
         for (Station station : preferenceManager.getStations()) {
             items.add(station);
         }
@@ -37,20 +40,23 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        View view = inflater.inflate(R.layout.item_station, null);
+        View view = inflater.inflate(theme == Theme.CLASSIC ? R.layout.item_station_classic : R.layout.item_station, null);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Station item = items.get(position);
-        holder.icon.setImageResource(item.getIcon());
+        holder.icon.setImageResource(theme.getStationIcon(item));
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 callback.onClick(item);
             }
         });
+        if (holder.name != null) {
+            holder.name.setText(item.getName());
+        }
     }
 
     @Override
@@ -66,11 +72,13 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView icon;
         private FrameLayout container;
+        private TextView name;
 
         public ViewHolder(View itemView) {
             super(itemView);
             container = (FrameLayout) itemView.findViewById(R.id.station_container);
             icon = (ImageView) itemView.findViewById(R.id.station_icon);
+            name = (TextView) itemView.findViewById(R.id.station_name);
         }
     }
 }

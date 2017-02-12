@@ -186,4 +186,7 @@
         <item name="player_icon_record">@drawable/player_record_button_dark</item>
     </style>
 
+    <style name="Classic" parent="Main">
+        <item name="main_background">#f0f0f0</item>
+    </style>
 </resources>

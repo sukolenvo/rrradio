@@ -28,7 +28,11 @@ public class RecordApplication extends Application {
         if (!BuildConfig.DEBUG) {
             Fabric.with(this, new Crashlytics.Builder().answers(new Answers()).core(new CrashlyticsCore()).build());
         }
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-8716939423875482~8319018853");
+        try {
+            MobileAds.initialize(getApplicationContext(), "ca-app-pub-8716939423875482~8319018853");
+        } catch (RuntimeException e) {
+            Crashlytics.logException(e);
+        }
     }
 
     public static RecordApplication getInstance() {

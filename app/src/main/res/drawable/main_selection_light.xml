@@ -3,7 +3,7 @@
 
     <item android:state_selected="true">
         <shape android:shape="rectangle">
-            <solid android:color="#30323232"></solid>
+            <solid android:color="@color/bg_item_dragging_active_state"></solid>
         </shape>
     </item>
     <item android:state_pressed="true" >

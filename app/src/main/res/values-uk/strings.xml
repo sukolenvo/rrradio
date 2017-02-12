@@ -142,4 +142,5 @@
     </string>
     <string name="recording_starting_info">Запись %1$s началась. Вы можете ее найти в разделе Загрузки.</string>
     <string name="recording_stopped_info">Запись прекращена.</string>
+    <string name="classic_theme_name">Классическая</string>
 </resources>

@@ -359,7 +359,7 @@ public class PreferenceManager {
     }
 
     public Theme getTheme() {
-        return Theme.valueOf(sharedPreferences.getString(THEME_MODE_KEY, Theme.LIGHT.name()));
+        return Theme.valueOf(sharedPreferences.getString(THEME_MODE_KEY, Theme.CLASSIC.name()));
     }
 
     public void setTheme(final Theme theme) {

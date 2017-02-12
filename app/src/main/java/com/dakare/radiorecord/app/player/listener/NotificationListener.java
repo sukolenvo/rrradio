@@ -22,6 +22,7 @@ import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
+import com.dakare.radiorecord.app.view.theme.Theme;
 
 
 public class NotificationListener implements IPlayerStateListener {
@@ -42,9 +43,11 @@ public class NotificationListener implements IPlayerStateListener {
     private Notification notification;
     private final NotificationManager notificationManager;
     private boolean foreground;
+    private final Theme theme;
 
     public NotificationListener(final Service service) {
         this.service = service;
+        theme = PreferenceManager.getInstance(service).getTheme();
         notificationManager = (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
         Intent intent = new Intent(RecordApplication.getInstance(), PlayerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -64,7 +67,7 @@ public class NotificationListener implements IPlayerStateListener {
             NotificationRemote notificationRemote = NotificationRemoteFactory.create(service.getPackageName(), notification);
             notificationRemote.updateTitle(message);
             if (message.getIcon() == null || !PreferenceManager.getInstance(service).isMusicImageEnabled()) {
-                notificationRemote.setImage(message.getPlaying().getStation().getIcon());
+                notificationRemote.setImage(theme.getStationIcon(message.getPlaying().getStation()));
             }
             notificationRemote.setPlaying(message.getState() == PlayerState.PLAY);
             if (foreground) {

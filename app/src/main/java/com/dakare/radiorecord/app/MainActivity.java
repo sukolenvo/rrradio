@@ -38,7 +38,7 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
         int decoratorId = attributes.getResourceId(0, 0);
         attributes.recycle();
         stationsView.addItemDecoration(new GridDecorator(
-                4, getResources().getInteger(R.integer.stations_columns), getResources().getDrawable(decoratorId)));
+                2, getResources().getInteger(R.integer.stations_columns), getResources().getDrawable(decoratorId)));
         mRecyclerViewDragDropManager = new RecyclerViewDragDropManager();
         mRecyclerViewDragDropManager.setInitiateOnLongPress(true);
         mRecyclerViewDragDropManager.setInitiateOnMove(false);

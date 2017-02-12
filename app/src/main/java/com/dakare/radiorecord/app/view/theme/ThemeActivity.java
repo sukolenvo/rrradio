@@ -17,7 +17,9 @@ public class ThemeActivity extends AppCompatActivity {
     protected int getThemeId(final Theme theme) {
         switch (theme) {
             case DARK:
-               return R.style.MainDark;
+                return R.style.MainDark;
+            case CLASSIC:
+                return R.style.Classic;
             case LIGHT:
             default:
                 return R.style.Main;
