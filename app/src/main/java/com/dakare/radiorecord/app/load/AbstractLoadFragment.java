@@ -24,6 +24,8 @@ import java.util.List;
 
 public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K> extends Fragment implements Runnable {
 
+    public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36";
+
     private Handler handler;
     private ProgressView progressView;
     private ArrayList<K> items = new ArrayList<>();

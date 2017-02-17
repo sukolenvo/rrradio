@@ -61,6 +61,8 @@ public enum Theme {
                     return R.drawable.yo_fm_ico;
                 case RAVE_FM:
                     return R.drawable.rave_fm_ico;
+                case GOA:
+                    return R.drawable.goa_ico;
                 default:
                     return R.drawable.rr_ico;
             }
@@ -118,6 +120,8 @@ public enum Theme {
                     return R.drawable.icon_light_yo;
                 case RAVE_FM:
                     return R.drawable.icon_light_rave;
+                case GOA:
+                    return R.drawable.icon_light_goa;
                 default:
                     return R.drawable.icon_light_rr;
             }
@@ -175,6 +179,8 @@ public enum Theme {
                     return R.drawable.icon_dark_yo;
                 case RAVE_FM:
                     return R.drawable.icon_dark_rave;
+                case GOA:
+                    return R.drawable.icon_dark_goa;
                 default:
                     return R.drawable.icon_dark_rr;
             }

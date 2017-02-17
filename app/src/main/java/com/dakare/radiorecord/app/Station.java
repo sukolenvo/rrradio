@@ -32,17 +32,18 @@ public enum Station {
     SLOW_DANCE_FM("Медляк FM", "/mdl", 8102, 8102),
     GOP_FM("Гоп FM", "/gop", 8102, 8102),
     YO_FM("Yo!FM", "/yo", 8102, 8102),
-    RAVE_FM("Rave FM", "/rave", 8102, 8102);
+    RAVE_FM("Rave FM", "/rave", 8102, 8102),
+    GOA("GOA/PSY", "/goa", 8102, 8102);
 
     private final String name;
     private final String code;
-    private int portLow;
-    private int portMedium;
+    private final int portLow;
+    private final int portMedium;
 
     public String getStreamUrl(final Quality quality) {
         switch (quality) {
             case AAC:
-                return "http://air2.radiorecord.ru:805" + code + "_aac";
+                return "http://air.radiorecord.ru:805" + code + "_aac";
             case AAC_64:
                 return "http://air.radiorecord.ru:805" + code + "_aac_64";
             case LOW:
@@ -50,7 +51,7 @@ public enum Station {
             case MEDIUM:
                 return "http://air.radiorecord.ru:" + portMedium + code + "_128";
             case HIGH:
-                return "http://air2.radiorecord.ru:805" + code + "_320";
+                return "http://air.radiorecord.ru:805" + code + "_320";
             default:
                 throw new UnsupportedOperationException("This quality is not supported");
         }

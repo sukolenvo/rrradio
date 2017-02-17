@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class HistoryMusicSelectFragment extends AbstractSelectionFragment<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem> {
+
     private static final String ITEMS_KEY = "history_items";
     public static final String STATION_KEY = "station_key";
     public static final String DATE_KEY = "date_key";
@@ -58,8 +59,7 @@ public class HistoryMusicSelectFragment extends AbstractSelectionFragment<Histor
         setStatus(R.string.message_loading);
         List<HistoryMusicItem> result;
         Connection.Response response = Jsoup.connect(String.format(URL_TEMPLATE, station.getCodeAsParam(), date))
-                .userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36")
-                .execute();
+                                            .userAgent(USER_AGENT).execute();
         if (isDestroyed()) {
             return Collections.emptyList();
         }
