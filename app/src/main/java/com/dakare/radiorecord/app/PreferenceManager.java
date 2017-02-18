@@ -107,6 +107,14 @@ public class PreferenceManager {
         for (String name : line.substring(0, line.length() - 1).split(",")) {
             stations.add(Station.valueOf(name));
         }
+        if (stations.size() < Station.values().length) {
+            for (Station station : Station.values()) {
+                if (!stations.contains(station)) {
+                    stations.add(station);
+                }
+            }
+            setStations(stations);
+        }
         return stations;
     }
 
