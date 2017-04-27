@@ -105,7 +105,11 @@ public class PreferenceManager {
         }
         List<Station> stations = new ArrayList<Station>();
         for (String name : line.substring(0, line.length() - 1).split(",")) {
-            stations.add(Station.valueOf(name));
+            try {
+                stations.add(Station.valueOf(name));
+            } catch (IllegalArgumentException e) {
+                //station not exists anymore
+            }
         }
         if (stations.size() < Station.values().length) {
             for (Station station : Station.values()) {

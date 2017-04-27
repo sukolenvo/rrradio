@@ -3,7 +3,10 @@ package com.dakare.radiorecord.app.view;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -85,9 +88,11 @@ public class PlayerBackgroundImage extends ImageView {
         }
 
         if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+            bitmap = Bitmap.createBitmap(1, 1,
+                                         Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
         } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(),
+                                         Bitmap.Config.ARGB_8888);
         }
 
         Canvas canvas = new Canvas(bitmap);
@@ -105,11 +110,12 @@ public class PlayerBackgroundImage extends ImageView {
         if (imageXYRate > defaultXYRate) {
             int resultWidth = (int) (height * defaultXYRate);
             destination = new Rect((int) (innerHorizontal + (width - resultWidth) / 2), (int) (innerVertical),
-                    (int) (innerHorizontal + (width + resultWidth) / 2), (int) (height + innerVertical));
+                                   (int) (innerHorizontal + (width + resultWidth) / 2), (int) (height + innerVertical));
         } else {
             int resultHeight = (int) (width / defaultXYRate);
             destination = new Rect((int) (innerHorizontal), (int) (innerVertical + (height - resultHeight) / 2),
-                    (int) (width + innerHorizontal), (int) (innerVertical + (height + resultHeight) / 2));
+                                   (int) (width + innerHorizontal),
+                                   (int) (innerVertical + (height + resultHeight) / 2));
         }
         canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()), destination, null);
     }
@@ -119,22 +125,30 @@ public class PlayerBackgroundImage extends ImageView {
         Rect destination;
         if (imageXYRate > defaultXYRate) {
             int resultHeight = (int) (bitmap.getHeight() * defaultXYRate / imageXYRate);
-            destination = new Rect(0, (bitmap.getHeight() - resultHeight) / 2, bitmap.getWidth(), (bitmap.getHeight() - resultHeight) / 2 + resultHeight);
+            destination = new Rect(0, (bitmap.getHeight() - resultHeight) / 2, bitmap.getWidth(),
+                                   (bitmap.getHeight() - resultHeight) / 2 + resultHeight);
         } else {
             int resultWidth = (int) (bitmap.getWidth() * imageXYRate / defaultXYRate);
-            destination = new Rect((bitmap.getWidth() - resultWidth) / 2, 0, (bitmap.getWidth() - resultWidth) / 2 + resultWidth, bitmap.getHeight());
+            destination = new Rect((bitmap.getWidth() - resultWidth) / 2, 0,
+                                   (bitmap.getWidth() - resultWidth) / 2 + resultWidth, bitmap.getHeight());
         }
 
         Bitmap fastblur = fastblur(bitmap, BLUR_SCALE, BLUR_RADIUS, destination);
-        canvas.drawBitmap(fastblur, new Rect(0, 0, fastblur.getWidth(), fastblur.getHeight()), new Rect(0, 0, width, height), null);
+        canvas.drawBitmap(fastblur, new Rect(0, 0, fastblur.getWidth(), fastblur.getHeight()),
+                          new Rect(0, 0, width, height), null);
     }
 
     public Bitmap fastblur(final Bitmap sentBitmap, final float scale, final int radius, final Rect area) {
-        Bitmap result = Bitmap.createBitmap(sentBitmap, area.left, area.top, area.width(), area.height());
-        int width = Math.round(result.getWidth() * scale);
-        int height = Math.round(result.getHeight() * scale);
-        result = Bitmap.createScaledBitmap(result, width, height, false);
+        int width = Math.round(sentBitmap.getWidth() * scale);
+        int height = Math.round(sentBitmap.getHeight() * scale);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(sentBitmap, width, height, false);
+        Bitmap result = Bitmap.createBitmap(scaledBitmap, (int) (area.left * scale), (int) (area.top * scale),
+                                            (int) (area.width() * scale), (int) (area.height() * scale));
+        if (result != scaledBitmap) {
+            scaledBitmap.recycle();
+        }
         Bitmap bitmap = result.copy(result.getConfig(), true);
+        result.recycle();
 
         if (radius < 1) {
             return (null);

@@ -43,26 +43,30 @@ public enum Theme {
                     return R.drawable.record_dubstep_ico;
                 case RECORD_DANCECORE:
                     return R.drawable.recrod_dancecore_ico;
-                case RECORD_TECHNO:
-                    return R.drawable.record_techno_ico;
                 case RECORD_HARDSTYLE:
                     return R.drawable.record_hardstyle_ico;
                 case RECORD_TRAP:
                     return R.drawable.record_trap_ico;
                 case PUMP:
-                    return R.drawable.pump_ico;
+                    return R.drawable.old_school_ico;
                 case RECORD_ROCK:
                     return R.drawable.record_rock_ico;
                 case SLOW_DANCE_FM:
                     return R.drawable.slow_song_fm_ico;
                 case GOP_FM:
                     return R.drawable.gop_fm_ico;
+                case TROPICAL:
+                    return R.drawable.tropic_ico;
+                case NAFTALIN:
+                    return R.drawable.naftalin_ico;
                 case YO_FM:
-                    return R.drawable.yo_fm_ico;
+                    return R.drawable.black_ico;
                 case RAVE_FM:
                     return R.drawable.rave_fm_ico;
                 case GOA:
                     return R.drawable.goa_ico;
+                case GOLD:
+                    return R.drawable.gold_ico;
                 default:
                     return R.drawable.rr_ico;
             }
@@ -102,26 +106,30 @@ public enum Theme {
                     return R.drawable.icon_light_dubstep;
                 case RECORD_DANCECORE:
                     return R.drawable.icon_light_dancecore;
-                case RECORD_TECHNO:
-                    return R.drawable.icon_light_techno;
                 case RECORD_HARDSTYLE:
                     return R.drawable.icon_light_hardstyle;
                 case RECORD_TRAP:
                     return R.drawable.icon_light_trap;
                 case PUMP:
-                    return R.drawable.icon_light_pump;
+                    return R.drawable.icon_light_old_school;
                 case RECORD_ROCK:
                     return R.drawable.icon_light_rock;
                 case SLOW_DANCE_FM:
                     return R.drawable.icon_light_medl;
                 case GOP_FM:
                     return R.drawable.icon_light_gop;
+                case TROPICAL:
+                    return R.drawable.icon_light_tropical;
+                case NAFTALIN:
+                    return R.drawable.icon_light_naftalin;
                 case YO_FM:
-                    return R.drawable.icon_light_yo;
+                    return R.drawable.icon_light_black;
                 case RAVE_FM:
                     return R.drawable.icon_light_rave;
                 case GOA:
                     return R.drawable.icon_light_goa;
+                case GOLD:
+                    return R.drawable.icon_light_gold;
                 default:
                     return R.drawable.icon_light_rr;
             }
@@ -161,26 +169,30 @@ public enum Theme {
                     return R.drawable.icon_dark_dubstep;
                 case RECORD_DANCECORE:
                     return R.drawable.icon_dark_dancecore;
-                case RECORD_TECHNO:
-                    return R.drawable.icon_dark_techno;
                 case RECORD_HARDSTYLE:
                     return R.drawable.icon_dark_hardstyle;
                 case RECORD_TRAP:
                     return R.drawable.icon_dark_trap;
                 case PUMP:
-                    return R.drawable.icon_dark_pump;
+                    return R.drawable.icon_dark_old_school;
                 case RECORD_ROCK:
                     return R.drawable.icon_dark_rock;
                 case SLOW_DANCE_FM:
                     return R.drawable.icon_dark_medl;
                 case GOP_FM:
                     return R.drawable.icon_dark_gop;
+                case TROPICAL:
+                    return R.drawable.icon_dark_tropical;
+                case NAFTALIN:
+                    return R.drawable.icon_dark_naftalin;
                 case YO_FM:
-                    return R.drawable.icon_dark_yo;
+                    return R.drawable.icon_dark_black;
                 case RAVE_FM:
                     return R.drawable.icon_dark_rave;
                 case GOA:
                     return R.drawable.icon_dark_goa;
+                case GOLD:
+                    return R.drawable.icon_dark_gold;
                 default:
                     return R.drawable.icon_dark_rr;
             }
