@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
 
 public class DownloadManager extends BroadcastReceiver implements DownloadTask.DownloadListener {
     private static final int TASKS_COUNT = 2;
@@ -77,23 +78,29 @@ public class DownloadManager extends BroadcastReceiver implements DownloadTask.D
         synchronized (tasks) {
             if (tasks.size() < TASKS_COUNT) {
                 Cursor cursor = StorageContract.getInstance().getAudioToDownload();
-                if (cursor.moveToFirst()) {
-                    do {
-                        DownloadTask task = new DownloadTask(cursor, this);
-                        boolean add = true;
-                        for (DownloadTask downloadTask : tasks) {
-                            if (downloadTask.getId() == task.getId()) {
-                                add = false;
-                                break;
+                if (cursor != null) {
+                    if (cursor.moveToFirst()) {
+                        do {
+                            DownloadTask task = new DownloadTask(cursor, this);
+                            boolean add = true;
+                            for (DownloadTask downloadTask : tasks) {
+                                if (downloadTask.getId() == task.getId()) {
+                                    add = false;
+                                    break;
+                                }
                             }
-                        }
-                        if (add) {
-                            tasks.add(task);
-                            executorService.execute(task);
-                        }
-                    } while (cursor.moveToNext() && tasks.size() < TASKS_COUNT);
+                            if (add) {
+                                try {
+                                    executorService.execute(task);
+                                    tasks.add(task);
+                                } catch (RejectedExecutionException e) {
+                                    break;
+                                }
+                            }
+                        } while (cursor.moveToNext() && tasks.size() < TASKS_COUNT);
+                    }
+                    cursor.close();
                 }
-                cursor.close();
             }
             if (tasks.isEmpty()) {
                 service.stopSelf();

@@ -3,6 +3,9 @@ package com.dakare.radiorecord.app.player.playlist;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.download.service.DownloadItem;
@@ -44,7 +47,12 @@ public class PlaylistItem implements Parcelable {
         } else {
             subtitle = null;
         }
-        station = Station.valueOf(parcel.readString());
+        try {
+            station = Station.valueOf(parcel.readString());
+        } catch (IllegalArgumentException e) {
+            Crashlytics.logException(e);
+            station = Station.RADIO_RECORD;
+        }
         url = parcel.readString();
     }
 
@@ -58,7 +66,14 @@ public class PlaylistItem implements Parcelable {
 
     public PlaylistItem(final Station station, final HistoryMusicItem historyMusicItem) {
         this.title = historyMusicItem.getArtist();
-        this.station = station;
+        if (station == null) {
+            this.station = Station.RADIO_RECORD;
+            Answers.getInstance().logCustom(new CustomEvent("error")
+                                                    .putCustomAttribute("type", "Station is null")
+                                                    .putCustomAttribute("type", "HistoryMusicItem"));
+        } else {
+            this.station = station;
+        }
         this.url = encodeUrl(historyMusicItem.getUrl());
         this.subtitle = historyMusicItem.getSong();
         this.live = false;
@@ -66,7 +81,14 @@ public class PlaylistItem implements Parcelable {
 
     public PlaylistItem(final Station station, final TopsMusicItem item) {
         this.title = item.getArtist();
-        this.station = station;
+        if (station == null) {
+            this.station = Station.RADIO_RECORD;
+            Answers.getInstance().logCustom(new CustomEvent("error")
+                                                    .putCustomAttribute("type", "Station is null")
+                                                    .putCustomAttribute("type", "TopsMusicItem"));
+        } else {
+            this.station = station;
+        }
         this.url = encodeUrl(item.getUrl());
         this.subtitle = item.getSong();
         this.live = false;
@@ -110,6 +132,10 @@ public class PlaylistItem implements Parcelable {
         }
         dest.writeString(station.name());
         dest.writeString(url);
+    }
+
+    public Station getStation() {
+        return station == null ? Station.RADIO_RECORD : station;
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

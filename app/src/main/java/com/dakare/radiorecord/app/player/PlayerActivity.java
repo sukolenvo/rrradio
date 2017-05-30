@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
@@ -267,7 +269,11 @@ public class PlayerActivity extends MenuActivity
     protected void onPause() {
         super.onPause();
         playerServiceHelper.getServiceClient().setPlayerMessageHandler(null);
-        playerServiceHelper.unbindService(this);
+        try {
+            playerServiceHelper.unbindService(this);
+        } catch (IllegalArgumentException e) {
+            Crashlytics.logException(e);
+        }
         if (positionUpdater != null) {
             positionUpdater.interrupt();
             positionUpdater = null;

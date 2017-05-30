@@ -84,12 +84,14 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
     private List<DownloadItem> getContent() {
         List<DownloadItem> items = new ArrayList<>();
         Cursor cursor = StorageContract.getInstance().getAllAudio();
-        if (cursor.moveToFirst()) {
-            do {
-                items.add(new DownloadItem(cursor));
-            } while (cursor.moveToNext());
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    items.add(new DownloadItem(cursor));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
         }
-        cursor.close();
         return items;
     }
 
