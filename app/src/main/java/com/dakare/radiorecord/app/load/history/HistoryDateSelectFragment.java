@@ -51,7 +51,7 @@ public class HistoryDateSelectFragment extends AbstractHistoryMediatorFragment<H
         setStatus(R.string.message_loading);
         List<String> result;
         Connection.Response response = Jsoup.connect(URL_TEMPLATE + station.getCodeAsParam())
-                .userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36")
+                .userAgent(USER_AGENT)
                 .execute();
         if (isDestroyed()) {
             return Collections.emptyList();
