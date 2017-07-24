@@ -17,7 +17,8 @@ public class LockListener implements IPlayerStateListener, Closeable {
     public LockListener(final Context context) {
         wakeLock = ((PowerManager) context.getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "RecordLockListener");
         wakeLock.setReferenceCounted(false);
-        wifiLock = ((WifiManager) context.getSystemService(Context.WIFI_SERVICE)).createWifiLock("RecordLockListener");
+        wifiLock = ((WifiManager) context.getApplicationContext()
+                .getSystemService(Context.WIFI_SERVICE)).createWifiLock("RecordLockListener");
         wifiLock.setReferenceCounted(false);
     }
 

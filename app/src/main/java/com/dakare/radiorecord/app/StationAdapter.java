@@ -19,7 +19,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder> implements DraggableItemAdapter<StationAdapter.ViewHolder> {
+public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder>
+        implements DraggableItemAdapter<StationAdapter.ViewHolder> {
     private final LayoutInflater inflater;
     private final List<Station> items = new ArrayList<Station>();
     private final StationClickListener callback;
@@ -100,6 +101,11 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
             notifyItemMoved(fromPosition, toPosition);
             preferenceManager.setStations(items);
         }
+    }
+
+    @Override
+    public boolean onCheckCanDrop(int draggingPosition, int dropPosition) {
+        return true;
     }
 
     public static class ViewHolder extends AbstractDraggableItemViewHolder {
