@@ -95,9 +95,8 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     @Override
     public void onMoveItem(final int fromPosition, final int toPosition) {
         if (fromPosition != toPosition) {
-            Station fromItem = items.get(fromPosition);
-            items.set(fromPosition, items.get(toPosition));
-            items.set(toPosition, fromItem);
+            Station fromItem = items.remove(fromPosition);
+            items.add(toPosition, fromItem);
             notifyItemMoved(fromPosition, toPosition);
             preferenceManager.setStations(items);
         }

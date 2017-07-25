@@ -3,7 +3,6 @@ package com.dakare.radiorecord.app;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.quality.QualityDialog;
 import com.dakare.radiorecord.app.settings.SettingsThemeDialog;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
 
