@@ -2,12 +2,8 @@ package com.dakare.radiorecord.app;
 
 import android.annotation.SuppressLint;
 import com.dakare.radiorecord.app.load.history.HistoryDateSelectFragment;
-import com.dakare.radiorecord.app.load.top.TopsMusicFragment;
-import com.dakare.radiorecord.app.load.top.TopsMusicItem;
-import org.springframework.util.ReflectionUtils;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.List;
 
 @SuppressLint("ValidFragment")
@@ -15,9 +11,7 @@ public class TestHistoryDateFragment extends HistoryDateSelectFragment {
 
     public TestHistoryDateFragment(final Station station) {
         super();
-        Field categoryName = ReflectionUtils.findField(HistoryDateSelectFragment.class, "station");
-        categoryName.setAccessible(true);
-        ReflectionUtils.setField(categoryName, this, station);
+        ReflectionUtils.setField(this, "station", station);
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Config;
 import android.util.Log;
 import com.dakare.radiorecord.app.database.DownloadAudioTable;
 import com.dakare.radiorecord.app.download.service.DownloadsSort;
@@ -15,11 +14,8 @@ import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepSettings;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.view.theme.Theme;
-import com.google.gson.Gson;
 
 import java.io.File;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -184,36 +180,17 @@ public class PreferenceManager {
 
     public List<PlaylistItem> getLastPlaylist() {
         String list = sharedPreferences.getString(LAST_PLAYLIST_KEY, null);
-        if (TextUtils.isEmpty(list)) {
-            return Collections.singletonList(new PlaylistItem(Station.RADIO_RECORD, Quality.HIGH));
-        }
-        Gson gson = new Gson();
         try {
-            return gson.fromJson(list, new ParameterizedType() {
-                @Override
-                public Type[] getActualTypeArguments() {
-                    return new Type[]{PlaylistItem.class};
-                }
-
-                @Override
-                public Type getOwnerType() {
-                    return null;
-                }
-
-                @Override
-                public Type getRawType() {
-                    return List.class;
-                }
-            });
+            return JsonHelper.readPlaylist(list);
         } catch (Exception e) {
             Log.e("PrefManager", "Failed to init playlist", e);
-            return Collections.emptyList();
+            return Collections.singletonList(new PlaylistItem(Station.RADIO_RECORD, Quality.HIGH));
         }
     }
 
     public void setLastPlaylist(final List<PlaylistItem> playlist) {
         sharedPreferences.edit()
-                .putString(LAST_PLAYLIST_KEY, new Gson().toJson(playlist))
+                .putString(LAST_PLAYLIST_KEY, JsonHelper.writePlaylist(playlist))
                 .apply();
     }
 

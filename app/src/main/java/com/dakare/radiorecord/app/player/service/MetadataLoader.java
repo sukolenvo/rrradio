@@ -6,24 +6,18 @@ import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.player.UpdateResponse;
 import lombok.Getter;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpResponse;
-import org.springframework.http.converter.json.GsonHttpMessageConverter;
-import org.springframework.web.client.ResponseErrorHandler;
-import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
-import java.util.Arrays;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MetadataLoader implements Runnable {
-    private final String URL = "https://www.radiorecord.ru/xml/{station}_online_v8.txt";
+    private final String URL_FORMAT = "https://www.radiorecord.ru/xml/%s_online_v8.txt";
 
     private final AtomicBoolean playing = new AtomicBoolean();
     private Station station;
-    private final RestTemplate template = new RestTemplate();
     @Getter
     private UpdateResponse response = new UpdateResponse();
     private final MetadataChangeCallback callback;
@@ -34,21 +28,6 @@ public class MetadataLoader implements Runnable {
         //TODO: fix image blink
         this.callback = callback;
         this.context = context;
-        GsonHttpMessageConverter gsonHttpMessageConverter = new GsonHttpMessageConverter();
-        gsonHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(new MediaType("application", "json", GsonHttpMessageConverter.DEFAULT_CHARSET),
-                new MediaType("text", "plain", GsonHttpMessageConverter.DEFAULT_CHARSET)));
-        template.getMessageConverters().add(gsonHttpMessageConverter);
-        template.setErrorHandler(new ResponseErrorHandler() {
-            @Override
-            public boolean hasError(final ClientHttpResponse response) throws IOException {
-                return response.getStatusCode() != HttpStatus.OK;
-            }
-
-            @Override
-            public void handleError(ClientHttpResponse response) throws IOException {
-                Log.w("Update Task", "Cannot parse response");
-            }
-        });
     }
 
     public void start(final Station station) {
@@ -74,11 +53,20 @@ public class MetadataLoader implements Runnable {
             if (PreferenceManager.getInstance(context).isMusicMetadataEnabled()) {
                 UpdateResponse updateResponse = null;
                 try {
-                    ResponseEntity<UpdateResponse> response = template.getForEntity(URL, UpdateResponse.class, station.getCodeAsParam());
-                    if (response.getStatusCode() == HttpStatus.OK) {
-                        updateResponse = response.getBody();
+                    String url = String.format(URL_FORMAT, station.getCodeAsParam());
+                    HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                    connection.setConnectTimeout(10_000);
+                    connection.setReadTimeout(180_000); //Their cloud protection is annoying as fuck
+                    int responseCode = connection.getResponseCode();
+                    if (responseCode == 200) {
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                        StringBuilder builder = new StringBuilder();
+                        for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                            builder.append(line);
+                        }
+                        updateResponse = new UpdateResponse(builder.toString());
                     } else {
-                        Log.w("MetadataLoader", "Received bad response " + response.getStatusCode());
+                        Log.w("Update Task", "Error code: " + responseCode);
                     }
                 } catch (Exception e) {
                     Log.e("Update Task", "Failed to load update", e);

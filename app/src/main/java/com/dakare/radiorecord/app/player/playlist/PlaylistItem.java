@@ -13,16 +13,12 @@ import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
 import com.dakare.radiorecord.app.load.section.SectionMusicItem;
 import com.dakare.radiorecord.app.load.top.TopsMusicItem;
 import com.dakare.radiorecord.app.quality.Quality;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
+@Data
 @NoArgsConstructor
-@Getter
-@EqualsAndHashCode
 public class PlaylistItem implements Parcelable {
-    @Setter
     private String title;
     private String subtitle;
     private String url;
