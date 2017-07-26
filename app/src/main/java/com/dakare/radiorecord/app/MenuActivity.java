@@ -171,15 +171,6 @@ public class MenuActivity extends ThemeActivity {
         closeMenu();
     }
 
-    public void iapActivity(final View view) {
-        if (!(this instanceof IapActivity)) {
-            Intent intent = new Intent(this, IapActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-        }
-        closeMenu();
-    }
-
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(Gravity.LEFT)) {

@@ -15,7 +15,7 @@
     <string name="settings_text">Settings</string>
     <string name="menu_main_text">Radio stations</string>
     <string name="menu_downloads_text">Downloaded</string>
-    <string name="menu_iap_text">Donate</string>
+    <string name="settings_iap_text">Donate</string>
     <string name="menu_history_text">History</string>
     <string name="menu_top_text">Top 100</string>
     <string name="menu_superchart_text" translatable="false">Superchart</string>
@@ -143,4 +143,5 @@
     </string>
     <string name="recording_starting_info">File %1$s is starting now. You can check it in Downloads section.</string>
     <string name="recording_stopped_info">Recording is stopped.</string>
+    <string name="settings_iap_secondary">This motivates developer to work on new release</string>
 </resources>

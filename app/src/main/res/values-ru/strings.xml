@@ -72,7 +72,7 @@
     <string name="menu_delete">Удалить</string>
     <string name="error_source">Ошибка обработки источника медиа</string>
     <string name="error_not_downloaded">Некторые аудиозаписи были исключены - загрузка не завершена</string>
-    <string name="menu_iap_text">Пожертвования</string>
+    <string name="settings_iap_text">Пожертвования</string>
     <string name="donate_text">\tДанное приложение является абсолютно бесплатным. Весь его функционал доступен каждому
         пользователю без каких либо ограничений. Если Вам нравится <b>Radio Record</b> и Вы хотите поддержать проект -
         воспользуйтесь одной из кнопок снизу :). Это будет мотивировать нас на выпуск новых классных обновлений и
@@ -141,4 +141,5 @@
     <string name="recording_starting_info">Запись %1$s началась. Вы можете ее найти в разделе Загрузки.</string>
     <string name="recording_stopped_info">Запись прекращена.</string>
     <string name="classic_theme_name">Классическая</string>
+    <string name="settings_iap_secondary">Пожертвования мотивируют на выпуск новых версий</string>
 </resources>

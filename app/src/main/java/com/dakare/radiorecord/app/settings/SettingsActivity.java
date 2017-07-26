@@ -2,12 +2,12 @@ package com.dakare.radiorecord.app.settings;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.ads.SettingsAdsDialog;
+import com.dakare.radiorecord.app.iap.IapActivity;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.view.theme.Theme;
 import com.dakare.radiorecord.app.view.theme.ThemeActivity;
@@ -41,6 +42,15 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         initMusicImage();
         initDownloadDirectory();
         initEqSettings();
+        findViewById(R.id.iap_container).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, IapActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initQuality() {

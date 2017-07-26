@@ -2,13 +2,14 @@ package com.dakare.radiorecord.app.iap;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.view.theme.Theme;
+import com.dakare.radiorecord.app.view.theme.ThemeActivity;
 
-public class IapActivity extends MenuActivity implements IapHelper.IapCallback, View.OnClickListener {
+public class IapActivity extends ThemeActivity implements IapHelper.IapCallback, View.OnClickListener {
     private View smallPaymantButton;
     private View mediumPaymentButton;
     private View largePaymentButton;
@@ -18,7 +19,8 @@ public class IapActivity extends MenuActivity implements IapHelper.IapCallback, 
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iap);
-        initToolbar();
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
         smallPaymantButton = findViewById(R.id.button_iap_small);
         mediumPaymentButton = findViewById(R.id.button_iap_medium);
         largePaymentButton = findViewById(R.id.button_iap_large);
@@ -26,11 +28,6 @@ public class IapActivity extends MenuActivity implements IapHelper.IapCallback, 
         mediumPaymentButton.setOnClickListener(this);
         largePaymentButton.setOnClickListener(this);
         iapHelper = new IapHelper(this, this);
-    }
-
-    @Override
-    protected int getMenuContainer() {
-        return R.id.menu_iap_container;
     }
 
     @Override
