@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.dakare.radiorecord.app.AbstractDialog;
+import com.dakare.radiorecord.app.utils.AbstractDialog;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;

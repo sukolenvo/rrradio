@@ -3,7 +3,7 @@ package com.dakare.radiorecord.app.player.equalizer;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import com.dakare.radiorecord.app.AbstractDialog;
+import com.dakare.radiorecord.app.utils.AbstractDialog;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.settings.SettingsActivity;
 

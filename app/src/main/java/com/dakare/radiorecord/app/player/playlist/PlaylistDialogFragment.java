@@ -2,10 +2,10 @@ package com.dakare.radiorecord.app.player.playlist;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDialogFragment;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
+import com.dakare.radiorecord.app.utils.StateLoseAppCompatDialogFragment;
 
-public class PlaylistDialogFragment extends AppCompatDialogFragment implements AbstractSelectionAdapter.PermissionProvider {
+public class PlaylistDialogFragment extends StateLoseAppCompatDialogFragment implements AbstractSelectionAdapter.PermissionProvider {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

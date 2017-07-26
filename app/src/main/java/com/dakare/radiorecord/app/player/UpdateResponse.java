@@ -18,10 +18,18 @@ public class UpdateResponse {
     public UpdateResponse(String json) throws JSONException {
         if (!TextUtils.isEmpty(json)) {
             JSONObject object = new JSONObject(json);
-            image600 = object.getString("image600");
-            title = object.getString("title");
-            artist = object.getString("artist");
-            itunesURL = object.getString("itunesURL");
+            if (object.has("image600")) {
+                image600 = object.getString("image600");
+            }
+            if (object.has("title")) {
+                title = object.getString("title");
+            }
+            if (object.has("artist")) {
+                artist = object.getString("artist");
+            }
+            if (object.has("itunesURL")) {
+                itunesURL = object.getString("itunesURL");
+            }
         }
     }
 }

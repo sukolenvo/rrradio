@@ -3,7 +3,7 @@ package com.dakare.radiorecord.app.settings;
 import android.content.Context;
 import android.view.View;
 import android.widget.ListView;
-import com.dakare.radiorecord.app.AbstractDialog;
+import com.dakare.radiorecord.app.utils.AbstractDialog;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.quality.Quality;

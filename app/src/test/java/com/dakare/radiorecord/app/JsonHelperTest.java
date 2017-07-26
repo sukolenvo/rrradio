@@ -1,6 +1,7 @@
 package com.dakare.radiorecord.app;
 
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
+import com.dakare.radiorecord.app.utils.JsonHelper;
 import org.json.JSONException;
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -8,8 +9,6 @@ import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class JsonHelperTest {
 

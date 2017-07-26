@@ -2,13 +2,13 @@ package com.dakare.radiorecord.app.player.equalizer;
 
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.utils.StateLoseAppCompatDialogFragment;
 
-public class EqualizerDialogFragment extends AppCompatDialogFragment {
+public class EqualizerDialogFragment extends StateLoseAppCompatDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

@@ -5,13 +5,10 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import com.dakare.radiorecord.app.AbstractDialog;
+import com.dakare.radiorecord.app.utils.AbstractDialog;
 import com.dakare.radiorecord.app.MainActivity;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.quality.Quality;
-import com.dakare.radiorecord.app.quality.QualityAdapter;
-import com.dakare.radiorecord.app.view.theme.Theme;
 
 public class SettingsThemeDialog extends AbstractDialog implements AdapterView.OnItemClickListener {
 

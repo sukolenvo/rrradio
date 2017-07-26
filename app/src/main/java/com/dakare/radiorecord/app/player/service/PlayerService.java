@@ -87,6 +87,7 @@ public class PlayerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        //TODO: player.destroy to release resources
         for (IPlayerStateListener listener : messageHandler.getListeners()) {
             if (listener instanceof Closeable) {
                 try {

@@ -78,7 +78,7 @@ dependencies {
     }
     compile 'com.android.support:appcompat-v7:25.3.0'
     compile 'org.jsoup:jsoup:1.7.2'
-    compile 'com.google.android.exoplayer:exoplayer:r1.5.16'
+    compile 'com.google.android.exoplayer:exoplayer-core:r2.4.4'
     provided 'org.projectlombok:lombok:1.12.6'
     compile 'com.google.firebase:firebase-ads:10.0.1'
     testCompile 'junit:junit:4.12'

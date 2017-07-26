@@ -5,7 +5,7 @@ import android.media.audiofx.Equalizer;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import com.dakare.radiorecord.app.AbstractDialog;
+import com.dakare.radiorecord.app.utils.AbstractDialog;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.equalizer.preset.EqualizerPresetDialog;

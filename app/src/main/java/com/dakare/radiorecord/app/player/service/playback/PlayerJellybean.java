@@ -3,8 +3,6 @@ package com.dakare.radiorecord.app.player.service.playback;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.AudioManager;
-import android.media.MediaCodec;
 import android.media.audiofx.Equalizer;
 import android.net.Uri;
 import android.os.Handler;
@@ -13,6 +11,8 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.RecordApplication;
+import com.dakare.radiorecord.app.load.AbstractLoadFragment;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.MetadataLoader;
 import com.dakare.radiorecord.app.player.service.PlayerService;
@@ -22,30 +22,25 @@ import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PositionStateMessage;
 import com.dakare.radiorecord.app.player.service.playback.record.PlaybackRecordManager;
-import com.google.android.exoplayer.ExoPlaybackException;
-import com.google.android.exoplayer.ExoPlayer;
-import com.google.android.exoplayer.MediaCodecAudioTrackRenderer;
-import com.google.android.exoplayer.MediaCodecSelector;
-import com.google.android.exoplayer.MediaCodecTrackRenderer;
-import com.google.android.exoplayer.audio.AudioCapabilities;
-import com.google.android.exoplayer.audio.AudioTrack;
-import com.google.android.exoplayer.extractor.ExtractorSampleSource;
-import com.google.android.exoplayer.upstream.Allocator;
-import com.google.android.exoplayer.upstream.DataSource;
-import com.google.android.exoplayer.upstream.DefaultAllocator;
-import com.google.android.exoplayer.upstream.HttpDataSource;
+import com.google.android.exoplayer2.*;
+import com.google.android.exoplayer2.audio.AudioRendererEventListener;
+import com.google.android.exoplayer2.audio.AudioTrack;
+import com.google.android.exoplayer2.decoder.DecoderCounters;
+import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
+import com.google.android.exoplayer2.extractor.ExtractorsFactory;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.trackselection.*;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, ExoPlayer.Listener,
-                                        ExtractorSampleSource.EventListener, MediaCodecAudioTrackRenderer.EventListener,
-                                        Player,
-                                        SharedPreferences.OnSharedPreferenceChangeListener {
-    private static final int BUFFER_SEGMENT_SIZE = 64 * 1024;
-    private static final int BUFFER_SEGMENT_COUNT = 256;
+public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, AudioRendererEventListener,
+                                        Player, SharedPreferences.OnSharedPreferenceChangeListener, ExoPlayer.EventListener {
 
     @Getter
     private final Context context;
@@ -55,11 +50,10 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     private int position;
     @Setter
     private PlayerServiceMessageHandler playerServiceMessageHandler;
-    private final Handler uiHandler = new Handler();
     private final MetadataLoader metadataLoader;
     @Getter
     private PlayerState state = PlayerState.STOP;
-    private final ExoPlayer player;
+    private final SimpleExoPlayer player;
     private long lastErrorMessage;
     private Equalizer equalizer;
     private final PreferenceManager preferenceManager;
@@ -67,8 +61,12 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
 
     public PlayerJellybean(final Context context) {
         this.context = context;
-        player = ExoPlayer.Factory.newInstance(1);
+        AudioTrack.enablePreV21AudioSessionWorkaround = true;
+        TrackSelection.Factory videoTrackSelectionFactory = new FixedTrackSelection.Factory();
+        TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
+        player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
         player.addListener(this);
+        player.setAudioDebugListener(this);
         metadataLoader = new MetadataLoader(this, context);
         playlist = new ArrayList<>();
         playlist.addAll(PreferenceManager.getInstance(context).getLastPlaylist());
@@ -100,63 +98,16 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
         if (playlist != null && !playlist.isEmpty()) {
             player.stop();
             player.seekTo(0L);
-            player.setPlayWhenReady(true);
+            player.setPlayWhenReady(false);
             PlaylistItem playlistItem = playlist.get(position);
             preferenceManager.setLastPosition(position);
-            Allocator allocator = new DefaultAllocator(BUFFER_SEGMENT_SIZE);
-            DataSource dataSource = playbackRecordManager.startRecording(playlistItem,
-                                                                         DataSourceFactory.createDataSource(
-                                                                                 playlistItem.getUrl(),
-                                                                                 playlistItem.isLive()));
-            if (dataSource != null) {
-                ExtractorSampleSource sampleSource = new ExtractorSampleSource(Uri.parse(playlistItem.getUrl()),
-                                                                               dataSource, allocator,
-                                                                               BUFFER_SEGMENT_COUNT * BUFFER_SEGMENT_SIZE,
-                                                                               ExtractorSampleSource.DEFAULT_MIN_LOADABLE_RETRY_COUNT_LIVE,
-                                                                               uiHandler, this, 0);
-                MediaCodecAudioTrackRenderer audioRenderer = new MediaCodecAudioTrackRenderer(sampleSource,
-                                                                                              MediaCodecSelector.DEFAULT,
-                                                                                              null,
-                                                                                              true,
-                                                                                              uiHandler,
-                                                                                              this,
-                                                                                              AudioCapabilities.getCapabilities(
-                                                                                                      context),
-                                                                                              AudioManager.STREAM_MUSIC) {
-                    @Override
-                    protected void onAudioSessionId(final int audioSessionId) {
-                        try {
-                            if (preferenceManager.isEqSettingsEnabled()) {
-                                equalizer = new Equalizer(0, audioSessionId);
-                                EqualizerSettings old = preferenceManager.getEqSettings();
-                                old.applyLevels(equalizer);
-                                EqualizerSettings newSettings = new EqualizerSettings(equalizer);
-                                if (!newSettings.equals(old)) {
-                                    preferenceManager.setEqSettings(newSettings);
-                                }
-                                super.onAudioSessionId(audioSessionId);
-                                preferenceManager.registerChangeListener(PlayerJellybean.this);
-                            }
-                        } catch (UnsatisfiedLinkError e) {
-                            Crashlytics.logException(e);
-                            preferenceManager.setEqSettings(false);
-                            Toast.makeText(context, R.string.audio_effect_error, Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    protected void onDisabled() throws ExoPlaybackException {
-                        if (equalizer != null) {
-                            equalizer.release();
-                            equalizer = null;
-                        }
-                        preferenceManager.unregisterChangeListener(PlayerJellybean.this);
-                        super.onDisabled();
-                    }
-                };
-                player.prepare(audioRenderer);
-                state = PlayerState.PLAY;
-            }
+            DataSource.Factory dataSourceFactory = playbackRecordManager.startRecording(playlistItem, new DefaultDataSourceFactory(RecordApplication.getInstance(),
+                    AbstractLoadFragment.USER_AGENT));
+            ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
+            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(playlistItem.getUrl()),
+                    dataSourceFactory, extractorsFactory, null, null);
+            player.prepare(mediaSource);
+            state = PlayerState.PLAY;
             updateState();
         }
     }
@@ -249,11 +200,27 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     }
 
     @Override
-    public void onPlayerStateChanged(final boolean b, final int i) {
-        if (i == ExoPlayer.STATE_ENDED && playlist != null && position < playlist.size() - 1) {
+    public void onTimelineChanged(Timeline timeline, Object manifest) {
+        System.out.println("timeline = [" + timeline + "], manifest = [" + manifest + "]");
+    }
+
+    @Override
+    public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+        System.out.println("trackGroups = [" + trackGroups + "], trackSelections = [" + trackSelections + "]");
+    }
+
+    @Override
+    public void onLoadingChanged(boolean isLoading) {
+        System.out.println("isLoading = [" + isLoading + "]");
+    }
+
+    @Override
+    public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        if (playbackState == ExoPlayer.STATE_ENDED && playlist != null && position < playlist.size() - 1) {
+            System.out.println("PlayerJellybean.onPlayerStateChanged");
             position++;
             startPlayback();
-        } else if (i == ExoPlayer.STATE_READY && equalizer != null) {
+        } else if (playbackState == ExoPlayer.STATE_READY && equalizer != null) {
             try {
                 if (!equalizer.getEnabled()) {
                     equalizer.setEnabled(true);
@@ -265,23 +232,18 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     }
 
     @Override
-    public void onPlayWhenReadyCommitted() {
-
+    public void onPlayerError(ExoPlaybackException error) {
+        System.out.println("error = [" + error + "]");
     }
 
     @Override
-    public void onPlayerError(ExoPlaybackException e) {
-
+    public void onPositionDiscontinuity() {
+        System.out.println("PlayerJellybean.onPositionDiscontinuity");
     }
 
     @Override
-    public void onLoadError(final int i, final IOException e) {
-        if (e instanceof HttpDataSource.InvalidResponseCodeException && ((HttpDataSource.InvalidResponseCodeException) e).responseCode == 404) {
-            Toast.makeText(context, R.string.error_not_found, Toast.LENGTH_LONG).show();
-            stop();
-        } else {
-            showError();
-        }
+    public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+        System.out.println("playbackParameters = [" + playbackParameters + "]");
     }
 
     private void showError() {
@@ -292,39 +254,61 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, E
     }
 
     @Override
-    public void onAudioTrackInitializationError(AudioTrack.InitializationException e) {
-        showError();
-    }
-
-    @Override
-    public void onAudioTrackWriteError(AudioTrack.WriteException e) {
-        showError();
-    }
-
-    @Override
-    public void onAudioTrackUnderrun(int i, long l, long l1) {
-
-    }
-
-    @Override
-    public void onDecoderInitializationError(MediaCodecTrackRenderer.DecoderInitializationException e) {
-        showError();
-    }
-
-    @Override
-    public void onCryptoError(MediaCodec.CryptoException e) {
-        showError();
-    }
-
-    @Override
-    public void onDecoderInitialized(String s, long l, long l1) {
-
-    }
-
-    @Override
     public void onSharedPreferenceChanged(final SharedPreferences sharedPreferences, final String key) {
         if (PreferenceManager.EQ_LEVELS_KEY.equals(key) && equalizer != null) {
             preferenceManager.getEqSettings().applyLevels(equalizer);
         }
+    }
+
+    @Override
+    public void onAudioEnabled(DecoderCounters counters) {
+        System.out.println("counters = [" + counters + "]");
+    }
+
+    @Override
+    public void onAudioSessionId(final int audioSessionId) {
+        System.out.println("audioSessionId = [" + audioSessionId + "]");
+        try {
+            if (preferenceManager.isEqSettingsEnabled()) {
+                equalizer = new Equalizer(0, audioSessionId);
+                EqualizerSettings old = preferenceManager.getEqSettings();
+                old.applyLevels(equalizer);
+                EqualizerSettings newSettings = new EqualizerSettings(equalizer);
+                if (!newSettings.equals(old)) {
+                    preferenceManager.setEqSettings(newSettings);
+                }
+                preferenceManager.registerChangeListener(PlayerJellybean.this);
+            }
+        } catch (UnsatisfiedLinkError e) {
+            Crashlytics.logException(e);
+            preferenceManager.setEqSettings(false);
+            Toast.makeText(context, R.string.audio_effect_error, Toast.LENGTH_LONG).show();
+        }
+        player.setPlayWhenReady(true);
+    }
+
+    @Override
+    public void onAudioDecoderInitialized(String decoderName, long initializedTimestampMs, long initializationDurationMs) {
+        System.out.println("decoderName = [" + decoderName + "], initializedTimestampMs = [" + initializedTimestampMs + "], initializationDurationMs = [" + initializationDurationMs + "]");
+    }
+
+    @Override
+    public void onAudioInputFormatChanged(Format format) {
+        System.out.println("format = [" + format + "]");
+    }
+
+    @Override
+    public void onAudioTrackUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
+        System.out.println("bufferSize = [" + bufferSize + "], bufferSizeMs = [" + bufferSizeMs + "], elapsedSinceLastFeedMs = [" + elapsedSinceLastFeedMs + "]");
+    }
+
+    @Override
+    public void onAudioDisabled(DecoderCounters counters) {
+        System.out.println("counters = [" + counters + "]");
+        if (equalizer != null) {
+            equalizer.release();
+            equalizer = null;
+        }
+        preferenceManager.unregisterChangeListener(PlayerJellybean.this);
     }
 }

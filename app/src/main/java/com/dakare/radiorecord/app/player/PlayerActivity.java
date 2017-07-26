@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -346,7 +347,11 @@ public class PlayerActivity extends MenuActivity
             intent.setAction(NotificationListener.ACTION_STOP);
             startService(intent);
         }
-        super.onBackPressed();
+        try {
+            super.onBackPressed();
+        } catch (IllegalStateException e) {
+            Log.i("PlayerActivity", "Ignoring state loss", e);
+        }
     }
 
     @Override

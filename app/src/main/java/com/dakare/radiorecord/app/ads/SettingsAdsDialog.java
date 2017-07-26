@@ -1,12 +1,10 @@
 package com.dakare.radiorecord.app.ads;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
-import com.dakare.radiorecord.app.AbstractDialog;
+import com.dakare.radiorecord.app.utils.AbstractDialog;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.settings.SettingsActivity;
 
 public class SettingsAdsDialog extends AbstractDialog {
 

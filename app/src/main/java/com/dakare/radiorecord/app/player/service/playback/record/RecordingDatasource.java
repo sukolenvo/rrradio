@@ -1,20 +1,16 @@
 package com.dakare.radiorecord.app.player.service.playback.record;
 
 import android.content.ContentValues;
+import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.database.DownloadAudioTable;
 import com.dakare.radiorecord.app.database.provider.StorageContract;
-import com.google.android.exoplayer.upstream.DataSource;
-import com.google.android.exoplayer.upstream.DataSpec;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DataSpec;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 
 public class RecordingDatasource implements DataSource {
 
@@ -56,6 +52,11 @@ public class RecordingDatasource implements DataSource {
             }
         }
         return read;
+    }
+
+    @Override
+    public Uri getUri() {
+        return wrapped.getUri();
     }
 
     public void updateSize() {
