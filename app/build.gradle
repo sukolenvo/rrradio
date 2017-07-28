@@ -69,7 +69,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.10.6@aar') {
         transitive = true
     }

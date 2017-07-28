@@ -15,7 +15,6 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
@@ -31,21 +30,14 @@ import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerServiceClient;
 import com.dakare.radiorecord.app.player.service.PlayerServiceHelper;
 import com.dakare.radiorecord.app.player.service.PlayerState;
-import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
-import com.dakare.radiorecord.app.player.service.message.PlayerMessage;
-import com.dakare.radiorecord.app.player.service.message.PlayerMessageType;
-import com.dakare.radiorecord.app.player.service.message.PositionStateMessage;
-import com.dakare.radiorecord.app.player.service.message.RecordPlayerMessage;
-import com.dakare.radiorecord.app.player.service.message.SeekToMessage;
-import com.dakare.radiorecord.app.player.service.message.UpdatePositionMessage;
-import com.dakare.radiorecord.app.player.service.message.UpdateStatePlayerMessage;
+import com.dakare.radiorecord.app.player.service.message.*;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepTimerSetupDialog;
 import com.dakare.radiorecord.app.view.PlayerBackgroundImage;
 import com.dakare.radiorecord.app.view.theme.Theme;
 import com.google.android.gms.ads.AdView;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
 public class PlayerActivity extends MenuActivity
         implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler,
@@ -63,9 +55,6 @@ public class PlayerActivity extends MenuActivity
     private String metadataIcon;
     private String metadataArtist;
     private String metadataSong;
-    private DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .showImageForEmptyUri(R.drawable.default_player_background)
-            .showImageOnFail(R.drawable.default_player_background).build();
     private Thread positionUpdater;
     private SeekBar playbackProgressView;
     private TextView positionView;
@@ -235,7 +224,14 @@ public class PlayerActivity extends MenuActivity
             song.setText(playlistItem.getSubtitle());
         }
         if (PreferenceManager.getInstance(this).isMusicImageEnabled()) {
-            ImageLoader.getInstance().displayImage(metadataIcon, icon, options);
+            RequestCreator requestCreator = Picasso.with(this).load(metadataIcon)
+                    .error(R.drawable.default_player_background)
+                    .placeholder(R.drawable.default_player_background);
+            if (icon.getInnerWidth() > 0 && icon.getInnerHeight() > 0) {
+                requestCreator.resize((int) icon.getInnerWidth(), (int) icon.getInnerHeight());
+                requestCreator.centerInside();
+            }
+            requestCreator.into(icon);
         } else {
             icon.setImageResource(R.drawable.default_player_background);
         }

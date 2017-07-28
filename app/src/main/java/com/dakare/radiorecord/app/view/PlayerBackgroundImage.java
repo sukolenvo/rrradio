@@ -1,6 +1,5 @@
 package com.dakare.radiorecord.app.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -9,13 +8,12 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.ImageView;
 import com.dakare.radiorecord.app.R;
 
-public class PlayerBackgroundImage extends ImageView {
+public class PlayerBackgroundImage extends AppCompatImageView {
     private static final float BLUR_SCALE = 0.25f;
     private static final int BLUR_RADIUS = 4;
 
@@ -30,12 +28,6 @@ public class PlayerBackgroundImage extends ImageView {
 
     public PlayerBackgroundImage(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initInnerPadding(context, attrs);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public PlayerBackgroundImage(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         initInnerPadding(context, attrs);
     }
 
@@ -104,8 +96,8 @@ public class PlayerBackgroundImage extends ImageView {
     private void putInCenter(final Canvas canvas, final Bitmap bitmap) {
         float defaultXYRate = (float) bitmap.getWidth() / bitmap.getHeight();
         Rect destination;
-        float width = this.width - 2 * innerHorizontal;
-        float height = this.height - 2 * innerVertical;
+        float width = getInnerWidth();
+        float height = getInnerHeight();
         float imageXYRate = width / height;
         if (imageXYRate > defaultXYRate) {
             int resultWidth = (int) (height * defaultXYRate);
@@ -118,6 +110,14 @@ public class PlayerBackgroundImage extends ImageView {
                                    (int) (innerVertical + (height + resultHeight) / 2));
         }
         canvas.drawBitmap(bitmap, new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight()), destination, null);
+    }
+
+    public float getInnerHeight() {
+        return this.height - 2 * innerVertical;
+    }
+
+    public float getInnerWidth() {
+        return this.width - 2 * innerHorizontal;
     }
 
     private void putInBackground(final Canvas canvas, final Bitmap bitmap) {

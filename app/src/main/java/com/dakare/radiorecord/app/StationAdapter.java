@@ -14,7 +14,6 @@ import com.h6ah4i.android.widget.advrecyclerview.draggable.DraggableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.DraggableItemConstants;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.ItemDraggableRange;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractDraggableItemViewHolder;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.List;
 public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder>
         implements DraggableItemAdapter<StationAdapter.ViewHolder> {
     private final LayoutInflater inflater;
-    private final List<Station> items = new ArrayList<Station>();
+    private final List<Station> items = new ArrayList<>();
     private final StationClickListener callback;
     private final PreferenceManager preferenceManager;
     private final Theme theme;

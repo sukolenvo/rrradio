@@ -61,7 +61,7 @@
     *;
 }
 
--dontwarn org.springframework.**
+-dontwarn com.squareup.okhttp.**
 -dontwarn android.support.v4.**
 -dontwarn android.support.v7.**
 -keep class android.support.v7.** { *; }

@@ -1,40 +1,27 @@
 package com.dakare.radiorecord.app.player.listener;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.view.View;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PlayerMessageType;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerListenerHandler extends Handler implements ImageLoadingListener {
+public class PlayerListenerHandler extends Handler implements Target {
 
     @Getter
     private final List<IPlayerStateListener> listeners = new ArrayList<>();
     private String lastUrl;
-    private final DisplayImageOptions displayImageOptions;
-
-    public PlayerListenerHandler() {
-        displayImageOptions = new DisplayImageOptions.Builder()
-                .imageScaleType(ImageScaleType.EXACTLY)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
-    }
 
     @Override
     public void handleMessage(final Message msg) {
@@ -51,7 +38,10 @@ public class PlayerListenerHandler extends Handler implements ImageLoadingListen
             } else if (PreferenceManager.getInstance(RecordApplication.getInstance()).isMusicImageEnabled()
                     && !stateMessage.getIcon().equals(lastUrl)) {
                 lastUrl = stateMessage.getIcon();
-                ImageLoader.getInstance().loadImage(lastUrl, new ImageSize(128, 128), displayImageOptions, this);
+                Picasso.with(RecordApplication.getInstance())
+                        .load(lastUrl)
+                        .resize(128, 128)
+                        .into(this);
             }
         }
 
@@ -61,28 +51,21 @@ public class PlayerListenerHandler extends Handler implements ImageLoadingListen
         listeners.add(listener);
     }
 
-
     @Override
-    public void onLoadingStarted(final String imageUri, final View view) {
-        //Nothing to do
-    }
-
-    @Override
-    public void onLoadingFailed(final String imageUri, final View view, final FailReason failReason) {
-        //Nothing to do
-    }
-
-    @Override
-    public void onLoadingComplete(final String imageUri, final View view, final Bitmap loadedImage) {
-        if (lastUrl != null && lastUrl.equals(imageUri)) {
-            for (IPlayerStateListener listener : listeners) {
-                listener.onIconChange(loadedImage);
-            }
+    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+        //TODO: verify imageUrl if image is outdated
+        for (IPlayerStateListener listener : listeners) {
+            listener.onIconChange(bitmap);
         }
     }
 
     @Override
-    public void onLoadingCancelled(final String imageUri, final View view) {
-        //Nothing to do
+    public void onBitmapFailed(Drawable errorDrawable) {
+
+    }
+
+    @Override
+    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
     }
 }

@@ -13,7 +13,6 @@ import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.StationClickListener;
 import com.dakare.radiorecord.app.view.theme.Theme;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
