@@ -39,24 +39,24 @@ import lombok.Setter;
 import java.util.ArrayList;
 
 public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, AudioRendererEventListener,
-                                        Player, SharedPreferences.OnSharedPreferenceChangeListener, ExoPlayer.EventListener {
+        Player, SharedPreferences.OnSharedPreferenceChangeListener, ExoPlayer.EventListener {
 
     @Getter
     private final Context context;
+    private final MetadataLoader metadataLoader;
+    private final SimpleExoPlayer player;
+    private final PreferenceManager preferenceManager;
+    private final PlaybackRecordManager playbackRecordManager;
     @Getter
     private ArrayList<PlaylistItem> playlist;
     @Getter
     private int position;
     @Setter
     private PlayerServiceMessageHandler playerServiceMessageHandler;
-    private final MetadataLoader metadataLoader;
     @Getter
     private PlayerState state = PlayerState.STOP;
-    private final SimpleExoPlayer player;
     private long lastErrorMessage;
     private Equalizer equalizer;
-    private final PreferenceManager preferenceManager;
-    private final PlaybackRecordManager playbackRecordManager;
 
     public PlayerJellybean(final Context context) {
         this.context = context;
@@ -90,7 +90,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
     public void updateState() {
         playerServiceMessageHandler.handleServiceResponse(
                 new PlaybackStatePlayerMessage(playlist.get(position), position, state, metadataLoader.getResponse(),
-                                               playbackRecordManager.isRecord()));
+                        playbackRecordManager.isRecord()));
     }
 
     private void startPlayback() {
@@ -104,7 +104,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
                     AbstractLoadFragment.USER_AGENT));
             ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
             MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(playlistItem.getUrl()),
-                    dataSourceFactory, extractorsFactory,   63, null, null, null);
+                    dataSourceFactory, extractorsFactory, 63, null, null, null);
             player.prepare(mediaSource);
             state = PlayerState.PLAY;
             updateState();
@@ -180,7 +180,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
     public void updatePosition() {
         playerServiceMessageHandler.handleServiceResponse(
                 new PositionStateMessage((int) player.getCurrentPosition(), (int) player.getDuration(),
-                                         (int) player.getBufferedPosition()));
+                        (int) player.getBufferedPosition()));
     }
 
     @Override

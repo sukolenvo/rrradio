@@ -143,7 +143,7 @@
     <string name="recording_starting_info">Запись %1$s началась. Вы можете ее найти в разделе Загрузки.</string>
     <string name="recording_stopped_info">Запись прекращена.</string>
     <string name="classic_theme_name">Классическая</string>
-    <string name="settings_iap_secondary">Пожертвования мотивируют на выпуск новых версий</string>
+    <string name="settings_iap_secondary">Поддержать проект</string>
     <string name="error_recording">Не удалось создать файл по указанному пути. Проверьте права на запись</string>
     <string name="menu_message_studio_text">Сообщение в студию</string>
     <string name="message_studio_error">Произошла ошибка при отправке сообщения</string>
