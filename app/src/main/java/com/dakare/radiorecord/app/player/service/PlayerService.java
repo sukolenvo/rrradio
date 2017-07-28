@@ -53,7 +53,7 @@ public class PlayerService extends Service {
     public int onStartCommand(final Intent intent, final int flags, final int startId) {
         if (intent != null) {
             if (intent.hasExtra(PLAYLIST_KEY)) {
-                ArrayList<PlaylistItem> playlist = (ArrayList) intent.getParcelableArrayListExtra(PLAYLIST_KEY);
+                ArrayList<PlaylistItem> playlist = intent.getParcelableArrayListExtra(PLAYLIST_KEY);
                 PreferenceManager.getInstance(this).setLastPlaylist(playlist);
                 player.play(playlist, intent.getIntExtra(POSITION_KEY, 0));
             } else if (NotificationListener.ACTION_NEXT.equals(intent.getAction())) {

@@ -7,7 +7,7 @@ import com.dakare.radiorecord.app.player.listener.NotificationListener;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor(suppressConstructorProperties = true)
+@AllArgsConstructor
 public class ControlCallback extends MediaSessionCompat.Callback {
 
     private final Context context;

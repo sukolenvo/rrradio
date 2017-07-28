@@ -1,27 +1,23 @@
 package com.dakare.radiorecord.app.view;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.*;
 import android.media.audiofx.Equalizer;
-import android.os.Build;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.ImageView;
-import android.widget.Toast;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import lombok.AllArgsConstructor;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class EqualizerImage extends ImageView {
+public class EqualizerImage extends AppCompatImageView {
 
     private static final int POINT_CLICK_RANGE = 40;
 
@@ -55,12 +51,6 @@ public class EqualizerImage extends ImageView {
 
     public EqualizerImage(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init(context, attrs);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public EqualizerImage(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
     }
 
@@ -275,7 +265,7 @@ public class EqualizerImage extends ImageView {
         return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
     }
 
-    @AllArgsConstructor(suppressConstructorProperties = true)
+    @AllArgsConstructor
     private static class Label {
         private int x;
         private int y;

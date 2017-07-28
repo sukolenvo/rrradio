@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor(suppressConstructorProperties = true)
+@AllArgsConstructor
 public class SleepSettings {
 
     private int hour;

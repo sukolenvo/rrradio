@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor(suppressConstructorProperties = true)
+@AllArgsConstructor
 public class Table {
     @Getter(AccessLevel.PROTECTED)
     private final SQLiteDatabase database;

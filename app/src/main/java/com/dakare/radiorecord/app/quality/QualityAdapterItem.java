@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor(suppressConstructorProperties = true)
+@AllArgsConstructor
 public class QualityAdapterItem {
     private final Quality quality;
     private final String text;
