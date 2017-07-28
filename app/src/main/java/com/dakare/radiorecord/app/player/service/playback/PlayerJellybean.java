@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.audiofx.Equalizer;
 import android.net.Uri;
-import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
@@ -169,6 +168,9 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
                 break;
             default:
                 state = PlayerState.PLAY;
+                if (playlist.get(position).isLive()) {
+                    player.seekToDefaultPosition();
+                }
                 player.setPlayWhenReady(true);
                 break;
         }
