@@ -10,7 +10,7 @@ import com.dakare.radiorecord.app.view.theme.Theme;
 import com.dakare.radiorecord.app.view.theme.ThemeActivity;
 
 public class IapActivity extends ThemeActivity implements IapHelper.IapCallback, View.OnClickListener {
-    private View smallPaymantButton;
+    private View smallPaymentButton;
     private View mediumPaymentButton;
     private View largePaymentButton;
     private IapHelper iapHelper;
@@ -21,10 +21,10 @@ public class IapActivity extends ThemeActivity implements IapHelper.IapCallback,
         setContentView(R.layout.activity_iap);
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        smallPaymantButton = findViewById(R.id.button_iap_small);
+        smallPaymentButton = findViewById(R.id.button_iap_small);
         mediumPaymentButton = findViewById(R.id.button_iap_medium);
         largePaymentButton = findViewById(R.id.button_iap_large);
-        smallPaymantButton.setOnClickListener(this);
+        smallPaymentButton.setOnClickListener(this);
         mediumPaymentButton.setOnClickListener(this);
         largePaymentButton.setOnClickListener(this);
         iapHelper = new IapHelper(this, this);
@@ -32,7 +32,7 @@ public class IapActivity extends ThemeActivity implements IapHelper.IapCallback,
 
     @Override
     public void onConnected() {
-        smallPaymantButton.setEnabled(true);
+        smallPaymentButton.setEnabled(true);
         mediumPaymentButton.setEnabled(true);
         largePaymentButton.setEnabled(true);
     }
@@ -40,7 +40,7 @@ public class IapActivity extends ThemeActivity implements IapHelper.IapCallback,
 
     @Override
     public void onDisconnected() {
-        smallPaymantButton.setEnabled(false);
+        smallPaymentButton.setEnabled(false);
         mediumPaymentButton.setEnabled(false);
         largePaymentButton.setEnabled(false);
     }

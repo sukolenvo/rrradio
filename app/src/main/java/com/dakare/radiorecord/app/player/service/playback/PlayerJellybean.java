@@ -216,6 +216,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+        //TODO: reconnect
         if (playbackState == ExoPlayer.STATE_ENDED && playlist != null && position < playlist.size() - 1) {
             System.out.println("PlayerJellybean.onPlayerStateChanged");
             position++;

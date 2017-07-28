@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -15,15 +14,15 @@ import android.view.View;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.ContentViewEvent;
 import com.dakare.radiorecord.app.download.DownloadsActivity;
-import com.dakare.radiorecord.app.iap.IapActivity;
 import com.dakare.radiorecord.app.load.history.HistoryActivity;
 import com.dakare.radiorecord.app.load.section.HrustalevActivity;
 import com.dakare.radiorecord.app.load.section.MegamixActivity;
 import com.dakare.radiorecord.app.load.section.SectionNewActivity;
 import com.dakare.radiorecord.app.load.section.SuperchartActivity;
+import com.dakare.radiorecord.app.load.top.TopsActivity;
+import com.dakare.radiorecord.app.message_studio.MessageStudioDialog;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.settings.SettingsActivity;
-import com.dakare.radiorecord.app.load.top.TopsActivity;
 import com.dakare.radiorecord.app.view.theme.ThemeActivity;
 import lombok.Getter;
 
@@ -169,6 +168,10 @@ public class MenuActivity extends ThemeActivity {
             startActivity(intent);
         }
         closeMenu();
+    }
+
+    public void messageStudio(final View view) {
+        MessageStudioDialog.show(this);
     }
 
     @Override

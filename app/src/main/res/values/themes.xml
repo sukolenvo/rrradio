@@ -34,6 +34,7 @@
         <item name="menu_icon_main">@drawable/ic_home_black_24dp</item>
         <item name="menu_icon_player">@drawable/ic_music_video_black_24dp</item>
         <item name="menu_icon_downloads">@drawable/ic_file_download_black_24dp</item>
+        <item name="menu_icon_message_studio">@drawable/ic_question_answer_black_24dp</item>
         <item name="menu_icon_history">@drawable/ic_event_note_black_24dp</item>
         <item name="menu_icon_section_new">@drawable/ic_fiber_new_black_24dp</item>
         <item name="menu_icon_megamix">@drawable/ic_surround_sound_black_24dp</item>
@@ -74,6 +75,7 @@
         <item name="menu_icon_main">@drawable/ic_home_white_24dp</item>
         <item name="menu_icon_player">@drawable/ic_music_video_white_24dp</item>
         <item name="menu_icon_downloads">@drawable/ic_file_download_white_24dp</item>
+        <item name="menu_icon_message_studio">@drawable/ic_question_answer_white_24dp</item>
         <item name="menu_icon_history">@drawable/ic_event_note_white_24dp</item>
         <item name="menu_icon_section_new">@drawable/ic_fiber_new_white_24dp</item>
         <item name="menu_icon_megamix">@drawable/ic_surround_sound_white_24dp</item>

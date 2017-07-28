@@ -144,4 +144,15 @@
     <string name="recording_starting_info">File %1$s is starting now. You can check it in Downloads section.</string>
     <string name="recording_stopped_info">Recording is stopped.</string>
     <string name="settings_iap_secondary">This motivates developer to work on new release</string>
+    <string name="text_send">Send</string>
+    <string name="message_studio_title">Message to Record studio</string>
+    <string name="menu_message_studio_text">Message to studio</string>
+    <string name="error_recording">Cannot create file for saving record. Please check write permission to destination folder.</string>
+    <string name="message_studio_succes">Your message was send successfully.</string>
+    <string name="message_studio_error">Failed to send message</string>
+    <string name="phone_hint">Your phone number %1$s will be send to server to identify you as message owner.</string>
+    <string name="hint_phone_number">phone number</string>
+    <string name="hint_message">message</string>
+    <string name="warning_empty_message">Please enter your message</string>
+    <string name="warning_empty_phone">Please enter your phone number</string>
 </resources>

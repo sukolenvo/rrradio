@@ -52,6 +52,7 @@ public class PreferenceManager {
     private static final String THEME_MODE_KEY = "theme";
     private static final String THEME_PROMPT_KEY = "theme_promt";
     private static final String SHOW_AD_KEY = "show_ads";
+    private static final String PHONE_NUMBER_KEY = "phone_number";
 
     private static PreferenceManager INSTANCE;
     private final SharedPreferences sharedPreferences;
@@ -376,5 +377,15 @@ public class PreferenceManager {
         sharedPreferences.edit()
                          .putBoolean(SHOW_AD_KEY, value)
                          .apply();
+    }
+
+    public String getPhoneNumber() {
+        return sharedPreferences.getString(PHONE_NUMBER_KEY, null);
+    }
+
+    public void setPhoneNumber(final String value) {
+        sharedPreferences.edit()
+                .putString(PHONE_NUMBER_KEY, value)
+                .apply();
     }
 }

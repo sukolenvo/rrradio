@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    style="@style/DialogContainer">
+
+    <TextView
+        android:text="@string/message_studio_title"
+        style="@style/DialogTitle"/>
+
+    <View style="@style/DialogTitleSeparator"/>
+
+    <EditText
+        android:id="@+id/phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:textSize="14sp"
+        android:inputType="phone"
+        android:textColor="?android:attr/textColor"
+        android:hint="@string/hint_phone_number"
+        android:layout_marginBottom="@dimen/half_padding"
+        android:layout_marginTop="@dimen/main_padding"
+        android:layout_marginRight="@dimen/main_padding"
+        android:layout_marginLeft="@dimen/main_padding"/>
+
+    <EditText
+        android:id="@+id/message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingRight="5dp"
+        android:paddingLeft="5dp"
+        android:textSize="14sp"
+        android:inputType="text"
+        android:textColor="?android:attr/textColor"
+        android:hint="@string/hint_message"
+        android:layout_marginBottom="@dimen/half_padding"
+        android:layout_marginTop="@dimen/main_padding"
+        android:layout_marginRight="@dimen/main_padding"
+        android:layout_marginLeft="@dimen/main_padding"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/station_color"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            style="@style/DialogButton"
+            android:layout_toLeftOf="@+id/ok"
+            android:text="@android:string/cancel"/>
+
+        <Button
+            android:id="@id/ok"
+            android:layout_width="wrap_content"
+            style="@style/DialogButton"
+            android:layout_alignParentRight="true"
+            android:text="@string/text_send"/>
+    </RelativeLayout>
+
+</LinearLayout>

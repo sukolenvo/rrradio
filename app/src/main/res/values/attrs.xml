@@ -15,6 +15,7 @@
     <attr name="menu_icon_main" format="reference" />
     <attr name="menu_icon_player" format="reference" />
     <attr name="menu_icon_downloads" format="reference" />
+    <attr name="menu_icon_message_studio" format="reference" />
     <attr name="menu_icon_history" format="reference" />
     <attr name="menu_icon_section_new" format="reference" />
     <attr name="menu_icon_megamix" format="reference" />

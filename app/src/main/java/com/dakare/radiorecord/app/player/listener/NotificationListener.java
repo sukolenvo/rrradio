@@ -7,19 +7,13 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.view.View;
-import android.widget.RemoteViews;
-import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.listener.remote.NotificationRemote;
 import com.dakare.radiorecord.app.player.listener.remote.NotificationRemoteFactory;
-import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
-import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.dakare.radiorecord.app.view.theme.Theme;
@@ -55,6 +49,7 @@ public class NotificationListener implements IPlayerStateListener {
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentIntent(PendingIntent.getActivity(service, CONTENT_CODE, intent, 0))
                 .setOngoing(true)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .build();
     }
 

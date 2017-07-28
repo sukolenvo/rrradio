@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
+import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.database.DownloadAudioTable;
 import com.dakare.radiorecord.app.database.provider.StorageContract;
@@ -27,7 +28,7 @@ public class RecordingDatasource implements DataSource {
         try {
             this.destination = new BufferedOutputStream(new FileOutputStream(file));
         } catch (FileNotFoundException e) {
-            Toast.makeText(RecordApplication.getInstance(), "Cannot create file for saving record. Please check write permission to destination folder.", Toast.LENGTH_LONG).show();
+            Toast.makeText(RecordApplication.getInstance(), R.string.error_recording, Toast.LENGTH_LONG).show();
         }
     }
 

@@ -142,4 +142,15 @@
     <string name="recording_stopped_info">Запись прекращена.</string>
     <string name="classic_theme_name">Классическая</string>
     <string name="settings_iap_secondary">Пожертвования мотивируют на выпуск новых версий</string>
+    <string name="error_recording">Не удалось создать файл по указанному пути. Проверьте права на запись</string>
+    <string name="menu_message_studio_text">Сообщение в студию</string>
+    <string name="message_studio_error">Произошла ошибка при отправке сообщения</string>
+    <string name="message_studio_succes">Ваше сообщение было успешно отправленно</string>
+    <string name="message_studio_title">Сообщение в студию рекорда</string>
+    <string name="text_send">Отправить</string>
+    <string name="phone_hint">Источником сообщения будет указан номер %1$s.</string>
+    <string name="hint_message">сообщение</string>
+    <string name="hint_phone_number">номер телефона</string>
+    <string name="warning_empty_message">Введите сообщение</string>
+    <string name="warning_empty_phone">Введите номер телефона</string>
 </resources>
