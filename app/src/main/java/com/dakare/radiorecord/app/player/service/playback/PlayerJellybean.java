@@ -104,7 +104,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
                     AbstractLoadFragment.USER_AGENT));
             ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
             MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(playlistItem.getUrl()),
-                    dataSourceFactory, extractorsFactory, null, null);
+                    dataSourceFactory, extractorsFactory,   63, null, null, null);
             player.prepare(mediaSource);
             state = PlayerState.PLAY;
             updateState();
