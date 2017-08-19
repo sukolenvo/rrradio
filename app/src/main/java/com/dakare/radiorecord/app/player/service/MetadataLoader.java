@@ -36,6 +36,8 @@ public class MetadataLoader implements Runnable {
         if (playing.compareAndSet(false, true)) {
             thread = new Thread(this);
             thread.start();
+        } else {
+            thread.interrupt();
         }
     }
 
@@ -56,7 +58,7 @@ public class MetadataLoader implements Runnable {
                     String url = String.format(URL_FORMAT, station.getCodeAsParam());
                     HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                     connection.setConnectTimeout(10_000);
-                    connection.setReadTimeout(180_000); //Their cloud protection is annoying as fuck
+                    connection.setReadTimeout(10_000);
                     int responseCode = connection.getResponseCode();
                     if (responseCode == 200) {
                         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -69,7 +71,11 @@ public class MetadataLoader implements Runnable {
                         Log.w("Update Task", "Error code: " + responseCode);
                     }
                 } catch (Exception e) {
-                    Log.e("Update Task", "Failed to load update", e);
+                    if (Thread.currentThread().isInterrupted()) {
+                        continue;
+                    } else {
+                        Log.e("Update Task", "Failed to load update", e);
+                    }
                 }
                 if (updateResponse == null) {
                     updateResponse = new UpdateResponse();

@@ -153,6 +153,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
         if (state == PlayerState.PLAY) {
             state = PlayerState.PAUSE;
             player.setPlayWhenReady(false);
+            metadataLoader.stop();
         }
         updateState();
     }
@@ -170,6 +171,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
                 state = PlayerState.PLAY;
                 if (playlist.get(position).isLive()) {
                     player.seekToDefaultPosition();
+                    metadataLoader.start(playlist.get(position).getStation());
                 }
                 player.setPlayWhenReady(true);
                 break;
@@ -203,24 +205,20 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
 
     @Override
     public void onTimelineChanged(Timeline timeline, Object manifest) {
-        System.out.println("timeline = [" + timeline + "], manifest = [" + manifest + "]");
     }
 
     @Override
     public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
-        System.out.println("trackGroups = [" + trackGroups + "], trackSelections = [" + trackSelections + "]");
     }
 
     @Override
     public void onLoadingChanged(boolean isLoading) {
-        System.out.println("isLoading = [" + isLoading + "]");
     }
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         //TODO: reconnect
         if (playbackState == ExoPlayer.STATE_ENDED && playlist != null && position < playlist.size() - 1) {
-            System.out.println("PlayerJellybean.onPlayerStateChanged");
             position++;
             startPlayback();
         } else if (playbackState == ExoPlayer.STATE_READY && equalizer != null) {
@@ -236,17 +234,15 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
 
     @Override
     public void onPlayerError(ExoPlaybackException error) {
-        System.out.println("error = [" + error + "]");
+        showError();
     }
 
     @Override
     public void onPositionDiscontinuity() {
-        System.out.println("PlayerJellybean.onPositionDiscontinuity");
     }
 
     @Override
     public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
-        System.out.println("playbackParameters = [" + playbackParameters + "]");
     }
 
     private void showError() {
@@ -265,12 +261,10 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
 
     @Override
     public void onAudioEnabled(DecoderCounters counters) {
-        System.out.println("counters = [" + counters + "]");
     }
 
     @Override
     public void onAudioSessionId(final int audioSessionId) {
-        System.out.println("audioSessionId = [" + audioSessionId + "]");
         try {
             if (preferenceManager.isEqSettingsEnabled()) {
                 equalizer = new Equalizer(0, audioSessionId);
@@ -292,22 +286,18 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
 
     @Override
     public void onAudioDecoderInitialized(String decoderName, long initializedTimestampMs, long initializationDurationMs) {
-        System.out.println("decoderName = [" + decoderName + "], initializedTimestampMs = [" + initializedTimestampMs + "], initializationDurationMs = [" + initializationDurationMs + "]");
     }
 
     @Override
     public void onAudioInputFormatChanged(Format format) {
-        System.out.println("format = [" + format + "]");
     }
 
     @Override
     public void onAudioTrackUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
-        System.out.println("bufferSize = [" + bufferSize + "], bufferSizeMs = [" + bufferSizeMs + "], elapsedSinceLastFeedMs = [" + elapsedSinceLastFeedMs + "]");
     }
 
     @Override
     public void onAudioDisabled(DecoderCounters counters) {
-        System.out.println("counters = [" + counters + "]");
         if (equalizer != null) {
             equalizer.release();
             equalizer = null;
