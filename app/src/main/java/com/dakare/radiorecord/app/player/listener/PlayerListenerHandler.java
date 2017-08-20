@@ -1,7 +1,10 @@
 package com.dakare.radiorecord.app.player.listener;
 
+import android.app.ActivityManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import com.dakare.radiorecord.app.PreferenceManager;
@@ -22,6 +25,17 @@ public class PlayerListenerHandler extends Handler implements Target {
     @Getter
     private final List<IPlayerStateListener> listeners = new ArrayList<>();
     private String lastUrl;
+    private int imageScale = 1;
+
+    public PlayerListenerHandler() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            ActivityManager actManager = (ActivityManager) RecordApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
+            ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
+            actManager.getMemoryInfo(memInfo);
+            long memoryGb = memInfo.totalMem / (1_000_000_000);
+            imageScale = (int) Math.max(1, memoryGb);
+        }
+    }
 
     @Override
     public void handleMessage(final Message msg) {
@@ -40,7 +54,7 @@ public class PlayerListenerHandler extends Handler implements Target {
                 lastUrl = stateMessage.getIcon();
                 Picasso.with(RecordApplication.getInstance())
                         .load(lastUrl)
-                        .resize(128, 128)
+                        .resize(128 * imageScale, 128 * imageScale)
                         .into(this);
             }
         }
