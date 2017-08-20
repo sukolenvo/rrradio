@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.audiofx.Equalizer;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.PowerManager;
@@ -16,7 +15,6 @@ import com.dakare.radiorecord.app.player.service.MetadataLoader;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerServiceMessageHandler;
 import com.dakare.radiorecord.app.player.service.PlayerState;
-import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.dakare.radiorecord.app.player.service.message.PositionStateMessage;
 import lombok.Getter;
@@ -167,6 +165,11 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
     @Override
     public void record() {
         //Not supported
+    }
+
+    @Override
+    public void shutdown() {
+        mediaPlayer.release();
     }
 
     @Override

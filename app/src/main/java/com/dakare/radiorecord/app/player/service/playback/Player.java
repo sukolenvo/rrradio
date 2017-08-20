@@ -30,4 +30,6 @@ public interface Player {
     PlayerState getState();
 
     void record();
+
+    void shutdown();
 }

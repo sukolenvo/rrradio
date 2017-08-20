@@ -304,4 +304,9 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
         }
         preferenceManager.unregisterChangeListener(PlayerJellybean.this);
     }
+
+    @Override
+    public void shutdown() {
+        player.release();
+    }
 }
