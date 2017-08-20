@@ -8,6 +8,9 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ContentViewEvent;
+import com.dakare.radiorecord.app.BuildConfig;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
@@ -99,6 +102,13 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
             player.seekTo(0L);
             player.setPlayWhenReady(false);
             PlaylistItem playlistItem = playlist.get(position);
+            if (!BuildConfig.DEBUG) {
+                Answers.getInstance().logContentView(new ContentViewEvent()
+                        .putContentName("Playlist item")
+                        .putContentType("player")
+                        .putCustomAttribute("live", playlistItem.isLive() + "")
+                        .putCustomAttribute("station", playlistItem.getStation().name()));
+            }
             preferenceManager.setLastPosition(position);
             DataSource.Factory dataSourceFactory = playbackRecordManager.startRecording(playlistItem, new DefaultDataSourceFactory(RecordApplication.getInstance(),
                     BasicCategoryLoader.USER_AGENT));
