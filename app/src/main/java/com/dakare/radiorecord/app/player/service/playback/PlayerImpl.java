@@ -170,6 +170,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
     @Override
     public void shutdown() {
         mediaPlayer.release();
+        metadataLoader.shutdown();
     }
 
     @Override

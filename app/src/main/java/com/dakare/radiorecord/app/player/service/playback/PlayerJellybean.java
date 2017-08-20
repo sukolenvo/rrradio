@@ -308,5 +308,6 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
     @Override
     public void shutdown() {
         player.release();
+        metadataLoader.shutdown();
     }
 }

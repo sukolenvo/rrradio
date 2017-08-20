@@ -15,7 +15,7 @@ public class UpdateResponse {
     private String artist;
     private String itunesURL;
 
-    public UpdateResponse(String json) throws JSONException {
+    public void parse(String json) throws JSONException {
         if (!TextUtils.isEmpty(json)) {
             JSONObject object = new JSONObject(json);
             if (object.has("image600")) {
