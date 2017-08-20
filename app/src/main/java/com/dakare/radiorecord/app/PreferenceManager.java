@@ -6,7 +6,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
-import com.dakare.radiorecord.app.database.DownloadAudioTable;
+import com.dakare.radiorecord.app.database.table.DownloadAudioTable;
 import com.dakare.radiorecord.app.download.service.DownloadsSort;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
@@ -355,8 +355,8 @@ public class PreferenceManager {
 
     public void setTheme(final Theme theme) {
         sharedPreferences.edit()
-                         .putString(THEME_MODE_KEY, theme.name())
-                         .apply();
+                .putString(THEME_MODE_KEY, theme.name())
+                .apply();
     }
 
     public boolean getThemePrompt() {
@@ -365,8 +365,8 @@ public class PreferenceManager {
 
     public void setThemePrompt(final boolean value) {
         sharedPreferences.edit()
-                         .putBoolean(THEME_PROMPT_KEY, value)
-                         .apply();
+                .putBoolean(THEME_PROMPT_KEY, value)
+                .apply();
     }
 
     public boolean getShowAd() {
@@ -375,8 +375,8 @@ public class PreferenceManager {
 
     public void setShowAd(final boolean value) {
         sharedPreferences.edit()
-                         .putBoolean(SHOW_AD_KEY, value)
-                         .apply();
+                .putBoolean(SHOW_AD_KEY, value)
+                .apply();
     }
 
     public String getPhoneNumber() {

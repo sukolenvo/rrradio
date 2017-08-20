@@ -34,9 +34,8 @@ public class EqualizerSettings {
     }
 
     public void applyLevels(final Equalizer equalizer) {
-        try
-        {
-            if (levels != null & levels.length > 0) {
+        try {
+            if (equalizer != null && levels != null && levels.length > 0) {
                 for (int i = 0; i < levels.length; i++) {
                     equalizer.setBandLevel((short) i, (short) levels[i]);
                 }

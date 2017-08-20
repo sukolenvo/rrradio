@@ -1,4 +1,4 @@
-package com.dakare.radiorecord.app.database;
+package com.dakare.radiorecord.app.database.table;
 
 import android.database.sqlite.SQLiteDatabase;
 import lombok.AccessLevel;

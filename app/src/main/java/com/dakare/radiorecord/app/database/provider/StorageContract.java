@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.RecordApplication;
-import com.dakare.radiorecord.app.database.DownloadAudioTable;
+import com.dakare.radiorecord.app.database.table.DownloadAudioTable;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 
 import java.util.List;

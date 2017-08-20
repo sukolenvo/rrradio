@@ -97,6 +97,10 @@ public class ProgressView extends RelativeLayout {
         status.setVisibility(View.INVISIBLE);
     }
 
+    public void hideEmptyView() {
+        emptyView.setVisibility(View.INVISIBLE);
+    }
+
     /**
      * Change empty view to custom TextView.
      *

@@ -2,7 +2,7 @@ package com.dakare.radiorecord.app.download.service;
 
 import android.database.Cursor;
 import android.net.Uri;
-import com.dakare.radiorecord.app.database.DownloadAudioTable;
+import com.dakare.radiorecord.app.database.table.DownloadAudioTable;
 import lombok.Data;
 
 import java.io.File;

@@ -2,10 +2,8 @@ package com.dakare.radiorecord.app.download.service.message;
 
 import android.os.Bundle;
 import android.os.Message;
-import com.dakare.radiorecord.app.database.DownloadAudioTable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 

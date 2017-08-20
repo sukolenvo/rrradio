@@ -37,7 +37,7 @@
     <string name="eq_settings_secondary">Disable this option if you have problems with sound</string>
     <string name="no_results">Playlist is empty</string>
     <string name="no_content_text">No results</string>
-    <string name="error_load_history">Failed to load data from server. Please check your connection or try later.</string>
+    <string name="error_load_category">Failed to load data from server. Please check your connection or try later.</string>
     <string name="message_loading">Loading</string>
     <string name="message_loading_category">Loading category</string>
     <string name="message_loading_music">Loading music list</string>

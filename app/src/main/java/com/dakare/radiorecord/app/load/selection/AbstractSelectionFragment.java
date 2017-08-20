@@ -14,6 +14,8 @@ import com.dakare.radiorecord.app.load.AbstractLoadFragment;
 import lombok.AccessLevel;
 import lombok.Getter;
 
+import java.util.List;
+
 public abstract class AbstractSelectionFragment<T extends RecyclerView.ViewHolder, K> extends AbstractLoadFragment<T, K>
         implements AbstractSelectionAdapter.PermissionProvider {
 
@@ -46,8 +48,8 @@ public abstract class AbstractSelectionFragment<T extends RecyclerView.ViewHolde
     }
 
     @Override
-    protected void onLoaded() {
-        super.onLoaded();
+    protected void onLoaded(List<K> result) {
+        super.onLoaded(result);
         if (getActivity() != null && getAdapter().getItemCount() > 0 && PreferenceManager.getInstance(getContext()).showLoadHint()) {
             showHint();
         }

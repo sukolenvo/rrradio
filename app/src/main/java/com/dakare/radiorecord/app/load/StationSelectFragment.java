@@ -40,14 +40,13 @@ public class StationSelectFragment extends Fragment implements StationClickListe
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_load, null);
+        View view = inflater.inflate(R.layout.fragment_station_select, null);
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
-        TypedArray attributes = getContext().getTheme().obtainStyledAttributes(new int[] {R.attr.main_separator_drawable});
+        TypedArray attributes = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.main_separator_drawable});
         int decoratorId = attributes.getResourceId(0, 0);
         attributes.recycle();
         recyclerView.addItemDecoration(new GridDecorator(
                 2, getResources().getInteger(R.integer.stations_columns), getResources().getDrawable(decoratorId)));
-        recyclerView.setVisibility(View.VISIBLE);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), getResources().getInteger(R.integer.stations_columns)));
         recyclerView.setAdapter(new HistoryStationSelectAdapter(getContext(), this));
         return view;

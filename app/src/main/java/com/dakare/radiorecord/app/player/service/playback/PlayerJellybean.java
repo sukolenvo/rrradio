@@ -11,7 +11,7 @@ import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
-import com.dakare.radiorecord.app.load.AbstractLoadFragment;
+import com.dakare.radiorecord.app.load.loader.BasicCategoryLoader;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.MetadataLoader;
 import com.dakare.radiorecord.app.player.service.PlayerService;
@@ -101,7 +101,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
             PlaylistItem playlistItem = playlist.get(position);
             preferenceManager.setLastPosition(position);
             DataSource.Factory dataSourceFactory = playbackRecordManager.startRecording(playlistItem, new DefaultDataSourceFactory(RecordApplication.getInstance(),
-                    AbstractLoadFragment.USER_AGENT));
+                    BasicCategoryLoader.USER_AGENT));
             ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
             MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(playlistItem.getUrl()),
                     dataSourceFactory, extractorsFactory, 63, null, null, null);

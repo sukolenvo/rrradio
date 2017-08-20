@@ -10,10 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.dakare.radiorecord.app.utils.AbstractDialog;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.database.DownloadAudioTable;
+import com.dakare.radiorecord.app.database.table.DownloadAudioTable;
+import com.dakare.radiorecord.app.utils.AbstractDialog;
 
 import java.io.File;
 
@@ -80,7 +80,7 @@ public class SettingsDirectoryDialog extends AbstractDialog implements TextWatch
             }
         }
         final String rawSecondaryStoragesStr = System.getenv("SECONDARY_STORAGE");
-        if(!TextUtils.isEmpty(rawSecondaryStoragesStr)) {
+        if (!TextUtils.isEmpty(rawSecondaryStoragesStr)) {
             String[] rawSecondaryStorages = rawSecondaryStoragesStr.split(":");
             if (rawSecondaryStorages.length != 0) {
                 return rawSecondaryStorages[0];

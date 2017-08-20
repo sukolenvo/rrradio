@@ -2,8 +2,8 @@ package com.dakare.radiorecord.app.download.service;
 
 import android.database.Cursor;
 import android.util.Log;
-import com.dakare.radiorecord.app.database.DownloadAudioTable;
-import com.dakare.radiorecord.app.load.AbstractLoadFragment;
+import com.dakare.radiorecord.app.database.table.DownloadAudioTable;
+import com.dakare.radiorecord.app.load.loader.BasicCategoryLoader;
 import lombok.Getter;
 
 import java.io.File;
@@ -82,7 +82,7 @@ public class DownloadTask implements Runnable {
             connection.setRequestMethod("GET");
             connection.setReadTimeout(60000);
             connection.setRequestProperty("Range", "bytes=" + skip + "-");
-            connection.setRequestProperty("User-Agent", AbstractLoadFragment.USER_AGENT);
+            connection.setRequestProperty("User-Agent", BasicCategoryLoader.USER_AGENT);
             connection.setRequestProperty("Referer", url);
             connection.setRequestProperty("Accept-Encoding", "identity;q=1, *;q=0");
             connection.setRequestProperty("Accept", "*/*");

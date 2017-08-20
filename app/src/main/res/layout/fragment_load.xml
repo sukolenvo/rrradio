@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/list_empty_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/stub_image"
+            style="@style/NoContentImageView"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/empty_view_text"
+            style="@style/NoContentTextView"
+            android:layout_below="@+id/stub_image"
+            android:text="@string/no_content_text"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
+
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"
-            android:scrollbars="none" />
+            android:scrollbars="none"/>
 
-    <com.dakare.radiorecord.app.ProgressView
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="invisible" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 </FrameLayout>

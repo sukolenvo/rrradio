@@ -1,45 +1,29 @@
 package com.dakare.radiorecord.app.load.top;
 
 import android.os.Bundle;
-import android.util.Log;
-import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.Station;
-import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
-import com.dakare.radiorecord.app.load.AbstractLoadFragment;
-import com.dakare.radiorecord.app.load.history.HistoryDateSelectAdapter;
-import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
+import com.dakare.radiorecord.app.load.loader.BasicCategoryLoader;
+import com.dakare.radiorecord.app.load.loader.CategoryLoader;
+import com.dakare.radiorecord.app.load.loader.database.TopsCategoryDbTable;
+import com.dakare.radiorecord.app.load.loader.parser.TopsParser;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionFragment;
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class TopsMusicFragment extends AbstractSelectionFragment<TopsMusicSelectAdapter.ViewHolder, TopsMusicItem> {
-    private static final String ITEMS_KEY = "tops_items";
     public static final String STATION_KEY = "station_key";
     private static final String URL_TEMPLATE = "http://www.radiorecord.ru/radio/top100/%s.txt";
 
     private Station station;
     private TopsMusicSelectAdapter adapter;
+    private CategoryLoader<TopsMusicItem> categoryLoader;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
         station = Station.valueOf(getArguments().getString(STATION_KEY));
         super.onCreate(savedInstanceState);
         adapter = new TopsMusicSelectAdapter(getContext(), station, getSelectionManager(), this);
-    }
-
-    @Override
-    protected List<TopsMusicItem> restoreItems(final Bundle args) {
-        return args.containsKey(ITEMS_KEY) ? args.getParcelableArrayList(ITEMS_KEY) : Collections.EMPTY_LIST;
+        categoryLoader = new BasicCategoryLoader<>(new TopsCategoryDbTable(station), new TopsParser(),
+                String.format(URL_TEMPLATE, station.getCodeAsParam()));
     }
 
     @Override
@@ -48,64 +32,7 @@ public class TopsMusicFragment extends AbstractSelectionFragment<TopsMusicSelect
     }
 
     @Override
-    protected void saveItems(final ArrayList<TopsMusicItem> items, final Bundle outState) {
-        outState.putParcelableArrayList(ITEMS_KEY, items);
-    }
-
-    @Override
-    protected List<TopsMusicItem> startLoading() throws IOException {
-        setStatus(R.string.message_loading);
-        List<TopsMusicItem> result;
-        Connection.Response response = Jsoup.connect(String.format(URL_TEMPLATE, station.getCodeAsParam()))
-                .userAgent(USER_AGENT)
-                .execute();
-        if (isDestroyed()) {
-            return Collections.emptyList();
-        }
-        setStatus(R.string.message_preparing);
-        Document doc = response.parse();
-        if (isDestroyed()) {
-            return Collections.emptyList();
-        }
-        setStatus(R.string.message_search_entries);
-        Elements elements = doc.select("article.track-holder");
-        int index = 1;
-        result = new ArrayList<TopsMusicItem>(elements.size());
-        if (isDestroyed()) {
-            return Collections.emptyList();
-        }
-        for (Element element : elements) {
-            setStatus(R.string.message_parsing_progres, index++, elements.size());
-            if (isDestroyed()) {
-                return Collections.emptyList();
-            }
-            TopsMusicItem item = new TopsMusicItem();
-            Elements urlElements = element.select("td.play_pause");
-            if (urlElements.size() == 1 && urlElements.get(0).hasAttr("item_url")) {
-                item.setUrl(urlElements.get(0).attr("item_url"));
-            } else {
-                Log.e("Tops Fragment", "Cannot parse element[url]");
-                continue;
-            }
-            Elements artistElements = element.select("span.artist");
-            if (artistElements.size() == 1) {
-                item.setArtist(artistElements.get(0).ownText());
-            } else {
-                Log.e("Tops Fragment", "Cannot parse element[artist]");
-                continue;
-            }
-            Elements nameElements = element.select("span.name");
-            if (nameElements.size() == 1) {
-                item.setSong(nameElements.get(0).ownText());
-            } else {
-                Log.e("ParserFactory", "Cannot parse element[song]");
-                continue;
-            }
-            result.add(item);
-        }
-        if (result.size() < elements.size()) {
-            sendToast(RecordApplication.getInstance().getString(R.string.message_parsing_summary, result.size(), elements.size() - result.size()));
-        }
-        return result;
+    protected CategoryLoader<TopsMusicItem> getCategoryLoader() {
+        return categoryLoader;
     }
 }

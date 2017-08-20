@@ -6,8 +6,8 @@ import android.util.Log;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
-import com.dakare.radiorecord.app.database.DownloadAudioTable;
 import com.dakare.radiorecord.app.database.provider.StorageContract;
+import com.dakare.radiorecord.app.database.table.DownloadAudioTable;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
 

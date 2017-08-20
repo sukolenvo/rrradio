@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.database.DownloadAudioTable;
+import com.dakare.radiorecord.app.database.table.DownloadAudioTable;
 import com.dakare.radiorecord.app.download.service.DownloadItem;
 import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;

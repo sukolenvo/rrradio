@@ -1,6 +1,6 @@
 package com.dakare.radiorecord.app.download.service;
 
-import com.dakare.radiorecord.app.database.DownloadAudioTable;
+import com.dakare.radiorecord.app.database.table.DownloadAudioTable;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor

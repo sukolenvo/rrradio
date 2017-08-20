@@ -24,7 +24,7 @@
     <string name="no_results">Плейлист пуст</string>
     <string name="menu_history_text">История</string>
     <string name="no_content_text">Нет данных</string>
-    <string name="error_load_history">Не удалось загрузить список. Проверьте ваше подключение или попробуйте позже.
+    <string name="error_load_category">Не удалось загрузить список. Проверьте ваше подключение или попробуйте позже.
     </string>
     <string name="message_loading">Загрузка данных</string>
     <string name="message_preparing">Инициализация парсера</string>
