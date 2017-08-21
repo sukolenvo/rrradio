@@ -34,7 +34,7 @@ public class PreferenceManager {
     private static final String LAST_STATION = "last_station";
     private static final String SORT_HISTORY_FROM_OLD = "history_sort";
     private static final String HISTORY_SHOW_ALL = "hisoty_show_all";
-    private static final String LAST_PLAYLIST_KEY = "last_playlist";
+    public static final String LAST_PLAYLIST_KEY = "last_playlist";
     private static final String DOWNLOAD_DIRECTORY_KEY = "download_directory";
     private static final String DOWNLOADS_SORT_KEY = "downloads_sort";
     private static final String MAIN_HINT = "main_hint";

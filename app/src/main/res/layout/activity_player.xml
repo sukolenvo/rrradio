@@ -25,43 +25,14 @@
                 android:layout_above="@id/adView"
                 android:layout_height="match_parent">
 
-            <com.dakare.radiorecord.app.view.PlayerBackgroundImage
-                    android:id="@+id/player_icon"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:innerMarginVertical="@dimen/image_inner_margin_vertical"
-                    app:innerMarginHorizontal="@dimen/image_inner_margin_horizontal"
-                    app:dim="?attr/player_dim"
-                    android:src="@drawable/default_player_background" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v4.view.ViewPager>
 
             <include layout="@layout/toolbar" />
-
-            <LinearLayout
-                    android:paddingLeft="@dimen/main_padding"
-                    android:paddingTop="@dimen/half_padding"
-                    android:paddingRight="@dimen/main_padding"
-                    android:layout_below="@+id/my_toolbar"
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                <TextView
-                        android:id="@+id/artist"
-                        android:layout_width="match_parent"
-                        android:textSize="20sp"
-                        android:singleLine="true"
-                        android:textColor="?android:attr/textColorPrimaryInverse"
-                        android:layout_height="wrap_content"/>
-
-                <TextView
-                        android:id="@+id/song"
-                        android:layout_width="match_parent"
-                        android:textColor="?android:attr/textColorPrimaryInverse"
-                        android:textSize="14sp"
-                        android:paddingTop="5dp"
-                        android:singleLine="true"
-                        android:layout_height="wrap_content"/>
-            </LinearLayout>
 
             <LinearLayout
                     android:id="@+id/player_control_container"

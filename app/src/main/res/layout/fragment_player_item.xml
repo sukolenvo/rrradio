@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.dakare.radiorecord.app.view.PlayerBackgroundImage
+        android:id="@+id/player_icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:innerMarginVertical="@dimen/image_inner_margin_vertical"
+        app:innerMarginHorizontal="@dimen/image_inner_margin_horizontal"
+        app:dim="?attr/player_dim"
+        android:src="@drawable/default_player_background" />
+
+    <LinearLayout
+        android:paddingLeft="@dimen/main_padding"
+        android:paddingTop="?attr/actionBarSize"
+        android:paddingRight="@dimen/main_padding"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_marginTop="@dimen/half_padding"
+            android:id="@+id/artist"
+            android:layout_width="match_parent"
+            android:textSize="20sp"
+            android:maxLines="1"
+            android:textColor="?android:attr/textColorPrimaryInverse"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/song"
+            android:layout_width="match_parent"
+            android:textColor="?android:attr/textColorPrimaryInverse"
+            android:textSize="14sp"
+            android:paddingTop="5dp"
+            android:maxLines="1"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</FrameLayout>

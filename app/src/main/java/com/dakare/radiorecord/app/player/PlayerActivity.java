@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.SeekBar;
@@ -18,6 +19,7 @@ import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.ads.AdUtils;
 import com.dakare.radiorecord.app.database.provider.StorageContract;
 import com.dakare.radiorecord.app.download.service.FileService;
@@ -33,11 +35,8 @@ import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.*;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepTimerSetupDialog;
-import com.dakare.radiorecord.app.view.PlayerBackgroundImage;
 import com.dakare.radiorecord.app.view.theme.Theme;
 import com.google.android.gms.ads.AdView;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 
 public class PlayerActivity extends MenuActivity
         implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler,
@@ -48,7 +47,6 @@ public class PlayerActivity extends MenuActivity
     private static final String RECORDING_STATE_KEY = "recording";
 
     private final PlayerServiceHelper playerServiceHelper = new PlayerServiceHelper();
-    private PlayerBackgroundImage icon;
     private PlayerState state;
     private View playButton;
     private View pauseButton;
@@ -60,8 +58,6 @@ public class PlayerActivity extends MenuActivity
     private TextView positionView;
     private TextView durationView;
     private PlaylistItem playlistItem;
-    private TextView artist;
-    private TextView song;
     private View sleepTimerButton;
     private View recordButton;
     private boolean recording;
@@ -77,13 +73,13 @@ public class PlayerActivity extends MenuActivity
             metadataSong = savedInstanceState.getString(METADATA_SONG_KEY);
             recording = savedInstanceState.getBoolean(RECORDING_STATE_KEY);
         }
-        artist = (TextView) findViewById(R.id.artist);
-        song = (TextView) findViewById(R.id.song);
-        icon = (PlayerBackgroundImage) findViewById(R.id.player_icon);
         playbackProgressView = (SeekBar) findViewById(R.id.playback_progress_view);
         playbackProgressView.setOnSeekBarChangeListener(this);
         positionView = (TextView) findViewById(R.id.position);
         durationView = (TextView) findViewById(R.id.duration);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        viewPager.setAdapter(new PlaylistPagerAdapter(getSupportFragmentManager(), viewPager));
+        viewPager.setCurrentItem(PreferenceManager.getInstance(RecordApplication.getInstance()).getLastPosition());
         findViewById(R.id.equalizer_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
@@ -148,7 +144,13 @@ public class PlayerActivity extends MenuActivity
             public void onClick(View v) {
                 try {
                     ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText(getString(R.string.clipboard_label), artist.getText() + " - " + song.getText());
+                    String line = "";
+                    if (metadataArtist != null) {
+                        line = metadataArtist + " - " + metadataSong;
+                    } else if (playlistItem != null) {
+                        line = playlistItem.getTitle() + " - " + playlistItem.getSubtitle();
+                    }
+                    ClipData clip = ClipData.newPlainText(getString(R.string.clipboard_label), line);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(PlayerActivity.this, R.string.clipboard_success, Toast.LENGTH_LONG).show();
                 } catch (Exception e) {
@@ -213,28 +215,6 @@ public class PlayerActivity extends MenuActivity
 
     private void updateViews() {
         setTitle(buildTitle());
-        if (metadataArtist != null) {
-            artist.setText(metadataArtist);
-            song.setText(metadataSong);
-        } else if (playlistItem == null) {
-            artist.setText("");
-            song.setText("");
-        } else {
-            artist.setText(playlistItem.getTitle());
-            song.setText(playlistItem.getSubtitle());
-        }
-        if (PreferenceManager.getInstance(this).isMusicImageEnabled()) {
-            RequestCreator requestCreator = Picasso.with(this).load(metadataIcon)
-                    .error(R.drawable.default_player_background)
-                    .placeholder(R.drawable.default_player_background);
-            if (icon.getInnerWidth() > 0 && icon.getInnerHeight() > 0) {
-                requestCreator.resize((int) icon.getInnerWidth(), (int) icon.getInnerHeight());
-                requestCreator.centerInside();
-            }
-            requestCreator.into(icon);
-        } else {
-            icon.setImageResource(R.drawable.default_player_background);
-        }
         if (state == PlayerState.PLAY) {
             playButton.setVisibility(View.GONE);
             pauseButton.setVisibility(View.VISIBLE);
