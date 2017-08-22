@@ -3,6 +3,7 @@
     <declare-styleable name="dakare">
         <attr name="text" format="reference|string" />
     </declare-styleable>
+    <attr name="icon_player_color" format="color|reference" />
     <attr name="activity_background" format="color|reference" />
     <attr name="main_background" format="color|reference" />
     <attr name="primary_background" format="color|reference" />
@@ -49,15 +50,9 @@
     <attr name="genre_background" format="color|reference" />
     <attr name="genre_button_chevron" format="reference"/>
     <attr name="genre_button_piano" format="reference"/>
-    <attr name="player_icon_equalizer" format="reference"/>
-    <attr name="player_icon_previous" format="reference"/>
-    <attr name="player_icon_next" format="reference"/>
     <attr name="player_icon_play" format="reference"/>
     <attr name="player_icon_pause" format="reference"/>
     <attr name="player_icon_playlist" format="reference"/>
-    <attr name="player_icon_download" format="reference"/>
-    <attr name="player_icon_copy" format="reference"/>
-    <attr name="player_icon_sleep_time" format="reference"/>
     <attr name="player_icon_record" format="reference"/>
     <attr name="player_icon_seekbar_thumb" format="reference"/>
     <attr name="playlist_icon_active" format="reference"/>

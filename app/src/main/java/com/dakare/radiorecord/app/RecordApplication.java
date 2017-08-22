@@ -1,6 +1,7 @@
 package com.dakare.radiorecord.app;
 
 import android.app.Application;
+import android.support.v7.app.AppCompatDelegate;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.core.CrashlyticsCore;
@@ -14,6 +15,7 @@ public class RecordApplication extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         if (!BuildConfig.DEBUG) {
             Fabric.with(this, new Crashlytics.Builder().answers(new Answers()).core(new CrashlyticsCore()).build());
         }

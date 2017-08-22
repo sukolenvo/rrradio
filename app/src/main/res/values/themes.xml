@@ -136,19 +136,14 @@
     </style>
 
     <style name="Main.Player">
+        <item name="icon_player_color">@color/theme_light_icon</item>
         <item name="toolbarColor">#10000000</item>
         <item name="toolbarTitleSize">14sp</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textColorPrimaryInverse">@android:color/white</item>
-        <item name="player_icon_equalizer">@drawable/setings_icon_white</item>
-        <item name="player_icon_previous">@drawable/ic_skip_previous_white_24dp</item>
-        <item name="player_icon_next">@drawable/ic_skip_next_white_24dp</item>
         <item name="player_icon_play">@drawable/ic_play_circle_outline_white_48dp</item>
         <item name="player_icon_pause">@drawable/ic_pause_circle_outline_white_48dp</item>
         <item name="player_icon_playlist">@drawable/ic_format_list_bulleted</item>
-        <item name="player_icon_download">@drawable/ic_file_download_white_36dp</item>
-        <item name="player_icon_sleep_time">@drawable/sleep_timer_button</item>
-        <item name="player_icon_copy">@drawable/ic_content_copy_white_36dp</item>
         <item name="genre_background">@color/toolbar_color</item>
         <item name="genre_button_chevron">@drawable/ic_chevron_up</item>
         <item name="genre_button_piano">@drawable/ic_piano</item>
@@ -162,18 +157,13 @@
     </style>
 
     <style name="MainDark.Player">
+        <item name="icon_player_color">@color/theme_dark_icon</item>
         <item name="toolbarTitleSize">14sp</item>
         <item name="android:textColor">@color/primary_text_dark</item>
         <item name="android:textColorPrimaryInverse">@color/primary_text_dark</item>
-        <item name="player_icon_equalizer">@drawable/ic_settings_white_24dp</item>
-        <item name="player_icon_previous">@drawable/ic_skip_previous_dark</item>
-        <item name="player_icon_next">@drawable/ic_skip_next_dark</item>
         <item name="player_icon_play">@drawable/ic_play_circle_outline_dark</item>
         <item name="player_icon_pause">@drawable/ic_pause_circle_outline_dark</item>
         <item name="player_icon_playlist">@drawable/ic_format_list_bulleted_dark</item>
-        <item name="player_icon_download">@drawable/ic_file_download_white_24dp</item>
-        <item name="player_icon_sleep_time">@drawable/sleep_timer_button_dark</item>
-        <item name="player_icon_copy">@drawable/ic_content_copy_dark</item>
         <item name="genre_background">@color/primary_text_dark</item>
         <item name="genre_button_chevron">@drawable/ic_chevron_up_dark</item>
         <item name="genre_button_piano">@drawable/ic_piano_dark</item>
