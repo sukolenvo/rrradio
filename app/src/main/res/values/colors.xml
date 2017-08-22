@@ -6,6 +6,12 @@
     <color name="theme_dark_menu_icon">#dadada</color>
     <color name="theme_light_menu_icon">#737373</color>
 
+    <color name="theme_dark_toolbar_icon">#ededed</color>
+    <color name="theme_light_toolbar_icon">@android:color/white</color>
+
+    <color name="theme_dark_queue_icon">#ededed</color>
+    <color name="theme_light_queue_icon">#888</color>
+
     <color name="station_color">#22000000</color>
     <color name="bg_item_normal_state">#fff0f0f0</color>
     <color name="bg_item_dragging_state">#fff0f0f0</color>

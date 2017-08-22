@@ -17,6 +17,7 @@
 
     <style name="Main" parent="AppTheme">
         <item name="toolbar_text_color">@android:color/white</item>
+        <item name="icon_music_preview">@color/theme_light_queue_icon</item>
         <item name="icon_menu_color">@color/theme_light_menu_icon</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textColorSecondary">@android:color/darker_gray</item>
@@ -32,21 +33,19 @@
         <item name="main_selection">@drawable/main_selection_light</item>
         <item name="primary_background">@color/primary_background</item>
         <item name="menu_selection">@drawable/item_menu_background</item>
-        <item name="toolbar_icon_menu">@drawable/ic_menu_white_24dp</item>
         <item name="dialog_background">@drawable/dialog_background</item>
         <item name="progress_text_color">@color/material_grey_850</item>
         <item name="list_divider">@drawable/history_divider</item>
-        <item name="queue_music_icon">@drawable/ic_queue_music_black_48dp</item>
-        <item name="history_schedule_icon">@drawable/ic_schedule_black_24dp</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="dialog_title_color">@color/toolbar_color</item>
         <item name="selectable_background_gray">@drawable/selectable_background_gray</item>
         <item name="closable_dialog_title">#888</item>
-        <item name="closable_dialog_button">@drawable/ic_close</item>
+        <item name="icon_toolbar_color">@color/theme_light_toolbar_icon</item>
     </style>
 
     <style name="MainDark" parent="AppThemeDark">
         <item name="icon_menu_color">@color/theme_dark_menu_icon</item>
+        <item name="icon_music_preview">@color/theme_dark_queue_icon</item>
         <item name="android:textColor">@color/primary_text_dark</item>
         <item name="android:textColorSecondary">@color/secondary_text_dark</item>
         <item name="toolbar_text_color">@color/primary_text_dark</item>
@@ -62,17 +61,14 @@
         <item name="main_selection">@drawable/main_selection</item>
         <item name="primary_background">@color/primary_background_dark</item>
         <item name="menu_selection">@drawable/item_menu_background_dark</item>
-        <item name="toolbar_icon_menu">@drawable/ic_menu_dark</item>
         <item name="dialog_background">@drawable/dialog_background_dark</item>
         <item name="progress_text_color">@color/primary_text_dark</item>
         <item name="list_divider">@drawable/history_divider_dark</item>
-        <item name="queue_music_icon">@drawable/ic_queue_music_dark</item>
-        <item name="history_schedule_icon">@drawable/ic_schedule_dark</item>
         <item name="toolbar_popup_style">@style/ThemeOverlay.AppCompat.Dark</item>
         <item name="dialog_title_color">@color/primary_text_dark</item>
         <item name="selectable_background_gray">@drawable/selectable_background_simple_dark</item>
         <item name="closable_dialog_title">@color/primary_text_dark</item>
-        <item name="closable_dialog_button">@drawable/ic_close_white_24dp</item>
+        <item name="icon_toolbar_color">@color/theme_dark_toolbar_icon</item>
     </style>
 
     <style name="Main.Settings">
@@ -81,7 +77,6 @@
         <item name="settings_separator">@color/settings_divider</item>
         <item name="settings_text_primary">@color/settings_text_color</item>
         <item name="settings_text_secondary">@color/settings_text_secondary</item>
-        <item name="toolbar_icon_back">@drawable/ic_arrow_back_white_24dp</item>
     </style>
 
     <style name="MainDark.Settings">
@@ -90,7 +85,6 @@
         <item name="settings_separator">@color/primary_text_dark</item>
         <item name="settings_text_primary">@color/primary_text_dark</item>
         <item name="settings_text_secondary">#888888</item>
-        <item name="toolbar_icon_back">@drawable/ic_arrow_back_dark</item>
     </style>
 
     <style name="Main.Download">
@@ -121,7 +115,6 @@
         <item name="android:textColorPrimaryInverse">@android:color/white</item>
         <item name="player_icon_play">@drawable/ic_play_circle_outline_white_48dp</item>
         <item name="player_icon_pause">@drawable/ic_pause_circle_outline_white_48dp</item>
-        <item name="player_icon_playlist">@drawable/ic_format_list_bulleted</item>
         <item name="genre_background">@color/toolbar_color</item>
         <item name="genre_button_chevron">@drawable/ic_chevron_up</item>
         <item name="genre_button_piano">@drawable/ic_piano</item>
@@ -139,7 +132,6 @@
         <item name="android:textColorPrimaryInverse">@color/primary_text_dark</item>
         <item name="player_icon_play">@drawable/ic_play_circle_outline_dark</item>
         <item name="player_icon_pause">@drawable/ic_pause_circle_outline_dark</item>
-        <item name="player_icon_playlist">@drawable/ic_format_list_bulleted_dark</item>
         <item name="genre_background">@color/primary_text_dark</item>
         <item name="genre_button_chevron">@drawable/ic_chevron_up_dark</item>
         <item name="genre_button_piano">@drawable/ic_piano_dark</item>

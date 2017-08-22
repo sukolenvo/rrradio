@@ -5,6 +5,8 @@
     </declare-styleable>
     <attr name="icon_player_color" format="color|reference" />
     <attr name="icon_menu_color" format="color|reference" />
+    <attr name="icon_toolbar_color" format="color|reference" />
+    <attr name="icon_music_preview" format="color|reference" />
     <attr name="activity_background" format="color|reference" />
     <attr name="main_background" format="color|reference" />
     <attr name="primary_background" format="color|reference" />
@@ -14,15 +16,11 @@
     <attr name="main_toolbar_shadow" format="reference" />
     <attr name="main_selection" format="reference" />
     <attr name="menu_selection" format="reference" />
-    <attr name="toolbar_icon_menu" format="reference" />
     <attr name="dialog_background" format="reference"/>
     <attr name="settings_text_primary" format="color|reference"/>
     <attr name="settings_text_secondary" format="color|reference"/>
-    <attr name="toolbar_icon_back" format="reference"/>
     <attr name="progress_text_color" format="color|reference" />
     <attr name="list_divider" format="reference" />
-    <attr name="queue_music_icon" format="reference" />
-    <attr name="history_schedule_icon" format="reference" />
     <attr name="dialog_title_color" format="color|reference" />
     <attr name="settings_separator" format="color|reference" />
     <attr name="directory_button_background" format="reference" />
@@ -34,13 +32,11 @@
     <attr name="download_primary" format="color|reference" />
     <attr name="player_dim" format="color|reference" />
     <attr name="closable_dialog_title" format="color|reference" />
-    <attr name="closable_dialog_button" format="reference" />
     <attr name="genre_background" format="color|reference" />
     <attr name="genre_button_chevron" format="reference"/>
     <attr name="genre_button_piano" format="reference"/>
     <attr name="player_icon_play" format="reference"/>
     <attr name="player_icon_pause" format="reference"/>
-    <attr name="player_icon_playlist" format="reference"/>
     <attr name="player_icon_record" format="reference"/>
     <attr name="player_icon_seekbar_thumb" format="reference"/>
     <attr name="playlist_icon_active" format="reference"/>

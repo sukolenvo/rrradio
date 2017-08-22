@@ -65,7 +65,7 @@
                 <ImageView
                         android:id="@+id/playlist_button"
                         style="@style/PlaybackControlButton"
-                        android:src="?attr/player_icon_playlist"/>
+                        app:srcCompat="@drawable/ic_player_playlist"/>
             </LinearLayout>
 
             <LinearLayout
