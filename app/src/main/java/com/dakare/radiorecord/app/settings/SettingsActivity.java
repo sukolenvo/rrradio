@@ -42,6 +42,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         initMusicImage();
         initDownloadDirectory();
         initEqSettings();
+        initLargeButtons();
         findViewById(R.id.iap_container).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -220,6 +221,21 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         checkable.setChecked(preferenceManager.isEqSettingsEnabled());
     }
 
+    private void initLargeButtons() {
+        updateLargeButtons();
+        findViewById(R.id.large_buttons_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                preferenceManager.setLargeButtons(!preferenceManager.isLargeButtons());
+                updateLargeButtons();
+            }
+        });
+    }
+
+    private void updateLargeButtons() {
+        Checkable checkable = (Checkable) findViewById(R.id.large_buttons_checkbox);
+        checkable.setChecked(preferenceManager.isLargeButtons());
+    }
 
     @Override
     protected int getThemeId(final Theme theme) {

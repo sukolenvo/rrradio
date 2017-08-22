@@ -155,4 +155,6 @@
     <string name="hint_message">message</string>
     <string name="warning_empty_message">Please enter your message</string>
     <string name="warning_empty_phone">Please enter your phone number</string>
+    <string name="large_buttons_text">Tablet mode</string>
+    <string name="large_buttons_secondary">Increase buttons on the player screen</string>
 </resources>

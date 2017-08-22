@@ -15,7 +15,7 @@
                                        app:titleTextAppearance="@style/ToolbarTitle"
                                        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                                        android:navigationIcon="?attr/toolbar_icon_back"
-                                       app:navigationIcon="?attr/toolbar_icon_back" />
+                                       app:navigationIcon="?attr/toolbar_icon_back"/>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -42,17 +42,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/SettingsPrimary"
-                        android:text="@string/settings_theme_text" />
+                        android:text="@string/settings_theme_text"/>
 
                     <TextView
                         android:id="@+id/theme_secondary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/theme_main"
-                        style="@style/SettingsSecondary" />
+                        style="@style/SettingsSecondary"/>
                 </RelativeLayout>
 
-                <View style="@style/SettingsSeparator" />
+                <View style="@style/SettingsSeparator"/>
 
                 <RelativeLayout
                     android:id="@+id/quality_container"
@@ -63,17 +63,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/SettingsPrimary"
-                        android:text="@string/setting_quality_text" />
+                        android:text="@string/setting_quality_text"/>
 
                     <TextView
                         android:id="@+id/quality_secondary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/quality_main"
-                        style="@style/SettingsSecondary" />
+                        style="@style/SettingsSecondary"/>
                 </RelativeLayout>
 
-                <View style="@style/SettingsSeparator" />
+                <View style="@style/SettingsSeparator"/>
 
                 <RelativeLayout
                     android:id="@+id/music_metadata_container"
@@ -84,14 +84,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/SettingsPrimary"
-                        android:text="@string/music_metadata_text" />
+                        android:text="@string/music_metadata_text"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/metadata_main"
                         style="@style/SettingsSecondary"
-                        android:text="@string/music_metadata_secondary" />
+                        android:text="@string/music_metadata_secondary"/>
 
                     <CheckBox
                         android:id="@+id/music_metadata_checkbox"
@@ -102,10 +102,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
+                        android:layout_centerVertical="true"/>
                 </RelativeLayout>
 
-                <View style="@style/SettingsSeparator" />
+                <View style="@style/SettingsSeparator"/>
 
                 <RelativeLayout
                     android:id="@+id/music_image_container"
@@ -116,14 +116,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/SettingsPrimary"
-                        android:text="@string/image_metadata_text" />
+                        android:text="@string/image_metadata_text"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/metadata_image_main"
                         style="@style/SettingsSecondary"
-                        android:text="@string/image_metadata_secondary" />
+                        android:text="@string/image_metadata_secondary"/>
 
                     <CheckBox
                         android:id="@+id/music_image_checkbox"
@@ -134,11 +134,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
+                        android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
 
-                <View style="@style/SettingsSeparator" />
+                <View style="@style/SettingsSeparator"/>
 
                 <RelativeLayout
                     android:id="@+id/eq_settings_container"
@@ -149,14 +149,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/SettingsPrimary"
-                        android:text="@string/eq_settings_text" />
+                        android:text="@string/eq_settings_text"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/eq_main"
                         style="@style/SettingsSecondary"
-                        android:text="@string/eq_settings_secondary" />
+                        android:text="@string/eq_settings_secondary"/>
 
                     <CheckBox
                         android:id="@+id/eq_settings_checkbox"
@@ -167,11 +167,44 @@
                         android:focusableInTouchMode="false"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
+                        android:layout_centerVertical="true"/>
 
                 </RelativeLayout>
 
-                <View style="@style/SettingsSeparator" />
+                <View style="@style/SettingsSeparator"/>
+
+                <RelativeLayout
+                    android:id="@+id/large_buttons_container"
+                    style="@style/SettingsContainer">
+
+                    <TextView
+                        android:id="@+id/large_buttons_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsPrimary"
+                        android:text="@string/large_buttons_text"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/large_buttons_main"
+                        style="@style/SettingsSecondary"
+                        android:text="@string/large_buttons_secondary"/>
+
+                    <CheckBox
+                        android:id="@+id/large_buttons_checkbox"
+                        android:layout_width="wrap_content"
+                        android:background="@drawable/transparent"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:focusableInTouchMode="false"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+                <View style="@style/SettingsSeparator"/>
 
                 <RelativeLayout
                     android:id="@+id/download_container"
@@ -182,17 +215,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/SettingsPrimary"
-                        android:text="@string/setting_download_text" />
+                        android:text="@string/setting_download_text"/>
 
                     <TextView
                         android:id="@+id/download_secondary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/download_main"
-                        style="@style/SettingsSecondary" />
+                        style="@style/SettingsSecondary"/>
                 </RelativeLayout>
 
-                <View style="@style/SettingsSeparator" />
+                <View style="@style/SettingsSeparator"/>
 
                 <RelativeLayout
                     android:id="@+id/iap_container"
@@ -203,7 +236,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/SettingsPrimary"
-                        android:text="@string/settings_iap_text" />
+                        android:text="@string/settings_iap_text"/>
 
                     <TextView
                         android:id="@+id/iap_secondary"
@@ -211,10 +244,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/iap_main"
                         android:text="@string/settings_iap_secondary"
-                        style="@style/SettingsSecondary" />
+                        style="@style/SettingsSecondary"/>
                 </RelativeLayout>
 
-                <View style="@style/SettingsSeparator" />
+                <View style="@style/SettingsSeparator"/>
 
                 <RelativeLayout
                     android:id="@+id/ads_container"
@@ -225,14 +258,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/SettingsPrimary"
-                        android:text="@string/settings_ads_text" />
+                        android:text="@string/settings_ads_text"/>
 
                     <TextView
                         android:id="@+id/ads_secondary"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/ads_main"
-                        style="@style/SettingsSecondary" />
+                        style="@style/SettingsSecondary"/>
                 </RelativeLayout>
 
             </LinearLayout>
@@ -241,6 +274,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:background="@drawable/toolbar_dropshadow" />
+            android:background="@drawable/toolbar_dropshadow"/>
     </FrameLayout>
 </LinearLayout>

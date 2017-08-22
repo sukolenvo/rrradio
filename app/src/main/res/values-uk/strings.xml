@@ -155,4 +155,6 @@
     <string name="hint_phone_number">номер телефона</string>
     <string name="warning_empty_message">Введите сообщение</string>
     <string name="warning_empty_phone">Введите номер телефона</string>
+    <string name="large_buttons_text">режим планшета</string>
+    <string name="large_buttons_secondary">Увеличенные кнопки управления на экране плеера</string>
 </resources>

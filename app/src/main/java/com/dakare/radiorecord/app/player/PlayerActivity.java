@@ -80,22 +80,12 @@ public class PlayerActivity extends MenuActivity
         ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
         viewPager.setAdapter(new PlaylistPagerAdapter(getSupportFragmentManager(), viewPager));
         viewPager.setCurrentItem(PreferenceManager.getInstance(RecordApplication.getInstance()).getLastPosition());
-        findViewById(R.id.equalizer_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                if (PreferenceManager.getInstance(PlayerActivity.this).isEqSettingsEnabled()
-                        && PreferenceManager.getInstance(PlayerActivity.this).getEqSettings().getBands() != null) {
-                    new EqualizerDialogFragment().show(getSupportFragmentManager(), "equalizer_dialog");
-                } else {
-                    new EqDisabledWarningDialog(PlayerActivity.this).show();
-                }
-            }
-        });
         setupOnClickListeners();
         updateViews();
         updateProgress(0, 0, 0);
         AdUtils.showAd((AdView) findViewById(R.id.adView));
     }
+
     private void setupOnClickListeners() {
         playButton = findViewById(R.id.play_button);
         pauseButton = findViewById(R.id.pause_button);
@@ -119,7 +109,20 @@ public class PlayerActivity extends MenuActivity
                 }
             }
         });
-        findViewById(R.id.next_button).setOnClickListener(new View.OnClickListener() {
+        View equalizerButton = findViewById(R.id.equalizer_button);
+        equalizerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (PreferenceManager.getInstance(PlayerActivity.this).isEqSettingsEnabled()
+                        && PreferenceManager.getInstance(PlayerActivity.this).getEqSettings().getBands() != null) {
+                    new EqualizerDialogFragment().show(getSupportFragmentManager(), "equalizer_dialog");
+                } else {
+                    new EqDisabledWarningDialog(PlayerActivity.this).show();
+                }
+            }
+        });
+        View nextButton = findViewById(R.id.next_button);
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 if (playerServiceHelper.getServiceClient().isMessagingSessionStarted()) {
@@ -129,7 +132,8 @@ public class PlayerActivity extends MenuActivity
                 }
             }
         });
-        findViewById(R.id.prev_button).setOnClickListener(new View.OnClickListener() {
+        View previousButton = findViewById(R.id.prev_button);
+        previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
                 if (playerServiceHelper.getServiceClient().isMessagingSessionStarted()) {
@@ -139,7 +143,8 @@ public class PlayerActivity extends MenuActivity
                 }
             }
         });
-        findViewById(R.id.clipboard_button).setOnClickListener(new View.OnClickListener() {
+        View clipboardButton = findViewById(R.id.clipboard_button);
+        clipboardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -167,14 +172,15 @@ public class PlayerActivity extends MenuActivity
                 sleepTimerSetupDialog.setOnDismissListener(PlayerActivity.this);
             }
         });
-        findViewById(R.id.download_button).setOnClickListener(new View.OnClickListener() {
+        View downloadButton = findViewById(R.id.download_button);
+        downloadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (playlistItem == null || !playlistItem.isDownloadable()) {
                     Toast.makeText(PlayerActivity.this, R.string.undownloadable_audio, Toast.LENGTH_LONG).show();
-                } else if (ActivityCompat.checkSelfPermission(PlayerActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+                } else if (ActivityCompat.checkSelfPermission(PlayerActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(PlayerActivity.this, R.string.permission_guide, Toast.LENGTH_LONG).show();
-                    ActivityCompat.requestPermissions(PlayerActivity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                    ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 } else {
                     StorageContract.getInstance().insertDownloadAudio(playlistItem);
                     startService(new Intent(PlayerActivity.this, FileService.class));
@@ -182,7 +188,8 @@ public class PlayerActivity extends MenuActivity
                 }
             }
         });
-        findViewById(R.id.playlist_button).setOnClickListener(new View.OnClickListener() {
+        View playlistButton = findViewById(R.id.playlist_button);
+        playlistButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new PlaylistDialogFragment().show(getSupportFragmentManager(), "playlist_fragment");
@@ -206,10 +213,26 @@ public class PlayerActivity extends MenuActivity
                             playerServiceHelper.getServiceClient().execute(new RecordPlayerMessage());
                         }
                     } else {
-                        ActivityCompat.requestPermissions(PlayerActivity.this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                        ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                     }
                 }
             });
+        }
+        if (PreferenceManager.getInstance(this).isLargeButtons()) {
+            playButton.getLayoutParams().height *= 1.5;
+            pauseButton.getLayoutParams().height *= 1.5;
+            nextButton.getLayoutParams().height *= 1.5;
+            previousButton.getLayoutParams().height *= 1.5;
+            playlistButton.getLayoutParams().height *= 1.5;
+            equalizerButton.getLayoutParams().height *= 1.5;
+            clipboardButton.getLayoutParams().height *= 2;
+            clipboardButton.getLayoutParams().width *= 2;
+            downloadButton.getLayoutParams().height *= 2;
+            downloadButton.getLayoutParams().width *= 2;
+            sleepTimerButton.getLayoutParams().height *= 2;
+            sleepTimerButton.getLayoutParams().width *= 2;
+            recordButton.getLayoutParams().height *= 2;
+            recordButton.getLayoutParams().width *= 2;
         }
     }
 
