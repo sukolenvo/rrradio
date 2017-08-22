@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              android:background="?attr/primary_background"
              android:clickable="true">
 
@@ -34,7 +35,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_main"/>
+                    app:srcCompat="@drawable/ic_menu_stations"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -52,7 +53,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_player"/>
+                    app:srcCompat="@drawable/ic_menu_player"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -70,7 +71,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_downloads"/>
+                    app:srcCompat="@drawable/ic_menu_download"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -88,7 +89,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_message_studio"/>
+                    app:srcCompat="@drawable/ic_menu_studio"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -109,7 +110,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_history"/>
+                    app:srcCompat="@drawable/ic_menu_history"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -127,7 +128,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_section_new"/>
+                    app:srcCompat="@drawable/ic_menu_section_new"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -145,7 +146,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_megamix"/>
+                    app:srcCompat="@drawable/ic_menu_megamix"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -164,7 +165,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?menu_icon_hrustalev"/>
+                    app:srcCompat="@drawable/ic_menu_hrustalev"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -182,7 +183,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_tops"/>
+                    app:srcCompat="@drawable/ic_menu_tops"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -200,7 +201,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_superchart"/>
+                    app:srcCompat="@drawable/ic_menu_superchart"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -219,7 +220,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_send_feedback"/>
+                    app:srcCompat="@drawable/ic_menu_feedback"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -236,7 +237,7 @@
 
                 <ImageView
                     style="@style/MenuImage"
-                    android:src="?attr/menu_icon_settings"/>
+                    app:srcCompat="@drawable/ic_menu_settings"/>
 
                 <TextView
                     android:layout_width="match_parent"

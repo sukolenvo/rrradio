@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:id="@+id/playlist_item_container"
               android:orientation="horizontal"
               android:layout_width="match_parent"
@@ -33,5 +34,5 @@
             android:layout_gravity="center_vertical"
             android:scaleType="centerInside"
             android:background="?attr/selectable_background_gray"
-            android:src="?attr/playlist_icon_download"/>
+            app:srcCompat="@drawable/ic_menu_download"/>
 </LinearLayout>
