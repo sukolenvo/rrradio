@@ -4,24 +4,29 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.text.TextUtils;
 import android.util.Log;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.player.UpdateResponse;
+import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import lombok.Getter;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 public class MetadataLoader extends BroadcastReceiver implements Runnable {
     private final String URL_FORMAT = "https://www.radiorecord.ru/xml/%s_online_v8.txt";
+    private final String OFFLINE_URL_FORMAT = "http://record-backend.ddns.net:3001/api/albumInfo?artist=%s&song=%s&station=%s";
     private final MetadataChangeCallback callback;
     private final Context context;
     private final Object lock = new Object();
     private final Thread thread;
-    private Station station;
+    private PlaylistItem playlistItem;
     @Getter
     private UpdateResponse response = new UpdateResponse();
     private volatile boolean playing;
@@ -42,8 +47,8 @@ public class MetadataLoader extends BroadcastReceiver implements Runnable {
         context.registerReceiver(this, intentFilter);
     }
 
-    public void start(final Station station) {
-        this.station = station;
+    public void start(final PlaylistItem playlistItem) {
+        this.playlistItem = playlistItem;
         playing = true;
         response = new UpdateResponse();
         thread.interrupt();
@@ -59,10 +64,10 @@ public class MetadataLoader extends BroadcastReceiver implements Runnable {
     public void run() {
         if (PreferenceManager.getInstance(context).isMusicMetadataEnabled()) {
             while (!destroyed) {
-                while (station != null && playing && interactive && doLoad()) ;
+                while (playlistItem != null && playing && interactive && doLoad()) ;
                 try {
                     synchronized (lock) {
-                        if (playing && interactive) {
+                        if (playing && interactive && playlistItem.isLive()) {
                             lock.wait(5000);
                         } else {
                             lock.wait();
@@ -76,9 +81,46 @@ public class MetadataLoader extends BroadcastReceiver implements Runnable {
     }
 
     private boolean doLoad() {
+        if (playlistItem.isLive()) {
+            return loadLive();
+        } else {
+            return loadOffline();
+        }
+    }
+
+    private boolean loadOffline() {
+        if (response.getImage600() == null
+                && !TextUtils.isEmpty(playlistItem.getTitle())
+                && !TextUtils.isEmpty(playlistItem.getSubtitle())) {
+            String url = String.format(OFFLINE_URL_FORMAT, URLEncoder.encode(playlistItem.getTitle()),
+                    URLEncoder.encode(playlistItem.getSubtitle()),
+                    URLEncoder.encode(playlistItem.getStation().getCodeAsParam()));
+            try {
+                Log.i("MetadataLoader", "Requesting metadata: " + url);
+                HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+                connection.setConnectTimeout(10_000);
+                connection.setReadTimeout(10_000);
+                int responseCode = connection.getResponseCode();
+                if (responseCode == 200) {
+                    UpdateResponse response = new UpdateResponse();
+                    response.setArtist(playlistItem.getTitle());
+                    response.setTitle(playlistItem.getSubtitle());
+                    response.setImage600(new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine());
+                    publishProgress(response);
+                } else {
+                    Log.i("MetadataLoader", "No album found");
+                }
+            } catch (IOException e) {
+                Log.w("MetadataLoader", "Failed to connect to metadata server", e);
+            }
+        }
+        return false;
+    }
+
+    private boolean loadLive() {
         UpdateResponse updateResponse = new UpdateResponse();
         try {
-            String url = String.format(URL_FORMAT, station.getCodeAsParam());
+            String url = String.format(URL_FORMAT, playlistItem.getStation().getCodeAsParam());
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setConnectTimeout(10_000);
             connection.setReadTimeout(10_000);

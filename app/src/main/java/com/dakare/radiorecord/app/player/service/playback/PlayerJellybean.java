@@ -82,11 +82,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
         this.position = position;
         playbackRecordManager.stop();
         startPlayback();
-        if (playlist.get(position).isLive()) {
-            metadataLoader.start(playlist.get(position).getStation());
-        } else {
-            metadataLoader.stop();
-        }
+        metadataLoader.start(playlist.get(position));
         updateState();
     }
 
@@ -126,11 +122,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
             position = (position + 1) % playlist.size();
             playbackRecordManager.stop();
             startPlayback();
-            if (playlist.get(position).isLive()) {
-                metadataLoader.start(playlist.get(position).getStation());
-            } else {
-                metadataLoader.stop();
-            }
+            metadataLoader.start(playlist.get(position));
         }
         updateState();
     }
@@ -140,11 +132,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
             position = (position - 1 + playlist.size()) % playlist.size();
             playbackRecordManager.stop();
             startPlayback();
-            if (playlist.get(position).isLive()) {
-                metadataLoader.start(playlist.get(position).getStation());
-            } else {
-                metadataLoader.stop();
-            }
+            metadataLoader.start(playlist.get(position));
         }
         updateState();
     }
@@ -179,9 +167,9 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
                 break;
             default:
                 state = PlayerState.PLAY;
+                metadataLoader.start(playlist.get(position));
                 if (playlist.get(position).isLive()) {
                     player.seekToDefaultPosition();
-                    metadataLoader.start(playlist.get(position).getStation());
                 }
                 player.setPlayWhenReady(true);
                 break;

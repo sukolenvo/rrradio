@@ -60,11 +60,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
         this.playlist = playlist;
         this.position = position;
         startPlayback();
-        if (playlist.get(position).isLive()) {
-            metadataLoader.start(playlist.get(position).getStation());
-        } else {
-            metadataLoader.stop();
-        }
+        metadataLoader.start(playlist.get(position));
         updateState();
     }
 
@@ -91,11 +87,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
         if (playlist != null && !playlist.isEmpty()) {
             position = (position + 1) % playlist.size();
             startPlayback();
-            if (playlist.get(position).isLive()) {
-                metadataLoader.start(playlist.get(position).getStation());
-            } else {
-                metadataLoader.stop();
-            }
+            metadataLoader.start(playlist.get(position));
         }
         updateState();
     }
@@ -104,11 +96,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
         if (playlist != null && !playlist.isEmpty()) {
             position = (position - 1 + playlist.size()) % playlist.size();
             startPlayback();
-            if (playlist.get(position).isLive()) {
-                metadataLoader.start(playlist.get(position).getStation());
-            } else {
-                metadataLoader.stop();
-            }
+            metadataLoader.start(playlist.get(position));
         }
         updateState();
     }
@@ -126,6 +114,7 @@ public class PlayerImpl implements MediaPlayer.OnPreparedListener, MediaPlayer.O
         if (state == PlayerState.PLAY) {
             state = PlayerState.PAUSE;
             mediaPlayer.pause();
+            metadataLoader.stop();
         }
         updateState();
     }
