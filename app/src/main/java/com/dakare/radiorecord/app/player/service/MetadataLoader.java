@@ -96,7 +96,6 @@ public class MetadataLoader extends BroadcastReceiver implements Runnable {
                     URLEncoder.encode(playlistItem.getSubtitle()),
                     URLEncoder.encode(playlistItem.getStation().getCodeAsParam()));
             try {
-                Log.i("MetadataLoader", "Requesting metadata: " + url);
                 HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
                 connection.setConnectTimeout(10_000);
                 connection.setReadTimeout(10_000);
