@@ -7,6 +7,7 @@ import android.net.Uri;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.database.table.DownloadAudioTable;
+import com.dakare.radiorecord.app.download.service.DownloadManager;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 
 import java.util.List;
@@ -57,6 +58,7 @@ public class StorageContract {
         values.put(DownloadAudioTable.COLUMN_STATUS, DownloadAudioTable.Status.NONE.getCode());
         values.put(DownloadAudioTable.COLUMN_DIRECTORY, preferenceManager.getDownloadDirectory());
         values.put(DownloadAudioTable.COLUMN_SAVED_DATE, System.currentTimeMillis());
+        values.put(DownloadAudioTable.COLUMN_FILE_NAME, DownloadManager.getAudioFileFullName(item.getTitle(), item.getSubtitle()));
         return values;
     }
 

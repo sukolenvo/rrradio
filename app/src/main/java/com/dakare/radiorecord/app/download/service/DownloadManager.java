@@ -15,9 +15,11 @@ import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionException;
+import java.util.regex.Pattern;
 
 public class DownloadManager extends BroadcastReceiver implements DownloadTask.DownloadListener {
     private static final int TASKS_COUNT = 2;
+    private static final Pattern FILENAME_PATTERN = Pattern.compile("[^a-zA-Zа-яА-Я 0-9\\-&()]");
 
     private final ExecutorService executorService;
     private final List<DownloadTask> tasks = new ArrayList<>(TASKS_COUNT);
@@ -170,12 +172,21 @@ public class DownloadManager extends BroadcastReceiver implements DownloadTask.D
         }
     }
 
+    @Deprecated
     public static File getAudioFile(final String directory, final long id, final String title) {
         String fileName = id + " - " + String.valueOf(title).replaceAll("[^a-zA-Z 0-9]", "");
         if (!fileName.endsWith(".mps")) {
             fileName += ".mp3";
         }
         return new File(new File(directory), fileName);
+    }
+
+    public static String getAudioFileFullName(final String title, final String subTitle) {
+        String fileName = FILENAME_PATTERN.matcher(title + " - " + subTitle).replaceAll("");
+        if (!fileName.endsWith(".mp3")) {
+            fileName += ".mp3";
+        }
+        return fileName;
     }
 
     @Override

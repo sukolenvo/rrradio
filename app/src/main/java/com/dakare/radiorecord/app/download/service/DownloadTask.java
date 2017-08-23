@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.regex.Pattern;
 
 public class DownloadTask implements Runnable {
     @Getter
@@ -36,7 +37,12 @@ public class DownloadTask implements Runnable {
         url = cursor.getString(cursor.getColumnIndex(DownloadAudioTable.COLUMN_URL));
         String title = cursor.getString(cursor.getColumnIndex(DownloadAudioTable.COLUMN_TITLE));
         directory = cursor.getString(cursor.getColumnIndex(DownloadAudioTable.COLUMN_DIRECTORY));
-        destinationFile = DownloadManager.getAudioFile(directory, id, title);
+        String file = cursor.getString(cursor.getColumnIndex(DownloadAudioTable.COLUMN_FILE_NAME));
+        if (file == null) {
+            destinationFile = DownloadManager.getAudioFile(directory, id, title);
+        } else {
+            destinationFile = new File(directory, file);
+        }
         buffer = new byte[4096];
     }
 
