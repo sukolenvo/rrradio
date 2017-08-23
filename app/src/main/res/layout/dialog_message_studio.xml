@@ -6,9 +6,10 @@
 
     <TextView
         android:text="@string/message_studio_title"
-        style="@style/DialogTitle"/>
+        style="@style/DialogTitle"
+        android:textColor="?android:attr/textColor"/>
 
-    <View style="@style/DialogTitleSeparator"/>
+    <View style="@style/DialogTitleSeparator" android:background="?android:attr/textColor"/>
 
     <EditText
         android:id="@+id/phone"
@@ -16,10 +17,11 @@
         android:layout_height="wrap_content"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:inputType="phone"
         android:textColor="?android:attr/textColor"
         android:hint="@string/hint_phone_number"
+        android:textColorHint="?android:attr/textColorSecondary"
         android:layout_marginBottom="@dimen/half_padding"
         android:layout_marginTop="@dimen/main_padding"
         android:layout_marginRight="@dimen/main_padding"
@@ -31,10 +33,11 @@
         android:layout_height="wrap_content"
         android:paddingRight="5dp"
         android:paddingLeft="5dp"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:inputType="text"
         android:textColor="?android:attr/textColor"
         android:hint="@string/hint_message"
+        android:textColorHint="?android:attr/textColorSecondary"
         android:layout_marginBottom="@dimen/half_padding"
         android:layout_marginTop="@dimen/main_padding"
         android:layout_marginRight="@dimen/main_padding"
