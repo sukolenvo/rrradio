@@ -1,15 +1,18 @@
 package com.dakare.radiorecord.web.controller;
 
+import com.dakare.radiorecord.web.domain.Purchase;
 import com.dakare.radiorecord.web.domain.TrackInfo;
 import com.dakare.radiorecord.web.domain.TrackInfoPK;
+import com.dakare.radiorecord.web.repository.PurchaseRepository;
 import com.dakare.radiorecord.web.repository.TrackInfoRepository;
 import com.dakare.radiorecord.web.service.StatisticsService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+
+@Slf4j
 @RestController
 @RequestMapping("/api")
 public class ApiController {
@@ -20,10 +23,8 @@ public class ApiController {
     @Autowired
     private StatisticsService statisticsService;
 
-    @GetMapping("hello")
-    public String helloWorld() {
-        return "hello!";
-    }
+    @Autowired
+    private PurchaseRepository purchaseRepository;
 
     @GetMapping("albumInfo")
     public String getAlbum(@RequestParam String artist,
@@ -35,5 +36,14 @@ public class ApiController {
             throw new NotFoundException();
         }
         return result.getImage600();
+    }
+
+    @PostMapping("purchase")
+    public void savePurchase(@RequestBody String body) {
+        log.info("Purchase: {}", body);
+        Purchase purchase = new Purchase();
+        purchase.setBody(body);
+        purchase.setPurchaseDate(new Date());
+        purchaseRepository.save(purchase);
     }
 }

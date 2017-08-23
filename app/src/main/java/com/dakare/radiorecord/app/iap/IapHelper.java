@@ -15,7 +15,10 @@ import com.crashlytics.android.answers.PurchaseEvent;
 import com.dakare.radiorecord.app.R;
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
@@ -128,24 +131,47 @@ public class IapHelper implements ServiceConnection {
             if (purchaseData == null || dataSignature == null || !Security.verifyPurchase(getKey(), purchaseData, dataSignature)) {
                 return true;
             }
-            try {
-                Purchase purchase = new Purchase(purchaseData, dataSignature);
-                Answers.getInstance().logPurchase(new PurchaseEvent()
-                                                          .putItemPrice(BigDecimal.valueOf(getPurchaseValue(purchase.getMSku())))
-                                                          .putCurrency(Currency.getInstance("USD"))
-                                                          .putItemName(purchase.getMSku())
-                                                          .putItemType("iap")
-                                                          .putItemId(purchase.getMSku())
-                                                          .putSuccess(true));
-                mService.consumePurchase(3, activity.getPackageName(), purchase.getMToken());
-            } catch (JSONException e) {
-                Log.w("IapHelper", "Cannot parse purchase " + purchaseData);
-            } catch (RemoteException e) {
-                Log.e("IapHelper", "Cannot consume purchase" + purchaseData);
-            }
+            savePurchase(purchaseData, dataSignature);
             Toast.makeText(activity, R.string.iap_thanks, Toast.LENGTH_LONG).show();
         }
         return true;
+    }
+
+    private void savePurchase(final String purchaseData, final String dataSignature) {
+        try {
+        Purchase purchase = new Purchase(purchaseData, dataSignature);
+        Answers.getInstance().logPurchase(new PurchaseEvent()
+                .putItemPrice(BigDecimal.valueOf(getPurchaseValue(purchase.getMSku())))
+                .putCurrency(Currency.getInstance("USD"))
+                .putItemName(purchase.getMSku())
+                .putItemType("iap")
+                .putItemId(purchase.getMSku())
+                .putSuccess(true));
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String url = "http://record-backend.ddns.net:3001/api/purchase";
+                try {
+                    HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
+                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setDoOutput(true);
+                    httpURLConnection.setRequestProperty("Content-type", "text/plain");
+                    httpURLConnection.getOutputStream().write(dataSignature.getBytes());
+                    httpURLConnection.getOutputStream().write("\n".getBytes());
+                    httpURLConnection.getOutputStream().write(purchaseData.getBytes());
+                    httpURLConnection.getOutputStream().flush();
+                    Log.i("IapHelper", "Response code: " + httpURLConnection.getResponseCode());
+                } catch (Exception e) {
+                    Log.w("IapHelper", "Failed to save purchase");
+                }
+            }
+        }).start();
+        mService.consumePurchase(3, activity.getPackageName(), purchase.getMToken());
+        } catch (JSONException e) {
+            Log.w("IapHelper", "Cannot parse purchase " + purchaseData);
+        } catch (RemoteException e) {
+            Log.e("IapHelper", "Cannot consume purchase" + purchaseData);
+        }
     }
 
     private double getPurchaseValue(final String sku) {
