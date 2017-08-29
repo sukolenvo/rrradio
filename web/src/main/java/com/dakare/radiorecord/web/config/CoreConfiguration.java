@@ -6,6 +6,8 @@ import com.dakare.radiorecord.web.service.history.StationHistoryLoader;
 import com.dakare.radiorecord.web.service.history.StationHistoryLoaderImpl;
 import com.dakare.radiorecord.web.service.metadata.MetadataLoader;
 import com.dakare.radiorecord.web.service.metadata.MetadataLoaderImpl;
+import com.dakare.radiorecord.web.service.tops.StationTopsLoader;
+import com.dakare.radiorecord.web.service.tops.StationTopsLoaderImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.boot.actuate.metrics.reader.MetricReader;
@@ -48,5 +50,10 @@ public class CoreConfiguration {
     @Bean
     public StatisticsService statisticsService(CounterService counterService, MetricReader metricReader) {
         return new StatisticsServiceImpl(counterService, metricReader);
+    }
+
+    @Bean
+    public StationTopsLoader stationTopsLoader() {
+        return new StationTopsLoaderImpl(restTemplate(), objectMapper());
     }
 }

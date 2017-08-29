@@ -22,10 +22,7 @@ public class MetadataInfoLoadService {
         try {
             List<TrackInfo> result = metadataLoader.load();
             trackInfoRepository.save(result.stream()
-                    .filter(item -> item.getImage600() != null && item.getImage600().length() > 0)
-                    .filter(item -> item.getArtist() != null && item.getArtist().length() > 0)
-                    .filter(item -> item.getSong() != null && item.getSong().length() > 0)
-                    .filter(item -> item.getPrefix() != null && item.getPrefix().length() > 0)
+                    .filter(TrackInfo::checkValid)
                     .collect(Collectors.toList()));
         } catch (IOException e) {
             log.warn("Failed to load metadata", e);
