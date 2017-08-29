@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -19,6 +18,7 @@ import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.ads.SettingsAdsDialog;
 import com.dakare.radiorecord.app.iap.IapActivity;
 import com.dakare.radiorecord.app.quality.Quality;
+import com.dakare.radiorecord.app.utils.EqUtils;
 import com.dakare.radiorecord.app.view.theme.Theme;
 import com.dakare.radiorecord.app.view.theme.ThemeActivity;
 
@@ -201,19 +201,19 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void initEqSettings() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            findViewById(R.id.eq_settings_container).setVisibility(View.GONE);
-        } else {
-            updateEqCheckbox();
-            findViewById(R.id.eq_settings_container).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
+        updateEqCheckbox();
+        findViewById(R.id.eq_settings_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (EqUtils.isEqAvailable()) {
                     preferenceManager.setEqSettings(!preferenceManager.isEqSettingsEnabled());
                     Toast.makeText(SettingsActivity.this, R.string.eq_change_message, Toast.LENGTH_SHORT).show();
                     updateEqCheckbox();
+                } else {
+                    Toast.makeText(SettingsActivity.this, R.string.eq_not_available, Toast.LENGTH_SHORT).show();
                 }
-            });
-        }
+            }
+        });
     }
 
     private void updateEqCheckbox() {

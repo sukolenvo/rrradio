@@ -13,6 +13,7 @@ import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepSettings;
 import com.dakare.radiorecord.app.quality.Quality;
+import com.dakare.radiorecord.app.utils.EqUtils;
 import com.dakare.radiorecord.app.utils.JsonHelper;
 import com.dakare.radiorecord.app.view.theme.Theme;
 
@@ -299,7 +300,7 @@ public class PreferenceManager {
     }
 
     public boolean isEqSettingsEnabled() {
-        return sharedPreferences.getBoolean(EQ_SETTINGS_KEY, Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN);
+        return sharedPreferences.getBoolean(EQ_SETTINGS_KEY, EqUtils.isEqAvailable());
     }
 
     public void setEqSettings(final boolean enabled) {

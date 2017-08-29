@@ -155,4 +155,5 @@
     <string name="warning_empty_phone">Введите номер телефона</string>
     <string name="large_buttons_secondary">Увеличенные кнопки управления на экране плеера</string>
     <string name="large_buttons_text">Режим планшета</string>
+    <string name="eq_not_available">Ваше устройство не поддерживает данную функцию</string>
 </resources>

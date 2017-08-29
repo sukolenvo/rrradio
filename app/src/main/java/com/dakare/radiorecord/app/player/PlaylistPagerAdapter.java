@@ -43,6 +43,7 @@ public class PlaylistPagerAdapter extends FragmentPagerAdapter implements Shared
         PlaylistItem item = lastPlaylist.get(position);
         Bundle arguments = new Bundle();
         arguments.putParcelable(PlaylistItemFragment.PLAYLIST_ITEM, item);
+        arguments.putInt(PlaylistItemFragment.POSITION, position);
         PlaylistItemFragment playlistItemFragment = new PlaylistItemFragment();
         playlistItemFragment.setArguments(arguments);
         return playlistItemFragment;

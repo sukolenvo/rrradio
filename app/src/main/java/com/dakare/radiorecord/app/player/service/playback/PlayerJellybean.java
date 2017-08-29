@@ -9,7 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.ContentViewEvent;
+import com.crashlytics.android.answers.CustomEvent;
 import com.dakare.radiorecord.app.BuildConfig;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
@@ -81,14 +81,13 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
         this.playlist = playlist;
         this.position = position;
         playbackRecordManager.stop();
+        metadataLoader.start(getCurrentPlaylistItem());
         startPlayback();
-        metadataLoader.start(playlist.get(position));
-        updateState();
     }
 
     public void updateState() {
         playerServiceMessageHandler.handleServiceResponse(
-                new PlaybackStatePlayerMessage(playlist.get(position), position, state, metadataLoader.getResponse(),
+                new PlaybackStatePlayerMessage(getCurrentPlaylistItem(), position, state, metadataLoader.getResponse(),
                         playbackRecordManager.isRecord()));
     }
 
@@ -97,11 +96,9 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
             player.stop();
             player.seekTo(0L);
             player.setPlayWhenReady(false);
-            PlaylistItem playlistItem = playlist.get(position);
+            PlaylistItem playlistItem = getCurrentPlaylistItem();
             if (!BuildConfig.DEBUG) {
-                Answers.getInstance().logContentView(new ContentViewEvent()
-                        .putContentName("Playlist item")
-                        .putContentType("player")
+                Answers.getInstance().logCustom(new CustomEvent("Playlist item")
                         .putCustomAttribute("live", playlistItem.isLive() + "")
                         .putCustomAttribute("station", playlistItem.getStation().name()));
             }
@@ -117,12 +114,16 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
         }
     }
 
+    private PlaylistItem getCurrentPlaylistItem() {
+        return playlist.get(Math.min(position, playlist.size() - 1));
+    }
+
     public void next() {
         if (playlist != null && !playlist.isEmpty()) {
             position = (position + 1) % playlist.size();
             playbackRecordManager.stop();
             startPlayback();
-            metadataLoader.start(playlist.get(position));
+            metadataLoader.start(getCurrentPlaylistItem());
         }
         updateState();
     }
@@ -132,7 +133,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
             position = (position - 1 + playlist.size()) % playlist.size();
             playbackRecordManager.stop();
             startPlayback();
-            metadataLoader.start(playlist.get(position));
+            metadataLoader.start(getCurrentPlaylistItem());
         }
         updateState();
     }
@@ -167,8 +168,9 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
                 break;
             default:
                 state = PlayerState.PLAY;
-                metadataLoader.start(playlist.get(position));
-                if (playlist.get(position).isLive()) {
+                PlaylistItem currentPlaylistItem = getCurrentPlaylistItem();
+                metadataLoader.start(currentPlaylistItem);
+                if (currentPlaylistItem.isLive()) {
                     player.seekToDefaultPosition();
                 }
                 player.setPlayWhenReady(true);
@@ -265,6 +267,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
     public void onAudioSessionId(final int audioSessionId) {
         try {
             if (preferenceManager.isEqSettingsEnabled()) {
+                releaseEq();
                 equalizer = new Equalizer(0, audioSessionId);
                 EqualizerSettings old = preferenceManager.getEqSettings();
                 old.applyLevels(equalizer);
@@ -274,7 +277,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
                 }
                 preferenceManager.registerChangeListener(PlayerJellybean.this);
             }
-        } catch (UnsatisfiedLinkError e) {
+        } catch (UnsatisfiedLinkError | RuntimeException e) {
             Crashlytics.logException(e);
             preferenceManager.setEqSettings(false);
             Toast.makeText(context, R.string.audio_effect_error, Toast.LENGTH_LONG).show();
@@ -296,11 +299,15 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
 
     @Override
     public void onAudioDisabled(DecoderCounters counters) {
+        releaseEq();
+        preferenceManager.unregisterChangeListener(PlayerJellybean.this);
+    }
+
+    private void releaseEq() {
         if (equalizer != null) {
             equalizer.release();
             equalizer = null;
         }
-        preferenceManager.unregisterChangeListener(PlayerJellybean.this);
     }
 
     @Override

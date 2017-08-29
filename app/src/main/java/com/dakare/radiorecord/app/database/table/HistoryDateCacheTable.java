@@ -8,7 +8,7 @@ public class HistoryDateCacheTable extends Table {
 
     public static final String NAME = "history_date_cache";
 
-    public static final String CREATE_TABLE = "create table " + NAME + " (date TEXT, station TEXT NOT NULL, PRIMARY KEY (date, station))";
+    public static final String CREATE_TABLE = "create table " + NAME + " (date TEXT, station TEXT NOT NULL, PRIMARY KEY (date, station));";
 
     public static final String DROP_TABLE = "drop table if exists " + NAME;
 

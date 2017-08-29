@@ -8,7 +8,7 @@ public class SectionPathCacheTable extends Table {
 
     public static final String NAME = "section_path";
 
-    public static final String CREATE_TABLE = "create table " + NAME + " (_id TEXT PRIMARY KEY, url TEXT NOT NULL)";
+    public static final String CREATE_TABLE = "create table " + NAME + " (_id TEXT PRIMARY KEY, url TEXT NOT NULL);";
 
     public static final String DROP_TABLE = "drop table if exists " + NAME;
 

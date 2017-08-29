@@ -3,6 +3,7 @@ package com.dakare.radiorecord.app.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.database.table.*;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -20,25 +21,35 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(final SQLiteDatabase db) {
-        db.execSQL(DownloadAudioTable.CREATE_TABLE);
-        db.execSQL(SectionPathCacheTable.CREATE_TABLE);
-        db.execSQL(SectionMusicCacheTable.CREATE_TABLE);
-        db.execSQL(TopsCacheTable.CREATE_TABLE);
-        db.execSQL(HistoryDateCacheTable.CREATE_TABLE);
-        db.execSQL(HistoryMusicCacheTable.CREATE_TABLE);
+        try {
+            db.execSQL(DownloadAudioTable.CREATE_TABLE);
+            db.execSQL(SectionPathCacheTable.CREATE_TABLE);
+            db.execSQL(SectionMusicCacheTable.CREATE_TABLE);
+            db.execSQL(TopsCacheTable.CREATE_TABLE);
+            db.execSQL(HistoryDateCacheTable.CREATE_TABLE);
+            db.execSQL(HistoryMusicCacheTable.CREATE_TABLE);
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+            throw e;
+        }
     }
 
     @Override
     public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
-        if (oldVersion == DB_VERSION_1) {
-            db.execSQL("ALTER TABLE " + DownloadAudioTable.NAME + " add column file TEXT");
-        }
-        if (oldVersion == DB_VERSION_2) {
-            db.execSQL(SectionPathCacheTable.CREATE_TABLE);
-            db.execSQL(SectionMusicCacheTable.CREATE_TABLE);
-            db.execSQL(HistoryDateCacheTable.CREATE_TABLE);
-            db.execSQL(HistoryMusicCacheTable.CREATE_TABLE);
-            db.execSQL(TopsCacheTable.CREATE_TABLE);
+        try {
+            if (oldVersion == DB_VERSION_1) {
+                db.execSQL("ALTER TABLE " + DownloadAudioTable.NAME + " add column file TEXT");
+            }
+            if (oldVersion == DB_VERSION_2) {
+                db.execSQL(SectionPathCacheTable.CREATE_TABLE);
+                db.execSQL(SectionMusicCacheTable.CREATE_TABLE);
+                db.execSQL(HistoryDateCacheTable.CREATE_TABLE);
+                db.execSQL(HistoryMusicCacheTable.CREATE_TABLE);
+                db.execSQL(TopsCacheTable.CREATE_TABLE);
+            }
+        } catch (Exception e) {
+            Crashlytics.logException(e);
+            throw e;
         }
     }
 

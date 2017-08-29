@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.player.service.PlayerState;
@@ -52,10 +53,12 @@ public class PlayerListenerHandler extends Handler implements Target {
             } else if (PreferenceManager.getInstance(RecordApplication.getInstance()).isMusicImageEnabled()
                     && !stateMessage.getIcon().equals(lastUrl)) {
                 lastUrl = stateMessage.getIcon();
-                Picasso.with(RecordApplication.getInstance())
-                        .load(lastUrl)
-                        .resize(128 * imageScale, 128 * imageScale)
-                        .into(this);
+                if (!TextUtils.isEmpty(lastUrl) && lastUrl.trim().length() > 0) {
+                    Picasso.with(RecordApplication.getInstance())
+                            .load(lastUrl)
+                            .resize(128 * imageScale, 128 * imageScale)
+                            .into(this);
+                }
             }
         }
 

@@ -14,7 +14,7 @@ public class DownloadAudioTable extends Table {
 
     public static final String CREATE_TABLE = "create table " + NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, "
             + "subtitle TEXT, url TEXT not null, directory TEXT NOT NULL, status INTEGER DEFAULT 2, saved INTEGER NOT NULL, size INTEGER DEFAULT 0," +
-            "total INTEGER DEFAULT 0, file TEXT)";
+            "total INTEGER DEFAULT 0, file TEXT);";
 
     public static final String DROP_TABLE = "drop table if exists " + NAME;
 
