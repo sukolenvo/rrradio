@@ -41,8 +41,8 @@ android {
 
     signingConfigs {
         release {
-            storeFile file('../dakare.keystore')
-            keyAlias 'dakare'
+            storeFile file('../upload-keystore.jks')
+            keyAlias 'record'
             storePassword 'q1e12ed1wdc1d'
             keyPassword 'q1e12ed1wdc1d'
         }
