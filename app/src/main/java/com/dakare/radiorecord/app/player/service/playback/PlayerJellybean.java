@@ -81,7 +81,6 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
         this.playlist = playlist;
         this.position = position;
         playbackRecordManager.stop();
-        metadataLoader.start(getCurrentPlaylistItem());
         startPlayback();
     }
 
@@ -100,6 +99,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
             if (!BuildConfig.DEBUG) {
                 Answers.getInstance().logCustom(new CustomEvent("Playlist item")
                         .putCustomAttribute("live", playlistItem.isLive() + "")
+                        .putCustomAttribute("recording", playbackRecordManager.isRecord() + "")
                         .putCustomAttribute("station", playlistItem.getStation().name()));
             }
             preferenceManager.setLastPosition(position);
@@ -110,6 +110,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
                     dataSourceFactory, extractorsFactory, 63, null, null, null);
             player.prepare(mediaSource);
             state = PlayerState.PLAY;
+            metadataLoader.start(playlistItem);
             updateState();
         }
     }
@@ -217,7 +218,6 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
 
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
-        //TODO: reconnect
         if (playbackState == ExoPlayer.STATE_ENDED && playlist != null && position < playlist.size() - 1) {
             position++;
             startPlayback();

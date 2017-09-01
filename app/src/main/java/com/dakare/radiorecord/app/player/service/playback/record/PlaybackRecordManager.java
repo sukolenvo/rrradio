@@ -47,7 +47,7 @@ public class PlaybackRecordManager {
 
     private String getFileName(final PlaylistItem item) {
         String extension = item.getUrl().contains("aac") ? ".aac" : ".mp3";
-        String name = item.getStation().getName();
+        String name = item.getStation().getName().replaceAll("/", "-");
         if (new File(destination, name + extension).exists()) {
             for (int i = 1; ; i++) {
                 String newName = name + "(" + i + ")" + extension;

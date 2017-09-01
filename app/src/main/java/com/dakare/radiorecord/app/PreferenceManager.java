@@ -300,7 +300,10 @@ public class PreferenceManager {
     }
 
     public boolean isEqSettingsEnabled() {
-        return sharedPreferences.getBoolean(EQ_SETTINGS_KEY, EqUtils.isEqAvailable());
+        if (sharedPreferences.contains(EQ_SETTINGS_KEY)) {
+            return sharedPreferences.getBoolean(EQ_SETTINGS_KEY, false);
+        }
+        return EqUtils.isEqAvailable();
     }
 
     public void setEqSettings(final boolean enabled) {
