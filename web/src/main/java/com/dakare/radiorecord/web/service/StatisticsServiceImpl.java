@@ -1,10 +1,13 @@
 package com.dakare.radiorecord.web.service;
 
+import com.dakare.radiorecord.web.controller.event.FailedTrackRequestEvent;
+import com.dakare.radiorecord.web.controller.event.SuccessTrackRequestEvent;
 import com.dakare.radiorecord.web.domain.TrackInfo;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.boot.actuate.metrics.Metric;
 import org.springframework.boot.actuate.metrics.reader.MetricReader;
+import org.springframework.context.event.EventListener;
 
 @AllArgsConstructor
 public class StatisticsServiceImpl implements StatisticsService {
@@ -15,13 +18,14 @@ public class StatisticsServiceImpl implements StatisticsService {
     private CounterService counterService;
     private MetricReader metricRepository;
 
-    @Override
-    public void logAlbumResponse(TrackInfo trackInfo) {
-        if (trackInfo == null) {
-            counterService.increment(ALBUM_REQUEST_FAIL);
-        } else {
+    @EventListener(SuccessTrackRequestEvent.class)
+    public void handleSuccessAlbumRequest() {
             counterService.increment(ALBUM_REQUEST_SUCCESS);
-        }
+    }
+
+    @EventListener(classes = FailedTrackRequestEvent.class)
+    public void handleFailedAlbumRequest() {
+        counterService.increment(ALBUM_REQUEST_FAIL);
     }
 
     @Override
