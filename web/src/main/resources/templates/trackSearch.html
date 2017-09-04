@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot Thymeleaf Hello World Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" th:href="@{/css/main.css}"
+          href="../../css/main.css"/>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-brand">Management console</div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a th:href="@{/manager/trackSearch}">Track search</a></li>
+            <li><a th:href="@{/manager/emptyTracks}">Empty tracks</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+    <form th:action="@{/manager/trackSearch}">
+        <div class="form-group">
+            <label>Station</label>
+            <input name="station" class="form-control" th:value="${station}" required="required"/>
+        </div>
+        <div class="form-group">
+            <label>Song</label>
+            <input name="song" class="form-control" th:value="${song}" required="required"/>
+        </div>
+        <input class="btn btn-info" type="submit"/>
+    </form>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Artist</th>
+            <th>Song</th>
+            <th>Station</th>
+            <th>Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="track : ${tracks}">
+            <td th:text="${track.artist}"></td>
+            <td th:text="${track.song}"></td>
+            <td th:text="${track.prefix}"></td>
+            <td>
+                <img width="200" height="200" th:src="${track.image600}"/>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+<!-- /.container -->
+
+</body>
+</html>

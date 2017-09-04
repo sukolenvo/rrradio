@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot Thymeleaf Hello World Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" th:href="@{/css/main.css}"
+          href="../../css/main.css"/>
+
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-brand">Management console</div>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/manager/trackSearch}">Track search</a></li>
+            <li class="active"><a th:href="@{/manager/emptyTracks}">Empty tracks</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Artist</th>
+            <th>Song</th>
+            <th>Station</th>
+            <th>Count</th>
+            <th>Image</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="track : ${page.content}">
+            <td th:text="${track.artist}"></td>
+            <td th:text="${track.song}"></td>
+            <td th:text="${track.prefix}"></td>
+            <td th:text="${track.count}"></td>
+            <td>
+                <form method="post" class="form-inline" th:action="@{/manager/emptyTracks}">
+                    <input name="image" class="form-control" required="required"/>
+                    <input type="submit" class="btn btn-success" value="Save"/>
+                    <input type="hidden" name="station" th:value="${track.prefix}"/>
+                    <input type="hidden" name="artist" th:value="${track.artist}"/>
+                    <input type="hidden" name="song" th:value="${track.song}"/>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation" th:if="${page.totalPages} > 1" class="pull-right">
+        <ul class="pagination">
+            <li th:each="i : ${#numbers.sequence( 1, T(Math).min(5, page.totalPages))}"
+                th:class="${i == page.number + 1} ? 'active'">
+                <a th:href="@{/manager/emptyTracks(page=${i})}" th:text="${i}">1</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<!-- /.container -->
+
+</body>
+</html>
