@@ -20,6 +20,8 @@ public class EmptyTrackInfo {
     @Id
     private String prefix;
     private long count;
+    @Column(columnDefinition = "boolean default 'false'")
+    private boolean hidden;
 
     public void setArtist(String artist) {
         this.artist = Utils.normalize(artist);

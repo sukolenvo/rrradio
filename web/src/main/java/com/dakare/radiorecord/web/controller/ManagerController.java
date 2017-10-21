@@ -12,10 +12,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
-import java.util.List;
 
 @Controller
 @RequestMapping("/manager")
@@ -31,14 +31,15 @@ public class ManagerController {
     private TrackInfoRepository trackInfoRepository;
 
     @GetMapping("album")
-    @ResponseBody
-    public String albumStats() {
-        return "success: " + statisticsService.getAlbumSuccess() + ", failed: " + statisticsService.getAlbumFailed();
+    public String albumStats(Model model) {
+        model.addAttribute("success", statisticsService.getAlbumSuccess());
+        model.addAttribute("failed", statisticsService.getAlbumFailed());
+        return "album";
     }
 
     @GetMapping("emptyTracks")
     public String emptyTracksPage(Model model, @RequestParam(defaultValue = "1") int page) {
-        Page<EmptyTrackInfo> tracks = emptyTrackInfoRepository.findAll(new PageRequest(page - 1, 20, new Sort(Sort.Direction.DESC, "count")));
+        Page<EmptyTrackInfo> tracks = emptyTrackInfoRepository.findByHiddenFalse(new PageRequest(page - 1, 20, new Sort(Sort.Direction.DESC, "count")));
         model.addAttribute("page", tracks);
         return "emptyTracks";
     }
@@ -58,6 +59,16 @@ public class ManagerController {
         return "redirect:/manager/emptyTracks";
     }
 
+    @PostMapping("hide")
+    public String updateEmptyTrack(@RequestParam String artist,
+                                   @RequestParam String station,
+                                   @RequestParam String song) {
+        EmptyTrackInfo entity = emptyTrackInfoRepository.findOne(new TrackInfoPK(artist, song, station));
+        entity.setHidden(true);
+        emptyTrackInfoRepository.save(entity);
+        return "redirect:/manager/emptyTracks";
+    }
+
     @GetMapping("trackSearch")
     public String trackInfoPage(Model model,
                                 @RequestParam(required = false) String station,
@@ -67,7 +78,9 @@ public class ManagerController {
             model.addAttribute("station", "");
             model.addAttribute("song", "");
         } else {
-            Page<TrackInfo> tracks = trackInfoRepository.findBySongContainsAndPrefix(song, station, new PageRequest(0, 20));
+            Page<TrackInfo> tracks =
+                    StringUtils.isEmpty(station) ? trackInfoRepository.findBySongContains(song, new PageRequest(0, 20))
+                    : trackInfoRepository.findBySongContainsAndPrefix(song, station, new PageRequest(0, 20));
             model.addAttribute("tracks", tracks.getContent());
             model.addAttribute("station", station);
             model.addAttribute("song", song);

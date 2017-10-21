@@ -19,6 +19,7 @@
         <ul class="nav navbar-nav">
             <li><a th:href="@{/manager/trackSearch}">Track search</a></li>
             <li class="active"><a th:href="@{/manager/emptyTracks}">Empty tracks</a></li>
+            <li><a th:href="@{/manager/album}">Summary</a></li>
         </ul>
     </div>
 </nav>
@@ -48,6 +49,14 @@
                     <input type="hidden" name="artist" th:value="${track.artist}"/>
                     <input type="hidden" name="song" th:value="${track.song}"/>
                 </form>
+            <td>
+                <form method="post" class="form-inline" th:action="@{/manager/hide}">
+                    <input type="submit" class="btn btn-info" value="Hide"/>
+                    <input type="hidden" name="station" th:value="${track.prefix}"/>
+                    <input type="hidden" name="artist" th:value="${track.artist}"/>
+                    <input type="hidden" name="song" th:value="${track.song}"/>
+                </form>
+            </td>
             </td>
         </tr>
         </tbody>
@@ -55,7 +64,7 @@
 
     <nav aria-label="Page navigation" th:if="${page.totalPages} > 1" class="pull-right">
         <ul class="pagination">
-            <li th:each="i : ${#numbers.sequence( 1, T(Math).min(5, page.totalPages))}"
+            <li th:each="i : ${#numbers.sequence( 1, T(Math).min(10, page.totalPages))}"
                 th:class="${i == page.number + 1} ? 'active'">
                 <a th:href="@{/manager/emptyTracks(page=${i})}" th:text="${i}">1</a>
             </li>

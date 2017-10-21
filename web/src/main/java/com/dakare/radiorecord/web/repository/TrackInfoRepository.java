@@ -11,4 +11,6 @@ import java.util.List;
 public interface TrackInfoRepository extends JpaRepository<TrackInfo, TrackInfoPK> {
 
     Page<TrackInfo> findBySongContainsAndPrefix(String song, String prefix, Pageable pageable);
+
+    Page<TrackInfo> findBySongContains(String song, Pageable pageable);
 }

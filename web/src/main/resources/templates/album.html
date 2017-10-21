@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Spring Boot Thymeleaf Hello World Example</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link rel="stylesheet" type="text/css"
+          href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+    <link rel="stylesheet" th:href="@{/css/main.css}"
+          href="../../css/main.css"/>
+
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-brand">Management console</div>
+        <ul class="nav navbar-nav">
+            <li><a th:href="@{/manager/trackSearch}">Track search</a></li>
+            <li><a th:href="@{/manager/emptyTracks}">Empty tracks</a></li>
+            <li class="active"><a th:href="@{/manager/album}">Summary</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+
+    <div>
+        <label>Success:</label>
+        <span th:text="${success}"></span>
+    </div>
+    <div>
+        <label>Failed:</label>
+        <span th:text="${failed}"></span>
+    </div>
+</div>
+<!-- /.container -->
+
+</body>
+</html>
