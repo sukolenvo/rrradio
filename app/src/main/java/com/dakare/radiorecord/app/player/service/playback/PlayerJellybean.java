@@ -222,7 +222,9 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
     @Override
     public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
         if (playbackState == ExoPlayer.STATE_ENDED && playlist != null && position < playlist.size() - 1) {
-            position++;
+            if (!getCurrentPlaylistItem().isLive()) {
+                position++;
+            }
             startPlayback();
         } else if (playbackState == ExoPlayer.STATE_READY && equalizer != null) {
             try {
