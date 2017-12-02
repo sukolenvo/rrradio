@@ -6,7 +6,6 @@ import lombok.Getter;
 @Getter
 public enum Quality {
     AAC("aac", R.string.quality_aac),
-    LOW("32", R.string.quality_low),
     AAC_64("aac_64", R.string.quality_medium_aac),
     MEDIUM("128", R.string.quality_medium),
     HIGH("320", R.string.quality_high);

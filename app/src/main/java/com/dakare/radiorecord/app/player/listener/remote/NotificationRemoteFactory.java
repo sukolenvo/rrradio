@@ -10,9 +10,7 @@ public final class NotificationRemoteFactory {
     }
 
     public static NotificationRemote create(final String packageName, final Notification notification) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            return new NotificationRemoteJelly(packageName, notification);
-        }
-        return new NotificationRemoteImpl(packageName, notification);
+        //TODO: refactor this
+        return new NotificationRemoteJelly(packageName, notification);
     }
 }

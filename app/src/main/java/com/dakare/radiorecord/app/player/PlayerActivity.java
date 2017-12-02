@@ -196,28 +196,24 @@ public class PlayerActivity extends MenuActivity
             }
         });
         recordButton = findViewById(R.id.record_button);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-            recordButton.setVisibility(View.GONE);
-        } else {
-            recordButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(final View v) {
-                    if (playlistItem == null || !playlistItem.isLive()) {
-                        Toast.makeText(PlayerActivity.this, R.string.record_info_text, Toast.LENGTH_LONG).show();
-                    } else if (ActivityCompat.checkSelfPermission(PlayerActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                        if (recording) {
-                            Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
-                            intent.setAction(NotificationListener.ACTION_STOP);
-                            startService(intent);
-                        } else {
-                            playerServiceHelper.getServiceClient().execute(new RecordPlayerMessage());
-                        }
+        recordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                if (playlistItem == null || !playlistItem.isLive()) {
+                    Toast.makeText(PlayerActivity.this, R.string.record_info_text, Toast.LENGTH_LONG).show();
+                } else if (ActivityCompat.checkSelfPermission(PlayerActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    if (recording) {
+                        Intent intent = new Intent(PlayerActivity.this, PlayerService.class);
+                        intent.setAction(NotificationListener.ACTION_STOP);
+                        startService(intent);
                     } else {
-                        ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                        playerServiceHelper.getServiceClient().execute(new RecordPlayerMessage());
                     }
+                } else {
+                    ActivityCompat.requestPermissions(PlayerActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
                 }
-            });
-        }
+            }
+        });
         if (PreferenceManager.getInstance(this).isLargeButtons()) {
             playButton.getLayoutParams().height *= 1.5;
             pauseButton.getLayoutParams().height *= 1.5;

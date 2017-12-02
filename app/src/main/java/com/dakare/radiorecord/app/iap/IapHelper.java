@@ -150,7 +150,7 @@ public class IapHelper implements ServiceConnection {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                String url = "http://record-backend.ddns.net:3001/api/purchase";
+                String url = "http://13.59.180.140:3001/api/purchase";
                 try {
                     HttpURLConnection httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
                     httpURLConnection.setRequestMethod("POST");

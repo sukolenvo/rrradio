@@ -24,7 +24,7 @@ import java.net.URLEncoder;
 
 public class MetadataLoader extends BroadcastReceiver implements Runnable {
     private final String URL_FORMAT = "https://www.radiorecord.ru/xml/%s_online_v8.txt";
-    private final String OFFLINE_URL_FORMAT = "http://record-backend.ddns.net:3001/api/albumInfo?artist=%s&song=%s&station=%s";
+    private final String OFFLINE_URL_FORMAT = "http://13.59.180.140:3001/api/albumInfo?artist=%s&song=%s&station=%s";
     private final MetadataChangeCallback callback;
     private final Context context;
     private final Object lock = new Object();

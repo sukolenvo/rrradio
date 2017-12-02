@@ -29,13 +29,11 @@ public class PlayerListenerHandler extends Handler implements Target {
     private int imageScale = 1;
 
     public PlayerListenerHandler() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            ActivityManager actManager = (ActivityManager) RecordApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
-            ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
-            actManager.getMemoryInfo(memInfo);
-            long memoryGb = memInfo.totalMem / (1_000_000_000);
-            imageScale = (int) Math.max(1, memoryGb);
-        }
+        ActivityManager actManager = (ActivityManager) RecordApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
+        actManager.getMemoryInfo(memInfo);
+        long memoryGb = memInfo.totalMem / (1_000_000_000);
+        imageScale = (int) Math.max(1, memoryGb);
     }
 
     @Override

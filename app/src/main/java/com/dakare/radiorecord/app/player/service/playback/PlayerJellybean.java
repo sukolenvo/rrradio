@@ -61,9 +61,12 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
     private long lastErrorMessage;
     private Equalizer equalizer;
 
+    static {
+        AudioTrack.enablePreV21AudioSessionWorkaround = true;
+    }
+
     public PlayerJellybean(final Context context) {
         this.context = context;
-        AudioTrack.enablePreV21AudioSessionWorkaround = true;
         TrackSelection.Factory videoTrackSelectionFactory = new FixedTrackSelection.Factory();
         TrackSelector trackSelector = new DefaultTrackSelector(videoTrackSelectionFactory);
         player = ExoPlayerFactory.newSimpleInstance(context, trackSelector);

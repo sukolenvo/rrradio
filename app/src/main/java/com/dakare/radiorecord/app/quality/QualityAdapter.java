@@ -1,7 +1,6 @@
 package com.dakare.radiorecord.app.quality;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,16 +24,8 @@ public class QualityAdapter extends ArrayAdapter<QualityAdapterItem> implements 
         if (withNoQuality) {
             add(new QualityAdapterItem(context.getString(R.string.no_default_quality)));
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            for (Quality quality : Quality.values()) {
-                add(new QualityAdapterItem(quality, context.getString(quality.getNameRes())));
-            }
-        } else {
-            for (Quality quality : Quality.values()) {
-                if (quality != Quality.AAC && quality != Quality.AAC_64) {
-                    add(new QualityAdapterItem(quality, context.getString(quality.getNameRes())));
-                }
-            }
+        for (Quality quality : Quality.values()) {
+            add(new QualityAdapterItem(quality, context.getString(quality.getNameRes())));
         }
         notifyDataSetChanged();
     }

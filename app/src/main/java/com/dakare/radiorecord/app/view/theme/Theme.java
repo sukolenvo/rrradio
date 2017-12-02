@@ -126,10 +126,24 @@ public enum Theme {
                     return R.drawable.icon_light_black;
                 case RAVE_FM:
                     return R.drawable.icon_light_rave;
+                case FUTURE_BASS:
+                    return R.drawable.icon_light_fbass;
+                case REMIX:
+                    return R.drawable.icon_light_remix;
+                case GASTARBAITER:
+                    return R.drawable.icon_light_gastarbaiter;
+                case HARD_BASS:
+                    return R.drawable.icon_light_hbass;
+                case ANSHLAG:
+                    return R.drawable.icon_light_anshlag;
+                case IBIZA:
+                    return R.drawable.icon_light_ibiza;
                 case GOA:
                     return R.drawable.icon_light_goa;
                 case GOLD:
                     return R.drawable.icon_light_gold;
+                case TECHNO:
+                    return R.drawable.icon_light_techno;
                 default:
                     return R.drawable.icon_light_rr;
             }
@@ -189,10 +203,24 @@ public enum Theme {
                     return R.drawable.icon_dark_black;
                 case RAVE_FM:
                     return R.drawable.icon_dark_rave;
+                case FUTURE_BASS:
+                    return R.drawable.icon_dark_fbass;
+                case REMIX:
+                    return R.drawable.icon_dark_remix;
+                case GASTARBAITER:
+                    return R.drawable.icon_dark_gastarbaiter;
+                case HARD_BASS:
+                    return R.drawable.icon_dark_hbass;
+                case ANSHLAG:
+                    return R.drawable.icon_dark_anshlag;
+                case IBIZA:
+                    return R.drawable.icon_dark_ibiza;
                 case GOA:
                     return R.drawable.icon_dark_goa;
                 case GOLD:
                     return R.drawable.icon_dark_gold;
+                case TECHNO:
+                    //TODO: set icon
                 default:
                     return R.drawable.icon_dark_rr;
             }

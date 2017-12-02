@@ -1,10 +1,8 @@
 package com.dakare.radiorecord.app.player.listener.remote;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.view.View;
 import android.widget.RemoteViews;
 import com.dakare.radiorecord.app.PreferenceManager;
@@ -13,7 +11,6 @@ import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 import com.dakare.radiorecord.app.view.theme.Theme;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class NotificationRemoteJelly extends NotificationRemoteImpl {
 
     private final RemoteViews expanded;
@@ -21,7 +18,7 @@ public class NotificationRemoteJelly extends NotificationRemoteImpl {
     public NotificationRemoteJelly(final String packageName, final Notification notification) {
         super(packageName, notification);
         expanded = new RemoteViews(packageName, PreferenceManager.getInstance(RecordApplication.getInstance()).getTheme() == Theme.DARK
-                                                ? R.layout.notification_expanded_dark : R.layout.notification_expanded);
+                ? R.layout.notification_expanded_dark : R.layout.notification_expanded);
         notification.bigContentView = expanded;
     }
 
@@ -29,9 +26,9 @@ public class NotificationRemoteJelly extends NotificationRemoteImpl {
     public void updateTitle(final PlaybackStatePlayerMessage message) {
         super.updateTitle(message);
         expanded.setTextViewText(R.id.text_media_title, message.getSong() == null
-                                                        ? buildTitle(message.getPlaying().getTitle(),
-                                                                     message.getPlaying().getSubtitle())
-                                                        : buildTitle(message.getArtist(), message.getSong()));
+                ? buildTitle(message.getPlaying().getTitle(),
+                message.getPlaying().getSubtitle())
+                : buildTitle(message.getArtist(), message.getSong()));
     }
 
     @Override

@@ -84,7 +84,12 @@ public class PreferenceManager {
 
     public Quality getDefaultQuality(final Quality defaultValue) {
         String qualityName = sharedPreferences.getString(QUALITY_KEY, null);
-        return qualityName == null ? defaultValue : Quality.valueOf(qualityName);
+        try {
+            return qualityName == null ? defaultValue : Quality.valueOf(qualityName);
+        } catch (IllegalArgumentException e) {
+            //Quality.LOW was removed at 20171201
+            return Quality.AAC;
+        }
     }
 
     public void setStations(List<Station> stations) {

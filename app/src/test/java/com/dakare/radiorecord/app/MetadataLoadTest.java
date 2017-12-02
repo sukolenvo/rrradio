@@ -21,7 +21,8 @@ public class MetadataLoadTest {
 
     @Test
     public void testMetadataParsing() throws JSONException {
-        UpdateResponse updateResponse = new UpdateResponse(body);
+        UpdateResponse updateResponse = new UpdateResponse();
+        updateResponse.parse(body);
         Assert.assertEquals("DAVID GUETTA JUSTIN BIEBER", updateResponse.getArtist());
         Assert.assertEquals("http:\\/\\/e-cdn-images.deezer.com\\/images\\/cover\\/a392a6c833438989f1c2803da7f50f1b\\/600x600-000000-80-0-0.jpg", updateResponse.getImage600());
         Assert.assertEquals("http:\\/\\/www.deezer.com\\/track\\/369397961", updateResponse.getItunesURL());

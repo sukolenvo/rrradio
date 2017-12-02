@@ -123,7 +123,7 @@
     <string name="sleep_timer_toast">Sleep timer is now suspending playback</string>
     <string name="audio_effect_error">AudioEffect library is corrupted. Disabling equalizer.</string>
     <string name="settings_theme_text">Application theme</string>
-    <string name="dark_theme_name">Dark theme (new)</string>
+    <string name="dark_theme_name">Dark theme (NEW)</string>
     <string name="classic_theme_name">Classic</string>
     <string name="light_theme_name">Light theme</string>
     <string name="ad_main_screen" translatable="false">ca-app-pub-8716939423875482/9795752054</string>

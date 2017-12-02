@@ -1,6 +1,5 @@
 package com.dakare.radiorecord.app;
 
-import com.dakare.radiorecord.app.load.AbstractLoadFragment;
 import com.dakare.radiorecord.app.quality.Quality;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,7 +8,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class LiveStreamStream {
+import static com.dakare.radiorecord.app.load.loader.BasicCategoryLoader.USER_AGENT;
+
+public class LiveStreamTest {
 
     @Test
     public void testAllStations() throws IOException {
@@ -17,8 +18,8 @@ public class LiveStreamStream {
             for (Quality quality : Quality.values()) {
                 String streamUrl = station.getStreamUrl(quality);
                 HttpURLConnection urlConnection = (HttpURLConnection) new URL(streamUrl).openConnection();
-                urlConnection.setRequestProperty("User-Agent", AbstractLoadFragment.USER_AGENT);
-                Assert.assertEquals(streamUrl,200, urlConnection.getResponseCode());
+                urlConnection.setRequestProperty("User-Agent", USER_AGENT);
+                Assert.assertEquals(streamUrl, 200, urlConnection.getResponseCode());
             }
         }
     }
