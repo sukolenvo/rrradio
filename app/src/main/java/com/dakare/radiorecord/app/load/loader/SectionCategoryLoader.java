@@ -17,6 +17,7 @@ public class SectionCategoryLoader implements CategoryLoader<SectionMusicItem> {
     private final CategoryLoader<SectionPath> sectionPathLoader;
     private final BasicCategoryLoader<SectionMusicItem> sectionMusicLoader;
     private final String sectionName;
+    private boolean canceled;
 
     public SectionCategoryLoader(String sectionName) {
         this.sectionName = sectionName;
@@ -29,6 +30,9 @@ public class SectionCategoryLoader implements CategoryLoader<SectionMusicItem> {
         sectionPathLoader.load(new CategoryLoadListener<SectionPath>() {
             @Override
             public void onCategoryLoaded(List<SectionPath> networkResult) {
+                if (canceled) {
+                    return;
+                }
                 String url = null;
                 for (SectionPath sectionPath : networkResult) {
                     if (sectionName.equals(sectionPath.getName())) {
@@ -49,5 +53,12 @@ public class SectionCategoryLoader implements CategoryLoader<SectionMusicItem> {
     public void clearCache() {
         sectionPathLoader.clearCache();
         sectionMusicLoader.clearCache();
+    }
+
+    @Override
+    public void cancel() {
+        sectionPathLoader.cancel();
+        sectionMusicLoader.cancel();
+        canceled = true;
     }
 }

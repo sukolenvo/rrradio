@@ -65,8 +65,8 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //TODO: cancel loader (duplicates data in cache on screen rotation)
         destroyed = true;
+        getCategoryLoader().cancel();
     }
 
     protected abstract CategoryLoader<K> getCategoryLoader();

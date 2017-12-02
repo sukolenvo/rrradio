@@ -22,6 +22,7 @@ public class BasicCategoryLoader<T> implements CategoryLoader<T>, Runnable {
     private final CategoryDbTable<T> categoryDbTable;
     private final CategoryParser<T> parser;
     private CategoryLoadListener<T> listener;
+    private boolean canceled;
 
     public BasicCategoryLoader(CategoryDbTable<T> categoryDbTable, CategoryParser<T> parser) {
         this.categoryDbTable = categoryDbTable;
@@ -51,6 +52,11 @@ public class BasicCategoryLoader<T> implements CategoryLoader<T>, Runnable {
     }
 
     @Override
+    public void cancel() {
+        canceled = true;
+    }
+
+    @Override
     public void run() {
         final List<T> result = new ArrayList<>();
         try {
@@ -58,7 +64,11 @@ public class BasicCategoryLoader<T> implements CategoryLoader<T>, Runnable {
                     .userAgent(USER_AGENT)
                     .execute();
             result.addAll(parser.parse(response.parse()));
-            categoryDbTable.save(result);
+            if (canceled) {
+                result.clear();
+            } else {
+                categoryDbTable.save(result);
+            }
         } catch (IOException e) {
             Log.e("BasicCategoryLoader", "Failed to load category info for url: " + url, e);
         } finally {

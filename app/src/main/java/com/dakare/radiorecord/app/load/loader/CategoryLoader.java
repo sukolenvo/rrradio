@@ -5,4 +5,6 @@ public interface CategoryLoader<T> {
     void load(CategoryLoadListener<T> listener);
 
     void clearCache();
+
+    void cancel();
 }
