@@ -10,7 +10,7 @@
             android:id="@+id/image_media_preview"
             android:layout_width="128.0dip"
             android:layout_height="128.0dip"
-            android:src="@drawable/icon_light_rr"
+            android:src="@drawable/icon_alt_rr"
             android:scaleType="fitCenter" />
 
     <LinearLayout

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
+import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.listener.IPlayerStateListener;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
@@ -18,6 +19,7 @@ import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
+import com.dakare.radiorecord.app.view.theme.Theme;
 
 
 public class WidgetListener implements IPlayerStateListener {
@@ -81,7 +83,7 @@ public class WidgetListener implements IPlayerStateListener {
                     ? buildTitle(playlistItem.getTitle(), playlistItem.getSubtitle()) : buildTitle(message.getArtist(), message.getSong()));
             if (message.getIcon() == null || !PreferenceManager.getInstance(service).isMusicImageEnabled()) {
                 views.setImageViewResource(R.id.image_media_preview,
-                                           PreferenceManager.getInstance(service).getTheme().getStationIcon(playlistItem.getStation()));
+                        getStationIcon(playlistItem.getStation()));
             }
             if (message.getState() == PlayerState.PLAY) {
                 views.setViewVisibility(R.id.button_media_play, View.GONE);
@@ -92,6 +94,14 @@ public class WidgetListener implements IPlayerStateListener {
             }
         }
         appWidgetManager.updateAppWidget(getComponentName(), views);
+    }
+
+    private int getStationIcon(Station station) {
+        Theme theme = PreferenceManager.getInstance(service).getTheme();
+        if (theme == Theme.DARK) {
+            return Theme.DARK.getStationIcon(station);
+        }
+        return NotificationListener.getStationIcon(station);
     }
 
     private String buildTitle(final String main, final String second) {
