@@ -29,10 +29,12 @@
     <string name="setting_download_text">Download directory</string>
     <string name="music_metadata_text">Music metadata</string>
     <string name="image_metadata_text">Album images</string>
+    <string name="save_battery_text">Save battery</string>
     <string name="on_call_text">Stop playback on call</string>
     <string name="eq_settings_text">Equalizer</string>
     <string name="music_metadata_secondary">Load current music information (Artist, song name)</string>
     <string name="image_metadata_secondary">Load and display album image (if available)</string>
+    <string name="save_battery_secondary">Do not update song name and album image when screen off</string>
     <string name="on_call_secondary">Automatically interrupt playback on income call</string>
     <string name="eq_settings_secondary">Disable this option if you have problems with sound</string>
     <string name="no_results">Playlist is empty</string>

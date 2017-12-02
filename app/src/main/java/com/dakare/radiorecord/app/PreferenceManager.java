@@ -29,6 +29,7 @@ public class PreferenceManager {
     private static final String QUALITY_KEY = "quality";
     private static final String STATIONS_KEY = "stations";
     private static final String MUSIC_METADATA_KEY = "music_metadata";
+    private static final String BACKGROUND_LOAD_KEY = "background_load";
     private static final String MUSIC_IMAGE_KEY = "music_image";
     @Deprecated
     private static final String CALL_SETTINGS_KEY = "call_settings";
@@ -134,6 +135,16 @@ public class PreferenceManager {
     public void setMusicMedatada(final boolean enabled) {
         sharedPreferences.edit()
                 .putBoolean(MUSIC_METADATA_KEY, enabled)
+                .apply();
+    }
+
+    public boolean isBackgroundLoad() {
+        return sharedPreferences.getBoolean(BACKGROUND_LOAD_KEY, false);
+    }
+
+    public void setBackgroundLoad(final boolean enabled) {
+        sharedPreferences.edit()
+                .putBoolean(BACKGROUND_LOAD_KEY, enabled)
                 .apply();
     }
 

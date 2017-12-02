@@ -174,7 +174,8 @@ public class MetadataLoader extends BroadcastReceiver implements Runnable {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction());
+        interactive = Intent.ACTION_SCREEN_ON.equals(intent.getAction())
+                || PreferenceManager.getInstance(context).isBackgroundLoad();
         synchronized (lock) {
             lock.notifyAll();
         }

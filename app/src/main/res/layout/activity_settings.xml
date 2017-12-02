@@ -141,6 +141,39 @@
                 <View style="@style/SettingsSeparator"/>
 
                 <RelativeLayout
+                    android:id="@+id/save_battery_container"
+                    style="@style/SettingsContainer">
+
+                    <TextView
+                        android:id="@+id/background_load_main"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/SettingsPrimary"
+                        android:text="@string/save_battery_text"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/background_load_main"
+                        style="@style/SettingsSecondary"
+                        android:text="@string/save_battery_secondary"/>
+
+                    <CheckBox
+                        android:id="@+id/save_battery_checkbox"
+                        android:background="@drawable/transparent"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:focusableInTouchMode="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+                <View style="@style/SettingsSeparator"/>
+
+                <RelativeLayout
                     android:id="@+id/eq_settings_container"
                     style="@style/SettingsContainer">
 

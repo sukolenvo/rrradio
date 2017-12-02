@@ -40,6 +40,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         initTheme();
         initMusicMetadata();
         initMusicImage();
+        initBackgroundLoad();
         initDownloadDirectory();
         initEqSettings();
         initLargeButtons();
@@ -129,7 +130,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         findViewById(R.id.music_metadata_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                preferenceManager.setMusicMedatada(preferenceManager.isMusicMetadataEnabled() ^ true);
+                preferenceManager.setMusicMedatada(!preferenceManager.isMusicMetadataEnabled());
                 updateMusicMetadataCheckbox();
             }
         });
@@ -140,12 +141,28 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         checkable.setChecked(preferenceManager.isMusicMetadataEnabled());
     }
 
+    private void initBackgroundLoad() {
+        updateBackgroundLoad();
+        findViewById(R.id.save_battery_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                preferenceManager.setBackgroundLoad(!preferenceManager.isBackgroundLoad());
+                updateBackgroundLoad();
+            }
+        });
+    }
+
+    private void updateBackgroundLoad() {
+        Checkable checkable = (Checkable) findViewById(R.id.save_battery_checkbox);
+        checkable.setChecked(!preferenceManager.isBackgroundLoad());
+    }
+
     private void initMusicImage() {
         updateMusicImageCheckbox();
         findViewById(R.id.music_image_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                preferenceManager.setMusicImage(preferenceManager.isMusicImageEnabled() ^ true);
+                preferenceManager.setMusicImage(!preferenceManager.isMusicImageEnabled());
                 updateMusicImageCheckbox();
             }
         });
