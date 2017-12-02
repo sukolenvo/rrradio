@@ -29,18 +29,18 @@ public class SectionCategoryLoader implements CategoryLoader<SectionMusicItem> {
     public void load(final CategoryLoadListener<SectionMusicItem> listener) {
         sectionPathLoader.load(new CategoryLoadListener<SectionPath>() {
             @Override
-            public void onCategoryLoaded(List<SectionPath> networkResult) {
+            public void onCategoryLoaded(CategoryResponse<SectionPath> networkResult) {
                 if (canceled) {
                     return;
                 }
                 String url = null;
-                for (SectionPath sectionPath : networkResult) {
+                for (SectionPath sectionPath : networkResult.getData()) {
                     if (sectionName.equals(sectionPath.getName())) {
                         url = sectionPath.getUrl();
                     }
                 }
                 if (url == null) {
-                    listener.onCategoryLoaded(Collections.<SectionMusicItem>emptyList());
+                    listener.onCategoryLoaded(CategoryResponse.<SectionMusicItem>emptyRespose());
                 } else {
                     sectionMusicLoader.setUrl(url);
                     sectionMusicLoader.load(listener);

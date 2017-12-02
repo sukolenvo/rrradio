@@ -7,7 +7,6 @@ import com.dakare.radiorecord.app.database.table.SectionPathCacheTable;
 import com.dakare.radiorecord.app.load.section.SectionPath;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SectionPathCategoryDbTable extends BasicCategoryDbTable<SectionPath> {
@@ -16,9 +15,6 @@ public class SectionPathCategoryDbTable extends BasicCategoryDbTable<SectionPath
 
     @Override
     protected List<SectionPath> fromContentValues(Cursor query) {
-        if (query == null) {
-            return Collections.emptyList();
-        }
         List<SectionPath> result = new ArrayList<>();
         while (query.moveToNext()) {
             SectionPath item = new SectionPath();

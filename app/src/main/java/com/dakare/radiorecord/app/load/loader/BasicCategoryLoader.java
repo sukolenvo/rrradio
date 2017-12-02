@@ -37,8 +37,8 @@ public class BasicCategoryLoader<T> implements CategoryLoader<T>, Runnable {
 
     @Override
     public void load(CategoryLoadListener<T> listener) {
-        List<T> result = categoryDbTable.load();
-        if (result != null && !result.isEmpty()) {
+        CategoryResponse<T> result = categoryDbTable.load();
+        if (!result.getData().isEmpty()) {
             listener.onCategoryLoaded(result);
         } else {
             this.listener = listener;
@@ -75,7 +75,7 @@ public class BasicCategoryLoader<T> implements CategoryLoader<T>, Runnable {
             uiHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    listener.onCategoryLoaded(result);
+                    listener.onCategoryLoaded(CategoryResponse.createNetworkResponse(result));
                 }
             });
         }

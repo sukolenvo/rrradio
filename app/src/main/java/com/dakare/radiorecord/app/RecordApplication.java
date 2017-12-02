@@ -16,9 +16,9 @@ public class RecordApplication extends Application {
         super.onCreate();
         app = this;
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        if (!BuildConfig.DEBUG) {
-            Fabric.with(this, new Crashlytics.Builder().answers(new Answers()).core(new CrashlyticsCore()).build());
-        }
+        Fabric.with(this, new Crashlytics.Builder()
+                .answers(new Answers())
+                .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
         try {
             MobileAds.initialize(getApplicationContext(), "ca-app-pub-8716939423875482~8319018853");
         } catch (RuntimeException e) {

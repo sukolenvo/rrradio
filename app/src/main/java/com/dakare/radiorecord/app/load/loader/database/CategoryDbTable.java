@@ -1,10 +1,12 @@
 package com.dakare.radiorecord.app.load.loader.database;
 
+import com.dakare.radiorecord.app.load.loader.CategoryResponse;
+
 import java.util.List;
 
 public interface CategoryDbTable<T> {
 
-    List<T> load();
+    CategoryResponse<T> load();
 
     void clear();
 

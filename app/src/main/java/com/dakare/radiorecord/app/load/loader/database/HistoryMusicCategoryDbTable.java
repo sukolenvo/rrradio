@@ -8,7 +8,6 @@ import com.dakare.radiorecord.app.database.table.HistoryMusicCacheTable;
 import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class HistoryMusicCategoryDbTable extends BasicCategoryDbTable<HistoryMusicItem> {
@@ -21,9 +20,6 @@ public class HistoryMusicCategoryDbTable extends BasicCategoryDbTable<HistoryMus
 
     @Override
     protected List<HistoryMusicItem> fromContentValues(Cursor query) {
-        if (query == null) {
-            return Collections.emptyList();
-        }
         List<HistoryMusicItem> result = new ArrayList<>();
         while (query.moveToNext()) {
             HistoryMusicItem historyMusicItem = new HistoryMusicItem();

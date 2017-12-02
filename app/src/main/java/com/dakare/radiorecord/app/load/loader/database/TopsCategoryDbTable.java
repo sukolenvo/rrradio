@@ -8,7 +8,6 @@ import com.dakare.radiorecord.app.database.table.TopsCacheTable;
 import com.dakare.radiorecord.app.load.top.TopsMusicItem;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TopsCategoryDbTable extends BasicCategoryDbTable<TopsMusicItem> {
@@ -21,9 +20,6 @@ public class TopsCategoryDbTable extends BasicCategoryDbTable<TopsMusicItem> {
 
     @Override
     protected List<TopsMusicItem> fromContentValues(Cursor query) {
-        if (query == null) {
-            return Collections.emptyList();
-        }
         List<TopsMusicItem> result = new ArrayList<>();
         while (query.moveToNext()) {
             TopsMusicItem item = new TopsMusicItem();

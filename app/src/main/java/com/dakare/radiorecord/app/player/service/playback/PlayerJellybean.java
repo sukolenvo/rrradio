@@ -10,7 +10,6 @@ import android.widget.Toast;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
-import com.dakare.radiorecord.app.BuildConfig;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
@@ -99,12 +98,10 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
             player.seekTo(0L);
             player.setPlayWhenReady(false);
             PlaylistItem playlistItem = getCurrentPlaylistItem();
-            if (!BuildConfig.DEBUG) {
-                Answers.getInstance().logCustom(new CustomEvent("Playlist item")
-                        .putCustomAttribute("live", playlistItem.isLive() + "")
-                        .putCustomAttribute("recording", playbackRecordManager.isRecord() + "")
-                        .putCustomAttribute("station", playlistItem.getStation().name()));
-            }
+            Answers.getInstance().logCustom(new CustomEvent("Playlist item")
+                    .putCustomAttribute("live", playlistItem.isLive() + "")
+                    .putCustomAttribute("recording", playbackRecordManager.isRecord() + "")
+                    .putCustomAttribute("station", playlistItem.getStation().name()));
             preferenceManager.setLastPosition(position);
             DataSource.Factory dataSourceFactory = playbackRecordManager.startRecording(playlistItem, new DefaultDataSourceFactory(RecordApplication.getInstance(),
                     BasicCategoryLoader.USER_AGENT));

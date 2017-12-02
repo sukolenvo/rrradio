@@ -35,14 +35,12 @@ public class MenuActivity extends ThemeActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!BuildConfig.DEBUG) {
-            Answers.getInstance().logContentView(new ContentViewEvent()
-                    .putContentName("Open activity")
-                    .putContentType(getClass().getSimpleName())
-                    .putContentId(getClass().getSimpleName())
-                    .putCustomAttribute("theme", PreferenceManager.getInstance(this).getTheme().name())
-                    .putCustomAttribute("ads", PreferenceManager.getInstance(this).getShowAd() + ""));
-        }
+        Answers.getInstance().logContentView(new ContentViewEvent()
+                .putContentName("Open activity")
+                .putContentType(getClass().getSimpleName())
+                .putContentId(getClass().getSimpleName())
+                .putCustomAttribute("theme", PreferenceManager.getInstance(this).getTheme().name())
+                .putCustomAttribute("ads", PreferenceManager.getInstance(this).getShowAd() + ""));
     }
 
     protected void initToolbar() {

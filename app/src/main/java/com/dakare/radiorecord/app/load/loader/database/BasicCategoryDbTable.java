@@ -5,10 +5,15 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import com.dakare.radiorecord.app.RecordApplication;
+import com.dakare.radiorecord.app.load.loader.CategoryResponse;
 
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public abstract class BasicCategoryDbTable<T> implements CategoryDbTable<T> {
+
+    public static final String COLUMN_FROM_DATE = "from_date";
 
     private ContentResolver contentResolver;
 
@@ -17,15 +22,25 @@ public abstract class BasicCategoryDbTable<T> implements CategoryDbTable<T> {
     }
 
     @Override
-    public List<T> load() {
+    public CategoryResponse<T> load() {
         Cursor cursor = contentResolver.query(getUrl(), null, null, null, null);
         try {
-            return fromContentValues(cursor);
+            if (cursor == null) {
+                return CategoryResponse.emptyRespose();
+            }
+            return CategoryResponse.createCachedResponse(getFrom(cursor), fromContentValues(cursor));
         } finally {
             if (cursor != null) {
                 cursor.close();
             }
         }
+    }
+
+    private Date getFrom(Cursor cursor) {
+        if (cursor.moveToFirst()) {
+            return new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_FROM_DATE)));
+        }
+        return null;
     }
 
     protected abstract List<T> fromContentValues(Cursor query);
@@ -40,7 +55,11 @@ public abstract class BasicCategoryDbTable<T> implements CategoryDbTable<T> {
     @Override
     public void save(List<T> result) {
         if (result != null && !result.isEmpty()) {
-            contentResolver.bulkInsert(getUrl(), toContentValues(result));
+            ContentValues[] contentValues = toContentValues(result);
+            for (ContentValues contentValue : contentValues) {
+                contentValue.put(COLUMN_FROM_DATE, System.currentTimeMillis());
+            }
+            contentResolver.bulkInsert(getUrl(), contentValues);
         }
     }
 

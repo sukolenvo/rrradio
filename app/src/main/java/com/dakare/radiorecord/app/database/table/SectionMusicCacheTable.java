@@ -9,7 +9,7 @@ public class SectionMusicCacheTable extends Table {
     public static final String NAME = "section_music";
 
     public static final String CREATE_TABLE = "create table " + NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            " artist TEXT, song TEXT, url TEXT NOT NULL, category TEXT NOT NULL);";
+            " artist TEXT, from_date INTEGER, song TEXT, url TEXT NOT NULL, category TEXT NOT NULL);";
 
     public static final String DROP_TABLE = "drop table if exists " + NAME;
 

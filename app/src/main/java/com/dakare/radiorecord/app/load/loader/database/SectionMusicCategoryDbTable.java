@@ -7,7 +7,6 @@ import com.dakare.radiorecord.app.database.table.SectionMusicCacheTable;
 import com.dakare.radiorecord.app.load.section.SectionMusicItem;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class SectionMusicCategoryDbTable extends BasicCategoryDbTable<SectionMusicItem> {
@@ -20,9 +19,6 @@ public class SectionMusicCategoryDbTable extends BasicCategoryDbTable<SectionMus
 
     @Override
     protected List<SectionMusicItem> fromContentValues(Cursor query) {
-        if (query == null) {
-            return Collections.emptyList();
-        }
         List<SectionMusicItem> result = new ArrayList<>();
         while (query.moveToNext()) {
             SectionMusicItem item = new SectionMusicItem();

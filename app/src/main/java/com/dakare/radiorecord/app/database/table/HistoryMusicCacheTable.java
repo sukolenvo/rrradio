@@ -9,7 +9,8 @@ public class HistoryMusicCacheTable extends Table {
     public static final String NAME = "history_music_cache";
 
     public static final String CREATE_TABLE = "create table " + NAME + " (_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-            " artist TEXT, song TEXT, url TEXT NOT NULL, station TEXT NOT NULL, time TEXT, date TEXT NOT NULL, visible INTEGER NOT NULL);";
+            " artist TEXT, from_date INTEGER, song TEXT, url TEXT NOT NULL, station TEXT NOT NULL," +
+            " time TEXT, date TEXT NOT NULL, visible INTEGER NOT NULL);";
 
     public static final String DROP_TABLE = "drop table if exists " + NAME;
 

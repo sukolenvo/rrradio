@@ -15,14 +15,19 @@ import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.load.loader.CategoryLoadListener;
 import com.dakare.radiorecord.app.load.loader.CategoryLoader;
+import com.dakare.radiorecord.app.load.loader.CategoryResponse;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import lombok.AccessLevel;
 import lombok.Getter;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K> extends Fragment
         implements SwipeRefreshLayout.OnRefreshListener, CategoryLoadListener<K> {
+
+    private static final DateFormat DATE_FORMAT = SimpleDateFormat.getDateTimeInstance();
 
     private View emptyView;
     @Getter(AccessLevel.PROTECTED)
@@ -91,11 +96,15 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
     }
 
     @Override
-    public void onCategoryLoaded(List<K> result) {
-
+    public void onCategoryLoaded(CategoryResponse<K> result) {
         if (isResumed()) {
-            if (result != null && !result.isEmpty()) {
-                onLoaded(result);
+            if (!result.getData().isEmpty()) {
+                if (result.isCache()) {
+                    Toast.makeText(getContext(),
+                            getString(R.string.message_loaded_from_cache, DATE_FORMAT.format(result.getFrom())),
+                            Toast.LENGTH_SHORT).show();
+                }
+                onLoaded(result.getData());
             } else {
                 getView().findViewById(R.id.recycler_view).setVisibility(View.GONE);
                 Toast.makeText(RecordApplication.getInstance(), R.string.error_load_category, Toast.LENGTH_LONG).show();

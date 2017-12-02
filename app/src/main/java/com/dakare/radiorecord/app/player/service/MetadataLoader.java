@@ -9,7 +9,6 @@ import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
-import com.dakare.radiorecord.app.BuildConfig;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.player.UpdateResponse;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
@@ -112,10 +111,8 @@ public class MetadataLoader extends BroadcastReceiver implements Runnable {
                     publishProgress(response);
                 } else {
                     Log.i("MetadataLoader", "No album found");
-                    if (!BuildConfig.DEBUG) {
-                        Answers.getInstance().logCustom(new CustomEvent("Empty album")
-                                .putCustomAttribute("station", playlistItem.getStation().name()));
-                    }
+                    Answers.getInstance().logCustom(new CustomEvent("Empty album")
+                            .putCustomAttribute("station", playlistItem.getStation().name()));
                 }
             } catch (IOException | IndexOutOfBoundsException e) {
                 Log.w("MetadataLoader", "Failed to connect to metadata server", e);

@@ -160,4 +160,5 @@
     <string name="eq_not_available">Ваше устройство не поддерживает данную функцию</string>
     <string name="save_battery_secondary">Не обновлять название песни и альбом если экран выключен</string>
     <string name="save_battery_text">Оптимизировать расход батареи</string>
+    <string name="message_loaded_from_cache">Загружено из кеша (%1$s)</string>
 </resources>
