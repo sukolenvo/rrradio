@@ -67,6 +67,20 @@ public enum Theme {
                     return R.drawable.goa_ico;
                 case GOLD:
                     return R.drawable.gold_ico;
+                case TECHNO:
+                    return R.drawable.techno_ico;
+                case IBIZA:
+                    return R.drawable.ibiza_ico;
+                case FUTURE_BASS:
+                    return R.drawable.fbass_ico;
+                case REMIX:
+                    return R.drawable.remix_ico;
+                case GASTARBAITER:
+                    return R.drawable.gastarbaiter_ico;
+                case HARD_BASS:
+                    return R.drawable.hbass_ico;
+                case ANSHLAG:
+                    return R.drawable.anshlag_ico;
                 default:
                     return R.drawable.rr_ico;
             }
