@@ -220,7 +220,7 @@ public enum Theme {
                 case GOLD:
                     return R.drawable.icon_dark_gold;
                 case TECHNO:
-                    //TODO: set icon
+                    return R.drawable.icon_dark_techno;
                 default:
                     return R.drawable.icon_dark_rr;
             }

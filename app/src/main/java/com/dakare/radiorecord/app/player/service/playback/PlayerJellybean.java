@@ -43,6 +43,8 @@ import java.util.ArrayList;
 public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, AudioRendererEventListener,
         Player, SharedPreferences.OnSharedPreferenceChangeListener, ExoPlayer.EventListener {
 
+    private static final int RETRY_COUNT = 63;
+
     @Getter
     private final Context context;
     private final MetadataLoader metadataLoader;
@@ -107,7 +109,7 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
                     BasicCategoryLoader.USER_AGENT));
             ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
             MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(playlistItem.getUrl()),
-                    dataSourceFactory, extractorsFactory, 63, null, null, null);
+                    dataSourceFactory, extractorsFactory, RETRY_COUNT, null, null, null);
             player.prepare(mediaSource);
             state = PlayerState.PLAY;
             metadataLoader.start(playlistItem);
