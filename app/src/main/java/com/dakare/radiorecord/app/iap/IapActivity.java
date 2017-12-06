@@ -13,6 +13,9 @@ public class IapActivity extends ThemeActivity implements IapHelper.IapCallback,
     private View smallPaymentButton;
     private View mediumPaymentButton;
     private View largePaymentButton;
+    private View smallSubscriptionButton;
+    private View mediumSubscriptionButton;
+    private View largeSubscriptionButton;
     private IapHelper iapHelper;
 
     @Override
@@ -24,9 +27,15 @@ public class IapActivity extends ThemeActivity implements IapHelper.IapCallback,
         smallPaymentButton = findViewById(R.id.button_iap_small);
         mediumPaymentButton = findViewById(R.id.button_iap_medium);
         largePaymentButton = findViewById(R.id.button_iap_large);
+        smallSubscriptionButton = findViewById(R.id.button_subscribe_small);
+        mediumSubscriptionButton = findViewById(R.id.button_subscribe_medium);
+        largeSubscriptionButton = findViewById(R.id.button_subscribe_large);
         smallPaymentButton.setOnClickListener(this);
         mediumPaymentButton.setOnClickListener(this);
         largePaymentButton.setOnClickListener(this);
+        smallSubscriptionButton.setOnClickListener(this);
+        mediumSubscriptionButton.setOnClickListener(this);
+        largeSubscriptionButton.setOnClickListener(this);
         iapHelper = new IapHelper(this, this);
     }
 
@@ -35,6 +44,9 @@ public class IapActivity extends ThemeActivity implements IapHelper.IapCallback,
         smallPaymentButton.setEnabled(true);
         mediumPaymentButton.setEnabled(true);
         largePaymentButton.setEnabled(true);
+        smallSubscriptionButton.setEnabled(true);
+        mediumSubscriptionButton.setEnabled(true);
+        largeSubscriptionButton.setEnabled(true);
     }
 
 
@@ -43,19 +55,31 @@ public class IapActivity extends ThemeActivity implements IapHelper.IapCallback,
         smallPaymentButton.setEnabled(false);
         mediumPaymentButton.setEnabled(false);
         largePaymentButton.setEnabled(false);
+        smallSubscriptionButton.setEnabled(false);
+        mediumSubscriptionButton.setEnabled(false);
+        largeSubscriptionButton.setEnabled(false);
     }
 
     @Override
     public void onClick(final View v) {
         switch (v.getId()) {
             case R.id.button_iap_small:
-                iapHelper.purchase("donate_1");
+                iapHelper.purchase("donate_1", false);
                 break;
             case R.id.button_iap_medium:
-                iapHelper.purchase("donate_5");
+                iapHelper.purchase("donate_5", false);
                 break;
             case R.id.button_iap_large:
-                iapHelper.purchase("donate_25");
+                iapHelper.purchase("donate_25", false);
+                break;
+            case R.id.button_subscribe_small:
+                iapHelper.purchase("subscription_1", true);
+                break;
+            case R.id.button_subscribe_medium:
+                iapHelper.purchase("subscription_2", true);
+                break;
+            case R.id.button_subscribe_large:
+                iapHelper.purchase("subscription_5", true);
                 break;
             default:
                 Log.w("IapActivity", "Unknown button id");

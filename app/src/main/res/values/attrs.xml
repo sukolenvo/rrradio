@@ -28,6 +28,7 @@
     <attr name="selectable_background_gray" format="reference" />
     <attr name="iap_button_text" format="color|reference" />
     <attr name="iap_button_background" format="reference" />
+    <attr name="subscribe_button_background" format="reference" />
     <attr name="download_secondary" format="color|reference" />
     <attr name="download_primary" format="color|reference" />
     <attr name="player_dim" format="color|reference" />

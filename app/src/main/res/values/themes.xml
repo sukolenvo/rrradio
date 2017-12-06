@@ -100,11 +100,13 @@
     <style name="Main.Iap">
         <item name="iap_button_text">@android:color/white</item>
         <item name="iap_button_background">@drawable/iap_button</item>
+        <item name="subscribe_button_background">@drawable/subscribe_button</item>
     </style>
 
     <style name="MainDark.Iap">
         <item name="iap_button_text">@color/primary_text_dark</item>
         <item name="iap_button_background">@drawable/iap_button_background_dark</item>
+        <item name="subscribe_button_background">@drawable/subscribe_button_background_dark</item>
     </style>
 
     <style name="Main.Player">

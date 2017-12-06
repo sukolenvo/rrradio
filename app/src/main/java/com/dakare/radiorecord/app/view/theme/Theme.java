@@ -97,23 +97,23 @@ public enum Theme {
                 case RECORD_DEEP:
                     return R.drawable.icon_light_deep;
                 case RECORD_CLUB:
-                    return R.drawable.icon_light_club;
+                    return R.drawable.icon_light_edm;
                 case FUTURE_HOUSE:
-                    return R.drawable.icon_light_house;
+                    return R.drawable.icon_light_fhouse;
                 case TRANCEMISSION:
-                    return R.drawable.icon_light_trans;
+                    return R.drawable.icon_light_transmission;
                 case RECORD_CHILL_OUT:
-                    return R.drawable.icon_light_chill;
+                    return R.drawable.icon_light_chill_out;
                 case MINIMAL_TECH:
-                    return R.drawable.icon_light_min;
+                    return R.drawable.icon_light_mtech;
                 case PIRATE_STATION:
-                    return R.drawable.icon_light_pirate;
+                    return R.drawable.icon_light_ps;
                 case RUSSIAN_MIX:
-                    return R.drawable.icon_light_rus_mix;
+                    return R.drawable.icon_light_rmix;
                 case VIP_HOUSE:
                     return R.drawable.icon_light_vip;
                 case SUPERDISCO_90:
-                    return R.drawable.icon_light_super_90;
+                    return R.drawable.icon_light_superdisco;
                 case RECORD_BREAKS:
                     return R.drawable.icon_light_breaks;
                 case RECORD_BUDSTEP:
@@ -121,7 +121,7 @@ public enum Theme {
                 case RECORD_DANCECORE:
                     return R.drawable.icon_light_dancecore;
                 case RECORD_HARDSTYLE:
-                    return R.drawable.icon_light_hardstyle;
+                    return R.drawable.icon_light_hstyle;
                 case RECORD_TRAP:
                     return R.drawable.icon_light_trap;
                 case PUMP:
@@ -129,7 +129,7 @@ public enum Theme {
                 case RECORD_ROCK:
                     return R.drawable.icon_light_rock;
                 case SLOW_DANCE_FM:
-                    return R.drawable.icon_light_medl;
+                    return R.drawable.icon_light_medlyak;
                 case GOP_FM:
                     return R.drawable.icon_light_gop;
                 case TROPICAL:

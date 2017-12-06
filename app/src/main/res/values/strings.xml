@@ -89,6 +89,9 @@
     <string name="donate_small">Donate 1$</string>
     <string name="donate_medium">Donate 5$</string>
     <string name="donate_large">Donate 25$</string>
+    <string name="subscribe_small">Subscribe 1$/m</string>
+    <string name="subscribe_medium">Subscribe 2$/m</string>
+    <string name="subscribe_large">Subscribe 5$/m</string>
     <string name="erro_no_iap_service">Google payment service cannot be located on device</string>
     <string name="error_iap_purchase">This purchase cannot be performed. Please try later</string>
     <string name="error_iap_open">Cannot open Google payment service</string>

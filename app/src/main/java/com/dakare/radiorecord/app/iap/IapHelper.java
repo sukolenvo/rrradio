@@ -26,6 +26,7 @@ import java.util.List;
 public class IapHelper implements ServiceConnection {
     private static final String KEY = "ADIwYjcaDy8p6nPIad591XEf7qHVlnGIg0eOaPfAQCmjo144m2Q1bE2tBcEEkNATONVZQnGfksh0h86OSKvCZfF56solTZ9KyJyOUXwT96X8fgqyZlnjOvyLjluM7FOMIZ7eSna6Rp4zSDsH/1Vw2JnnHoFshIWAOiCCNJrOnQMN/ylEVnDhd7raE2BDVYHlPK9F2mh+tRVUdOnZBXhzcXfDotUVpV8wFHwSPEULeg/jb6HvwrR/zmDb3K11Sh5aKiZCaS9gGusfFwYR1i0nynlKI+M8lc/HHKkW1y1o5JXf8nh9N6KsCzMWSWVVbRpfG7iY2g6MDVySYlpCwsSC6EnUkAEQACKgCBIIMA8QACOAAFEQAB0w9GikhqkgBNAjIBIIMBAQ";
     private static final String ITEM_TYPE_INAPP = "inapp";
+    private static final String ITEM_TYPE_SUBSCRIBTION = "subs";
     private static final int BILLING_RESPONSE_RESULT_OK = 0;
     private static final String RESPONSE_CODE = "RESPONSE_CODE";
     private static final String RESPONSE_BUY_INTENT = "BUY_INTENT";
@@ -67,10 +68,11 @@ public class IapHelper implements ServiceConnection {
         return new String(chars);
     }
 
-    public void purchase(final String sku) {
+    public void purchase(final String sku, final boolean subscription) {
         if (connected) {
             try {
-                Bundle buyIntentBundle = mService.getBuyIntent(3, activity.getPackageName(), sku, ITEM_TYPE_INAPP, "");
+                Bundle buyIntentBundle = mService.getBuyIntent(3, activity.getPackageName(), sku,
+                        subscription ? ITEM_TYPE_SUBSCRIBTION : ITEM_TYPE_INAPP, "");
                 int response = getResponseCodeFromBundle(buyIntentBundle);
                 if (response != BILLING_RESPONSE_RESULT_OK) {
                     try {

@@ -10,12 +10,13 @@
                                        android:background="?attr/toolbarColor"
                                        android:elevation="4dp"
                                        app:titleTextAppearance="@style/ToolbarTitle"
-                                       android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+                                       android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="?attr/primary_background">
 
         <ScrollView
             android:layout_width="match_parent"
@@ -32,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/main_padding"
                     android:textSize="16sp"
-                    android:text="@string/donate_text" />
+                    android:text="@string/donate_text"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -47,7 +48,7 @@
                         style="@style/IapButton"
                         android:layout_width="0dp"
                         android:text="@string/donate_small"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
 
                     <Button
                         android:id="@+id/button_iap_medium"
@@ -56,14 +57,46 @@
                         android:text="@string/donate_medium"
                         android:layout_marginLeft="@dimen/main_padding"
                         android:layout_marginRight="@dimen/main_padding"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
 
                     <Button
                         android:id="@+id/button_iap_large"
                         style="@style/IapButton"
                         android:layout_width="0dp"
                         android:text="@string/donate_large"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/main_padding"
+                    android:paddingRight="@dimen/main_padding"
+                    android:paddingBottom="@dimen/main_padding"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_subscribe_small"
+                        style="@style/SubscribeButton"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/subscribe_small"/>
+
+                    <Button
+                        android:id="@+id/button_subscribe_medium"
+                        style="@style/SubscribeButton"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="@dimen/main_padding"
+                        android:layout_marginRight="@dimen/main_padding"
+                        android:text="@string/subscribe_medium"/>
+
+                    <Button
+                        android:id="@+id/button_subscribe_large"
+                        style="@style/SubscribeButton"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:text="@string/subscribe_large"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>
@@ -71,6 +104,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="3dp"
-            android:background="@drawable/toolbar_dropshadow" />
+            android:background="@drawable/toolbar_dropshadow"/>
     </FrameLayout>
 </LinearLayout>

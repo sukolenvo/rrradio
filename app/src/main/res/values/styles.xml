@@ -165,11 +165,19 @@
         <item name="android:enabled">false</item>
     </style>
 
+    <style name="SubscribeButton" parent="IapButton">
+        <item name="android:background">?attr/subscribe_button_background</item>
+    </style>
+
     <style name="IapButton.Portret">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginLeft">@dimen/main_padding</item>
         <item name="android:layout_marginRight">@dimen/main_padding</item>
         <item name="android:layout_marginBottom">@dimen/main_padding</item>
+    </style>
+
+    <style name="SubscribeButton.Portret" parent="IapButton.Portret">
+        <item name="android:background">?attr/subscribe_button_background</item>
     </style>
 
     <style name="ClosableDialogTitle">
