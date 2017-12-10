@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import com.dakare.radiorecord.app.database.DBHelper;
 import com.dakare.radiorecord.app.database.table.*;
+import com.dakare.radiorecord.app.load.loader.database.BasicCategoryDbTable;
 
 import java.util.List;
 
@@ -122,7 +123,8 @@ public class StorageProvider extends ContentProvider {
                 String date = pathSegments.get(pathSegments.size() - 1);
                 return historyMusicCacheTable.find(new String[]{HistoryMusicCacheTable.COLUMN_ARTIST,
                                 HistoryMusicCacheTable.COLUMN_SONG, HistoryMusicCacheTable.COLUMN_URL,
-                                HistoryMusicCacheTable.COLUMN_WHEN, HistoryMusicCacheTable.COLUMN_VISIBLE},
+                                HistoryMusicCacheTable.COLUMN_WHEN, HistoryMusicCacheTable.COLUMN_VISIBLE,
+                                BasicCategoryDbTable.COLUMN_FROM_DATE},
                         "station = ? AND date = ?", new String[]{station, date}, sortOrder);
             default:
                 throw new IllegalArgumentException("Cannot perform query for uri " + uri);

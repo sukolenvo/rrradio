@@ -31,6 +31,7 @@ public class PreferenceManager {
     private static final String MUSIC_METADATA_KEY = "music_metadata";
     private static final String BACKGROUND_LOAD_KEY = "background_load";
     private static final String MUSIC_IMAGE_KEY = "music_image";
+    private static final String AUTO_PAUSE_KEY = "auto_pause";
     @Deprecated
     private static final String CALL_SETTINGS_KEY = "call_settings";
     private static final String LAST_STATION = "last_station";
@@ -155,6 +156,16 @@ public class PreferenceManager {
     public void setMusicImage(final boolean enabled) {
         sharedPreferences.edit()
                 .putBoolean(MUSIC_IMAGE_KEY, enabled)
+                .apply();
+    }
+
+    public boolean isAutoPause() {
+        return sharedPreferences.getBoolean(AUTO_PAUSE_KEY, true);
+    }
+
+    public void setAutoPause(final boolean enabled) {
+        sharedPreferences.edit()
+                .putBoolean(AUTO_PAUSE_KEY, enabled)
                 .apply();
     }
 

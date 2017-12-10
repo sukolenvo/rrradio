@@ -47,7 +47,8 @@ public class MediaControlsListener implements IPlayerStateListener, AudioManager
     public void onPlaybackChange(final PlaybackStatePlayerMessage message) {
         if (message.getState() == PlayerState.PLAY) {
             if (AudioManager.AUDIOFOCUS_REQUEST_FAILED ==
-                    audioManager.requestAudioFocus(this, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)) {
+                    audioManager.requestAudioFocus(message.isRecord() ? StubAudioFocusListener.getInstance() : this,
+                            AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN)) {
                 Intent intent = new Intent(context, PlayerService.class);
                 intent.setAction(NotificationListener.ACTION_STOP);
                 context.startService(intent);
@@ -70,7 +71,7 @@ public class MediaControlsListener implements IPlayerStateListener, AudioManager
                 builder.putBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART, image);
             }
             mediaSession.setMetadata(builder.build());
-        } else if (message.getState() == PlayerState.PAUSE){
+        } else if (message.getState() == PlayerState.PAUSE) {
             mediaSession.setPlaybackState(new PlaybackStateCompat.Builder()
                     .setState(PlaybackStateCompat.STATE_PAUSED, PlaybackStateCompat.PLAYBACK_POSITION_UNKNOWN, 0)
                     .setActions(PlaybackStateCompat.ACTION_PLAY_PAUSE | PlaybackStateCompat.ACTION_PLAY
@@ -88,6 +89,9 @@ public class MediaControlsListener implements IPlayerStateListener, AudioManager
 
     @Override
     public void onAudioFocusChange(final int focusChange) {
+        if (!PreferenceManager.getInstance(context).isAutoPause()) {
+            return;
+        }
         if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
             if (resumeOnFocus && mediaSession.getController().getPlaybackState().getState() == PlaybackStateCompat.STATE_PAUSED) {
                 Intent intent = new Intent(context, PlayerService.class);

@@ -29,8 +29,8 @@ android {
         applicationId "com.dakare.radiorecord.app"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 38
-        versionName "3.0.3b"
+        versionCode 39
+        versionName "3.0.4"
         vectorDrawables.useSupportLibrary = true
     }
 

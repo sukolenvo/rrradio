@@ -99,7 +99,7 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
     public void onCategoryLoaded(CategoryResponse<K> result) {
         if (isResumed()) {
             if (!result.getData().isEmpty()) {
-                if (result.isCache()) {
+                if (result.isCache() && result.getFrom() != null) {
                     Toast.makeText(getContext(),
                             getString(R.string.message_loaded_from_cache, DATE_FORMAT.format(result.getFrom())),
                             Toast.LENGTH_SHORT).show();

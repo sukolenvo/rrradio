@@ -52,7 +52,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 db.execSQL(HistoryMusicCacheTable.CREATE_TABLE);
                 db.execSQL(TopsCacheTable.CREATE_TABLE);
             }
-            if (oldVersion == DB_VERSION_3) {
+            if (oldVersion <= DB_VERSION_3) {
                 db.execSQL(SectionPathCacheTable.DROP_TABLE);
                 db.execSQL(SectionMusicCacheTable.DROP_TABLE);
                 db.execSQL(HistoryDateCacheTable.DROP_TABLE);

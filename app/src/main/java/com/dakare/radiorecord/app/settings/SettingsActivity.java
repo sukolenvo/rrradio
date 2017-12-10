@@ -40,6 +40,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         initTheme();
         initMusicMetadata();
         initMusicImage();
+        initAutoPause();
         initBackgroundLoad();
         initDownloadDirectory();
         initEqSettings();
@@ -171,6 +172,22 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     private void updateMusicImageCheckbox() {
         Checkable checkable = (Checkable) findViewById(R.id.music_image_checkbox);
         checkable.setChecked(preferenceManager.isMusicImageEnabled());
+    }
+
+    private void initAutoPause() {
+        updateAutoPause();
+        findViewById(R.id.auto_pause_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                preferenceManager.setAutoPause(!preferenceManager.isAutoPause());
+                updateAutoPause();
+            }
+        });
+    }
+
+    private void updateAutoPause() {
+        Checkable checkable = (Checkable) findViewById(R.id.auto_pause_checkbox);
+        checkable.setChecked(preferenceManager.isAutoPause());
     }
 
     @Override

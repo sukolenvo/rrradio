@@ -7,7 +7,6 @@ import android.net.Uri;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.load.loader.CategoryResponse;
 
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +24,11 @@ public abstract class BasicCategoryDbTable<T> implements CategoryDbTable<T> {
     public CategoryResponse<T> load() {
         Cursor cursor = contentResolver.query(getUrl(), null, null, null, null);
         try {
-            if (cursor == null) {
+            if (cursor == null || cursor.getCount() == 0) {
                 return CategoryResponse.emptyRespose();
             }
-            return CategoryResponse.createCachedResponse(getFrom(cursor), fromContentValues(cursor));
+            List<T> data = fromContentValues(cursor);
+            return CategoryResponse.createCachedResponse(getFrom(cursor), data);
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -37,7 +37,7 @@ public abstract class BasicCategoryDbTable<T> implements CategoryDbTable<T> {
     }
 
     private Date getFrom(Cursor cursor) {
-        if (cursor.moveToFirst()) {
+        if (cursor.moveToFirst() && cursor.getColumnIndex(COLUMN_FROM_DATE) >= 0) {
             return new Date(cursor.getLong(cursor.getColumnIndex(COLUMN_FROM_DATE)));
         }
         return null;
