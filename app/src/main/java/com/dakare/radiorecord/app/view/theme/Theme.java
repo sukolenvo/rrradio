@@ -71,6 +71,8 @@ public enum Theme {
                     return R.drawable.techno_ico;
                 case IBIZA:
                     return R.drawable.ibiza_ico;
+                case MAYATNIK_FUKO:
+                    return R.drawable.icon_mf;
                 case FUTURE_BASS:
                     return R.drawable.fbass_ico;
                 case REMIX:
@@ -140,6 +142,8 @@ public enum Theme {
                     return R.drawable.icon_light_black;
                 case RAVE_FM:
                     return R.drawable.icon_light_rave;
+                case MAYATNIK_FUKO:
+                    return R.drawable.icon_light_mf;
                 case FUTURE_BASS:
                     return R.drawable.icon_light_fbass;
                 case REMIX:
@@ -217,6 +221,8 @@ public enum Theme {
                     return R.drawable.icon_dark_black;
                 case RAVE_FM:
                     return R.drawable.icon_dark_rave;
+                case MAYATNIK_FUKO:
+                    return R.drawable.icon_dark_mf;
                 case FUTURE_BASS:
                     return R.drawable.icon_dark_fbass;
                 case REMIX:

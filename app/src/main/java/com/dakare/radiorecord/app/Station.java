@@ -11,7 +11,7 @@ public enum Station {
 
     RADIO_RECORD("Radio Record", "/rr", 8100, 8101),
     FUTURE_HOUSE("Future House", "/fut", 805, 805),
-    RECORD_CLUB("EDM", "/club", 8102, 8102),
+    RECORD_CLUB("EDM", "/club", 82, 8102),
     MEGAMIX("Megamix", "/mix", 805, 805),
     GOLD("Gold", "/gold", 8102, 8102),
     TRANCEMISSION("Trancemission", "/tm", 8102, 8102),
@@ -23,6 +23,7 @@ public enum Station {
     RECORD_CHILL_OUT("Record Chill-Out", "/chil", 8102, 8102),
     RUSSIAN_MIX("Russian Mix", "/rus", 8102, 8102),
     SUPERDISCO_90("Супердиско 90-х", "/sd90", 8102, 8102),
+    MAYATNIK_FUKO("Маятник Фуко", "/mf", 8102, 8102),
     FUTURE_BASS("Future Bass", "/fbass", 8102, 8102),
     REMIX("Remix", "/rmx", 8102, 8102),
     GASTARBAITER("Гастарбайтер", "/gast", 8102, 8102),

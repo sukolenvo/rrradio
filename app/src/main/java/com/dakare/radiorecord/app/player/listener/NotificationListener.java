@@ -103,6 +103,8 @@ public class NotificationListener implements IPlayerStateListener {
                 return R.drawable.icon_alt_rmix;
             case SUPERDISCO_90:
                 return R.drawable.icon_alt_sdisco;
+            case MAYATNIK_FUKO:
+                return R.drawable.icon_alt_mf;
             case FUTURE_BASS:
                 return R.drawable.icon_alt_fbass;
             case REMIX:
