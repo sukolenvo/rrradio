@@ -29,7 +29,7 @@ public enum Station {
     GASTARBAITER("Гастарбайтер", "/gast", 8102, 8102),
     HARD_BASS("Hard Bass", "/hbass", 8102, 8102),
     ANSHLAG("Аншлаг FM", "/ansh", 8102, 8102),
-    IBIZA("Ibiza", "/ibiza", 8102, 8102),
+    IBIZA("Innocence (Ibiza)", "/ibiza", 8102, 8102),
     GOA("GOA/PSY", "/goa", 8102, 8102),
     YO_FM("Black", "/yo", 8102, 8102),
     RECORD_BREAKS("Breaks", "/brks", 8102, 8102),
