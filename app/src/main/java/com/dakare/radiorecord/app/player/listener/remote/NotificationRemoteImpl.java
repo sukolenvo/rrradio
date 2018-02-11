@@ -92,23 +92,23 @@ public class NotificationRemoteImpl implements NotificationRemote {
     public void setupIntents(final Service service) {
         Intent stopIntent = new Intent(service, PlayerService.class);
         stopIntent.setAction(ACTION_STOP);
-        PendingIntent stopPending = PendingIntent.getService(service, STOP_CODE, stopIntent, 0);
+        PendingIntent stopPending = PendingIntent.getService(service, STOP_CODE, stopIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         setStopIntent(stopPending);
         Intent pauseIntent = new Intent(service, PlayerService.class);
         pauseIntent.setAction(ACTION_PAUSE);
-        PendingIntent pausePending = PendingIntent.getService(service, PAUSE_CODE, pauseIntent, 0);
+        PendingIntent pausePending = PendingIntent.getService(service, PAUSE_CODE, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         setPauseIntent(pausePending);
         Intent resumeIntent = new Intent(service, PlayerService.class);
         resumeIntent.setAction(ACTION_RESUME);
-        PendingIntent resumePending = PendingIntent.getService(service, RESUME_CODE, resumeIntent, 0);
+        PendingIntent resumePending = PendingIntent.getService(service, RESUME_CODE, resumeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         setPlayIntent(resumePending);
         Intent nextIntent = new Intent(service, PlayerService.class);
         nextIntent.setAction(ACTION_NEXT);
-        PendingIntent nextPending = PendingIntent.getService(service, NEXT_CODE, nextIntent, 0);
+        PendingIntent nextPending = PendingIntent.getService(service, NEXT_CODE, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         setNextIntent(nextPending);
         Intent previousIntent = new Intent(service, PlayerService.class);
         previousIntent.setAction(ACTION_PREVIOUS);
-        PendingIntent previousPending = PendingIntent.getService(service, PREVIOUS_CODE, previousIntent, 0);
+        PendingIntent previousPending = PendingIntent.getService(service, PREVIOUS_CODE, previousIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         setPreviousIntent(previousPending);
     }
 

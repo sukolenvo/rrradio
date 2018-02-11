@@ -63,10 +63,10 @@ public class NotificationListener implements IPlayerStateListener {
                 notificationRemote.setImage(getStationIcon(message.getPlaying().getStation()));
             }
             notificationRemote.setPlaying(message.getState() == PlayerState.PLAY);
+            notificationRemote.setupIntents(service);
             if (foreground) {
                 notificationRemote.notify(notificationManager, 1);
             } else {
-                notificationRemote.setupIntents(service);
                 service.startForeground(1, notification);
                 foreground = true;
             }
