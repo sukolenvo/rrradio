@@ -91,6 +91,18 @@ public class NotificationListener implements IPlayerStateListener {
                 return R.drawable.icon_alt_pirate;
             case RECORD_DEEP:
                 return R.drawable.icon_alt_deep;
+            case SYMPHONY:
+                return R.drawable.icon_alt_symph;
+            case ELECTRO:
+                return R.drawable.icon_alt_electo;
+            case MIDTEMPO:
+                return R.drawable.icon_alt_mt;
+            case MOOMBAHTON:
+                return R.drawable.icon_alt_mmbh;
+            case JACKING:
+                return R.drawable.icon_alt_jackin;
+            case PROGRESSIVE:
+                return R.drawable.icon_alt_progr;
             case VIP_HOUSE:
                 return R.drawable.icon_alt_vip;
             case MINIMAL_TECH:

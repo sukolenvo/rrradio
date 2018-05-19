@@ -19,7 +19,9 @@ public class LiveStreamTest {
                 String streamUrl = station.getStreamUrl(quality);
                 HttpURLConnection urlConnection = (HttpURLConnection) new URL(streamUrl).openConnection();
                 urlConnection.setRequestProperty("User-Agent", USER_AGENT);
-                Assert.assertEquals(streamUrl, 200, urlConnection.getResponseCode());
+                if (urlConnection.getResponseCode() != 200) {
+                    System.out.println(urlConnection.getResponseCode() + " " + streamUrl);
+                }
             }
         }
     }

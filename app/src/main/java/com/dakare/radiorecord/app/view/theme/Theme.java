@@ -33,6 +33,18 @@ public enum Theme {
                     return R.drawable.ps_ico;
                 case RUSSIAN_MIX:
                     return R.drawable.russian_mix_ico;
+                case SYMPHONY:
+                    return R.drawable.icon_symph;
+                case ELECTRO:
+                    return R.drawable.icon_electro;
+                case MIDTEMPO:
+                    return R.drawable.icon_mt;
+                case MOOMBAHTON:
+                    return R.drawable.icon_mmbh;
+                case JACKING:
+                    return R.drawable.icon_jackin;
+                case PROGRESSIVE:
+                    return R.drawable.icon_progr;
                 case VIP_HOUSE:
                     return R.drawable.vip_house_ico;
                 case SUPERDISCO_90:
@@ -112,6 +124,18 @@ public enum Theme {
                     return R.drawable.icon_light_ps;
                 case RUSSIAN_MIX:
                     return R.drawable.icon_light_rmix;
+                case SYMPHONY:
+                    return R.drawable.icon_light_symph;
+                case ELECTRO:
+                    return R.drawable.icon_light_elect;
+                case MIDTEMPO:
+                    return R.drawable.icon_light_mt;
+                case MOOMBAHTON:
+                    return R.drawable.icon_light_mmbh;
+                case JACKING:
+                    return R.drawable.icon_light_jackin;
+                case PROGRESSIVE:
+                    return R.drawable.icon_light_progr;
                 case VIP_HOUSE:
                     return R.drawable.icon_light_vip;
                 case SUPERDISCO_90:
@@ -191,6 +215,18 @@ public enum Theme {
                     return R.drawable.icon_dark_pirate;
                 case RUSSIAN_MIX:
                     return R.drawable.icon_dark_rus_mix;
+                case SYMPHONY:
+                    return R.drawable.icon_dark_symph;
+                case ELECTRO:
+                    return R.drawable.icon_dark_elect;
+                case MIDTEMPO:
+                    return R.drawable.icon_dark_mt;
+                case MOOMBAHTON:
+                    return R.drawable.icon_dark_mmbh;
+                case JACKING:
+                    return R.drawable.icon_dark_jackin;
+                case PROGRESSIVE:
+                    return R.drawable.icon_dark_progr;
                 case VIP_HOUSE:
                     return R.drawable.icon_dark_vip;
                 case SUPERDISCO_90:
