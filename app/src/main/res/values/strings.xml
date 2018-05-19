@@ -166,4 +166,6 @@
     <string name="large_buttons_secondary">Increase buttons on the player screen</string>
     <string name="eq_not_available">Unfortunately your device is not support this feature</string>
     <string name="message_loaded_from_cache">Loaded from cache (%1$s)</string>
+    <string name="resume_playback_dialog_title">Resume playback</string>
+    <string name="resume_playback_dialog_body">Resume playback of %1$s?</string>
 </resources>

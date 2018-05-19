@@ -61,6 +61,13 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
             new SettingsThemeDialog(this).show();
         }
         AdUtils.showAd((AdView) findViewById(R.id.adView));
+        List<PlaylistItem> lastPlaylist = PreferenceManager.getInstance(this).getLastPlaylist();
+        int lastPosition = PreferenceManager.getInstance(this).getLastPosition();
+        if (lastPlaylist.size() > 1 && lastPosition < lastPlaylist.size() && lastPlaylist.get(lastPosition).isLive()) {
+            new ResumePlaybackDialog(this,
+                    lastPlaylist.get(lastPosition).getTitle() + " - "
+                            + lastPlaylist.get(lastPosition).getSubtitle()).show();
+        }
     }
 
     @Override
