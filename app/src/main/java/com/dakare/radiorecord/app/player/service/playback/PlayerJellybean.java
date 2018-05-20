@@ -25,7 +25,6 @@ import com.dakare.radiorecord.app.player.service.message.PositionStateMessage;
 import com.dakare.radiorecord.app.player.service.playback.record.PlaybackRecordManager;
 import com.google.android.exoplayer2.*;
 import com.google.android.exoplayer2.audio.AudioRendererEventListener;
-import com.google.android.exoplayer2.audio.AudioTrack;
 import com.google.android.exoplayer2.decoder.DecoderCounters;
 import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.extractor.ExtractorsFactory;
@@ -61,10 +60,6 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
     private PlayerState state = PlayerState.STOP;
     private long lastErrorMessage;
     private Equalizer equalizer;
-
-    static {
-        AudioTrack.enablePreV21AudioSessionWorkaround = true;
-    }
 
     public PlayerJellybean(final Context context) {
         this.context = context;
@@ -108,8 +103,10 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
             DataSource.Factory dataSourceFactory = playbackRecordManager.startRecording(playlistItem, new DefaultDataSourceFactory(RecordApplication.getInstance(),
                     BasicCategoryLoader.USER_AGENT));
             ExtractorsFactory extractorsFactory = new DefaultExtractorsFactory();
-            MediaSource mediaSource = new ExtractorMediaSource(Uri.parse(playlistItem.getUrl()),
-                    dataSourceFactory, extractorsFactory, RETRY_COUNT, null, null, null);
+            MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory)
+                    .setExtractorsFactory(extractorsFactory)
+                    .setMinLoadableRetryCount(RETRY_COUNT)
+                    .createMediaSource(Uri.parse(playlistItem.getUrl()));
             player.prepare(mediaSource);
             state = PlayerState.PLAY;
             metadataLoader.start(playlistItem);
@@ -207,7 +204,8 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
     }
 
     @Override
-    public void onTimelineChanged(Timeline timeline, Object manifest) {
+    public void onTimelineChanged(Timeline timeline, Object manifest, int reason) {
+
     }
 
     @Override
@@ -237,16 +235,32 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
     }
 
     @Override
+    public void onRepeatModeChanged(int repeatMode) {
+
+    }
+
+    @Override
+    public void onShuffleModeEnabledChanged(boolean shuffleModeEnabled) {
+
+    }
+
+    @Override
     public void onPlayerError(ExoPlaybackException error) {
         showError();
     }
 
     @Override
-    public void onPositionDiscontinuity() {
+    public void onPositionDiscontinuity(int reason) {
+
     }
 
     @Override
     public void onPlaybackParametersChanged(PlaybackParameters playbackParameters) {
+    }
+
+    @Override
+    public void onSeekProcessed() {
+
     }
 
     private void showError() {
@@ -298,7 +312,8 @@ public class PlayerJellybean implements MetadataLoader.MetadataChangeCallback, A
     }
 
     @Override
-    public void onAudioTrackUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
+    public void onAudioSinkUnderrun(int bufferSize, long bufferSizeMs, long elapsedSinceLastFeedMs) {
+
     }
 
     @Override

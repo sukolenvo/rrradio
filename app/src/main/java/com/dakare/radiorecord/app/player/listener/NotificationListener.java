@@ -1,20 +1,12 @@
 package com.dakare.radiorecord.app.player.listener;
 
-import android.app.Notification;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v4.app.NotificationCompat;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.Station;
-import com.dakare.radiorecord.app.player.PlayerActivity;
-import com.dakare.radiorecord.app.player.listener.remote.NotificationRemote;
-import com.dakare.radiorecord.app.player.listener.remote.NotificationRemoteFactory;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 
@@ -34,21 +26,14 @@ public class NotificationListener implements IPlayerStateListener {
     public static final int PREVIOUS_CODE = 5;
 
     private final Service service;
-    private Notification notification;
     private final NotificationManager notificationManager;
     private boolean foreground;
+    private final NotificationHelper notificationHelper;
 
     public NotificationListener(final Service service) {
         this.service = service;
         notificationManager = (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
-        Intent intent = new Intent(RecordApplication.getInstance(), PlayerActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        notification = new NotificationCompat.Builder(service)
-                .setSmallIcon(R.drawable.notification_icon)
-                .setContentIntent(PendingIntent.getActivity(service, CONTENT_CODE, intent, 0))
-                .setOngoing(true)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                .build();
+        notificationHelper = new NotificationHelper(service);
     }
 
     @Override
@@ -57,17 +42,15 @@ public class NotificationListener implements IPlayerStateListener {
             service.stopForeground(true);
             foreground = false;
         } else {
-            NotificationRemote notificationRemote = NotificationRemoteFactory.create(service.getPackageName(), notification);
-            notificationRemote.updateTitle(message);
+            notificationHelper.updateTitle(message);
             if (message.getIcon() == null || !PreferenceManager.getInstance(service).isMusicImageEnabled()) {
-                notificationRemote.setImage(getStationIcon(message.getPlaying().getStation()));
+                notificationHelper.setImage(getStationIcon(message.getPlaying().getStation()));
             }
-            notificationRemote.setPlaying(message.getState() == PlayerState.PLAY);
-            notificationRemote.setupIntents(service);
+            notificationHelper.setPlaying(message.getState() == PlayerState.PLAY);
             if (foreground) {
-                notificationRemote.notify(notificationManager, 1);
+                notificationManager.notify(1, notificationHelper.getBuilder().build());
             } else {
-                service.startForeground(1, notification);
+                service.startForeground(1, notificationHelper.getBuilder().build());
                 foreground = true;
             }
         }
@@ -165,9 +148,8 @@ public class NotificationListener implements IPlayerStateListener {
     @Override
     public void onIconChange(final Bitmap image) {
         if (image != null) {
-            NotificationRemote notificationRemote = NotificationRemoteFactory.create(service.getPackageName(), notification);
-            notificationRemote.setImage(image);
-            notificationRemote.notify(notificationManager, 1);
+            notificationHelper.setImage(image);
+            notificationManager.notify(1, notificationHelper.getBuilder().build());
         }
     }
 

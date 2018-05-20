@@ -166,4 +166,5 @@
     <string name="auto_pause_text">Автопауза во время сигнала</string>
     <string name="resume_playback_dialog_body">Продолжить воспроизведение %1$s?</string>
     <string name="resume_playback_dialog_title">Продолжить воспроизведение</string>
+    <string name="notification_title_audio">Радио Рекорд Аудио</string>
 </resources>

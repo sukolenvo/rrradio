@@ -106,6 +106,16 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
         return true;
     }
 
+    @Override
+    public void onItemDragStarted(int position) {
+
+    }
+
+    @Override
+    public void onItemDragFinished(int fromPosition, int toPosition, boolean result) {
+
+    }
+
     public static class ViewHolder extends AbstractDraggableItemViewHolder {
         private final TextView name;
         private ImageView icon;
@@ -114,10 +124,10 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
 
         public ViewHolder(View itemView) {
             super(itemView);
-            container = (FrameLayout) itemView.findViewById(R.id.station_container);
-            icon = (ImageView) itemView.findViewById(R.id.station_icon);
+            container = itemView.findViewById(R.id.station_container);
+            icon = itemView.findViewById(R.id.station_icon);
             stationFade = itemView.findViewById(R.id.station_fade);
-            name = (TextView) itemView.findViewById(R.id.station_name);
+            name = itemView.findViewById(R.id.station_name);
         }
 
     }
