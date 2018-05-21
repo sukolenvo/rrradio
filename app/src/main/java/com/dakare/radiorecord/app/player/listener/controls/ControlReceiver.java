@@ -3,6 +3,7 @@ package com.dakare.radiorecord.app.player.listener.controls;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.KeyEvent;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
@@ -38,7 +39,7 @@ public class ControlReceiver extends BroadcastReceiver {
                 if (action != null) {
                     Intent service = new Intent(context, PlayerService.class);
                     service.setAction(action);
-                    context.startService(service);
+                    ContextCompat.startForegroundService(context, intent);
                 }
             }
         }
