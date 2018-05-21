@@ -46,8 +46,8 @@ public class CheckboxLayout extends FrameLayout implements Checkable, View.OnCli
 
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.layout_checkbox, this);
-        checkBox = (CheckBox) findViewById(R.id.checkbox);
-        text = (TextView) findViewById(R.id.text);
+        checkBox = findViewById(R.id.checkbox);
+        text = findViewById(R.id.text);
         setOnClickListener(this);
     }
 

@@ -46,9 +46,9 @@ public class PlaylistItemFragment extends Fragment implements PlayerServiceClien
         View view = inflater.inflate(R.layout.fragment_player_item, container, false);
         playlistItem = getArguments().getParcelable(PLAYLIST_ITEM);
         position = getArguments().getInt(POSITION);
-        artist = (TextView) view.findViewById(R.id.artist);
-        song = (TextView) view.findViewById(R.id.song);
-        icon = (PlayerBackgroundImage) view.findViewById(R.id.player_icon);
+        artist = view.findViewById(R.id.artist);
+        song = view.findViewById(R.id.song);
+        icon = view.findViewById(R.id.player_icon);
         preferenceManager = PreferenceManager.getInstance(RecordApplication.getInstance());
         updateViews();
         return view;

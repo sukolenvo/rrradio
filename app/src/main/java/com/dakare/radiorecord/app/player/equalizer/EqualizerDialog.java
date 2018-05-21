@@ -29,14 +29,14 @@ public class EqualizerDialog extends AbstractDialog implements EqualizerPresetDi
             }
         });
         equalizer = new Equalizer(0, -109);
-        presetButton = (Button) findViewById(R.id.presets_button);
+        presetButton = findViewById(R.id.presets_button);
         presetButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new EqualizerPresetDialog(context, equalizer, EqualizerDialog.this).show();
             }
         });
-        equalizerImage = (EqualizerImage) findViewById(R.id.equalizer_image);
+        equalizerImage = findViewById(R.id.equalizer_image);
         EqualizerSettings eqSettings = PreferenceManager.getInstance(context).getEqSettings();
         presetButton.setText(eqSettings.getPreset() == null ? context.getString(R.string.no_preset) : eqSettings.getPreset());
         equalizerImage.updateSettings(eqSettings);

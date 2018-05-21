@@ -28,7 +28,7 @@ public class SettingsDirectoryDialog extends AbstractDialog implements TextWatch
         super(context);
         sdCardDirectory = getStorageDirectory(context);
         setContentView(R.layout.dialog_settings_directory);
-        editText = (TextView) findViewById(R.id.saved_directory_input);
+        editText = findViewById(R.id.saved_directory_input);
         editText.setText(PreferenceManager.getInstance(context).getDownloadDirectory());
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,14 +36,14 @@ public class SettingsDirectoryDialog extends AbstractDialog implements TextWatch
                 dismiss();
             }
         });
-        buttonInternal = (Button) findViewById(R.id.button_internal);
+        buttonInternal = findViewById(R.id.button_internal);
         buttonInternal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editText.setText(new File(Environment.getExternalStorageDirectory(), DownloadAudioTable.DEFAULT_DIRECTORY_NAME).toString());
             }
         });
-        buttonExternal = (Button) findViewById(R.id.button_external);
+        buttonExternal = findViewById(R.id.button_external);
         buttonExternal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -44,9 +44,9 @@ public class MenuActivity extends ThemeActivity {
     }
 
     protected void initToolbar() {
-        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, drawer, myToolbar, R.string.app_name, R.string.app_name);
         drawer.addDrawerListener(mDrawerToggle);
         int container = getMenuContainer();

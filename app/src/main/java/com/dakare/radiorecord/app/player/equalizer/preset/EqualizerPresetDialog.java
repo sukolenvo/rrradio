@@ -13,7 +13,7 @@ public class EqualizerPresetDialog extends AbstractDialog {
     public EqualizerPresetDialog(final Context context, final Equalizer equalizer, final PresetSelectListener listener) {
         super(context);
         setContentView(R.layout.dialog_preset_equlizer);
-        ListView listView = (ListView) findViewById(R.id.list);
+        ListView listView = findViewById(R.id.list);
         final EqualizerPresetAdapter adapter = new EqualizerPresetAdapter(context, equalizer);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(adapter);

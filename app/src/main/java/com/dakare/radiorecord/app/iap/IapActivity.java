@@ -22,7 +22,7 @@ public class IapActivity extends ThemeActivity implements IapHelper.IapCallback,
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_iap);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         smallPaymentButton = findViewById(R.id.button_iap_small);
         mediumPaymentButton = findViewById(R.id.button_iap_medium);

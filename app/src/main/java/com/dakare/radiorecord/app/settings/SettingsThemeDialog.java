@@ -17,7 +17,7 @@ public class SettingsThemeDialog extends AbstractDialog implements AdapterView.O
     public SettingsThemeDialog(final Context context) {
         super(context);
         setContentView(R.layout.dialog_settings_theme);
-        ListView listView = (ListView) findViewById(R.id.list);
+        ListView listView = findViewById(R.id.list);
         adapter = new ThemeAdapter(context);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);

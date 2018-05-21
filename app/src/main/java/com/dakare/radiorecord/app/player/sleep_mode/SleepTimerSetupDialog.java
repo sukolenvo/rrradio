@@ -21,11 +21,11 @@ public class SleepTimerSetupDialog extends AbstractDialog implements SleepModeCa
                 dismiss();
             }
         });
-        ListView listView = (ListView) findViewById(R.id.sleep_mode_list);
+        ListView listView = findViewById(R.id.sleep_mode_list);
         final SleepModeAdapter adapter = new SleepModeAdapter(getContext(), this);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(adapter);
-        sleepIn = (TextView) findViewById(R.id.sleep_in_text);
+        sleepIn = findViewById(R.id.sleep_in_text);
         PreferenceManager instance = PreferenceManager.getInstance(context);
         SleepMode sleepMode = instance.getSleepMode();
         if (sleepMode == SleepMode.OFF) {

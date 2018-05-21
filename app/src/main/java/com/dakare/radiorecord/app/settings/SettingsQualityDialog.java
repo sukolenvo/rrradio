@@ -16,7 +16,7 @@ public class SettingsQualityDialog extends AbstractDialog {
     public SettingsQualityDialog(final Context context) {
         super(context);
         setContentView(R.layout.dialog_settings_quality);
-        ListView listView = (ListView) findViewById(R.id.list);
+        ListView listView = findViewById(R.id.list);
         adapter = new QualityAdapter(context, true);
         Quality selected = PreferenceManager.getInstance(context).getDefaultQuality(null);
         adapter.setSelectedQuality(selected);

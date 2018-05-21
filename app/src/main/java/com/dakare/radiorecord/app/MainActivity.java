@@ -29,7 +29,7 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
         setContentView(R.layout.activity_main);
         initToolbar();
         setTitle(R.string.menu_main_text);
-        RecyclerView stationsView = (RecyclerView) findViewById(R.id.station_grid);
+        RecyclerView stationsView = findViewById(R.id.station_grid);
         stationsView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.stations_columns)));
         //TODO: fix this!
         TypedArray attributes = getTheme().obtainStyledAttributes(new int[] {R.attr.main_separator_drawable});

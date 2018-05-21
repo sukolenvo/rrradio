@@ -31,7 +31,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         preferenceManager = PreferenceManager.getInstance(SettingsActivity.this);
         toolbar.setNavigationOnClickListener(this);
@@ -74,7 +74,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void updateQualitySecondary() {
-        TextView text = (TextView) findViewById(R.id.quality_secondary);
+        TextView text = findViewById(R.id.quality_secondary);
         Quality quality = preferenceManager.getDefaultQuality(null);
         if (quality == null) {
             text.setText(R.string.no_default_quality);
@@ -101,7 +101,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void updateAdsSecondary() {
-        TextView text = (TextView) findViewById(R.id.ads_secondary);
+        TextView text = findViewById(R.id.ads_secondary);
         boolean show = preferenceManager.getShowAd();
         if (show) {
             text.setText(R.string.ad_status_enabled);
@@ -121,7 +121,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void updateThemeSecondary() {
-        TextView text = (TextView) findViewById(R.id.theme_secondary);
+        TextView text = findViewById(R.id.theme_secondary);
         Theme theme = preferenceManager.getTheme();
         text.setText(theme.getNameRes());
     }
@@ -138,7 +138,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void updateMusicMetadataCheckbox() {
-        Checkable checkable = (Checkable) findViewById(R.id.music_metadata_checkbox);
+        Checkable checkable = findViewById(R.id.music_metadata_checkbox);
         checkable.setChecked(preferenceManager.isMusicMetadataEnabled());
     }
 
@@ -154,7 +154,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void updateBackgroundLoad() {
-        Checkable checkable = (Checkable) findViewById(R.id.save_battery_checkbox);
+        Checkable checkable = findViewById(R.id.save_battery_checkbox);
         checkable.setChecked(!preferenceManager.isBackgroundLoad());
     }
 
@@ -170,7 +170,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void updateMusicImageCheckbox() {
-        Checkable checkable = (Checkable) findViewById(R.id.music_image_checkbox);
+        Checkable checkable = findViewById(R.id.music_image_checkbox);
         checkable.setChecked(preferenceManager.isMusicImageEnabled());
     }
 
@@ -186,7 +186,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void updateAutoPause() {
-        Checkable checkable = (Checkable) findViewById(R.id.auto_pause_checkbox);
+        Checkable checkable = findViewById(R.id.auto_pause_checkbox);
         checkable.setChecked(preferenceManager.isAutoPause());
     }
 
@@ -230,7 +230,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void updateDownloadSecondary() {
-        TextView text = (TextView) findViewById(R.id.download_secondary);
+        TextView text = findViewById(R.id.download_secondary);
         text.setText(preferenceManager.getDownloadDirectory());
     }
 
@@ -251,7 +251,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void updateEqCheckbox() {
-        Checkable checkable = (Checkable) findViewById(R.id.eq_settings_checkbox);
+        Checkable checkable = findViewById(R.id.eq_settings_checkbox);
         checkable.setChecked(preferenceManager.isEqSettingsEnabled());
     }
 
@@ -267,7 +267,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     }
 
     private void updateLargeButtons() {
-        Checkable checkable = (Checkable) findViewById(R.id.large_buttons_checkbox);
+        Checkable checkable = findViewById(R.id.large_buttons_checkbox);
         checkable.setChecked(preferenceManager.isLargeButtons());
     }
 

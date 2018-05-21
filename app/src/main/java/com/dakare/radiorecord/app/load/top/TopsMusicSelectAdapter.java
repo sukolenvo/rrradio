@@ -48,9 +48,9 @@ public class TopsMusicSelectAdapter extends AbstractSelectionAdapter<TopsMusicSe
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.title);
+            title = itemView.findViewById(R.id.title);
             title.setSelected(true);
-            subTitle = (TextView) itemView.findViewById(R.id.sub_title);
+            subTitle = itemView.findViewById(R.id.sub_title);
         }
     }
 }

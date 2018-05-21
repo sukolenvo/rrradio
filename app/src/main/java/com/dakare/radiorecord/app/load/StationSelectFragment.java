@@ -41,7 +41,7 @@ public class StationSelectFragment extends Fragment implements StationClickListe
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_station_select, null);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         TypedArray attributes = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.main_separator_drawable});
         int decoratorId = attributes.getResourceId(0, 0);
         attributes.recycle();

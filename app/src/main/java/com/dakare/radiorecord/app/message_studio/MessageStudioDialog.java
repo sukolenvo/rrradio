@@ -14,12 +14,12 @@ public class MessageStudioDialog extends AbstractDialog {
     public MessageStudioDialog(final Context context) {
         super(context);
         setContentView(R.layout.dialog_message_studio);
-        final TextView phoneView = (TextView) findViewById(R.id.phone);
+        final TextView phoneView = findViewById(R.id.phone);
         String phoneNumber = PreferenceManager.getInstance(context).getPhoneNumber();
         if (!TextUtils.isEmpty(phoneNumber)) {
             phoneView.setText(phoneNumber);
         }
-        final TextView messageView = (TextView) findViewById(R.id.message);
+        final TextView messageView = findViewById(R.id.message);
         findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

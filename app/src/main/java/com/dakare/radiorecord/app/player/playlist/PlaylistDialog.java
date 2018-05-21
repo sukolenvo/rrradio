@@ -30,7 +30,7 @@ public class PlaylistDialog extends AbstractDialog implements SharedPreferences.
                 dismiss();
             }
         });
-        ListView listView = (ListView) findViewById(R.id.playlist);
+        ListView listView = findViewById(R.id.playlist);
         listView.setEmptyView(findViewById(R.id.no_results));
         adapter = new PlaylistAdapter(getContext(), permissionSupplyer);
         int lastPosition = PreferenceManager.getInstance(context).getLastPosition();

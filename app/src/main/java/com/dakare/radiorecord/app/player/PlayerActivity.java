@@ -73,11 +73,11 @@ public class PlayerActivity extends MenuActivity
             metadataSong = savedInstanceState.getString(METADATA_SONG_KEY);
             recording = savedInstanceState.getBoolean(RECORDING_STATE_KEY);
         }
-        playbackProgressView = (SeekBar) findViewById(R.id.playback_progress_view);
+        playbackProgressView = findViewById(R.id.playback_progress_view);
         playbackProgressView.setOnSeekBarChangeListener(this);
-        positionView = (TextView) findViewById(R.id.position);
-        durationView = (TextView) findViewById(R.id.duration);
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
+        positionView = findViewById(R.id.position);
+        durationView = findViewById(R.id.duration);
+        ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(new PlaylistPagerAdapter(getSupportFragmentManager(), viewPager));
         viewPager.setCurrentItem(PreferenceManager.getInstance(RecordApplication.getInstance()).getLastPosition());
         setupOnClickListeners();

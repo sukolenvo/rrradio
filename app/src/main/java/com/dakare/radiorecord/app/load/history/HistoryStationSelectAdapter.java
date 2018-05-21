@@ -75,9 +75,9 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
 
         public ViewHolder(View itemView) {
             super(itemView);
-            container = (FrameLayout) itemView.findViewById(R.id.station_container);
-            icon = (ImageView) itemView.findViewById(R.id.station_icon);
-            name = (TextView) itemView.findViewById(R.id.station_name);
+            container = itemView.findViewById(R.id.station_container);
+            icon = itemView.findViewById(R.id.station_icon);
+            name = itemView.findViewById(R.id.station_name);
         }
     }
 }

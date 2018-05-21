@@ -52,8 +52,8 @@ public class EqualizerPresetAdapter extends ArrayAdapter<String> implements Adap
         private static TextView title;
 
         private static void from(View parent) {
-            icon = (RadioButton) parent.findViewById(R.id.select_icon);
-            title = (TextView) parent.findViewById(R.id.text);
+            icon = parent.findViewById(R.id.select_icon);
+            title = parent.findViewById(R.id.text);
         }
     }
 }

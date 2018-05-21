@@ -43,7 +43,7 @@ public class DownloadsActivity extends MenuActivity implements FileServiceClient
         setContentView(R.layout.activity_downloads);
         initToolbar();
         setTitle(R.string.menu_downloads_text);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.history_divider), false));
         selectionManager = new SelectionManager(this, new DownloadsSelectionCallback());

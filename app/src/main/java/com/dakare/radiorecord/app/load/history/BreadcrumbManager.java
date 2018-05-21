@@ -26,9 +26,9 @@ public class BreadcrumbManager implements View.OnClickListener {
         level2Container = container.findViewById(R.id.breadcrumb_level_2_container);
         level3Container = container.findViewById(R.id.breadcrumb_level_3_container);
         container.findViewById(R.id.breadcrumb_level_1).setOnClickListener(this);
-        viewLevel2 = (TextView) container.findViewById(R.id.breadcrumb_level_2);
+        viewLevel2 = container.findViewById(R.id.breadcrumb_level_2);
         viewLevel2.setOnClickListener(this);
-        viewLevel3 = (TextView) container.findViewById(R.id.breadcrumb_level_3);
+        viewLevel3 = container.findViewById(R.id.breadcrumb_level_3);
         toolbar.addView(container);
     }
 

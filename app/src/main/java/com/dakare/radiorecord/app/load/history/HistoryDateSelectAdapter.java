@@ -69,7 +69,7 @@ public class HistoryDateSelectAdapter extends AbstractLoadAdapter<HistoryDateSel
         public ViewHolder(final View itemView) {
             super(itemView);
             container = itemView;
-            textView = (TextView) itemView.findViewById(R.id.title);
+            textView = itemView.findViewById(R.id.title);
         }
     }
 }

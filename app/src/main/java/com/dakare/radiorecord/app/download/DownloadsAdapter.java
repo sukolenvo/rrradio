@@ -143,12 +143,12 @@ public class DownloadsAdapter extends AbstractSelectionAdapter<DownloadsAdapter.
 
         public ViewHolder(View itemView) {
             super(itemView);
-            image = (DownloadImageView) itemView.findViewById(R.id.download_image);
-            titleView = (TextView) itemView.findViewById(R.id.title);
+            image = itemView.findViewById(R.id.download_image);
+            titleView = itemView.findViewById(R.id.title);
             titleView.setSelected(true);
-            sizeView = (TextView) itemView.findViewById(R.id.size);
-            createdView = (TextView) itemView.findViewById(R.id.saved);
-            statusView = (TextView) itemView.findViewById(R.id.status);
+            sizeView = itemView.findViewById(R.id.size);
+            createdView = itemView.findViewById(R.id.saved);
+            statusView = itemView.findViewById(R.id.status);
         }
     }
 }

@@ -56,7 +56,7 @@ public class PlaylistAdapter extends ArrayAdapter<PlaylistItem> implements View.
         } else {
             view = convertView;
         }
-        TextView titleView = (TextView) view.findViewById(R.id.playlist_title);
+        TextView titleView = view.findViewById(R.id.playlist_title);
         PlaylistItem item = getItem(position);
         View downloadIcon = view.findViewById(R.id.download_icon);
         if (item.isDownloadable()) {

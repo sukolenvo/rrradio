@@ -109,7 +109,7 @@ public class ProgressView extends RelativeLayout {
     public void setEmptyViewText(final String text) {
         emptyView.findViewById(R.id.stub_image).setVisibility(View.GONE);
         emptyView.findViewById(R.id.empty_view_text).setVisibility(View.GONE);
-        TextView textView = (TextView) emptyView
+        TextView textView = emptyView
                 .findViewById(R.id.custom_empty_view_text);
         textView.setText(text);
         textView.setVisibility(View.VISIBLE);
@@ -117,11 +117,11 @@ public class ProgressView extends RelativeLayout {
 
     private void initialize() {
         loadStatusView = lInflater.inflate(R.layout.view_progress, this);
-        emptyView = (RelativeLayout) loadStatusView
+        emptyView = loadStatusView
                 .findViewById(R.id.list_empty_stub);
-        progressBar = (ProgressBar) loadStatusView
+        progressBar = loadStatusView
                 .findViewById(R.id.loading_progress);
-        status = (TextView) loadStatusView
+        status = loadStatusView
                 .findViewById(R.id.view_status_message);
     }
 }

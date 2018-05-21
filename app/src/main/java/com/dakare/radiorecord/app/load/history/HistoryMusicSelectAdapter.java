@@ -97,10 +97,10 @@ public class HistoryMusicSelectAdapter extends AbstractSelectionAdapter<HistoryM
 
         public ViewHolder(final View itemView) {
             super(itemView);
-            title = (TextView) itemView.findViewById(R.id.title);
+            title = itemView.findViewById(R.id.title);
             title.setSelected(true);
-            subTitle = (TextView) itemView.findViewById(R.id.sub_title);
-            duration = (TextView) itemView.findViewById(R.id.duration);
+            subTitle = itemView.findViewById(R.id.sub_title);
+            duration = itemView.findViewById(R.id.duration);
         }
     }
 }

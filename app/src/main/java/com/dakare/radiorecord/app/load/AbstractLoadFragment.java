@@ -38,7 +38,7 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
     @Override
     public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_load, null);
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        swipeContainer = view.findViewById(R.id.swipe_container);
         swipeContainer.setColorSchemeResources(
                 android.R.color.holo_green_light,
                 android.R.color.holo_red_light,
@@ -47,7 +47,7 @@ public abstract class AbstractLoadFragment<T extends RecyclerView.ViewHolder, K>
         swipeContainer.setOnRefreshListener(this);
         swipeContainer.setRefreshing(getAdapter().getItemCount() == 0);
         emptyView = view.findViewById(R.id.list_empty_stub);
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         TypedArray attributes = getContext().getTheme().obtainStyledAttributes(new int[]{R.attr.list_divider});
         int decoratorId = attributes.getResourceId(0, 0);
