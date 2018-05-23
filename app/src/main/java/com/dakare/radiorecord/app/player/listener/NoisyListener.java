@@ -5,41 +5,33 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.media.AudioManager;
 import com.dakare.radiorecord.app.player.service.PlayerService;
-import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
 
 import java.io.Closeable;
-import java.io.IOException;
 
-public class HeadsetPlugListener implements IPlayerStateListener, Closeable {
+public class NoisyListener implements IPlayerStateListener, Closeable {
 
-    private static final int HEADSET_PLUGGED = 1;
-    private static final String HEADSET_STATE_KEY = "state";
 
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(final Context context, final Intent intent) {
-            boolean plugged = intent.getIntExtra(HEADSET_STATE_KEY, -1) == HEADSET_PLUGGED;
-            if (state == PlayerState.PAUSE && plugged) {
-                Intent pauseIntent = new Intent(context, PlayerService.class);
-                pauseIntent.setAction(NotificationListener.ACTION_RESUME);
-                context.startService(pauseIntent);
-            }
+            Intent pauseIntent = new Intent(context, PlayerService.class);
+            pauseIntent.setAction(NotificationListener.ACTION_PAUSE);
+            context.startService(pauseIntent);
         }
     };
     private final Context context;
-    private PlayerState state;
 
-    public HeadsetPlugListener(final Context context) {
+    public NoisyListener(final Context context) {
         this.context = context;
-        context.registerReceiver(receiver, new IntentFilter(Intent.ACTION_HEADSET_PLUG));
+        context.registerReceiver(receiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
     }
 
     @Override
     public void onPlaybackChange(final PlaybackStatePlayerMessage message) {
-        state = message.getState();
     }
 
     @Override
