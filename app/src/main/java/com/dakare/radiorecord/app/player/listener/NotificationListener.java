@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.graphics.Bitmap;
+import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
@@ -48,11 +49,19 @@ public class NotificationListener implements IPlayerStateListener {
             }
             notificationHelper.setPlaying(message.getState() == PlayerState.PLAY);
             if (foreground) {
-                notificationManager.notify(1, notificationHelper.getBuilder().build());
+                updateNotification();
             } else {
                 service.startForeground(1, notificationHelper.getBuilder().build());
                 foreground = true;
             }
+        }
+    }
+
+    private void updateNotification() {
+        try {
+            notificationManager.notify(1, notificationHelper.getBuilder().build());
+        } catch (Exception e) {
+            Crashlytics.logException(e);
         }
     }
 
@@ -149,7 +158,7 @@ public class NotificationListener implements IPlayerStateListener {
     public void onIconChange(final Bitmap image) {
         if (image != null) {
             notificationHelper.setImage(image);
-            notificationManager.notify(1, notificationHelper.getBuilder().build());
+            updateNotification();
         }
     }
 
