@@ -74,23 +74,6 @@
     <string name="menu_delete">Удалить</string>
     <string name="error_source">Ошибка обработки источника медиа</string>
     <string name="error_not_downloaded">Некторые аудиозаписи были исключены - загрузка не завершена</string>
-    <string name="settings_iap_text">Пожертвования</string>
-    <string name="donate_text">\tДанное приложение является абсолютно бесплатным. Весь его функционал доступен каждому
-        пользователю без каких либо ограничений. Если Вам нравится <b>Radio Record</b> и Вы хотите поддержать проект -
-        воспользуйтесь одной из кнопок снизу :). Это будет мотивировать нас на выпуск новых классных обновлений и
-        дополнительных фич.\n\tСпасибо за то, что остаетесь с нами!
-    </string>
-    <string name="donate_large">Пожертвовать 25$</string>
-    <string name="donate_medium">Пожертвовать 5$</string>
-    <string name="donate_small">Пожертвовать 1$</string>
-    <string name="erro_no_iap_service">Сервис покупок Google не обнаружен на данном устройстве</string>
-    <string name="error_iap_open">Ошибка запуска сервиса покупок Google</string>
-    <string name="error_iap_purchase">Данная покупка не может быть завершена. Попробуйте позже</string>
-    <string name="error_iap_remote">Ошибка подключения к сервису покупок Google. Попробуйте позже</string>
-    <string name="error_iap_support">Недопустимая версия сирвиса покупок. Обновите Google Play Services на Вашем
-        устройстве
-    </string>
-    <string name="iap_thanks">Спасибо за поддержку проекта!</string>
     <string name="download_starting">Аудиозапись добавлена в загрузки</string>
     <string name="status_error_unknown">Неизвестная ошибка при загрузке файла</string>
     <string name="message_eq_not_ready">Эквалайзер еще не готов</string>
@@ -125,17 +108,6 @@
     <string name="settings_theme_text">Тема приложения</string>
     <string name="light_theme_name">Светлая тема</string>
     <string name="dark_theme_name">Темная тема (новая)</string>
-    <string name="ad_status_disabled">Выключено</string>
-    <string name="ad_status_enabled">Включено</string>
-    <string name="ads_dialog_title">Реклама</string>
-    <string name="settings_ads_text">Реклама</string>
-    <string name="ads_dialog_description">
-        Пожалуйста включите рекламу, чтобы поддержать приложение. Реклама, как и донат, помогают в развитии приложения и
-        мотивируют на выпуск новых версий. Мы обещаем:\n\nТолько ненавязчивая реклама: никаких полноэкранных роликов,
-        которые мешают пользоваться приложение.\n\nТолько WiFi: мы блокируем загрузку рекламы при мобильном подключении
-        к сети.
-        Реклама не будет показываться и не будет дополнительных расходов трафика.\n\nПриятного прослушивания!
-    </string>
     <string name="text_disable">Отключить</string>
     <string name="record_info_text">Запись доступна только для онлайн потоков. Для других категорий (История, Топ 100…)
         воспользуйтесь кнопкой скачать
@@ -143,12 +115,7 @@
     <string name="recording_starting_info">Запись %1$s началась. Вы можете ее найти в разделе Загрузки.</string>
     <string name="recording_stopped_info">Запись прекращена.</string>
     <string name="classic_theme_name">Классическая</string>
-    <string name="settings_iap_secondary">Поддержать проект</string>
     <string name="error_recording">Не удалось создать файл по указанному пути. Проверьте права на запись</string>
-    <string name="menu_message_studio_text">Сообщение в студию</string>
-    <string name="message_studio_error">Произошла ошибка при отправке сообщения</string>
-    <string name="message_studio_succes">Ваше сообщение было успешно отправленно</string>
-    <string name="message_studio_title">Сообщение в студию Рекорда</string>
     <string name="text_send">Отправить</string>
     <string name="phone_hint">Источником сообщения будет указан номер %1$s.</string>
     <string name="hint_message">сообщение</string>
@@ -161,9 +128,6 @@
     <string name="save_battery_secondary">Не обновлять название песни и альбом если экран выключен</string>
     <string name="save_battery_text">Оптимизировать расход батареи</string>
     <string name="message_loaded_from_cache">Загружено из кеша (%1$s)</string>
-    <string name="subscribe_small">Подписка 1$/месяц</string>
-    <string name="subscribe_medium">Подписка 2$/месяц</string>
-    <string name="subscribe_large">Подписка 5$/месяц</string>
     <string name="auto_pause_secondary">"Пауза на время звонка, сигнала смс, уведомлений...\n "</string>
     <string name="auto_pause_text">Автопауза во время сигнала</string>
     <string name="resume_playback_dialog_title">Продолжить воспроизведение</string>

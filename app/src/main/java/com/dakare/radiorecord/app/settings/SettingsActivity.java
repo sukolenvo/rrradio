@@ -2,7 +2,6 @@ package com.dakare.radiorecord.app.settings;
 
 import android.Manifest;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -15,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.ads.SettingsAdsDialog;
-import com.dakare.radiorecord.app.iap.IapActivity;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.utils.EqUtils;
 import com.dakare.radiorecord.app.view.theme.Theme;
@@ -36,7 +33,6 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         preferenceManager = PreferenceManager.getInstance(SettingsActivity.this);
         toolbar.setNavigationOnClickListener(this);
         initQuality();
-        initAds();
         initTheme();
         initMusicMetadata();
         initMusicImage();
@@ -45,15 +41,6 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         initDownloadDirectory();
         initEqSettings();
         initLargeButtons();
-        findViewById(R.id.iap_container).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(SettingsActivity.this, IapActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
-            }
-        });
     }
 
     private void initQuality() {
@@ -80,33 +67,6 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
             text.setText(R.string.no_default_quality);
         } else {
             text.setText(quality.getNameRes());
-        }
-    }
-
-    private void initAds() {
-        updateAdsSecondary();
-        findViewById(R.id.ads_container).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View v) {
-                SettingsAdsDialog dialog = new SettingsAdsDialog(SettingsActivity.this);
-                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialog) {
-                        updateAdsSecondary();
-                    }
-                });
-                dialog.show();
-            }
-        });
-    }
-
-    private void updateAdsSecondary() {
-        TextView text = findViewById(R.id.ads_secondary);
-        boolean show = preferenceManager.getShowAd();
-        if (show) {
-            text.setText(R.string.ad_status_enabled);
-        } else {
-            text.setText(R.string.ad_status_disabled);
         }
     }
 

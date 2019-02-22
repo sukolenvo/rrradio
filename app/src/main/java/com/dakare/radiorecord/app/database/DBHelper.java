@@ -3,7 +3,6 @@ package com.dakare.radiorecord.app.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.database.table.*;
 import com.dakare.radiorecord.app.load.loader.BasicCategoryLoader;
 import com.dakare.radiorecord.app.load.loader.SectionCategoryLoader;
@@ -34,7 +33,6 @@ public class DBHelper extends SQLiteOpenHelper {
             db.execSQL(HistoryDateCacheTable.CREATE_TABLE);
             db.execSQL(HistoryMusicCacheTable.CREATE_TABLE);
         } catch (Exception e) {
-            Crashlytics.logException(e);
             throw e;
         }
     }

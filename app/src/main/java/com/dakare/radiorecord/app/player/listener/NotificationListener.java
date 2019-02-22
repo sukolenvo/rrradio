@@ -4,7 +4,7 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.graphics.Bitmap;
-import com.crashlytics.android.Crashlytics;
+import android.util.Log;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.Station;
@@ -61,7 +61,7 @@ public class NotificationListener implements IPlayerStateListener {
         try {
             notificationManager.notify(1, notificationHelper.getBuilder().build());
         } catch (Exception e) {
-            Crashlytics.logException(e);
+            Log.e("NotificationListener", "Can't update notification", e);
         }
     }
 

@@ -15,12 +15,10 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
-import com.dakare.radiorecord.app.ads.AdUtils;
 import com.dakare.radiorecord.app.database.provider.StorageContract;
 import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.player.equalizer.EqDisabledWarningDialog;
@@ -36,7 +34,6 @@ import com.dakare.radiorecord.app.player.service.message.*;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepTimerSetupDialog;
 import com.dakare.radiorecord.app.view.theme.Theme;
-import com.google.android.gms.ads.AdView;
 
 public class PlayerActivity extends MenuActivity
         implements PlayerServiceHelper.ServiceBindListener, PlayerServiceClient.PlayerMessageHandler,
@@ -83,7 +80,6 @@ public class PlayerActivity extends MenuActivity
         setupOnClickListeners();
         updateViews();
         updateProgress(0, 0, 0);
-        AdUtils.showAd((AdView) findViewById(R.id.adView));
     }
 
     private void setupOnClickListeners() {
@@ -268,7 +264,7 @@ public class PlayerActivity extends MenuActivity
         try {
             playerServiceHelper.unbindService(this);
         } catch (IllegalArgumentException e) {
-            Crashlytics.logException(e);
+            Log.e("PlayerActivity", "failed to unbind", e);
         }
         if (positionUpdater != null) {
             positionUpdater.interrupt();

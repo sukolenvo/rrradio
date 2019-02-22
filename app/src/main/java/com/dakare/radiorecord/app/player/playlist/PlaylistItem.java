@@ -3,9 +3,6 @@ package com.dakare.radiorecord.app.player.playlist;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
 import com.dakare.radiorecord.app.RecordApplication;
 import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.download.service.DownloadItem;
@@ -46,7 +43,6 @@ public class PlaylistItem implements Parcelable {
         try {
             station = Station.valueOf(parcel.readString());
         } catch (IllegalArgumentException e) {
-            Crashlytics.logException(e);
             station = Station.RADIO_RECORD;
         }
         url = parcel.readString();
@@ -64,9 +60,6 @@ public class PlaylistItem implements Parcelable {
         this.title = historyMusicItem.getArtist();
         if (station == null) {
             this.station = Station.RADIO_RECORD;
-            Answers.getInstance().logCustom(new CustomEvent("error")
-                                                    .putCustomAttribute("type", "Station is null")
-                                                    .putCustomAttribute("type", "HistoryMusicItem"));
         } else {
             this.station = station;
         }
@@ -79,9 +72,6 @@ public class PlaylistItem implements Parcelable {
         this.title = item.getArtist();
         if (station == null) {
             this.station = Station.RADIO_RECORD;
-            Answers.getInstance().logCustom(new CustomEvent("error")
-                                                    .putCustomAttribute("type", "Station is null")
-                                                    .putCustomAttribute("type", "TopsMusicItem"));
         } else {
             this.station = station;
         }

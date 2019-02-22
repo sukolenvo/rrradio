@@ -1,8 +1,8 @@
 package com.dakare.radiorecord.app.player.service.playback.record;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
-import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.database.provider.StorageContract;
@@ -32,7 +32,7 @@ public class PlaybackRecordManager {
             try {
                 destination.mkdirs();
             } catch (Exception e) {
-                Crashlytics.logException(e);
+                Log.e("PlaybackRecordManager", "cant create folders", e);
             }
             PlaylistItem fileItem = new PlaylistItem(item);
             String fileName = getFileName(item);

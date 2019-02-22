@@ -1,7 +1,6 @@
 package com.dakare.radiorecord.app.utils;
 
 import android.media.audiofx.AudioEffect;
-import com.crashlytics.android.Crashlytics;
 
 import java.util.UUID;
 
@@ -16,7 +15,6 @@ public class EqUtils {
                 }
             }
         } catch (NoClassDefFoundError e) {
-            Crashlytics.logException(e);
             return false;
         }
         return false;

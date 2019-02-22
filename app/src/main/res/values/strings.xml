@@ -15,7 +15,6 @@
     <string name="settings_text">Settings</string>
     <string name="menu_main_text">Radio stations</string>
     <string name="menu_downloads_text">Downloaded</string>
-    <string name="settings_iap_text">Donate</string>
     <string name="menu_history_text">History</string>
     <string name="menu_top_text">Top 100</string>
     <string name="menu_superchart_text" translatable="false">Superchart</string>
@@ -83,23 +82,6 @@
     <string name="status_error_saving">Can\'t save audio. Please check free space and storage accessibility</string>
     <string name="error_source">Unsupported source format</string>
     <string name="error_not_downloaded">Some media was skipped - not downloaded</string>
-    <string name="donate_text">\tHello!\n\tHope you have a good day. This application is fully free. And all features are available for all users.
-        So, if you like <b>Radio Record</b> and want to support project - press that button below :). Sor sure this will motivate for new awesome releases
-        and new cool features you asking. Thanks for being with us.
-        \n\tSincerely,\n\tDevelopers Team
-    </string>
-    <string name="donate_small">Donate 1$</string>
-    <string name="donate_medium">Donate 5$</string>
-    <string name="donate_large">Donate 25$</string>
-    <string name="subscribe_small">Subscribe 1$/m</string>
-    <string name="subscribe_medium">Subscribe 2$/m</string>
-    <string name="subscribe_large">Subscribe 5$/m</string>
-    <string name="erro_no_iap_service">Google payment service cannot be located on device</string>
-    <string name="error_iap_purchase">This purchase cannot be performed. Please try later</string>
-    <string name="error_iap_open">Cannot open Google payment service</string>
-    <string name="error_iap_remote">Failed to connect to Google payment service. Please try later</string>
-    <string name="iap_thanks">Thanks for your support!</string>
-    <string name="error_iap_support">Google payment service not supported</string>
     <string name="download_starting">Audio added to downloads</string>
     <string name="status_error_unknown">Unknown error happened while downloading attempt</string>
     <string name="message_eq_not_ready">Equalizer not initialized yet</string>
@@ -133,30 +115,14 @@
     <string name="dark_theme_name">Dark theme (NEW)</string>
     <string name="classic_theme_name">Classic</string>
     <string name="light_theme_name">Light theme</string>
-    <string name="ad_main_screen" translatable="false">ca-app-pub-8716939423875482/9795752054</string>
-    <string name="ad_player_screen" translatable="false">ca-app-pub-8716939423875482/5225951651</string>
-    <string name="settings_ads_text">Ads</string>
-    <string name="ad_status_enabled">Enabled</string>
-    <string name="ad_status_disabled">Disabled</string>
-    <string name="ads_dialog_title">Ads policy</string>
-    <string name="ads_dialog_description">Please enable ads to support application. Ads and donation help to promote
-        this application and keep working on it. We are promise:\n\nOnly unostentatious ads. We are not showing
-        full-screen ads that case bad user experience.\n\nOnly wifi. We will block any ads request during mobile
-        connection, so you will not be charged extra.\n\nEnjoy!
-    </string>
     <string name="text_disable">Disable</string>
     <string name="record_info_text">Record option only available for online stream. For other categories History, Top
         100, etc please use download button
     </string>
     <string name="recording_starting_info">File %1$s is starting now. You can check it in Downloads section.</string>
     <string name="recording_stopped_info">Recording is stopped.</string>
-    <string name="settings_iap_secondary">This motivates developer to work on new release</string>
     <string name="text_send">Send</string>
-    <string name="message_studio_title">Message to Record studio</string>
-    <string name="menu_message_studio_text">Message to studio</string>
     <string name="error_recording">Cannot create file for saving record. Please check write permission to destination folder.</string>
-    <string name="message_studio_succes">Your message was send successfully.</string>
-    <string name="message_studio_error">Failed to send message</string>
     <string name="phone_hint">Your phone number %1$s will be send to server to identify you as message owner.</string>
     <string name="hint_phone_number">phone number</string>
     <string name="hint_message">message</string>

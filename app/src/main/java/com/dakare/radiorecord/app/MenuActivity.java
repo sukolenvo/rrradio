@@ -1,18 +1,13 @@
 package com.dakare.radiorecord.app;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.ContentViewEvent;
 import com.dakare.radiorecord.app.download.DownloadsActivity;
 import com.dakare.radiorecord.app.load.history.HistoryActivity;
 import com.dakare.radiorecord.app.load.section.HrustalevActivity;
@@ -20,7 +15,6 @@ import com.dakare.radiorecord.app.load.section.MegamixActivity;
 import com.dakare.radiorecord.app.load.section.SectionNewActivity;
 import com.dakare.radiorecord.app.load.section.SuperchartActivity;
 import com.dakare.radiorecord.app.load.top.TopsActivity;
-import com.dakare.radiorecord.app.message_studio.MessageStudioDialog;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.settings.SettingsActivity;
 import com.dakare.radiorecord.app.view.theme.ThemeActivity;
@@ -31,17 +25,6 @@ public class MenuActivity extends ThemeActivity {
     private DrawerLayout drawer;
     @Getter
     private Toolbar myToolbar;
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Answers.getInstance().logContentView(new ContentViewEvent()
-                .putContentName("Open activity")
-                .putContentType(getClass().getSimpleName())
-                .putContentId(getClass().getSimpleName())
-                .putCustomAttribute("theme", PreferenceManager.getInstance(this).getTheme().name())
-                .putCustomAttribute("ads", PreferenceManager.getInstance(this).getShowAd() + ""));
-    }
 
     protected void initToolbar() {
         myToolbar = findViewById(R.id.my_toolbar);
@@ -78,13 +61,8 @@ public class MenuActivity extends ThemeActivity {
 
     public void sendFeedback(final View view) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("market://details?id=" + getPackageName()));
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            intent.setData(Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName()));
-            startActivity(intent);
-        }
+        intent.setData(Uri.parse("http://4pda.ru/forum/index.php?showtopic=754173"));
+        startActivity(intent);
     }
 
     public void mainActivity(final View view) {
@@ -166,10 +144,6 @@ public class MenuActivity extends ThemeActivity {
             startActivity(intent);
         }
         closeMenu();
-    }
-
-    public void messageStudio(final View view) {
-        MessageStudioDialog.show(this);
     }
 
     @Override

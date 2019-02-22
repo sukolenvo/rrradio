@@ -2,23 +2,19 @@ buildscript {
     repositories {
         jcenter()
         google()
-        maven { url 'https://maven.fabric.io/public'}
         mavenCentral()
 
         maven { url "https://maven.google.com" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.2'
-        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 repositories {
     google()
     jcenter()
-    maven { url 'https://maven.fabric.io/public'}
     mavenCentral()
 
     maven { url "https://maven.google.com" }
@@ -81,15 +77,11 @@ dependencies {
     compile('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') {
         transitive = true
     }
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
-    }
-    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'org.jsoup:jsoup:1.11.3'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.8.0'
     compileOnly "org.projectlombok:lombok:1.16.18"
     annotationProcessor "org.projectlombok:lombok:1.16.18"
-    implementation 'com.google.firebase:firebase-ads:15.0.0'
     testCompile 'junit:junit:4.12'
 //    androidTestCompile 'org.mockito:mockito-core:1.10.19'
 }
@@ -108,8 +100,7 @@ configurations.all {
         //  *append new forced modules:
         force 'com.android.support:appcompat-v7:28.0.0',
                 'com.android.support:support-media-compat:28.0.0',
-                'com.android.support:recyclerview-v7:28.0.0',
-                'com.google.firebase:firebase-ads:15.0.0'
+                'com.android.support:recyclerview-v7:28.0.0'
     }
 }
 

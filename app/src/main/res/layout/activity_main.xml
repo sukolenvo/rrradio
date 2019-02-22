@@ -28,15 +28,6 @@
                       android:layout_height="2dp"
                       android:background="?attr/main_toolbar_shadow"/>
             </FrameLayout>
-            <com.google.android.gms.ads.AdView
-                android:id="@+id/adView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:visibility="gone"
-                ads:adSize="SMART_BANNER"
-                ads:adUnitId="@string/ad_main_screen">
-            </com.google.android.gms.ads.AdView>
         </LinearLayout>
         <View
             android:id="@+id/hint"

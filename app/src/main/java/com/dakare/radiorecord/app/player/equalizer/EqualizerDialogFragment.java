@@ -3,7 +3,6 @@ package com.dakare.radiorecord.app.player.equalizer;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.widget.Toast;
-import com.crashlytics.android.Crashlytics;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.utils.StateLoseAppCompatDialogFragment;
@@ -15,7 +14,6 @@ public class EqualizerDialogFragment extends StateLoseAppCompatDialogFragment {
         try {
             return new EqualizerDialog(getContext());
         } catch (RuntimeException e) {
-            Crashlytics.logException(e);
             Toast.makeText(getContext(), R.string.audio_effect_error, Toast.LENGTH_LONG).show();
             PreferenceManager.getInstance(getContext()).setEqSettings(false);
         }

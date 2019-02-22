@@ -44,8 +44,6 @@
                   android:theme="@style/Main" />
         <activity android:name=".download.DownloadsActivity"
                   android:theme="@style/Main" />
-        <activity android:name=".iap.IapActivity"
-                  android:theme="@style/Main" />
         <service android:name=".player.service.PlayerService" />
         <service android:name=".download.service.FileService" />
         <provider android:authorities="com.dakare.radiorecord.app"
