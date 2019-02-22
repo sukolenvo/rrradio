@@ -3,8 +3,8 @@ package com.dakare.radiorecord.app.utils;
 import android.text.TextUtils;
 import android.util.JsonWriter;
 import android.util.Log;
-import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
+import com.dakare.radiorecord.app.station.AbstractStation;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +32,7 @@ public class JsonHelper {
                     jsonWriter.name("subtitle").value(item.getSubtitle());
                 }
                 jsonWriter.name("url").value(item.getUrl());
-                jsonWriter.name("station").value(item.getStation().name());
+                jsonWriter.name("station").value(item.getStation().serialize());
                 jsonWriter.name("live").value(item.isLive());
                 jsonWriter.endObject();
             }
@@ -54,7 +54,7 @@ public class JsonHelper {
             JSONObject jsonObject = array.getJSONObject(i);
             PlaylistItem item = new PlaylistItem();
             item.setTitle(jsonObject.getString("title"));
-            item.setStation(Station.valueOf(jsonObject.getString("station")));
+            item.setStation(AbstractStation.deserialize(jsonObject.getString("station")));
             if (jsonObject.has("subtitle")) {
                 item.setSubtitle(jsonObject.getString("subtitle"));
             }

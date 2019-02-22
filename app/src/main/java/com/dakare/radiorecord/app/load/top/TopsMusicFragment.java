@@ -1,7 +1,7 @@
 package com.dakare.radiorecord.app.load.top;
 
 import android.os.Bundle;
-import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.load.loader.BasicCategoryLoader;
 import com.dakare.radiorecord.app.load.loader.CategoryLoader;
 import com.dakare.radiorecord.app.load.loader.database.TopsCategoryDbTable;
@@ -13,13 +13,13 @@ public class TopsMusicFragment extends AbstractSelectionFragment<TopsMusicSelect
     public static final String STATION_KEY = "station_key";
     private static final String URL_TEMPLATE = "http://www.radiorecord.ru/radio/top100/%s.txt";
 
-    private Station station;
+    private AbstractStation station;
     private TopsMusicSelectAdapter adapter;
     private CategoryLoader<TopsMusicItem> categoryLoader;
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-        station = Station.valueOf(getArguments().getString(STATION_KEY));
+        station = AbstractStation.deserialize(getArguments().getString(STATION_KEY));
         super.onCreate(savedInstanceState);
         adapter = new TopsMusicSelectAdapter(getContext(), station, getSelectionManager(), this);
         categoryLoader = new BasicCategoryLoader<>(new TopsCategoryDbTable(station), new TopsParser(),

@@ -1,13 +1,13 @@
 package com.dakare.radiorecord.app.load.history;
 
 import android.os.Bundle;
-import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.load.loader.BasicCategoryLoader;
 import com.dakare.radiorecord.app.load.loader.CategoryLoader;
 import com.dakare.radiorecord.app.load.loader.database.HistoryMusicCategoryDbTable;
 import com.dakare.radiorecord.app.load.loader.parser.HistoryMusicParser;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionFragment;
+import com.dakare.radiorecord.app.station.AbstractStation;
 
 public class HistoryMusicSelectFragment extends AbstractSelectionFragment<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem> {
 
@@ -20,7 +20,7 @@ public class HistoryMusicSelectFragment extends AbstractSelectionFragment<Histor
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-        Station station = Station.valueOf(getArguments().getString(STATION_KEY));
+        AbstractStation station = AbstractStation.deserialize(getArguments().getString(STATION_KEY));
         String date = getArguments().getString(DATE_KEY);
         super.onCreate(savedInstanceState);
         adapter = new HistoryMusicSelectAdapter(getContext(), station, getSelectionManager(), this);

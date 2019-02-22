@@ -1,7 +1,8 @@
 package com.dakare.radiorecord.app;
 
 import com.dakare.radiorecord.app.quality.Quality;
-import org.junit.Assert;
+import com.dakare.radiorecord.app.station.BaseStation;
+
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class LiveStreamTest {
 
     @Test
     public void testAllStations() throws IOException {
-        for (Station station : Station.values()) {
+        for (BaseStation station : BaseStation.values()) {
             for (Quality quality : Quality.values()) {
                 String streamUrl = station.getStreamUrl(quality);
                 HttpURLConnection urlConnection = (HttpURLConnection) new URL(streamUrl).openConnection();

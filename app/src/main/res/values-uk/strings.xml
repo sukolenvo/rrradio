@@ -130,7 +130,5 @@
     <string name="message_loaded_from_cache">Загружено из кеша (%1$s)</string>
     <string name="auto_pause_secondary">"Пауза на время звонка, сигнала смс, уведомлений...\n "</string>
     <string name="auto_pause_text">Автопауза во время сигнала</string>
-    <string name="resume_playback_dialog_title">Продолжить воспроизведение</string>
-    <string name="resume_playback_dialog_body">Продолжить воспроизведение %1$s?</string>
     <string name="notification_title_audio">Радио Рекорд Аудио</string>
 </resources>

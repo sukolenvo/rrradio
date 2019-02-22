@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.StationClickListener;
 import com.dakare.radiorecord.app.view.theme.Theme;
 
@@ -20,7 +20,7 @@ import java.util.List;
 public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistoryStationSelectAdapter.ViewHolder> {
     private final Context context;
     private final LayoutInflater inflater;
-    private final List<Station> items = new ArrayList<Station>();
+    private final List<AbstractStation> items = new ArrayList<>();
     private final StationClickListener callback;
     private final PreferenceManager preferenceManager;
     private final Theme theme;
@@ -28,7 +28,7 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
     public HistoryStationSelectAdapter(final Context context, final StationClickListener callback) {
         preferenceManager = PreferenceManager.getInstance(context);
         theme = preferenceManager.getTheme();
-        for (Station station : preferenceManager.getStations()) {
+        for (AbstractStation station : preferenceManager.getStations()) {
             items.add(station);
         }
         this.context = context;
@@ -45,8 +45,8 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Station item = items.get(position);
-        holder.icon.setImageResource(theme.getStationIcon(item));
+        final AbstractStation item = items.get(position);
+        holder.icon.setImageBitmap(item.getStationIcon(theme));
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,7 +60,7 @@ public class HistoryStationSelectAdapter extends RecyclerView.Adapter<HistorySta
 
     @Override
     public long getItemId(int position) {
-        return items.get(position).ordinal();
+        return items.get(position).getCode().hashCode();
     }
 
     @Override

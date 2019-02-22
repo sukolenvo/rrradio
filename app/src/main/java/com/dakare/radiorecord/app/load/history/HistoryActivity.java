@@ -9,8 +9,8 @@ import android.view.View;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.load.StationSelectFragment;
+import com.dakare.radiorecord.app.station.AbstractStation;
 
 import java.util.List;
 
@@ -37,11 +37,11 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
     }
 
     @Override
-    public void onClick(final Station station) {
+    public void onClick(final AbstractStation station) {
         breadcrumbManager.onSelectLevel2(station.getName());
         Fragment fragment = new HistoryDateSelectFragment();
         Bundle args = new Bundle();
-        args.putString(HistoryDateSelectFragment.STATION_KEY, station.name());
+        args.putString(HistoryDateSelectFragment.STATION_KEY, station.serialize());
         fragment.setArguments(args);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -58,11 +58,11 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
     }
 
     @Override
-    public void onDateSelected(final Station station, final String date) {
+    public void onDateSelected(final AbstractStation station, final String date) {
         breadcrumbManager.onSelectLevel3(date);
         Fragment fragment = new HistoryMusicSelectFragment();
         Bundle args = new Bundle();
-        args.putString(HistoryMusicSelectFragment.STATION_KEY, station.name());
+        args.putString(HistoryMusicSelectFragment.STATION_KEY, station.serialize());
         args.putString(HistoryMusicSelectFragment.DATE_KEY, date);
         fragment.setArguments(args);
         getSupportFragmentManager().beginTransaction()
@@ -111,7 +111,7 @@ public class HistoryActivity extends MenuActivity implements HistoryFragmentMedi
             menu.findItem(R.id.sort_up).setVisible(false);
             menu.findItem(R.id.sort_down).setVisible(true);
         }
-        return super.onPrepareOptionsPanel(view, menu);
+        return true;
     }
 
     @Override

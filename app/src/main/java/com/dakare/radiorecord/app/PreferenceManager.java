@@ -2,7 +2,6 @@ package com.dakare.radiorecord.app;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,6 +12,8 @@ import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepSettings;
 import com.dakare.radiorecord.app.quality.Quality;
+import com.dakare.radiorecord.app.station.AbstractStation;
+import com.dakare.radiorecord.app.station.PredefinedStation;
 import com.dakare.radiorecord.app.utils.EqUtils;
 import com.dakare.radiorecord.app.utils.JsonHelper;
 import com.dakare.radiorecord.app.view.theme.Theme;
@@ -92,10 +93,10 @@ public class PreferenceManager {
         }
     }
 
-    public void setStations(List<Station> stations) {
+    public void setStations(List<AbstractStation> stations) {
         StringBuilder result = new StringBuilder();
-        for (Station station : stations) {
-            result.append(station.name());
+        for (AbstractStation station : stations) {
+            result.append(station.serialize());
             result.append(",");
         }
         sharedPreferences.edit()
@@ -103,21 +104,21 @@ public class PreferenceManager {
                 .apply();
     }
 
-    public List<Station> getStations() {
+    public List<AbstractStation> getStations() {
         String line = sharedPreferences.getString(STATIONS_KEY, null);
         if (line == null) {
-            return Arrays.asList(Station.values());
+            return Arrays.asList(PredefinedStation.values());
         }
-        List<Station> stations = new ArrayList<Station>();
-        for (String name : line.substring(0, line.length() - 1).split(",")) {
+        List<AbstractStation> stations = new ArrayList<>();
+        for (String value : line.substring(0, line.length() - 1).split(",")) {
             try {
-                stations.add(Station.valueOf(name));
+                stations.add(AbstractStation.deserialize(value));
             } catch (IllegalArgumentException e) {
                 //station not exists anymore
             }
         }
-        if (stations.size() < Station.values().length) {
-            for (Station station : Station.values()) {
+        if (stations.size() < PredefinedStation.values().length) {
+            for (AbstractStation station : PredefinedStation.values()) {
                 if (!stations.contains(station)) {
                     stations.add(station);
                 }
@@ -167,13 +168,17 @@ public class PreferenceManager {
                 .apply();
     }
 
-    public Station getLastStation() {
-        return Station.valueOf(sharedPreferences.getString(LAST_STATION, Station.RADIO_RECORD.name()));
+    public AbstractStation getLastStation() {
+      String lastStation = sharedPreferences.getString(LAST_STATION, null);
+      if (lastStation == null) {
+        return PredefinedStation.values()[0];
+      }
+      return AbstractStation.deserialize(lastStation);
     }
 
-    public void setLastStation(final Station station) {
+    public void setLastStation(final AbstractStation station) {
         sharedPreferences.edit()
-                .putString(LAST_STATION, station.name())
+                .putString(LAST_STATION, station.serialize())
                 .apply();
     }
 
@@ -213,7 +218,7 @@ public class PreferenceManager {
             return JsonHelper.readPlaylist(list);
         } catch (Exception e) {
             Log.e("PrefManager", "Failed to init playlist", e);
-            return Collections.singletonList(new PlaylistItem(Station.RADIO_RECORD, Quality.HIGH));
+            return Collections.singletonList(new PlaylistItem(getLastStation(), Quality.HIGH));
         }
     }
 

@@ -3,9 +3,9 @@ package com.dakare.radiorecord.app.load.loader.database;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
-import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.database.table.HistoryMusicCacheTable;
 import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
+import com.dakare.radiorecord.app.station.AbstractStation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class HistoryMusicCategoryDbTable extends BasicCategoryDbTable<HistoryMus
 
     private final Uri uri;
 
-    public HistoryMusicCategoryDbTable(Station station, String date) {
+    public HistoryMusicCategoryDbTable(AbstractStation station, String date) {
         uri = Uri.parse("content://com.dakare.radiorecord.app/history_music" + station.getCode() + "/" + date);
     }
 

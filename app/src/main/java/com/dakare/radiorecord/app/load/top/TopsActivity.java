@@ -4,9 +4,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.StationClickListener;
 import com.dakare.radiorecord.app.load.StationSelectFragment;
+import com.dakare.radiorecord.app.station.AbstractStation;
 
 public class TopsActivity extends MenuActivity implements StationClickListener {
 
@@ -25,10 +25,10 @@ public class TopsActivity extends MenuActivity implements StationClickListener {
     }
 
     @Override
-    public void onClick(final Station station) {
+    public void onClick(final AbstractStation station) {
         Fragment fragment = new TopsMusicFragment();
         Bundle args = new Bundle();
-        args.putString(TopsMusicFragment.STATION_KEY, station.name());
+        args.putString(TopsMusicFragment.STATION_KEY, station.serialize());
         fragment.setArguments(args);
         getSupportFragmentManager()
                 .beginTransaction()

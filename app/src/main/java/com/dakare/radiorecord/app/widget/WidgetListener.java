@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.listener.IPlayerStateListener;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
@@ -82,7 +82,7 @@ public class WidgetListener implements IPlayerStateListener {
             views.setTextViewText(R.id.text_media_title, message.getSong() == null
                     ? buildTitle(playlistItem.getTitle(), playlistItem.getSubtitle()) : buildTitle(message.getArtist(), message.getSong()));
             if (message.getIcon() == null || !PreferenceManager.getInstance(service).isMusicImageEnabled()) {
-                views.setImageViewResource(R.id.image_media_preview,
+                views.setImageViewBitmap(R.id.image_media_preview,
                         getStationIcon(playlistItem.getStation()));
             }
             if (message.getState() == PlayerState.PLAY) {
@@ -96,12 +96,12 @@ public class WidgetListener implements IPlayerStateListener {
         appWidgetManager.updateAppWidget(getComponentName(), views);
     }
 
-    private int getStationIcon(Station station) {
+    private Bitmap getStationIcon(AbstractStation station) {
         Theme theme = PreferenceManager.getInstance(service).getTheme();
         if (theme == Theme.DARK) {
-            return Theme.DARK.getStationIcon(station);
+            return station.getStationIcon(theme);
         }
-        return NotificationListener.getStationIcon(station);
+        return station.getNotificationStationIcon();
     }
 
     private String buildTitle(final String main, final String second) {

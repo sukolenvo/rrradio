@@ -5,15 +5,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
 import com.dakare.radiorecord.app.load.selection.SelectionManager;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
+import com.dakare.radiorecord.app.station.AbstractStation;
 
 public class TopsMusicSelectAdapter extends AbstractSelectionAdapter<TopsMusicSelectAdapter.ViewHolder, TopsMusicItem> {
-    private final Station station;
+    private final AbstractStation station;
 
-    public TopsMusicSelectAdapter(final Context context, final Station station,
+    public TopsMusicSelectAdapter(final Context context, final AbstractStation station,
                                   final SelectionManager selectionManager, final PermissionProvider permissionProvider) {
         super(context, selectionManager, permissionProvider);
         this.station = station;

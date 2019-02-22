@@ -13,6 +13,7 @@ import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.quality.QualityDialog;
 import com.dakare.radiorecord.app.settings.SettingsThemeDialog;
+import com.dakare.radiorecord.app.station.AbstractStation;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
     }
 
     @Override
-    public void onClick(final Station station) {
+    public void onClick(final AbstractStation station) {
         PreferenceManager.getInstance(this).setLastStation(station);
         QualityDialog.getQuality(this, this);
     }
@@ -69,9 +70,9 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
     @Override
     public void onQualitySelected(final Quality quality) {
         Intent serviceIntent = new Intent(this, PlayerService.class);
-        List<Station> stations = PreferenceManager.getInstance(this).getStations();
+        List<AbstractStation> stations = PreferenceManager.getInstance(this).getStations();
         ArrayList<PlaylistItem> items = new ArrayList<>(stations.size());
-        for (Station station : stations) {
+        for (AbstractStation station : stations) {
             items.add(new PlaylistItem(station, quality));
         }
         serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);

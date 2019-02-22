@@ -4,12 +4,14 @@ import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 import com.dakare.radiorecord.app.RecordApplication;
-import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.download.service.DownloadItem;
 import com.dakare.radiorecord.app.load.history.HistoryMusicItem;
 import com.dakare.radiorecord.app.load.section.SectionMusicItem;
 import com.dakare.radiorecord.app.load.top.TopsMusicItem;
 import com.dakare.radiorecord.app.quality.Quality;
+import com.dakare.radiorecord.app.station.PredefinedStation;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +21,7 @@ public class PlaylistItem implements Parcelable {
     private String title;
     private String subtitle;
     private String url;
-    private Station station;
+    private AbstractStation station;
     private boolean live;
 
     public PlaylistItem(final PlaylistItem item) {
@@ -41,14 +43,14 @@ public class PlaylistItem implements Parcelable {
             subtitle = null;
         }
         try {
-            station = Station.valueOf(parcel.readString());
+            station = AbstractStation.deserialize(parcel.readString());
         } catch (IllegalArgumentException e) {
-            station = Station.RADIO_RECORD;
+            station = PredefinedStation.values()[0];
         }
         url = parcel.readString();
     }
 
-    public PlaylistItem(final Station station, final Quality quality) {
+    public PlaylistItem(final AbstractStation station, final Quality quality) {
         this.title = station.getName();
         this.station = station;
         this.url = station.getStreamUrl(quality);
@@ -56,10 +58,10 @@ public class PlaylistItem implements Parcelable {
         this.live = true;
     }
 
-    public PlaylistItem(final Station station, final HistoryMusicItem historyMusicItem) {
+    public PlaylistItem(final AbstractStation station, final HistoryMusicItem historyMusicItem) {
         this.title = historyMusicItem.getArtist();
         if (station == null) {
-            this.station = Station.RADIO_RECORD;
+            this.station = PredefinedStation.values()[0];
         } else {
             this.station = station;
         }
@@ -68,10 +70,10 @@ public class PlaylistItem implements Parcelable {
         this.live = false;
     }
 
-    public PlaylistItem(final Station station, final TopsMusicItem item) {
+    public PlaylistItem(final AbstractStation station, final TopsMusicItem item) {
         this.title = item.getArtist();
         if (station == null) {
-            this.station = Station.RADIO_RECORD;
+            this.station = PredefinedStation.values()[0];
         } else {
             this.station = station;
         }
@@ -82,7 +84,7 @@ public class PlaylistItem implements Parcelable {
 
     public PlaylistItem(final SectionMusicItem item) {
         this.title = item.getArtist();
-        this.station = Station.RADIO_RECORD;
+        this.station = PredefinedStation.values()[0];
         this.url = encodeUrl(item.getUrl());
         this.subtitle = item.getSong();
         this.live = false;
@@ -90,7 +92,7 @@ public class PlaylistItem implements Parcelable {
 
     public PlaylistItem(final DownloadItem item) {
         this.title = item.getTitle();
-        this.station = Station.RADIO_RECORD;
+        this.station = PredefinedStation.values()[0];
         this.url = item.getFileUri().toString();
         this.subtitle = item.getSubtitle();
         this.live = false;
@@ -116,12 +118,12 @@ public class PlaylistItem implements Parcelable {
         if (subtitle != null) {
             dest.writeString(subtitle);
         }
-        dest.writeString(station.name());
+        dest.writeString(station.serialize());
         dest.writeString(url);
     }
 
-    public Station getStation() {
-        return station == null ? Station.RADIO_RECORD : station;
+    public AbstractStation getStation() {
+        return station == null ? PredefinedStation.values()[0] : station;
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {

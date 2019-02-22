@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.Station;
 import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
+import com.dakare.radiorecord.app.station.AbstractStation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,9 @@ public class HistoryDateSelectAdapter extends AbstractLoadAdapter<HistoryDateSel
     private final LayoutInflater inflater;
     private List<String> items = new ArrayList<String>();
     private final HistoryFragmentMediator historyFragmentMediator;
-    private final Station station;
+    private final AbstractStation station;
 
-    public HistoryDateSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator, final Station station) {
+    public HistoryDateSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator, final AbstractStation station) {
         this.historyFragmentMediator = historyFragmentMediator;
         this.station = station;
         this.inflater = LayoutInflater.from(context);

@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.view.theme.Theme;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.DraggableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.DraggableItemConstants;
@@ -21,7 +23,7 @@ import java.util.List;
 public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHolder>
         implements DraggableItemAdapter<StationAdapter.ViewHolder> {
     private final LayoutInflater inflater;
-    private final List<Station> items = new ArrayList<>();
+    private final List<AbstractStation> items = new ArrayList<>();
     private final StationClickListener callback;
     private final PreferenceManager preferenceManager;
     private final Theme theme;
@@ -29,7 +31,7 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     public StationAdapter(final Context context, final StationClickListener callback) {
         preferenceManager = PreferenceManager.getInstance(context);
         theme = preferenceManager.getTheme();
-        for (Station station : preferenceManager.getStations()) {
+        for (AbstractStation station : preferenceManager.getStations()) {
             items.add(station);
         }
         this.inflater = LayoutInflater.from(context);
@@ -45,8 +47,8 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final Station item = items.get(position);
-        holder.icon.setImageResource(theme.getStationIcon(item));
+        final AbstractStation item = items.get(position);
+        holder.icon.setImageBitmap(item.getStationIcon(theme));
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +75,7 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
 
     @Override
     public long getItemId(int position) {
-        return items.get(position).ordinal();
+        return items.get(position).getCode().hashCode();
     }
 
     @Override
@@ -94,7 +96,7 @@ public class StationAdapter extends RecyclerView.Adapter<StationAdapter.ViewHold
     @Override
     public void onMoveItem(final int fromPosition, final int toPosition) {
         if (fromPosition != toPosition) {
-            Station fromItem = items.remove(fromPosition);
+            AbstractStation fromItem = items.remove(fromPosition);
             items.add(toPosition, fromItem);
             notifyItemMoved(fromPosition, toPosition);
             preferenceManager.setStations(items);

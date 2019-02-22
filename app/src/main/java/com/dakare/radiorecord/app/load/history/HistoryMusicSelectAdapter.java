@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
 import com.dakare.radiorecord.app.load.selection.SelectionManager;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
@@ -18,11 +18,11 @@ import java.util.List;
 
 public class HistoryMusicSelectAdapter extends AbstractSelectionAdapter<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem> {
     private List<HistoryMusicItem> items = new ArrayList<HistoryMusicItem>();
-    private final Station station;
+    private final AbstractStation station;
     private final PreferenceManager preferenceManager;
     private List<HistoryMusicItem> visibleList = new ArrayList<HistoryMusicItem>();
 
-    public HistoryMusicSelectAdapter(final Context context, final Station station,
+    public HistoryMusicSelectAdapter(final Context context, final AbstractStation station,
                                      final SelectionManager selectionManager, final PermissionProvider permissionProvider) {
         super(context, selectionManager, permissionProvider);
         this.station = station;

@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.dakare.radiorecord.app.GridDecorator;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.Station;
+import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.StationClickListener;
 import com.dakare.radiorecord.app.load.history.HistoryStationSelectAdapter;
 
@@ -53,7 +53,7 @@ public class StationSelectFragment extends Fragment implements StationClickListe
     }
 
     @Override
-    public void onClick(final Station station) {
+    public void onClick(final AbstractStation station) {
         if (mediator != null) {
             mediator.onClick(station);
         }

@@ -1,5 +1,7 @@
 package com.dakare.radiorecord.app;
 
+import com.dakare.radiorecord.app.station.AbstractStation;
+
 public interface StationClickListener {
-    void onClick(Station station);
+    void onClick(AbstractStation station);
 }
