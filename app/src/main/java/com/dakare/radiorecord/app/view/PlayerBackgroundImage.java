@@ -69,7 +69,7 @@ public class PlayerBackgroundImage extends AppCompatImageView {
         }
     }
 
-    public Bitmap drawableToBitmap(Drawable drawable) {
+    private Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap = null;
 
         if (drawable instanceof BitmapDrawable) {

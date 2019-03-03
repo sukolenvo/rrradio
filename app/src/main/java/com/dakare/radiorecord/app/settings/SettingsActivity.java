@@ -41,6 +41,7 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
         initDownloadDirectory();
         initEqSettings();
         initLargeButtons();
+        initLoadStations();
     }
 
     private void initQuality() {
@@ -229,6 +230,15 @@ public class SettingsActivity extends ThemeActivity implements View.OnClickListe
     private void updateLargeButtons() {
         Checkable checkable = findViewById(R.id.large_buttons_checkbox);
         checkable.setChecked(preferenceManager.isLargeButtons());
+    }
+
+    private void initLoadStations() {
+        findViewById(R.id.load_stations_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                new LoadStationsDialog(SettingsActivity.this).show();
+            }
+        });
     }
 
     @Override

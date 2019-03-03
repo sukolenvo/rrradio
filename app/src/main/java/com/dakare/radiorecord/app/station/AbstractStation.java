@@ -38,6 +38,9 @@ public abstract class AbstractStation {
     }
 
     public static AbstractStation deserialize(String value) {
+        if (value.startsWith("DynamicStation:")) {
+            return new DynamicStation(value);
+        }
         return new PredefinedStation(BaseStation.valueOf(value));
     }
 }

@@ -129,4 +129,16 @@
     <string name="auto_pause_secondary">Пауза на время звонка, сигнала смс, уведомлений...</string>
     <string name="auto_pause_text">Автопауза во время сигнала</string>
     <string name="notification_title_audio">Радио Рекорд Аудио</string>
+    <string name="settings_load_stations">Поиск станций</string>
+    <string name="settings_load_stations_secondary">Загрузка списка станций</string>
+    <string name="status_loading_stations">Загрузка списка станций с сервера</string>
+    <string name="status_loading_stations_no_new">Новые станции не найдено (приложение уже содержит полный список)
+    </string>
+    <string name="status_loading_stations_error">Произошла ошибка при загрузке станций (проверьте интернет
+        подключение)
+    </string>
+    <string name="status_loading_stations_progress">Найдены новые станции. Загрузка данных… (%1$d/%2$d)</string>
+    <string name="status_loading_stations_summary">%1$d новых станций добавлено в список. Пожалуйста, перезапустите
+        приложение
+    </string>
 </resources>

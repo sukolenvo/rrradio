@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2017 Practice Insight Pty Ltd. All rights reserved.
- */
-
 package com.dakare.radiorecord.app.load.loader;
 
 import lombok.AllArgsConstructor;
@@ -11,9 +7,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @author vadym
- */
 @Data
 @AllArgsConstructor
 @SuppressWarnings("unchecked")

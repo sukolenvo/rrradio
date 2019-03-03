@@ -133,4 +133,11 @@
     <string name="eq_not_available">Unfortunately your device is not support this feature</string>
     <string name="message_loaded_from_cache">Loaded from cache (%1$s)</string>
     <string name="notification_title_audio">Radio Record Audio</string>
+    <string name="settings_load_stations">Load stations</string>
+    <string name="settings_load_stations_secondary">Check if there are new Record stations</string>
+    <string name="status_loading_stations">Loading station list</string>
+    <string name="status_loading_stations_no_new">No new stations found</string>
+    <string name="status_loading_stations_error">Failed to load new stations. Please check your internet connection</string>
+    <string name="status_loading_stations_progress">New stations found. Loading data… (%1$d/%2$d)</string>
+    <string name="status_loading_stations_summary">%1$d new stations were added to the list. App restart might be required to changes take effect</string>
 </resources>

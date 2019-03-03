@@ -273,6 +273,28 @@
                 <View style="@style/SettingsSeparator"/>
 
                 <RelativeLayout
+                        android:id="@+id/load_stations_container"
+                        style="@style/SettingsContainer">
+
+                    <TextView
+                            android:id="@+id/load_station_main"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/SettingsPrimary"
+                            android:text="@string/settings_load_stations"/>
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/load_station_main"
+                            style="@style/SettingsSecondary"
+                            android:text="@string/settings_load_stations_secondary"/>
+
+                </RelativeLayout>
+
+                <View style="@style/SettingsSeparator"/>
+
+                <RelativeLayout
                     android:id="@+id/download_container"
                     style="@style/SettingsContainer">
 
