@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.RemoteViews;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.player.PlayerActivity;
 import com.dakare.radiorecord.app.player.listener.IPlayerStateListener;
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
@@ -19,6 +18,7 @@ import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.player.service.PlayerState;
 import com.dakare.radiorecord.app.player.service.message.PlaybackStatePlayerMessage;
+import com.dakare.radiorecord.app.station.DynamicStation;
 import com.dakare.radiorecord.app.view.theme.Theme;
 
 
@@ -96,7 +96,7 @@ public class WidgetListener implements IPlayerStateListener {
         appWidgetManager.updateAppWidget(getComponentName(), views);
     }
 
-    private Bitmap getStationIcon(AbstractStation station) {
+    private Bitmap getStationIcon(DynamicStation station) {
         Theme theme = PreferenceManager.getInstance(service).getTheme();
         if (theme == Theme.DARK) {
             return station.getStationIcon(theme);

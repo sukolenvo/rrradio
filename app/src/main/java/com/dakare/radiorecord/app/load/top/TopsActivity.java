@@ -1,12 +1,12 @@
 package com.dakare.radiorecord.app.load.top;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import com.dakare.radiorecord.app.MenuActivity;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.StationClickListener;
 import com.dakare.radiorecord.app.load.StationSelectFragment;
-import com.dakare.radiorecord.app.station.AbstractStation;
+import com.dakare.radiorecord.app.station.DynamicStation;
 
 public class TopsActivity extends MenuActivity implements StationClickListener {
 
@@ -25,7 +25,7 @@ public class TopsActivity extends MenuActivity implements StationClickListener {
     }
 
     @Override
-    public void onClick(final AbstractStation station) {
+    public void onClick(final DynamicStation station) {
         Fragment fragment = new TopsMusicFragment();
         Bundle args = new Bundle();
         args.putString(TopsMusicFragment.STATION_KEY, station.serialize());

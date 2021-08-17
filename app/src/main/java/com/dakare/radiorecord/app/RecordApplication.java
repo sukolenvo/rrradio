@@ -1,7 +1,8 @@
 package com.dakare.radiorecord.app;
 
 import android.app.Application;
-import android.support.v7.app.AppCompatDelegate;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 public class RecordApplication extends Application {
     private static RecordApplication app;

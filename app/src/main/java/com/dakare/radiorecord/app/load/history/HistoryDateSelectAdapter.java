@@ -1,14 +1,14 @@
 package com.dakare.radiorecord.app.load.history;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
-import com.dakare.radiorecord.app.station.AbstractStation;
+import com.dakare.radiorecord.app.station.DynamicStation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,9 @@ public class HistoryDateSelectAdapter extends AbstractLoadAdapter<HistoryDateSel
     private final LayoutInflater inflater;
     private List<String> items = new ArrayList<String>();
     private final HistoryFragmentMediator historyFragmentMediator;
-    private final AbstractStation station;
+    private final DynamicStation station;
 
-    public HistoryDateSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator, final AbstractStation station) {
+    public HistoryDateSelectAdapter(final Context context, final HistoryFragmentMediator historyFragmentMediator, final DynamicStation station) {
         this.historyFragmentMediator = historyFragmentMediator;
         this.station = station;
         this.inflater = LayoutInflater.from(context);

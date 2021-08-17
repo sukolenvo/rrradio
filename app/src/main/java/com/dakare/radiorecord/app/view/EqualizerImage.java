@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.*;
 import android.media.audiofx.Equalizer;
-import android.support.v7.widget.AppCompatImageView;
+
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
+import androidx.appcompat.widget.AppCompatImageView;
+
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;

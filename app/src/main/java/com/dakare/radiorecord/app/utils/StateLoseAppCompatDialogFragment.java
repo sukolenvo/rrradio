@@ -1,8 +1,9 @@
 package com.dakare.radiorecord.app.utils;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatDialogFragment;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.FragmentManager;
 
 public class StateLoseAppCompatDialogFragment extends AppCompatDialogFragment {
 

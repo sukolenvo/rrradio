@@ -7,7 +7,7 @@ buildscript {
         maven { url "https://maven.google.com" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:7.0.0'
     }
 }
 apply plugin: 'com.android.application'
@@ -31,7 +31,7 @@ android {
 
     defaultConfig {
         applicationId "com.dakare.radiorecord.app"
-        minSdkVersion 16
+        minSdkVersion 24
         targetSdkVersion 28
         versionCode 45
         versionName "3.2"
@@ -72,17 +72,18 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-    compile('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0@aar') {
         transitive = true
     }
     implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'org.jsoup:jsoup:1.11.3'
+    implementation 'com.android.support:support-media-compat:28.0.0'
+    implementation 'org.jsoup:jsoup:1.14.1'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.8.0'
-    compileOnly "org.projectlombok:lombok:1.16.18"
-    annotationProcessor "org.projectlombok:lombok:1.16.18"
-    testCompile 'junit:junit:4.12'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+    testImplementation 'junit:junit:4.13.2'
 //    androidTestCompile 'org.mockito:mockito-core:1.10.19'
 }
 

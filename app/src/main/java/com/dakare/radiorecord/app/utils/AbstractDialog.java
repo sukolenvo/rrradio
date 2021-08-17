@@ -3,8 +3,10 @@ package com.dakare.radiorecord.app.utils;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatDialog;
+
 import android.view.Window;
+
+import androidx.appcompat.app.AppCompatDialog;
 
 public class AbstractDialog extends AppCompatDialog {
 

@@ -88,28 +88,28 @@ public class MetadataLoader extends BroadcastReceiver implements Runnable {
 
     private boolean loadLive() {
         UpdateResponse updateResponse = new UpdateResponse();
-        try {
-            String url = String.format(URL_FORMAT, playlistItem.getStation().getCodeAsParam());
-            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-            connection.setConnectTimeout(10_000);
-            connection.setReadTimeout(10_000);
-            int responseCode = connection.getResponseCode();
-            if (responseCode == 200) {
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                StringBuilder builder = new StringBuilder();
-                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
-                    builder.append(line);
-                }
-                updateResponse.parse(builder.toString());
-            } else {
-                Log.w("Update Task", "Error code: " + responseCode);
-            }
-        } catch (Exception e) {
-            Log.w("Update Task", "Failed to load update", e);
-            if (Thread.currentThread().isInterrupted()) {
-                return true;
-            }
-        }
+//        try {
+//            String url = String.format(URL_FORMAT, playlistItem.getStation().getCodeAsParam());
+//            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+//            connection.setConnectTimeout(10_000);
+//            connection.setReadTimeout(10_000);
+//            int responseCode = connection.getResponseCode();
+//            if (responseCode == 200) {
+//                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                StringBuilder builder = new StringBuilder();
+//                for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+//                    builder.append(line);
+//                }
+//                updateResponse.parse(builder.toString());
+//            } else {
+//                Log.w("Update Task", "Error code: " + responseCode);
+//            }
+//        } catch (Exception e) {
+//            Log.w("Update Task", "Failed to load update", e);
+//            if (Thread.currentThread().isInterrupted()) {
+//                return true;
+//            }
+//        }
         publishProgress(updateResponse);
         return false;
     }

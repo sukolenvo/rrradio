@@ -1,15 +1,15 @@
 package com.dakare.radiorecord.app.load.history;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
 import com.dakare.radiorecord.app.load.selection.SelectionManager;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
+import com.dakare.radiorecord.app.station.DynamicStation;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,11 +18,11 @@ import java.util.List;
 
 public class HistoryMusicSelectAdapter extends AbstractSelectionAdapter<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem> {
     private List<HistoryMusicItem> items = new ArrayList<HistoryMusicItem>();
-    private final AbstractStation station;
+    private final DynamicStation station;
     private final PreferenceManager preferenceManager;
     private List<HistoryMusicItem> visibleList = new ArrayList<HistoryMusicItem>();
 
-    public HistoryMusicSelectAdapter(final Context context, final AbstractStation station,
+    public HistoryMusicSelectAdapter(final Context context, final DynamicStation station,
                                      final SelectionManager selectionManager, final PermissionProvider permissionProvider) {
         super(context, selectionManager, permissionProvider);
         this.station = station;

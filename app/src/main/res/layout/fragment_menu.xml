@@ -83,11 +83,14 @@
             </LinearLayout>
 
 
-            <View style="@style/MenuSeparator"/>
+            <View style="@style/MenuSeparator"
+                android:visibility="gone"
+                />
 
             <LinearLayout
                 android:id="@+id/menu_history_container"
                 style="@style/MenuItemContainer"
+                android:visibility="gone"
                 android:onClick="historyActivity">
 
                 <ImageView
@@ -106,6 +109,7 @@
             <LinearLayout
                 android:id="@+id/menu_new_container"
                 style="@style/MenuItemContainer"
+                android:visibility="gone"
                 android:onClick="sectionNewActivity">
 
                 <ImageView
@@ -124,6 +128,7 @@
             <LinearLayout
                 android:id="@+id/menu_megamix_container"
                 style="@style/MenuItemContainer"
+                android:visibility="gone"
                 android:onClick="megamixActivity">
 
                 <ImageView
@@ -143,6 +148,7 @@
             <LinearLayout
                 android:id="@+id/menu_hrustalev_container"
                 style="@style/MenuItemContainer"
+                android:visibility="gone"
                 android:onClick="hrustalevActivity">
 
                 <ImageView
@@ -161,6 +167,7 @@
             <LinearLayout
                 android:id="@+id/menu_top_container"
                 style="@style/MenuItemContainer"
+                android:visibility="gone"
                 android:onClick="topsActivity">
 
                 <ImageView
@@ -179,6 +186,7 @@
             <LinearLayout
                 android:id="@+id/menu_superchart_container"
                 style="@style/MenuItemContainer"
+                android:visibility="gone"
                 android:onClick="superchartActivity">
 
                 <ImageView

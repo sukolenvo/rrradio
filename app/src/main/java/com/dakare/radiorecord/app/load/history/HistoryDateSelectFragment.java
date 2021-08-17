@@ -1,12 +1,13 @@
 package com.dakare.radiorecord.app.load.history;
 
 import android.os.Bundle;
-import com.dakare.radiorecord.app.station.AbstractStation;
+
 import com.dakare.radiorecord.app.load.AbstractLoadAdapter;
 import com.dakare.radiorecord.app.load.loader.BasicCategoryLoader;
 import com.dakare.radiorecord.app.load.loader.CategoryLoader;
 import com.dakare.radiorecord.app.load.loader.database.HistoryDateCategoryDbTable;
 import com.dakare.radiorecord.app.load.loader.parser.HistoryDateParser;
+import com.dakare.radiorecord.app.station.DynamicStation;
 
 public class HistoryDateSelectFragment extends AbstractHistoryMediatorFragment<HistoryDateSelectAdapter.ViewHolder, String> {
     public static final String STATION_KEY = "station_key";
@@ -17,11 +18,11 @@ public class HistoryDateSelectFragment extends AbstractHistoryMediatorFragment<H
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-        AbstractStation station = AbstractStation.deserialize(getArguments().getString(STATION_KEY));
+        DynamicStation station = DynamicStation.deserialize(getArguments().getString(STATION_KEY));
         super.onCreate(savedInstanceState);
         adapter = new HistoryDateSelectAdapter(getContext(), getMediator(), station);
         categoryLoader = new BasicCategoryLoader<>(new HistoryDateCategoryDbTable(station), new HistoryDateParser(),
-                URL_TEMPLATE + station.getCodeAsParam());
+                URL_TEMPLATE + station.getKey());
     }
 
     @Override

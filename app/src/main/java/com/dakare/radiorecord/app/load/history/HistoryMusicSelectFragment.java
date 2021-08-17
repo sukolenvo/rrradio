@@ -7,7 +7,7 @@ import com.dakare.radiorecord.app.load.loader.database.HistoryMusicCategoryDbTab
 import com.dakare.radiorecord.app.load.loader.parser.HistoryMusicParser;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionFragment;
-import com.dakare.radiorecord.app.station.AbstractStation;
+import com.dakare.radiorecord.app.station.DynamicStation;
 
 public class HistoryMusicSelectFragment extends AbstractSelectionFragment<HistoryMusicSelectAdapter.ViewHolder, HistoryMusicItem> {
 
@@ -20,12 +20,12 @@ public class HistoryMusicSelectFragment extends AbstractSelectionFragment<Histor
 
     @Override
     public void onCreate(final Bundle savedInstanceState) {
-        AbstractStation station = AbstractStation.deserialize(getArguments().getString(STATION_KEY));
+        DynamicStation station = DynamicStation.deserialize(getArguments().getString(STATION_KEY));
         String date = getArguments().getString(DATE_KEY);
         super.onCreate(savedInstanceState);
         adapter = new HistoryMusicSelectAdapter(getContext(), station, getSelectionManager(), this);
         categoryLoader = new BasicCategoryLoader<>(new HistoryMusicCategoryDbTable(station, date), new HistoryMusicParser(),
-                String.format(URL_TEMPLATE, station.getCodeAsParam(), date));
+                String.format(URL_TEMPLATE, station.getKey(), date));
     }
 
     @Override

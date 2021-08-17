@@ -1,14 +1,16 @@
 package com.dakare.radiorecord.app.player;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
@@ -68,7 +70,7 @@ public class PlaylistItemFragment extends Fragment implements PlayerServiceClien
             }
             if (PreferenceManager.getInstance(getContext()).isMusicImageEnabled()) {
                 if (!TextUtils.isEmpty(metadataIcon) && metadataIcon.trim().length() > 0) {
-                    RequestCreator requestCreator = Picasso.with(getContext()).load(metadataIcon)
+                    RequestCreator requestCreator = Picasso.get().load(metadataIcon)
                             .error(R.drawable.default_player_background)
                             .placeholder(R.drawable.default_player_background);
                     if (icon.getInnerWidth() > 0 && icon.getInnerHeight() > 0) {

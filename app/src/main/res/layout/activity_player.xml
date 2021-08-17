@@ -1,4 +1,4 @@
-<android.support.v4.widget.DrawerLayout
+<androidx.drawerlayout.widget.DrawerLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/drawer_layout"
@@ -11,12 +11,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <android.support.v4.view.ViewPager
+        <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-        </android.support.v4.view.ViewPager>
+        </androidx.viewpager.widget.ViewPager>
 
         <include layout="@layout/toolbar"/>
 
@@ -138,4 +138,4 @@
             android:layout_gravity="left|start"
             android:name="com.dakare.radiorecord.app.MenuFragment"/>
 
-</android.support.v4.widget.DrawerLayout>
+</androidx.drawerlayout.widget.DrawerLayout>

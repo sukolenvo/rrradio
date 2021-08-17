@@ -3,18 +3,20 @@ package com.dakare.radiorecord.app.load;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.dakare.radiorecord.app.GridDecorator;
 import com.dakare.radiorecord.app.R;
-import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.StationClickListener;
 import com.dakare.radiorecord.app.load.history.HistoryStationSelectAdapter;
+import com.dakare.radiorecord.app.station.DynamicStation;
 
 public class StationSelectFragment extends Fragment implements StationClickListener {
 
@@ -53,7 +55,7 @@ public class StationSelectFragment extends Fragment implements StationClickListe
     }
 
     @Override
-    public void onClick(final AbstractStation station) {
+    public void onClick(final DynamicStation station) {
         if (mediator != null) {
             mediator.onClick(station);
         }

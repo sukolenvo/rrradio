@@ -52,7 +52,7 @@ public class PlayerListenerHandler extends Handler implements Target {
                     && !stateMessage.getIcon().equals(lastUrl)) {
                 lastUrl = stateMessage.getIcon();
                 if (!TextUtils.isEmpty(lastUrl) && lastUrl.trim().length() > 0) {
-                    Picasso.with(RecordApplication.getInstance())
+                    Picasso.get()
                             .load(lastUrl)
                             .resize(128 * imageScale, 128 * imageScale)
                             .into(this);
@@ -75,7 +75,7 @@ public class PlayerListenerHandler extends Handler implements Target {
     }
 
     @Override
-    public void onBitmapFailed(Drawable errorDrawable) {
+    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 
     }
 

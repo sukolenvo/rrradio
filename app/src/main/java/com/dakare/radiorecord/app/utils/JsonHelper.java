@@ -4,7 +4,8 @@ import android.text.TextUtils;
 import android.util.JsonWriter;
 import android.util.Log;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
-import com.dakare.radiorecord.app.station.AbstractStation;
+import com.dakare.radiorecord.app.station.DynamicStation;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,7 +55,7 @@ public class JsonHelper {
             JSONObject jsonObject = array.getJSONObject(i);
             PlaylistItem item = new PlaylistItem();
             item.setTitle(jsonObject.getString("title"));
-            item.setStation(AbstractStation.deserialize(jsonObject.getString("station")));
+            item.setStation(DynamicStation.deserialize(jsonObject.getString("station")));
             if (jsonObject.has("subtitle")) {
                 item.setSubtitle(jsonObject.getString("subtitle"));
             }

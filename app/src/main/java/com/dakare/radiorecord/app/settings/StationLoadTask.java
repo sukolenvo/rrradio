@@ -3,11 +3,12 @@ package com.dakare.radiorecord.app.settings;
 import android.graphics.*;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import com.dakare.radiorecord.app.PreferenceManager;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.RecordApplication;
-import com.dakare.radiorecord.app.station.AbstractStation;
 import com.dakare.radiorecord.app.station.DynamicStation;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,7 +24,7 @@ import java.util.Set;
 
 class StationLoadTask extends AsyncTask<Void, String, Void> {
 
-    private static final String URL = "http://www.radiorecord.ru/radioapi/stations/";
+    private static final String URL = "https://radiorecord.ru/api/stations";
 
     private final WeakReference<StationLoadListener> stationLoadListener;
 
@@ -57,21 +58,20 @@ class StationLoadTask extends AsyncTask<Void, String, Void> {
 
 
     private void parseResponse(String response) throws Exception {
-        List<Item> items = new ArrayList<>();
+        List<DynamicStation> items = new ArrayList<>();
         JSONObject object = new JSONObject(response);
-        JSONArray resultArray = object.getJSONArray("result");
+        JSONArray resultArray = object.getJSONObject("result").getJSONArray("stations");
         for (int i = 0; i < resultArray.length(); i++) {
-            items.add(new Item(resultArray.getJSONObject(i)));
+            items.add(parseStation(resultArray.getJSONObject(i)));
         }
-        Set<String> existingStations = new HashSet<>();
-        List<AbstractStation> currentStations = new ArrayList<>(PreferenceManager.getInstance(RecordApplication.getInstance())
-                .getStations());
-        for (AbstractStation station : currentStations) {
-            existingStations.add(station.getCodeAsParam());
-        }
-        List<Item> newStations = new ArrayList<>();
-        for (Item item : items) {
-            if (!existingStations.contains(item.code)) {
+        Set<DynamicStation> existingStations = new HashSet<>(
+                PreferenceManager.getInstance(RecordApplication.getInstance()).getStations()
+        );
+        List<DynamicStation> currentStations = new ArrayList<>(
+                PreferenceManager.getInstance(RecordApplication.getInstance()).getStations());
+        List<DynamicStation> newStations = new ArrayList<>();
+        for (DynamicStation item : items) {
+            if (!existingStations.contains(item)) {
                 newStations.add(item);
             }
         }
@@ -81,15 +81,9 @@ class StationLoadTask extends AsyncTask<Void, String, Void> {
             for (int i = 0; i < newStations.size(); i++) {
                 publishProgress(RecordApplication.getInstance().getString(R.string.status_loading_stations_progress,
                         i, newStations.size()));
-                Item newStation = newStations.get(i);
+                DynamicStation newStation = newStations.get(i);
                 prepareIcons(newStation);
-                for (AbstractStation currentStation : currentStations) {
-                    if (currentStation.getCodeAsParam().equals(newStation.code)) {
-                        currentStations.remove(currentStation);
-                        break;
-                    }
-                }
-                currentStations.add(new DynamicStation(newStation.stationName, newStation.code));
+                currentStations.add(newStation);
             }
             PreferenceManager.getInstance(RecordApplication.getInstance()).setStations(currentStations);
             publishProgress(RecordApplication.getInstance().getString(R.string.status_loading_stations_summary,
@@ -97,8 +91,8 @@ class StationLoadTask extends AsyncTask<Void, String, Void> {
         }
     }
 
-    private void prepareIcons(Item newStation) throws IOException {
-        HttpURLConnection connection = (HttpURLConnection) new URL(newStation.image).openConnection();
+    private void prepareIcons(DynamicStation newStation) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) new URL(newStation.getImageColor()).openConnection();
         connection.setConnectTimeout(10_000);
         connection.setReadTimeout(10_000);
         int responseCode = connection.getResponseCode();
@@ -110,7 +104,7 @@ class StationLoadTask extends AsyncTask<Void, String, Void> {
         if (bitmap == null || bitmap.getWidth() == 0) {
             bitmap = drawStub(newStation);
         }
-        File file = new File(RecordApplication.getInstance().getFilesDir(), newStation.code + ".png");
+        File file = new File(RecordApplication.getInstance().getFilesDir(), newStation.getKey() + ".png");
         FileOutputStream stream = new FileOutputStream(file);
         try {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
@@ -119,23 +113,23 @@ class StationLoadTask extends AsyncTask<Void, String, Void> {
         }
     }
 
-    private Bitmap drawStub(Item newStation) {
+    private Bitmap drawStub(DynamicStation newStation) {
         Bitmap bitmap = Bitmap.createBitmap(201, 140, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         Paint paint = new Paint();
         paint.setTextSize(30);
         paint.setARGB(255, 192, 192, 192);
         Rect output = new Rect();
-        paint.getTextBounds(newStation.stationName, 0, newStation.stationName.length(), output);
-        if (output.right > 90 && newStation.stationName.length() > 10) {
-            String firstLine = newStation.stationName.substring(0, 10);
-            String secondLine = newStation.stationName.substring(10);
+        paint.getTextBounds(newStation.getShortTitle(), 0, newStation.getShortTitle().length(), output);
+        if (output.right > 90 && newStation.getShortTitle().length() > 10) {
+            String firstLine = newStation.getShortTitle().substring(0, 10);
+            String secondLine = newStation.getShortTitle().substring(10);
             paint.getTextBounds(firstLine, 0, firstLine.length(), output);
             canvas.drawText(firstLine, Math.max(0, 100 - output.right / 2), 35, paint);
             paint.getTextBounds(secondLine, 0, secondLine.length(), output);
             canvas.drawText(secondLine, Math.max(0, 100 - output.right / 2), 75, paint);
         } else {
-            canvas.drawText(newStation.stationName, Math.max(0, 100 - output.right / 2), 55, paint);
+            canvas.drawText(newStation.getShortTitle(), Math.max(0, 100 - output.right / 2), 55, paint);
         }
         return bitmap;
     }
@@ -151,15 +145,17 @@ class StationLoadTask extends AsyncTask<Void, String, Void> {
         void updateStatus(String status);
     }
 
-    private static class Item {
-        String stationName;
-        String code;
-        String image;
-
-        private Item(JSONObject item) throws JSONException {
-            stationName = item.getString("title");
-            code = item.getString("prefix");
-            image = item.getString("icon_png");
-        }
+    private static DynamicStation parseStation(JSONObject item) throws JSONException {
+        long id = item.getLong("id");
+        String shortTitle = item.getString("short_title");
+        String stream64 = item.getString("stream_64");
+        String stream128 = item.getString("stream_128");
+        String stream320 = item.getString("stream_320");
+        String imageGray = item.getString("icon_gray");
+        String imageColor = item.getString("icon_fill_colored");
+        String imageWhite = item.getString("icon_fill_white");
+        return new DynamicStation(id, shortTitle, stream64,
+                stream128, stream320, imageGray, imageColor, imageWhite);
     }
+
 }

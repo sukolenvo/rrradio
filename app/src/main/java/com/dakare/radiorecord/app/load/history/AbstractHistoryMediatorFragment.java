@@ -1,7 +1,7 @@
 package com.dakare.radiorecord.app.load.history;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import com.dakare.radiorecord.app.load.AbstractLoadFragment;
 import lombok.AccessLevel;
 import lombok.Getter;

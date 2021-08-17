@@ -3,9 +3,12 @@ package com.dakare.radiorecord.app.player.listener.controls;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
+
 import android.util.Log;
 import android.view.KeyEvent;
+
+import androidx.core.content.ContextCompat;
+
 import com.dakare.radiorecord.app.player.listener.NotificationListener;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 

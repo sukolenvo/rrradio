@@ -1,9 +1,7 @@
 package com.dakare.radiorecord.app;
 
 import com.dakare.radiorecord.app.quality.Quality;
-import com.dakare.radiorecord.app.station.AbstractStation;
 
-import com.dakare.radiorecord.app.station.PredefinedStation;
 import org.junit.Test;
 
 import java.io.IOException;

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.dakare.radiorecord.app.database.table.DownloadAudioTable;
 import com.dakare.radiorecord.app.download.service.DownloadsSort;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
@@ -12,8 +13,7 @@ import com.dakare.radiorecord.app.player.service.equalizer.EqualizerSettings;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepMode;
 import com.dakare.radiorecord.app.player.sleep_mode.SleepSettings;
 import com.dakare.radiorecord.app.quality.Quality;
-import com.dakare.radiorecord.app.station.AbstractStation;
-import com.dakare.radiorecord.app.station.PredefinedStation;
+import com.dakare.radiorecord.app.station.DynamicStation;
 import com.dakare.radiorecord.app.utils.EqUtils;
 import com.dakare.radiorecord.app.utils.JsonHelper;
 import com.dakare.radiorecord.app.view.theme.Theme;
@@ -28,7 +28,7 @@ public class PreferenceManager {
     private static final String NAME = "radio_record";
 
     private static final String QUALITY_KEY = "quality";
-    private static final String STATIONS_KEY = "stations";
+    private static final String STATIONS_KEY = "stations_v3";
     private static final String MUSIC_METADATA_KEY = "music_metadata";
     private static final String BACKGROUND_LOAD_KEY = "background_load";
     private static final String MUSIC_IMAGE_KEY = "music_image";
@@ -54,7 +54,7 @@ public class PreferenceManager {
     private static final String SLEEP_SETTINGS_KEY = "sleep_settings_";
     public static final String SLEEP_MODE_KEY = "sleep_mode";
     private static final String SLEEP_MODE_STARTED = "sleep_mode_started";
-    private static final String THEME_MODE_KEY = "theme";
+    private static final String THEME_MODE_KEY = "theme_v2";
     private static final String THEME_PROMPT_KEY = "theme_promt";
 
     private static PreferenceManager INSTANCE;
@@ -93,9 +93,9 @@ public class PreferenceManager {
         }
     }
 
-    public void setStations(List<AbstractStation> stations) {
+    public void setStations(List<DynamicStation> stations) {
         StringBuilder result = new StringBuilder();
-        for (AbstractStation station : stations) {
+        for (DynamicStation station : stations) {
             result.append(station.serialize());
             result.append(",");
         }
@@ -104,26 +104,18 @@ public class PreferenceManager {
                 .apply();
     }
 
-    public List<AbstractStation> getStations() {
+    public List<DynamicStation> getStations() {
         String line = sharedPreferences.getString(STATIONS_KEY, null);
         if (line == null) {
-            return Arrays.asList(PredefinedStation.values());
+            return Arrays.asList();
         }
-        List<AbstractStation> stations = new ArrayList<>();
+        List<DynamicStation> stations = new ArrayList<>();
         for (String value : line.substring(0, line.length() - 1).split(",")) {
             try {
-                stations.add(AbstractStation.deserialize(value));
+                stations.add(DynamicStation.deserialize(value));
             } catch (IllegalArgumentException e) {
                 //station not exists anymore
             }
-        }
-        if (stations.size() < PredefinedStation.values().length) {
-            for (AbstractStation station : PredefinedStation.values()) {
-                if (!stations.contains(station)) {
-                    stations.add(station);
-                }
-            }
-            setStations(stations);
         }
         return stations;
     }
@@ -168,15 +160,15 @@ public class PreferenceManager {
                 .apply();
     }
 
-    public AbstractStation getLastStation() {
+    public DynamicStation getLastStation() {
       String lastStation = sharedPreferences.getString(LAST_STATION, null);
       if (lastStation == null) {
-        return PredefinedStation.values()[0];
+        return DynamicStation.DEFAULT;
       }
-      return AbstractStation.deserialize(lastStation);
+      return DynamicStation.deserialize(lastStation);
     }
 
-    public void setLastStation(final AbstractStation station) {
+    public void setLastStation(final DynamicStation station) {
         sharedPreferences.edit()
                 .putString(LAST_STATION, station.serialize())
                 .apply();
@@ -395,7 +387,7 @@ public class PreferenceManager {
     }
 
     public Theme getTheme() {
-        return Theme.valueOf(sharedPreferences.getString(THEME_MODE_KEY, Theme.CLASSIC.name()));
+        return Theme.valueOf(sharedPreferences.getString(THEME_MODE_KEY, Theme.DARK.name()));
     }
 
     public void setTheme(final Theme theme) {

@@ -1,19 +1,19 @@
 package com.dakare.radiorecord.app.load.top;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import com.dakare.radiorecord.app.R;
 import com.dakare.radiorecord.app.load.selection.AbstractSelectionAdapter;
 import com.dakare.radiorecord.app.load.selection.SelectionManager;
 import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
-import com.dakare.radiorecord.app.station.AbstractStation;
+import com.dakare.radiorecord.app.station.DynamicStation;
 
 public class TopsMusicSelectAdapter extends AbstractSelectionAdapter<TopsMusicSelectAdapter.ViewHolder, TopsMusicItem> {
-    private final AbstractStation station;
+    private final DynamicStation station;
 
-    public TopsMusicSelectAdapter(final Context context, final AbstractStation station,
+    public TopsMusicSelectAdapter(final Context context, final DynamicStation station,
                                   final SelectionManager selectionManager, final PermissionProvider permissionProvider) {
         super(context, selectionManager, permissionProvider);
         this.station = station;

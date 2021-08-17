@@ -1,10 +1,12 @@
 package com.dakare.radiorecord.app.load.selection;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
 import android.util.SparseBooleanArray;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+
 import com.dakare.radiorecord.app.R;
 import lombok.Getter;
 import lombok.Setter;

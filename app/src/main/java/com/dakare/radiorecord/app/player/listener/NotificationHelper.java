@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 import com.dakare.radiorecord.app.PreferenceManager;
@@ -21,6 +20,8 @@ import com.dakare.radiorecord.app.view.theme.Theme;
 import lombok.Getter;
 
 import static com.dakare.radiorecord.app.player.listener.NotificationListener.*;
+
+import androidx.core.app.NotificationCompat;
 
 public class NotificationHelper {
 

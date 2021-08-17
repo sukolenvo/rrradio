@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import com.dakare.radiorecord.app.database.table.HistoryDateCacheTable;
-import com.dakare.radiorecord.app.station.AbstractStation;
+import com.dakare.radiorecord.app.station.DynamicStation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +13,8 @@ public class HistoryDateCategoryDbTable extends BasicCategoryDbTable<String> {
 
     private final Uri uri;
 
-    public HistoryDateCategoryDbTable(AbstractStation station) {
-        uri = Uri.withAppendedPath(Uri.parse("content://com.dakare.radiorecord.app/history_date"), station.getCodeAsParam());
+    public HistoryDateCategoryDbTable(DynamicStation station) {
+        uri = Uri.withAppendedPath(Uri.parse("content://com.dakare.radiorecord.app/history_date"), station.getKey());
     }
 
     @Override

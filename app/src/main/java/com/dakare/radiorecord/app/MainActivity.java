@@ -3,8 +3,8 @@ package com.dakare.radiorecord.app;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import com.dakare.radiorecord.app.download.service.FileService;
 import com.dakare.radiorecord.app.player.PlayerActivity;
@@ -12,8 +12,9 @@ import com.dakare.radiorecord.app.player.playlist.PlaylistItem;
 import com.dakare.radiorecord.app.player.service.PlayerService;
 import com.dakare.radiorecord.app.quality.Quality;
 import com.dakare.radiorecord.app.quality.QualityDialog;
+import com.dakare.radiorecord.app.settings.LoadStationsDialog;
 import com.dakare.radiorecord.app.settings.SettingsThemeDialog;
-import com.dakare.radiorecord.app.station.AbstractStation;
+import com.dakare.radiorecord.app.station.DynamicStation;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
 
 import java.util.ArrayList;
@@ -28,6 +29,10 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
         setContentView(R.layout.activity_main);
         initToolbar();
         setTitle(R.string.menu_main_text);
+        if (PreferenceManager.getInstance(this).getStations().isEmpty()) {
+            new LoadStationsDialog(this).show();
+            return;
+        }
         RecyclerView stationsView = findViewById(R.id.station_grid);
         stationsView.setLayoutManager(new GridLayoutManager(this, getResources().getInteger(R.integer.stations_columns)));
         //TODO: fix this!
@@ -62,7 +67,7 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
     }
 
     @Override
-    public void onClick(final AbstractStation station) {
+    public void onClick(final DynamicStation station) {
         PreferenceManager.getInstance(this).setLastStation(station);
         QualityDialog.getQuality(this, this);
     }
@@ -70,9 +75,9 @@ public class MainActivity extends MenuActivity implements StationClickListener, 
     @Override
     public void onQualitySelected(final Quality quality) {
         Intent serviceIntent = new Intent(this, PlayerService.class);
-        List<AbstractStation> stations = PreferenceManager.getInstance(this).getStations();
+        List<DynamicStation> stations = PreferenceManager.getInstance(this).getStations();
         ArrayList<PlaylistItem> items = new ArrayList<>(stations.size());
-        for (AbstractStation station : stations) {
+        for (DynamicStation station : stations) {
             items.add(new PlaylistItem(station, quality));
         }
         serviceIntent.putExtra(PlayerService.PLAYLIST_KEY, items);
